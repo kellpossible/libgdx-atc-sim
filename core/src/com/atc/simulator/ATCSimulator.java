@@ -2,6 +2,7 @@ package com.atc.simulator;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
@@ -28,6 +29,7 @@ public class ATCSimulator extends ApplicationAdapter {
 	public ModelBatch modelBatch;
     public Environment environment;
 	public CameraInputController camController;
+    public AssetManager assets;
 
 	@Override
 	public void create () {
@@ -35,19 +37,27 @@ public class ATCSimulator extends ApplicationAdapter {
 		batch = new SpriteBatch();
 		img = new Texture("badlogic.jpg");
 
-		cam = new PerspectiveCamera(67, Gdx.graphics.getWidth(), Gdx.graphics.getWidth());
-		cam.position.set(10f, 10f, 10f);
-		cam.lookAt(0, 0, 0);
-		cam.near = 1f;
-		cam.far = 300f;
+		cam = new PerspectiveCamera(50, Gdx.graphics.getWidth(), Gdx.graphics.getWidth());
+		cam.position.set(0f, 0f, 0f);
+		cam.lookAt(1f, 0, 0);
+		cam.near = 0.8f;
+		cam.far = 2f;
 		cam.update();
 
-		ModelBuilder modelBuilder = new ModelBuilder();
-		model = modelBuilder.createSphere(5f, 5f, 5f, 32, 32,
-				new Material(ColorAttribute.createDiffuse(Color.BLUE)),
-				VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal);
+//		ModelBuilder modelBuilder = new ModelBuilder();
+//		model = modelBuilder.createSphere(5f, 5f, 5f, 64, 64,
+//				new Material(ColorAttribute.createDiffuse(Color.BLUE)),
+//				VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal);
+//
+        assets = new AssetManager();
+        assets.load("models/planet.obj", Model.class);
+        assets.finishLoading();
+        System.out.println("Finished loading");
+        model = assets.get("models/planet.obj", Model.class);
+
 
 		instance = new ModelInstance(model);
+        //instance.transform.setToScaling(0f,0f,0f);
 
         environment = new Environment();
         environment.set(new ColorAttribute(ColorAttribute.AmbientLight, 0.4f, 0.4f, 0.4f, 1f));
@@ -64,7 +74,7 @@ public class ATCSimulator extends ApplicationAdapter {
 
         camController.update();
 		modelBatch.begin(cam);
-		modelBatch.render(instance, environment);
+		modelBatch.render(instance);
 		modelBatch.end();
 	}
 
