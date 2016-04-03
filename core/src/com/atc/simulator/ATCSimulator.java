@@ -77,8 +77,10 @@ public class ATCSimulator extends ApplicationAdapter {
     @Override
     public void resize(int width, int height)
     {
-        cam = new PerspectiveCamera(67, Gdx.graphics.getWidth(), Gdx.graphics.getWidth());
-        camController = new CameraInputController(cam);
-        Gdx.input.setInputProcessor(camController);
+        float aspectRatio = (float) width / (float) height;
+        cam.viewportWidth = 2f * aspectRatio;
+        cam.viewportHeight = 2f;
+        cam.update();
+
     }
 }
