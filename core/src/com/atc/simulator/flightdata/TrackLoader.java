@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.Array;
 
 /**
  * Created by luke on 8/04/16.
+ * Asynchronously loads Track Files for the AssetManager.
  */
 public class TrackLoader extends AsynchronousAssetLoader<Track, TrackLoader.TrackParameters> {
     private Track track;
@@ -19,8 +20,6 @@ public class TrackLoader extends AsynchronousAssetLoader<Track, TrackLoader.Trac
     }
     @Override
     public void loadAsync(AssetManager manager, String fileName, FileHandle file, TrackParameters parameter) {
-        System.out.println("File Exists: " + file.exists());
-        System.out.println("File Path: " + file.path());
         track = Track.readFromCSVFile(file);
     }
 

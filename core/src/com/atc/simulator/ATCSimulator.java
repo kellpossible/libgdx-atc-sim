@@ -75,7 +75,7 @@ public class ATCSimulator extends ApplicationAdapter {
 //		track = assets.get("flight_data/CallibrateMap/CallibrateMap.csv", Track.class);
 		track = assets.get("flight_data/YMMLtoYSCB/YMML2YSCB_track.csv", Track.class);
 		TrackEntry entry = track.get(track.size()-1);
-		TrackEntry newEntry = new TrackEntry(entry.getTime(), new SphericalPosition(0.99, -0.762546753, 2.6038740596));
+		TrackEntry newEntry = new TrackEntry(entry.getTime(), new GeographicCoordinate(0.99, -0.762546753, 2.6038740596));
 //		track.add(newEntry);
 //		track.add(newEntry);
 //		track.add(newEntry);
