@@ -84,6 +84,9 @@ project(":core") {
         compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-controllers:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
+        compile "com.samskivert:pythagoras:1.4.1"
+//        compile "org.apache.commons:commons-math3:3.6.1"
+        //compile "net.mikera:vectorz:0.61.0"
     }
 }
 
