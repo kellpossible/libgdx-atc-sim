@@ -1,4 +1,4 @@
-package com.atc.simulator;
+package com.atc.simulator.flightdata;
 
 /**
  * Created by luke on 7/04/16.
