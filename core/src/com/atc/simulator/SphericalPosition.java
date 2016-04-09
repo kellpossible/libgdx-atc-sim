@@ -9,7 +9,7 @@ public class SphericalPosition extends SphericalCoordinate
 {
     public SphericalPosition(double radius, double latitude, double longitude)
     {
-        super(radius, latitude-Math.PI/2.0, longitude+Math.PI/2.0);
+        super(radius, latitude - Math.PI/2.0, longitude + Math.PI/2.0);
     }
 
     public double getRadius()
@@ -20,12 +20,12 @@ public class SphericalPosition extends SphericalCoordinate
 
     public double getLatitude()
     {
-        return this.y+Math.PI/2.0;
+        return this.y + Math.PI/2.0;
     }
 
     public double getLongitude()
     {
-        return this.z-Math.PI/2.0;
+        return this.z - Math.PI/2.0;
     }
 
     public double getAltitude()

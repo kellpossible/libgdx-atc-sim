@@ -7,7 +7,7 @@ import com.atc.simulator.SphericalPosition;
  */
 public class Airport extends NavObject {
 
-    public Airport(String ICAO_id, SphericalPosition position) {
-        super(ICAO_id, position);
+    public Airport(String icao_id, SphericalPosition position) {
+        super(icao_id, position);
     }
 }

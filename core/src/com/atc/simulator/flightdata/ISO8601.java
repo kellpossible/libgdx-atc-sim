@@ -11,6 +11,7 @@ import java.util.GregorianCalendar;
  * (in the following format: "2008-03-01T13:00:00+01:00"). It supports
  * parsing the "Z" timezone, but many other less-used features are
  * missing.
+ * From http://stackoverflow.com/a/2202300/446250
  */
 public final class ISO8601 {
     /** Transform Calendar to ISO 8601 string. */
