@@ -13,14 +13,26 @@ public class SphericalCoordinate extends Vector3 {
         this.z = phi;
     }
 
+    /**
+     * Get Radius Component
+     * @return
+     */
     public double getR() {
         return this.x;
     }
 
+    /**
+     * Get Theta Component
+     * @return
+     */
     public double getTheta() {
         return this.y;
     }
 
+    /**
+     * Get Phi Component
+     * @return
+     */
     public double getPhi() {
         return this.z;
     }
