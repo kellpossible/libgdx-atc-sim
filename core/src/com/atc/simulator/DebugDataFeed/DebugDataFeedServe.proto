@@ -1,9 +1,0 @@
-syntax = "proto2";
-
-option java_package = "com.atc.simulator.DebugDataFeed";
-option java_outer_classname = "DebugDataFeedServe";
-
-message Aircraft {
-    repeated double position = 1;
-    required float speed = 2;
-}
