@@ -1,7 +1,5 @@
 package com.atc.simulator;
 
-import com.badlogic.gdx.math.Vector3;
-
 /**
  * Represents a geographic position using latitude, longitude, altitude (above mean sea level)
  * See https://en.wikipedia.org/wiki/Geographic_coordinate_system
