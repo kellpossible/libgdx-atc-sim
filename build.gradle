@@ -3,12 +3,6 @@ buildscript {
         mavenCentral()
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
     }
-
-  dependencies {
-    classpath 'com.google.protobuf:protobuf-gradle-plugin:0.7.6'
-  }
-
-
 }
 
 allprojects {
@@ -37,12 +31,10 @@ allprojects {
 project(":desktop") {
     apply plugin: "java"
 
-
     dependencies {
         compile project(":core")
         compile "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
-        compile "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
         compile "com.badlogicgames.gdx:gdx-controllers-desktop:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-controllers-platform:$gdxVersion:natives-desktop"
         compile "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-desktop"
@@ -52,9 +44,6 @@ project(":desktop") {
 
 project(":core") {
     apply plugin: "java"
-    apply plugin: 'com.google.protobuf'
-    apply plugin: 'idea'
-
 
     dependencies {
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
@@ -66,15 +55,17 @@ project(":core") {
 //        compile "org.apache.commons:commons-math3:3.6.1"
         //compile "net.mikera:vectorz:0.61.0"
     }
-
-    ext {
-        protobufOutputDir = file("$buildDir/generated/source/proto/main/")
-    }
-    idea.module {
-        excludeDirs -= file("$buildDir")
-        sourceDirs += protobufOutputDir
-    }
 }
+
+task compileProtocolBuffers(type:Exec) {
+  workingDir './core/'
+  if (System.getProperty('os.name').toLowerCase().contains('windows')) {
+      commandLine './compileProtocolBuffers.bat'
+  } else {
+      commandLine './compileProtocolBuffers.sh'
+  }
+}
+
 
 tasks.eclipse.doLast {
     delete ".project"
