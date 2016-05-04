@@ -28,8 +28,10 @@ public class DebugDataFeed {
 
         System.out.println("Encoding the message");
 
+        //comment
         //create the builder
         Aircraft.Builder aircraftBuilder = Aircraft.newBuilder();
+
 
         //set the values
         aircraftBuilder.addPosition(position.getRadius());
