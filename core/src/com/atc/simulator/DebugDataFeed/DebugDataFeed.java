@@ -2,11 +2,15 @@ package com.atc.simulator.DebugDataFeed;
 import com.atc.simulator.DebugDataFeed.DebugDataFeedServe.Aircraft;
 import com.atc.simulator.GeographicCoordinate;
 import com.google.protobuf.InvalidProtocolBufferException;
+import java.net.*;
 
 /**
  * Created by luke on 2/05/16.
  */
 public class DebugDataFeed {
+
+    private static DatagramSocket serverSocket;
+    private byte[] receiveData;
 
     //byte array to hex solution here: http://stackoverflow.com/a/9855338/446250
     final protected static char[] hexArray = "0123456789ABCDEF".toCharArray();
@@ -22,14 +26,24 @@ public class DebugDataFeed {
 
     public static void main(String[] arg)
     {
+        try {
+            serverSocket = new DatagramSocket(5000);
+        }
+        catch(Exception e)
+        {
+            System.out.println(e.getMessage());
+        }
+
         //example data
         GeographicCoordinate position = new GeographicCoordinate(1,2,3);
         float aircraft_speed = 10f;
 
         System.out.println("Encoding the message");
 
+        //comment
         //create the builder
         Aircraft.Builder aircraftBuilder = Aircraft.newBuilder();
+
 
         //set the values
         aircraftBuilder.addPosition(position.getRadius());
