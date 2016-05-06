@@ -4,7 +4,7 @@ option java_package = "com.atc.simulator.PredDis";
 option java_outer_classname = "PredToDisp";
 
 message PrediMes {
-    required String ID = 1;
+    required string ID = 1;
 	repeated double positionPred = 2;
     repeated double positionPast = 3;
 	optional double Heading = 4;
