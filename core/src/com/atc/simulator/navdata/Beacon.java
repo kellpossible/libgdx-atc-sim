@@ -1,6 +1,6 @@
 package com.atc.simulator.navdata;
 
-import com.atc.simulator.GeographicCoordinate;
+import com.atc.simulator.vectors.GeographicCoordinate;
 
 /**
  * Created by luke on 10/04/16.

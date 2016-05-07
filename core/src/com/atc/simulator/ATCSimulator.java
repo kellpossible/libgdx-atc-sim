@@ -3,6 +3,7 @@ package com.atc.simulator;
 import com.atc.simulator.flightdata.Track;
 import com.atc.simulator.flightdata.TrackEntry;
 import com.atc.simulator.flightdata.TrackLoader;
+import com.atc.simulator.vectors.GeographicCoordinate;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;

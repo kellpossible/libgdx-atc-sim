@@ -1,4 +1,7 @@
-package com.atc.simulator;
+package com.atc.simulator.vectors;
+
+import com.atc.simulator.vectors.SphericalCoordinate;
+import pythagoras.d.Vector3;
 
 /**
  * Represents a geographic position using latitude, longitude, altitude (above mean sea level)
@@ -6,6 +9,19 @@ package com.atc.simulator;
  */
 public class GeographicCoordinate extends SphericalCoordinate
 {
+    public GeographicCoordinate(Vector3 other)
+    {
+        super(other);
+    }
+    public GeographicCoordinate(GeographicCoordinate other)
+    {
+        super(other);
+    }
+    public GeographicCoordinate(SphericalCoordinate other)
+    {
+        super(other);
+    }
+
     /**
      * Create a new spherical position
      * @param radius

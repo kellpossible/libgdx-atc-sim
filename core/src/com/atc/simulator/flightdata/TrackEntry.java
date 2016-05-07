@@ -1,6 +1,6 @@
 package com.atc.simulator.flightdata;
 
-import com.atc.simulator.GeographicCoordinate;
+import com.atc.simulator.vectors.GeographicCoordinate;
 
 import java.util.Calendar;
 

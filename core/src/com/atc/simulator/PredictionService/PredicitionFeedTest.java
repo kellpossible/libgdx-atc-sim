@@ -1,7 +1,7 @@
 package com.atc.simulator.PredictionService;
 
 import com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage;
-import com.atc.simulator.GeographicCoordinate;
+import com.atc.simulator.vectors.GeographicCoordinate;
 import com.google.protobuf.InvalidProtocolBufferException;
 
 /**
@@ -82,7 +82,7 @@ public class PredicitionFeedTest {
             messageToRec = PredictionMessage.parseFrom(messageToSend.toByteArray());
             System.out.println("Plane ID: " + messageToRec.getAircraftID()); //Print ID
             System.out.print("Currently at: (");
-                System.out.print(messageToRec.getPositionPast(0).getPositionData(0)+", "); //Print the current positions coordinates
+                System.out.print(messageToRec.getPositionPast(0).getPositionData(0)+", "); //Print the current positions vectors
                 System.out.print(messageToRec.getPositionPast(0).getPositionData(1)+", ");
                 System.out.println(messageToRec.getPositionPast(0).getPositionData(2)+")");
 

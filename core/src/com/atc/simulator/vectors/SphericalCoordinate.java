@@ -1,4 +1,4 @@
-package com.atc.simulator;
+package com.atc.simulator.vectors;
 
 import pythagoras.d.Vector3;
 
@@ -7,6 +7,14 @@ import pythagoras.d.Vector3;
  * See: http://mathworld.wolfram.com/SphericalCoordinates.html
  */
 public class SphericalCoordinate extends Vector3 {
+    public SphericalCoordinate(SphericalCoordinate other)
+    {
+        super(other);
+    }
+    public SphericalCoordinate(Vector3 other)
+    {
+        super(other);
+    }
     public SphericalCoordinate(double r, double theta, double phi) {
         this.x = r;
         this.y = theta;

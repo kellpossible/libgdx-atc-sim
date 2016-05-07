@@ -1,6 +1,6 @@
 package com.atc.simulator.DebugDataFeed;
 import com.atc.simulator.DebugDataFeed.DebugDataFeedServe.Aircraft;
-import com.atc.simulator.GeographicCoordinate;
+import com.atc.simulator.vectors.GeographicCoordinate;
 import com.google.protobuf.InvalidProtocolBufferException;
 import java.net.*;
 
