@@ -5,7 +5,10 @@ option java_outer_classname = "PredictionFeedServe";
 
 message PredictionMessage {
     required string aircraftID = 1;
-	repeated double positionFuture = 2;
-    repeated double positionPast = 3;
+	
+	message Position{repeated double positionData = 1;}
+	
+	repeated Position positionFuture = 2;
+    repeated Position positionPast = 3;
 	optional double Heading = 4;
 }

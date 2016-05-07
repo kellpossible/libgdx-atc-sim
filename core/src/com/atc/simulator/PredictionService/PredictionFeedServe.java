@@ -27,30 +27,52 @@ public final class PredictionFeedServe {
         getAircraftIDBytes();
 
     /**
-     * <code>repeated double positionFuture = 2;</code>
+     * <code>repeated .PredictionMessage.Position positionFuture = 2;</code>
      */
-    java.util.List<java.lang.Double> getPositionFutureList();
+    java.util.List<com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.Position> 
+        getPositionFutureList();
     /**
-     * <code>repeated double positionFuture = 2;</code>
+     * <code>repeated .PredictionMessage.Position positionFuture = 2;</code>
+     */
+    com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.Position getPositionFuture(int index);
+    /**
+     * <code>repeated .PredictionMessage.Position positionFuture = 2;</code>
      */
     int getPositionFutureCount();
     /**
-     * <code>repeated double positionFuture = 2;</code>
+     * <code>repeated .PredictionMessage.Position positionFuture = 2;</code>
      */
-    double getPositionFuture(int index);
+    java.util.List<? extends com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.PositionOrBuilder> 
+        getPositionFutureOrBuilderList();
+    /**
+     * <code>repeated .PredictionMessage.Position positionFuture = 2;</code>
+     */
+    com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.PositionOrBuilder getPositionFutureOrBuilder(
+        int index);
 
     /**
-     * <code>repeated double positionPast = 3;</code>
+     * <code>repeated .PredictionMessage.Position positionPast = 3;</code>
      */
-    java.util.List<java.lang.Double> getPositionPastList();
+    java.util.List<com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.Position> 
+        getPositionPastList();
     /**
-     * <code>repeated double positionPast = 3;</code>
+     * <code>repeated .PredictionMessage.Position positionPast = 3;</code>
+     */
+    com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.Position getPositionPast(int index);
+    /**
+     * <code>repeated .PredictionMessage.Position positionPast = 3;</code>
      */
     int getPositionPastCount();
     /**
-     * <code>repeated double positionPast = 3;</code>
+     * <code>repeated .PredictionMessage.Position positionPast = 3;</code>
      */
-    double getPositionPast(int index);
+    java.util.List<? extends com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.PositionOrBuilder> 
+        getPositionPastOrBuilderList();
+    /**
+     * <code>repeated .PredictionMessage.Position positionPast = 3;</code>
+     */
+    com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.PositionOrBuilder getPositionPastOrBuilder(
+        int index);
 
     /**
      * <code>optional double Heading = 4;</code>
@@ -119,46 +141,20 @@ public final class PredictionFeedServe {
               aircraftID_ = bs;
               break;
             }
-            case 17: {
-              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
-                positionFuture_ = new java.util.ArrayList<java.lang.Double>();
-                mutable_bitField0_ |= 0x00000002;
-              }
-              positionFuture_.add(input.readDouble());
-              break;
-            }
             case 18: {
-              int length = input.readRawVarint32();
-              int limit = input.pushLimit(length);
-              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002) && input.getBytesUntilLimit() > 0) {
-                positionFuture_ = new java.util.ArrayList<java.lang.Double>();
+              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+                positionFuture_ = new java.util.ArrayList<com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.Position>();
                 mutable_bitField0_ |= 0x00000002;
               }
-              while (input.getBytesUntilLimit() > 0) {
-                positionFuture_.add(input.readDouble());
-              }
-              input.popLimit(limit);
-              break;
-            }
-            case 25: {
-              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
-                positionPast_ = new java.util.ArrayList<java.lang.Double>();
-                mutable_bitField0_ |= 0x00000004;
-              }
-              positionPast_.add(input.readDouble());
+              positionFuture_.add(input.readMessage(com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.Position.PARSER, extensionRegistry));
               break;
             }
             case 26: {
-              int length = input.readRawVarint32();
-              int limit = input.pushLimit(length);
-              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004) && input.getBytesUntilLimit() > 0) {
-                positionPast_ = new java.util.ArrayList<java.lang.Double>();
+              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+                positionPast_ = new java.util.ArrayList<com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.Position>();
                 mutable_bitField0_ |= 0x00000004;
               }
-              while (input.getBytesUntilLimit() > 0) {
-                positionPast_.add(input.readDouble());
-              }
-              input.popLimit(limit);
+              positionPast_.add(input.readMessage(com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.Position.PARSER, extensionRegistry));
               break;
             }
             case 33: {
@@ -211,6 +207,474 @@ public final class PredictionFeedServe {
       return PARSER;
     }
 
+    public interface PositionOrBuilder extends
+        // @@protoc_insertion_point(interface_extends:PredictionMessage.Position)
+        com.google.protobuf.MessageOrBuilder {
+
+      /**
+       * <code>repeated double positionData = 1;</code>
+       */
+      java.util.List<java.lang.Double> getPositionDataList();
+      /**
+       * <code>repeated double positionData = 1;</code>
+       */
+      int getPositionDataCount();
+      /**
+       * <code>repeated double positionData = 1;</code>
+       */
+      double getPositionData(int index);
+    }
+    /**
+     * Protobuf type {@code PredictionMessage.Position}
+     */
+    public static final class Position extends
+        com.google.protobuf.GeneratedMessage implements
+        // @@protoc_insertion_point(message_implements:PredictionMessage.Position)
+        PositionOrBuilder {
+      // Use Position.newBuilder() to construct.
+      private Position(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+        super(builder);
+        this.unknownFields = builder.getUnknownFields();
+      }
+      private Position(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+      private static final Position defaultInstance;
+      public static Position getDefaultInstance() {
+        return defaultInstance;
+      }
+
+      public Position getDefaultInstanceForType() {
+        return defaultInstance;
+      }
+
+      private final com.google.protobuf.UnknownFieldSet unknownFields;
+      @java.lang.Override
+      public final com.google.protobuf.UnknownFieldSet
+          getUnknownFields() {
+        return this.unknownFields;
+      }
+      private Position(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        initFields();
+        int mutable_bitField0_ = 0;
+        com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+            com.google.protobuf.UnknownFieldSet.newBuilder();
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              default: {
+                if (!parseUnknownField(input, unknownFields,
+                                       extensionRegistry, tag)) {
+                  done = true;
+                }
+                break;
+              }
+              case 9: {
+                if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+                  positionData_ = new java.util.ArrayList<java.lang.Double>();
+                  mutable_bitField0_ |= 0x00000001;
+                }
+                positionData_.add(input.readDouble());
+                break;
+              }
+              case 10: {
+                int length = input.readRawVarint32();
+                int limit = input.pushLimit(length);
+                if (!((mutable_bitField0_ & 0x00000001) == 0x00000001) && input.getBytesUntilLimit() > 0) {
+                  positionData_ = new java.util.ArrayList<java.lang.Double>();
+                  mutable_bitField0_ |= 0x00000001;
+                }
+                while (input.getBytesUntilLimit() > 0) {
+                  positionData_.add(input.readDouble());
+                }
+                input.popLimit(limit);
+                break;
+              }
+            }
+          }
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(this);
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(
+              e.getMessage()).setUnfinishedMessage(this);
+        } finally {
+          if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+            positionData_ = java.util.Collections.unmodifiableList(positionData_);
+          }
+          this.unknownFields = unknownFields.build();
+          makeExtensionsImmutable();
+        }
+      }
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.atc.simulator.PredictionService.PredictionFeedServe.internal_static_PredictionMessage_Position_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.atc.simulator.PredictionService.PredictionFeedServe.internal_static_PredictionMessage_Position_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.Position.class, com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.Position.Builder.class);
+      }
+
+      public static com.google.protobuf.Parser<Position> PARSER =
+          new com.google.protobuf.AbstractParser<Position>() {
+        public Position parsePartialFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+          return new Position(input, extensionRegistry);
+        }
+      };
+
+      @java.lang.Override
+      public com.google.protobuf.Parser<Position> getParserForType() {
+        return PARSER;
+      }
+
+      public static final int POSITIONDATA_FIELD_NUMBER = 1;
+      private java.util.List<java.lang.Double> positionData_;
+      /**
+       * <code>repeated double positionData = 1;</code>
+       */
+      public java.util.List<java.lang.Double>
+          getPositionDataList() {
+        return positionData_;
+      }
+      /**
+       * <code>repeated double positionData = 1;</code>
+       */
+      public int getPositionDataCount() {
+        return positionData_.size();
+      }
+      /**
+       * <code>repeated double positionData = 1;</code>
+       */
+      public double getPositionData(int index) {
+        return positionData_.get(index);
+      }
+
+      private void initFields() {
+        positionData_ = java.util.Collections.emptyList();
+      }
+      private byte memoizedIsInitialized = -1;
+      public final boolean isInitialized() {
+        byte isInitialized = memoizedIsInitialized;
+        if (isInitialized == 1) return true;
+        if (isInitialized == 0) return false;
+
+        memoizedIsInitialized = 1;
+        return true;
+      }
+
+      public void writeTo(com.google.protobuf.CodedOutputStream output)
+                          throws java.io.IOException {
+        getSerializedSize();
+        for (int i = 0; i < positionData_.size(); i++) {
+          output.writeDouble(1, positionData_.get(i));
+        }
+        getUnknownFields().writeTo(output);
+      }
+
+      private int memoizedSerializedSize = -1;
+      public int getSerializedSize() {
+        int size = memoizedSerializedSize;
+        if (size != -1) return size;
+
+        size = 0;
+        {
+          int dataSize = 0;
+          dataSize = 8 * getPositionDataList().size();
+          size += dataSize;
+          size += 1 * getPositionDataList().size();
+        }
+        size += getUnknownFields().getSerializedSize();
+        memoizedSerializedSize = size;
+        return size;
+      }
+
+      private static final long serialVersionUID = 0L;
+      @java.lang.Override
+      protected java.lang.Object writeReplace()
+          throws java.io.ObjectStreamException {
+        return super.writeReplace();
+      }
+
+      public static com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.Position parseFrom(
+          com.google.protobuf.ByteString data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.Position parseFrom(
+          com.google.protobuf.ByteString data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.Position parseFrom(byte[] data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.Position parseFrom(
+          byte[] data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.Position parseFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        return PARSER.parseFrom(input);
+      }
+      public static com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.Position parseFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return PARSER.parseFrom(input, extensionRegistry);
+      }
+      public static com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.Position parseDelimitedFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        return PARSER.parseDelimitedFrom(input);
+      }
+      public static com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.Position parseDelimitedFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return PARSER.parseDelimitedFrom(input, extensionRegistry);
+      }
+      public static com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.Position parseFrom(
+          com.google.protobuf.CodedInputStream input)
+          throws java.io.IOException {
+        return PARSER.parseFrom(input);
+      }
+      public static com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.Position parseFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return PARSER.parseFrom(input, extensionRegistry);
+      }
+
+      public static Builder newBuilder() { return Builder.create(); }
+      public Builder newBuilderForType() { return newBuilder(); }
+      public static Builder newBuilder(com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.Position prototype) {
+        return newBuilder().mergeFrom(prototype);
+      }
+      public Builder toBuilder() { return newBuilder(this); }
+
+      @java.lang.Override
+      protected Builder newBuilderForType(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        Builder builder = new Builder(parent);
+        return builder;
+      }
+      /**
+       * Protobuf type {@code PredictionMessage.Position}
+       */
+      public static final class Builder extends
+          com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+          // @@protoc_insertion_point(builder_implements:PredictionMessage.Position)
+          com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.PositionOrBuilder {
+        public static final com.google.protobuf.Descriptors.Descriptor
+            getDescriptor() {
+          return com.atc.simulator.PredictionService.PredictionFeedServe.internal_static_PredictionMessage_Position_descriptor;
+        }
+
+        protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+            internalGetFieldAccessorTable() {
+          return com.atc.simulator.PredictionService.PredictionFeedServe.internal_static_PredictionMessage_Position_fieldAccessorTable
+              .ensureFieldAccessorsInitialized(
+                  com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.Position.class, com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.Position.Builder.class);
+        }
+
+        // Construct using com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.Position.newBuilder()
+        private Builder() {
+          maybeForceBuilderInitialization();
+        }
+
+        private Builder(
+            com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+          super(parent);
+          maybeForceBuilderInitialization();
+        }
+        private void maybeForceBuilderInitialization() {
+          if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          }
+        }
+        private static Builder create() {
+          return new Builder();
+        }
+
+        public Builder clear() {
+          super.clear();
+          positionData_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+          return this;
+        }
+
+        public Builder clone() {
+          return create().mergeFrom(buildPartial());
+        }
+
+        public com.google.protobuf.Descriptors.Descriptor
+            getDescriptorForType() {
+          return com.atc.simulator.PredictionService.PredictionFeedServe.internal_static_PredictionMessage_Position_descriptor;
+        }
+
+        public com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.Position getDefaultInstanceForType() {
+          return com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.Position.getDefaultInstance();
+        }
+
+        public com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.Position build() {
+          com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.Position result = buildPartial();
+          if (!result.isInitialized()) {
+            throw newUninitializedMessageException(result);
+          }
+          return result;
+        }
+
+        public com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.Position buildPartial() {
+          com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.Position result = new com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.Position(this);
+          int from_bitField0_ = bitField0_;
+          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+            positionData_ = java.util.Collections.unmodifiableList(positionData_);
+            bitField0_ = (bitField0_ & ~0x00000001);
+          }
+          result.positionData_ = positionData_;
+          onBuilt();
+          return result;
+        }
+
+        public Builder mergeFrom(com.google.protobuf.Message other) {
+          if (other instanceof com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.Position) {
+            return mergeFrom((com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.Position)other);
+          } else {
+            super.mergeFrom(other);
+            return this;
+          }
+        }
+
+        public Builder mergeFrom(com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.Position other) {
+          if (other == com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.Position.getDefaultInstance()) return this;
+          if (!other.positionData_.isEmpty()) {
+            if (positionData_.isEmpty()) {
+              positionData_ = other.positionData_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+            } else {
+              ensurePositionDataIsMutable();
+              positionData_.addAll(other.positionData_);
+            }
+            onChanged();
+          }
+          this.mergeUnknownFields(other.getUnknownFields());
+          return this;
+        }
+
+        public final boolean isInitialized() {
+          return true;
+        }
+
+        public Builder mergeFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws java.io.IOException {
+          com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.Position parsedMessage = null;
+          try {
+            parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+          } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+            parsedMessage = (com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.Position) e.getUnfinishedMessage();
+            throw e;
+          } finally {
+            if (parsedMessage != null) {
+              mergeFrom(parsedMessage);
+            }
+          }
+          return this;
+        }
+        private int bitField0_;
+
+        private java.util.List<java.lang.Double> positionData_ = java.util.Collections.emptyList();
+        private void ensurePositionDataIsMutable() {
+          if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+            positionData_ = new java.util.ArrayList<java.lang.Double>(positionData_);
+            bitField0_ |= 0x00000001;
+           }
+        }
+        /**
+         * <code>repeated double positionData = 1;</code>
+         */
+        public java.util.List<java.lang.Double>
+            getPositionDataList() {
+          return java.util.Collections.unmodifiableList(positionData_);
+        }
+        /**
+         * <code>repeated double positionData = 1;</code>
+         */
+        public int getPositionDataCount() {
+          return positionData_.size();
+        }
+        /**
+         * <code>repeated double positionData = 1;</code>
+         */
+        public double getPositionData(int index) {
+          return positionData_.get(index);
+        }
+        /**
+         * <code>repeated double positionData = 1;</code>
+         */
+        public Builder setPositionData(
+            int index, double value) {
+          ensurePositionDataIsMutable();
+          positionData_.set(index, value);
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>repeated double positionData = 1;</code>
+         */
+        public Builder addPositionData(double value) {
+          ensurePositionDataIsMutable();
+          positionData_.add(value);
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>repeated double positionData = 1;</code>
+         */
+        public Builder addAllPositionData(
+            java.lang.Iterable<? extends java.lang.Double> values) {
+          ensurePositionDataIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, positionData_);
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>repeated double positionData = 1;</code>
+         */
+        public Builder clearPositionData() {
+          positionData_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+          onChanged();
+          return this;
+        }
+
+        // @@protoc_insertion_point(builder_scope:PredictionMessage.Position)
+      }
+
+      static {
+        defaultInstance = new Position(true);
+        defaultInstance.initFields();
+      }
+
+      // @@protoc_insertion_point(class_scope:PredictionMessage.Position)
+    }
+
     private int bitField0_;
     public static final int AIRCRAFTID_FIELD_NUMBER = 1;
     private java.lang.Object aircraftID_;
@@ -255,46 +719,72 @@ public final class PredictionFeedServe {
     }
 
     public static final int POSITIONFUTURE_FIELD_NUMBER = 2;
-    private java.util.List<java.lang.Double> positionFuture_;
+    private java.util.List<com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.Position> positionFuture_;
     /**
-     * <code>repeated double positionFuture = 2;</code>
+     * <code>repeated .PredictionMessage.Position positionFuture = 2;</code>
      */
-    public java.util.List<java.lang.Double>
-        getPositionFutureList() {
+    public java.util.List<com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.Position> getPositionFutureList() {
       return positionFuture_;
     }
     /**
-     * <code>repeated double positionFuture = 2;</code>
+     * <code>repeated .PredictionMessage.Position positionFuture = 2;</code>
+     */
+    public java.util.List<? extends com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.PositionOrBuilder> 
+        getPositionFutureOrBuilderList() {
+      return positionFuture_;
+    }
+    /**
+     * <code>repeated .PredictionMessage.Position positionFuture = 2;</code>
      */
     public int getPositionFutureCount() {
       return positionFuture_.size();
     }
     /**
-     * <code>repeated double positionFuture = 2;</code>
+     * <code>repeated .PredictionMessage.Position positionFuture = 2;</code>
      */
-    public double getPositionFuture(int index) {
+    public com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.Position getPositionFuture(int index) {
+      return positionFuture_.get(index);
+    }
+    /**
+     * <code>repeated .PredictionMessage.Position positionFuture = 2;</code>
+     */
+    public com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.PositionOrBuilder getPositionFutureOrBuilder(
+        int index) {
       return positionFuture_.get(index);
     }
 
     public static final int POSITIONPAST_FIELD_NUMBER = 3;
-    private java.util.List<java.lang.Double> positionPast_;
+    private java.util.List<com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.Position> positionPast_;
     /**
-     * <code>repeated double positionPast = 3;</code>
+     * <code>repeated .PredictionMessage.Position positionPast = 3;</code>
      */
-    public java.util.List<java.lang.Double>
-        getPositionPastList() {
+    public java.util.List<com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.Position> getPositionPastList() {
       return positionPast_;
     }
     /**
-     * <code>repeated double positionPast = 3;</code>
+     * <code>repeated .PredictionMessage.Position positionPast = 3;</code>
+     */
+    public java.util.List<? extends com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.PositionOrBuilder> 
+        getPositionPastOrBuilderList() {
+      return positionPast_;
+    }
+    /**
+     * <code>repeated .PredictionMessage.Position positionPast = 3;</code>
      */
     public int getPositionPastCount() {
       return positionPast_.size();
     }
     /**
-     * <code>repeated double positionPast = 3;</code>
+     * <code>repeated .PredictionMessage.Position positionPast = 3;</code>
      */
-    public double getPositionPast(int index) {
+    public com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.Position getPositionPast(int index) {
+      return positionPast_.get(index);
+    }
+    /**
+     * <code>repeated .PredictionMessage.Position positionPast = 3;</code>
+     */
+    public com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.PositionOrBuilder getPositionPastOrBuilder(
+        int index) {
       return positionPast_.get(index);
     }
 
@@ -340,10 +830,10 @@ public final class PredictionFeedServe {
         output.writeBytes(1, getAircraftIDBytes());
       }
       for (int i = 0; i < positionFuture_.size(); i++) {
-        output.writeDouble(2, positionFuture_.get(i));
+        output.writeMessage(2, positionFuture_.get(i));
       }
       for (int i = 0; i < positionPast_.size(); i++) {
-        output.writeDouble(3, positionPast_.get(i));
+        output.writeMessage(3, positionPast_.get(i));
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeDouble(4, heading_);
@@ -361,17 +851,13 @@ public final class PredictionFeedServe {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(1, getAircraftIDBytes());
       }
-      {
-        int dataSize = 0;
-        dataSize = 8 * getPositionFutureList().size();
-        size += dataSize;
-        size += 1 * getPositionFutureList().size();
+      for (int i = 0; i < positionFuture_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, positionFuture_.get(i));
       }
-      {
-        int dataSize = 0;
-        dataSize = 8 * getPositionPastList().size();
-        size += dataSize;
-        size += 1 * getPositionPastList().size();
+      for (int i = 0; i < positionPast_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(3, positionPast_.get(i));
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
@@ -486,6 +972,8 @@ public final class PredictionFeedServe {
       }
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getPositionFutureFieldBuilder();
+          getPositionPastFieldBuilder();
         }
       }
       private static Builder create() {
@@ -496,10 +984,18 @@ public final class PredictionFeedServe {
         super.clear();
         aircraftID_ = "";
         bitField0_ = (bitField0_ & ~0x00000001);
-        positionFuture_ = java.util.Collections.emptyList();
-        bitField0_ = (bitField0_ & ~0x00000002);
-        positionPast_ = java.util.Collections.emptyList();
-        bitField0_ = (bitField0_ & ~0x00000004);
+        if (positionFutureBuilder_ == null) {
+          positionFuture_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000002);
+        } else {
+          positionFutureBuilder_.clear();
+        }
+        if (positionPastBuilder_ == null) {
+          positionPast_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000004);
+        } else {
+          positionPastBuilder_.clear();
+        }
         heading_ = 0D;
         bitField0_ = (bitField0_ & ~0x00000008);
         return this;
@@ -534,16 +1030,24 @@ public final class PredictionFeedServe {
           to_bitField0_ |= 0x00000001;
         }
         result.aircraftID_ = aircraftID_;
-        if (((bitField0_ & 0x00000002) == 0x00000002)) {
-          positionFuture_ = java.util.Collections.unmodifiableList(positionFuture_);
-          bitField0_ = (bitField0_ & ~0x00000002);
+        if (positionFutureBuilder_ == null) {
+          if (((bitField0_ & 0x00000002) == 0x00000002)) {
+            positionFuture_ = java.util.Collections.unmodifiableList(positionFuture_);
+            bitField0_ = (bitField0_ & ~0x00000002);
+          }
+          result.positionFuture_ = positionFuture_;
+        } else {
+          result.positionFuture_ = positionFutureBuilder_.build();
         }
-        result.positionFuture_ = positionFuture_;
-        if (((bitField0_ & 0x00000004) == 0x00000004)) {
-          positionPast_ = java.util.Collections.unmodifiableList(positionPast_);
-          bitField0_ = (bitField0_ & ~0x00000004);
+        if (positionPastBuilder_ == null) {
+          if (((bitField0_ & 0x00000004) == 0x00000004)) {
+            positionPast_ = java.util.Collections.unmodifiableList(positionPast_);
+            bitField0_ = (bitField0_ & ~0x00000004);
+          }
+          result.positionPast_ = positionPast_;
+        } else {
+          result.positionPast_ = positionPastBuilder_.build();
         }
-        result.positionPast_ = positionPast_;
         if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
           to_bitField0_ |= 0x00000002;
         }
@@ -569,25 +1073,57 @@ public final class PredictionFeedServe {
           aircraftID_ = other.aircraftID_;
           onChanged();
         }
-        if (!other.positionFuture_.isEmpty()) {
-          if (positionFuture_.isEmpty()) {
-            positionFuture_ = other.positionFuture_;
-            bitField0_ = (bitField0_ & ~0x00000002);
-          } else {
-            ensurePositionFutureIsMutable();
-            positionFuture_.addAll(other.positionFuture_);
+        if (positionFutureBuilder_ == null) {
+          if (!other.positionFuture_.isEmpty()) {
+            if (positionFuture_.isEmpty()) {
+              positionFuture_ = other.positionFuture_;
+              bitField0_ = (bitField0_ & ~0x00000002);
+            } else {
+              ensurePositionFutureIsMutable();
+              positionFuture_.addAll(other.positionFuture_);
+            }
+            onChanged();
           }
-          onChanged();
+        } else {
+          if (!other.positionFuture_.isEmpty()) {
+            if (positionFutureBuilder_.isEmpty()) {
+              positionFutureBuilder_.dispose();
+              positionFutureBuilder_ = null;
+              positionFuture_ = other.positionFuture_;
+              bitField0_ = (bitField0_ & ~0x00000002);
+              positionFutureBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getPositionFutureFieldBuilder() : null;
+            } else {
+              positionFutureBuilder_.addAllMessages(other.positionFuture_);
+            }
+          }
         }
-        if (!other.positionPast_.isEmpty()) {
-          if (positionPast_.isEmpty()) {
-            positionPast_ = other.positionPast_;
-            bitField0_ = (bitField0_ & ~0x00000004);
-          } else {
-            ensurePositionPastIsMutable();
-            positionPast_.addAll(other.positionPast_);
+        if (positionPastBuilder_ == null) {
+          if (!other.positionPast_.isEmpty()) {
+            if (positionPast_.isEmpty()) {
+              positionPast_ = other.positionPast_;
+              bitField0_ = (bitField0_ & ~0x00000004);
+            } else {
+              ensurePositionPastIsMutable();
+              positionPast_.addAll(other.positionPast_);
+            }
+            onChanged();
           }
-          onChanged();
+        } else {
+          if (!other.positionPast_.isEmpty()) {
+            if (positionPastBuilder_.isEmpty()) {
+              positionPastBuilder_.dispose();
+              positionPastBuilder_ = null;
+              positionPast_ = other.positionPast_;
+              bitField0_ = (bitField0_ & ~0x00000004);
+              positionPastBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getPositionPastFieldBuilder() : null;
+            } else {
+              positionPastBuilder_.addAllMessages(other.positionPast_);
+            }
+          }
         }
         if (other.hasHeading()) {
           setHeading(other.getHeading());
@@ -699,136 +1235,484 @@ public final class PredictionFeedServe {
         return this;
       }
 
-      private java.util.List<java.lang.Double> positionFuture_ = java.util.Collections.emptyList();
+      private java.util.List<com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.Position> positionFuture_ =
+        java.util.Collections.emptyList();
       private void ensurePositionFutureIsMutable() {
         if (!((bitField0_ & 0x00000002) == 0x00000002)) {
-          positionFuture_ = new java.util.ArrayList<java.lang.Double>(positionFuture_);
+          positionFuture_ = new java.util.ArrayList<com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.Position>(positionFuture_);
           bitField0_ |= 0x00000002;
          }
       }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.Position, com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.Position.Builder, com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.PositionOrBuilder> positionFutureBuilder_;
+
       /**
-       * <code>repeated double positionFuture = 2;</code>
+       * <code>repeated .PredictionMessage.Position positionFuture = 2;</code>
        */
-      public java.util.List<java.lang.Double>
-          getPositionFutureList() {
-        return java.util.Collections.unmodifiableList(positionFuture_);
+      public java.util.List<com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.Position> getPositionFutureList() {
+        if (positionFutureBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(positionFuture_);
+        } else {
+          return positionFutureBuilder_.getMessageList();
+        }
       }
       /**
-       * <code>repeated double positionFuture = 2;</code>
+       * <code>repeated .PredictionMessage.Position positionFuture = 2;</code>
        */
       public int getPositionFutureCount() {
-        return positionFuture_.size();
+        if (positionFutureBuilder_ == null) {
+          return positionFuture_.size();
+        } else {
+          return positionFutureBuilder_.getCount();
+        }
       }
       /**
-       * <code>repeated double positionFuture = 2;</code>
+       * <code>repeated .PredictionMessage.Position positionFuture = 2;</code>
        */
-      public double getPositionFuture(int index) {
-        return positionFuture_.get(index);
+      public com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.Position getPositionFuture(int index) {
+        if (positionFutureBuilder_ == null) {
+          return positionFuture_.get(index);
+        } else {
+          return positionFutureBuilder_.getMessage(index);
+        }
       }
       /**
-       * <code>repeated double positionFuture = 2;</code>
+       * <code>repeated .PredictionMessage.Position positionFuture = 2;</code>
        */
       public Builder setPositionFuture(
-          int index, double value) {
-        ensurePositionFutureIsMutable();
-        positionFuture_.set(index, value);
-        onChanged();
+          int index, com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.Position value) {
+        if (positionFutureBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensurePositionFutureIsMutable();
+          positionFuture_.set(index, value);
+          onChanged();
+        } else {
+          positionFutureBuilder_.setMessage(index, value);
+        }
         return this;
       }
       /**
-       * <code>repeated double positionFuture = 2;</code>
+       * <code>repeated .PredictionMessage.Position positionFuture = 2;</code>
        */
-      public Builder addPositionFuture(double value) {
-        ensurePositionFutureIsMutable();
-        positionFuture_.add(value);
-        onChanged();
+      public Builder setPositionFuture(
+          int index, com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.Position.Builder builderForValue) {
+        if (positionFutureBuilder_ == null) {
+          ensurePositionFutureIsMutable();
+          positionFuture_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          positionFutureBuilder_.setMessage(index, builderForValue.build());
+        }
         return this;
       }
       /**
-       * <code>repeated double positionFuture = 2;</code>
+       * <code>repeated .PredictionMessage.Position positionFuture = 2;</code>
+       */
+      public Builder addPositionFuture(com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.Position value) {
+        if (positionFutureBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensurePositionFutureIsMutable();
+          positionFuture_.add(value);
+          onChanged();
+        } else {
+          positionFutureBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .PredictionMessage.Position positionFuture = 2;</code>
+       */
+      public Builder addPositionFuture(
+          int index, com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.Position value) {
+        if (positionFutureBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensurePositionFutureIsMutable();
+          positionFuture_.add(index, value);
+          onChanged();
+        } else {
+          positionFutureBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .PredictionMessage.Position positionFuture = 2;</code>
+       */
+      public Builder addPositionFuture(
+          com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.Position.Builder builderForValue) {
+        if (positionFutureBuilder_ == null) {
+          ensurePositionFutureIsMutable();
+          positionFuture_.add(builderForValue.build());
+          onChanged();
+        } else {
+          positionFutureBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .PredictionMessage.Position positionFuture = 2;</code>
+       */
+      public Builder addPositionFuture(
+          int index, com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.Position.Builder builderForValue) {
+        if (positionFutureBuilder_ == null) {
+          ensurePositionFutureIsMutable();
+          positionFuture_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          positionFutureBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .PredictionMessage.Position positionFuture = 2;</code>
        */
       public Builder addAllPositionFuture(
-          java.lang.Iterable<? extends java.lang.Double> values) {
-        ensurePositionFutureIsMutable();
-        com.google.protobuf.AbstractMessageLite.Builder.addAll(
-            values, positionFuture_);
-        onChanged();
+          java.lang.Iterable<? extends com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.Position> values) {
+        if (positionFutureBuilder_ == null) {
+          ensurePositionFutureIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, positionFuture_);
+          onChanged();
+        } else {
+          positionFutureBuilder_.addAllMessages(values);
+        }
         return this;
       }
       /**
-       * <code>repeated double positionFuture = 2;</code>
+       * <code>repeated .PredictionMessage.Position positionFuture = 2;</code>
        */
       public Builder clearPositionFuture() {
-        positionFuture_ = java.util.Collections.emptyList();
-        bitField0_ = (bitField0_ & ~0x00000002);
-        onChanged();
+        if (positionFutureBuilder_ == null) {
+          positionFuture_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000002);
+          onChanged();
+        } else {
+          positionFutureBuilder_.clear();
+        }
         return this;
       }
+      /**
+       * <code>repeated .PredictionMessage.Position positionFuture = 2;</code>
+       */
+      public Builder removePositionFuture(int index) {
+        if (positionFutureBuilder_ == null) {
+          ensurePositionFutureIsMutable();
+          positionFuture_.remove(index);
+          onChanged();
+        } else {
+          positionFutureBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .PredictionMessage.Position positionFuture = 2;</code>
+       */
+      public com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.Position.Builder getPositionFutureBuilder(
+          int index) {
+        return getPositionFutureFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .PredictionMessage.Position positionFuture = 2;</code>
+       */
+      public com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.PositionOrBuilder getPositionFutureOrBuilder(
+          int index) {
+        if (positionFutureBuilder_ == null) {
+          return positionFuture_.get(index);  } else {
+          return positionFutureBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .PredictionMessage.Position positionFuture = 2;</code>
+       */
+      public java.util.List<? extends com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.PositionOrBuilder> 
+           getPositionFutureOrBuilderList() {
+        if (positionFutureBuilder_ != null) {
+          return positionFutureBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(positionFuture_);
+        }
+      }
+      /**
+       * <code>repeated .PredictionMessage.Position positionFuture = 2;</code>
+       */
+      public com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.Position.Builder addPositionFutureBuilder() {
+        return getPositionFutureFieldBuilder().addBuilder(
+            com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.Position.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .PredictionMessage.Position positionFuture = 2;</code>
+       */
+      public com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.Position.Builder addPositionFutureBuilder(
+          int index) {
+        return getPositionFutureFieldBuilder().addBuilder(
+            index, com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.Position.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .PredictionMessage.Position positionFuture = 2;</code>
+       */
+      public java.util.List<com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.Position.Builder> 
+           getPositionFutureBuilderList() {
+        return getPositionFutureFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.Position, com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.Position.Builder, com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.PositionOrBuilder> 
+          getPositionFutureFieldBuilder() {
+        if (positionFutureBuilder_ == null) {
+          positionFutureBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.Position, com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.Position.Builder, com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.PositionOrBuilder>(
+                  positionFuture_,
+                  ((bitField0_ & 0x00000002) == 0x00000002),
+                  getParentForChildren(),
+                  isClean());
+          positionFuture_ = null;
+        }
+        return positionFutureBuilder_;
+      }
 
-      private java.util.List<java.lang.Double> positionPast_ = java.util.Collections.emptyList();
+      private java.util.List<com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.Position> positionPast_ =
+        java.util.Collections.emptyList();
       private void ensurePositionPastIsMutable() {
         if (!((bitField0_ & 0x00000004) == 0x00000004)) {
-          positionPast_ = new java.util.ArrayList<java.lang.Double>(positionPast_);
+          positionPast_ = new java.util.ArrayList<com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.Position>(positionPast_);
           bitField0_ |= 0x00000004;
          }
       }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.Position, com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.Position.Builder, com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.PositionOrBuilder> positionPastBuilder_;
+
       /**
-       * <code>repeated double positionPast = 3;</code>
+       * <code>repeated .PredictionMessage.Position positionPast = 3;</code>
        */
-      public java.util.List<java.lang.Double>
-          getPositionPastList() {
-        return java.util.Collections.unmodifiableList(positionPast_);
+      public java.util.List<com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.Position> getPositionPastList() {
+        if (positionPastBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(positionPast_);
+        } else {
+          return positionPastBuilder_.getMessageList();
+        }
       }
       /**
-       * <code>repeated double positionPast = 3;</code>
+       * <code>repeated .PredictionMessage.Position positionPast = 3;</code>
        */
       public int getPositionPastCount() {
-        return positionPast_.size();
+        if (positionPastBuilder_ == null) {
+          return positionPast_.size();
+        } else {
+          return positionPastBuilder_.getCount();
+        }
       }
       /**
-       * <code>repeated double positionPast = 3;</code>
+       * <code>repeated .PredictionMessage.Position positionPast = 3;</code>
        */
-      public double getPositionPast(int index) {
-        return positionPast_.get(index);
+      public com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.Position getPositionPast(int index) {
+        if (positionPastBuilder_ == null) {
+          return positionPast_.get(index);
+        } else {
+          return positionPastBuilder_.getMessage(index);
+        }
       }
       /**
-       * <code>repeated double positionPast = 3;</code>
+       * <code>repeated .PredictionMessage.Position positionPast = 3;</code>
        */
       public Builder setPositionPast(
-          int index, double value) {
-        ensurePositionPastIsMutable();
-        positionPast_.set(index, value);
-        onChanged();
+          int index, com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.Position value) {
+        if (positionPastBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensurePositionPastIsMutable();
+          positionPast_.set(index, value);
+          onChanged();
+        } else {
+          positionPastBuilder_.setMessage(index, value);
+        }
         return this;
       }
       /**
-       * <code>repeated double positionPast = 3;</code>
+       * <code>repeated .PredictionMessage.Position positionPast = 3;</code>
        */
-      public Builder addPositionPast(double value) {
-        ensurePositionPastIsMutable();
-        positionPast_.add(value);
-        onChanged();
+      public Builder setPositionPast(
+          int index, com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.Position.Builder builderForValue) {
+        if (positionPastBuilder_ == null) {
+          ensurePositionPastIsMutable();
+          positionPast_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          positionPastBuilder_.setMessage(index, builderForValue.build());
+        }
         return this;
       }
       /**
-       * <code>repeated double positionPast = 3;</code>
+       * <code>repeated .PredictionMessage.Position positionPast = 3;</code>
+       */
+      public Builder addPositionPast(com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.Position value) {
+        if (positionPastBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensurePositionPastIsMutable();
+          positionPast_.add(value);
+          onChanged();
+        } else {
+          positionPastBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .PredictionMessage.Position positionPast = 3;</code>
+       */
+      public Builder addPositionPast(
+          int index, com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.Position value) {
+        if (positionPastBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensurePositionPastIsMutable();
+          positionPast_.add(index, value);
+          onChanged();
+        } else {
+          positionPastBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .PredictionMessage.Position positionPast = 3;</code>
+       */
+      public Builder addPositionPast(
+          com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.Position.Builder builderForValue) {
+        if (positionPastBuilder_ == null) {
+          ensurePositionPastIsMutable();
+          positionPast_.add(builderForValue.build());
+          onChanged();
+        } else {
+          positionPastBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .PredictionMessage.Position positionPast = 3;</code>
+       */
+      public Builder addPositionPast(
+          int index, com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.Position.Builder builderForValue) {
+        if (positionPastBuilder_ == null) {
+          ensurePositionPastIsMutable();
+          positionPast_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          positionPastBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .PredictionMessage.Position positionPast = 3;</code>
        */
       public Builder addAllPositionPast(
-          java.lang.Iterable<? extends java.lang.Double> values) {
-        ensurePositionPastIsMutable();
-        com.google.protobuf.AbstractMessageLite.Builder.addAll(
-            values, positionPast_);
-        onChanged();
+          java.lang.Iterable<? extends com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.Position> values) {
+        if (positionPastBuilder_ == null) {
+          ensurePositionPastIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, positionPast_);
+          onChanged();
+        } else {
+          positionPastBuilder_.addAllMessages(values);
+        }
         return this;
       }
       /**
-       * <code>repeated double positionPast = 3;</code>
+       * <code>repeated .PredictionMessage.Position positionPast = 3;</code>
        */
       public Builder clearPositionPast() {
-        positionPast_ = java.util.Collections.emptyList();
-        bitField0_ = (bitField0_ & ~0x00000004);
-        onChanged();
+        if (positionPastBuilder_ == null) {
+          positionPast_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000004);
+          onChanged();
+        } else {
+          positionPastBuilder_.clear();
+        }
         return this;
+      }
+      /**
+       * <code>repeated .PredictionMessage.Position positionPast = 3;</code>
+       */
+      public Builder removePositionPast(int index) {
+        if (positionPastBuilder_ == null) {
+          ensurePositionPastIsMutable();
+          positionPast_.remove(index);
+          onChanged();
+        } else {
+          positionPastBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .PredictionMessage.Position positionPast = 3;</code>
+       */
+      public com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.Position.Builder getPositionPastBuilder(
+          int index) {
+        return getPositionPastFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .PredictionMessage.Position positionPast = 3;</code>
+       */
+      public com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.PositionOrBuilder getPositionPastOrBuilder(
+          int index) {
+        if (positionPastBuilder_ == null) {
+          return positionPast_.get(index);  } else {
+          return positionPastBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .PredictionMessage.Position positionPast = 3;</code>
+       */
+      public java.util.List<? extends com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.PositionOrBuilder> 
+           getPositionPastOrBuilderList() {
+        if (positionPastBuilder_ != null) {
+          return positionPastBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(positionPast_);
+        }
+      }
+      /**
+       * <code>repeated .PredictionMessage.Position positionPast = 3;</code>
+       */
+      public com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.Position.Builder addPositionPastBuilder() {
+        return getPositionPastFieldBuilder().addBuilder(
+            com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.Position.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .PredictionMessage.Position positionPast = 3;</code>
+       */
+      public com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.Position.Builder addPositionPastBuilder(
+          int index) {
+        return getPositionPastFieldBuilder().addBuilder(
+            index, com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.Position.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .PredictionMessage.Position positionPast = 3;</code>
+       */
+      public java.util.List<com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.Position.Builder> 
+           getPositionPastBuilderList() {
+        return getPositionPastFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.Position, com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.Position.Builder, com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.PositionOrBuilder> 
+          getPositionPastFieldBuilder() {
+        if (positionPastBuilder_ == null) {
+          positionPastBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.Position, com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.Position.Builder, com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage.PositionOrBuilder>(
+                  positionPast_,
+                  ((bitField0_ & 0x00000004) == 0x00000004),
+                  getParentForChildren(),
+                  isClean());
+          positionPast_ = null;
+        }
+        return positionPastBuilder_;
       }
 
       private double heading_ ;
@@ -879,6 +1763,11 @@ public final class PredictionFeedServe {
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_PredictionMessage_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_PredictionMessage_Position_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_PredictionMessage_Position_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -888,12 +1777,14 @@ public final class PredictionFeedServe {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n$main/proto/PredictionFeedServe.proto\"f" +
-      "\n\021PredictionMessage\022\022\n\naircraftID\030\001 \002(\t\022" +
-      "\026\n\016positionFuture\030\002 \003(\001\022\024\n\014positionPast\030" +
-      "\003 \003(\001\022\017\n\007Heading\030\004 \001(\001B:\n#com.atc.simula" +
-      "tor.PredictionServiceB\023PredictionFeedSer" +
-      "ve"
+      "\n$main/proto/PredictionFeedServe.proto\"\302" +
+      "\001\n\021PredictionMessage\022\022\n\naircraftID\030\001 \002(\t" +
+      "\0223\n\016positionFuture\030\002 \003(\0132\033.PredictionMes" +
+      "sage.Position\0221\n\014positionPast\030\003 \003(\0132\033.Pr" +
+      "edictionMessage.Position\022\017\n\007Heading\030\004 \001(" +
+      "\001\032 \n\010Position\022\024\n\014positionData\030\001 \003(\001B:\n#c" +
+      "om.atc.simulator.PredictionServiceB\023Pred" +
+      "ictionFeedServe"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -913,6 +1804,12 @@ public final class PredictionFeedServe {
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_PredictionMessage_descriptor,
         new java.lang.String[] { "AircraftID", "PositionFuture", "PositionPast", "Heading", });
+    internal_static_PredictionMessage_Position_descriptor =
+      internal_static_PredictionMessage_descriptor.getNestedTypes().get(0);
+    internal_static_PredictionMessage_Position_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_PredictionMessage_Position_descriptor,
+        new java.lang.String[] { "PositionData", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)
