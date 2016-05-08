@@ -11,6 +11,7 @@ import java.io.*;
  */
 public class DDFServerThread implements Runnable
 {
+    static int OFFSET = 0;
     private DatagramSocket serverSocket;
     private byte[] receiveData;
 
@@ -18,7 +19,7 @@ public class DDFServerThread implements Runnable
     {
         try
         {
-            serverSocket = new DatagramSocket(4000);
+            serverSocket = new DatagramSocket(6969);
             receiveData = new byte[1024];
             System.out.println("Test Server Thread");
         }
@@ -37,6 +38,9 @@ public class DDFServerThread implements Runnable
             try
             {
                 serverSocket.receive(receivedPacket);
+                if (Thread.interrupted())
+                    break;
+                String message = (new String( receivedPacket.getData(),OFFSET, receivedPacket.getLength() )).trim();
             }
             catch (IOException e)
             {
@@ -45,5 +49,4 @@ public class DDFServerThread implements Runnable
             }
         }
     }
-
 }

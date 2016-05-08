@@ -2,13 +2,17 @@ package com.atc.simulator.DebugDataFeed;
 import com.atc.simulator.DebugDataFeed.DebugDataFeedServe.Aircraft;
 import com.atc.simulator.vectors.GeographicCoordinate;
 import com.google.protobuf.InvalidProtocolBufferException;
+
+import java.io.IOException;
 import java.net.*;
 
 /**
  * Created by luke on 2/05/16.
+ * May need pub-sub pattern to work properly.
  */
 public class DebugDataFeed
 {
+    static int PORT = 6969;
 
     //byte array to hex solution here: http://stackoverflow.com/a/9855338/446250
     final protected static char[] hexArray = "0123456789ABCDEF".toCharArray();
@@ -24,9 +28,15 @@ public class DebugDataFeed
         return new String(hexChars);
     }
 
-    public static void main(String[] arg)
+    public DebugDataFeed()
     {
 
+    }
+
+    public void run()
+    {
+        Thread serverThread = new Thread(new DDFServerThread());
+        serverThread.start();
         //example data
         GeographicCoordinate position = new GeographicCoordinate(1,2,3);
         float aircraft_speed = 10f;
@@ -73,6 +83,19 @@ public class DebugDataFeed
         catch (InvalidProtocolBufferException e)
         {
             e.printStackTrace();
+        }
+    }
+
+    public static void main(String[] arg)
+    {
+        try
+        {
+            (new DebugDataFeed()).run();
+        }
+        catch (Exception e)
+        {
+            System.out.println( "Cannot run server." );
+            System.out.println( e.getMessage() );
         }
     }
 }
