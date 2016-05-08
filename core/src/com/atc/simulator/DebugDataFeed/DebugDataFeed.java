@@ -8,7 +8,12 @@ import java.net.*;
 
 /**
  * Created by luke on 2/05/16.
- * May need pub-sub pattern to work properly.
+ *
+ * 8/05/2016 Notes: May need pub-sub pattern to work properly.
+ *                  Can store received data (from ADS-B, CAT62 etc
+ *                  In String List in Server. DDFServerThread and
+ *                  DDFClient Thread may will update the list asynchronously
+ *                  Information that gets sent out from DDFClient will be deleted from the list
  */
 public class DebugDataFeed
 {
