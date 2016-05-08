@@ -7,14 +7,14 @@ import java.net.*;
 /**
  * Created by luke on 2/05/16.
  */
-public class DebugDataFeed {
-
-    private static DatagramSocket serverSocket;
-    private byte[] receiveData;
+public class DebugDataFeed
+{
 
     //byte array to hex solution here: http://stackoverflow.com/a/9855338/446250
     final protected static char[] hexArray = "0123456789ABCDEF".toCharArray();
-    public static String bytesToHex(byte[] bytes) {
+
+    public static String bytesToHex(byte[] bytes)
+    {
         char[] hexChars = new char[bytes.length * 2];
         for ( int j = 0; j < bytes.length; j++ ) {
             int v = bytes[j] & 0xFF;
@@ -26,13 +26,6 @@ public class DebugDataFeed {
 
     public static void main(String[] arg)
     {
-        try {
-            serverSocket = new DatagramSocket(5000);
-        }
-        catch(Exception e)
-        {
-            System.out.println(e.getMessage());
-        }
 
         //example data
         GeographicCoordinate position = new GeographicCoordinate(1,2,3);
@@ -76,12 +69,10 @@ public class DebugDataFeed {
             System.out.println("Longitude: " + aircraftReceiveProtobuf.getPosition(2));
             System.out.println("Speed: " + aircraftReceiveProtobuf.getSpeed());
 
-        } catch (InvalidProtocolBufferException e) {
+        }
+        catch (InvalidProtocolBufferException e)
+        {
             e.printStackTrace();
         }
-
-
-
-
     }
 }
