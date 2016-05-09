@@ -4,11 +4,9 @@ option java_package = "com.atc.simulator.PredictionService";
 option java_outer_classname = "PredictionFeedServe";
 
 message PredictionMessage {
-    required string aircraftID = 1;
-	
 	message Position{repeated double positionData = 1;}
 	
+	required string aircraftID = 1;
 	repeated Position positionFuture = 2;
-    repeated Position positionPast = 3;
 	optional double Heading = 4;
 }
