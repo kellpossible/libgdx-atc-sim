@@ -17,6 +17,9 @@ allprojects {
         box2DLightsVersion = '1.4'
         ashleyVersion = '1.7.0'
         aiVersion = '1.8.0'
+        gsonVersion = '2.6.2'
+        protobufVersion = '2.6.1'
+        pythagorasVersion = '1.4.1'
     }
 
     repositories {
@@ -50,8 +53,9 @@ project(":core") {
         compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-controllers:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
-        compile "com.samskivert:pythagoras:1.4.1"
-        compile "com.google.protobuf:protobuf-java:2.6.1"
+        compile "com.samskivert:pythagoras:$pythagorasVersion"
+        compile "com.google.protobuf:protobuf-java:$protobufVersion"
+        compile "com.google.code.gson:gson:$gsonVersion"
         //compile "net.mikera:vectorz:0.61.0"
 
     }
