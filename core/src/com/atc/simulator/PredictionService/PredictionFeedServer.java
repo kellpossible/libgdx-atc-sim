@@ -2,6 +2,7 @@ package com.atc.simulator.PredictionService;
 import com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage;
 
 import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.ArrayList;
 import java.io.*;
 /**
@@ -27,35 +28,44 @@ import java.io.*;
 
 public class PredictionFeedServer implements Runnable{
     private ArrayList<PredictionFeedServe.PredictionMessage> toBeSentBuffer; //Buffer of encoded messages
+
+    //Sockets and Related
     private static int PORTNUMBER = 6971; //Can we store this in a config?
     private ServerSocket pDServer;
-
-
+    private Socket singleClientSocket; //This is a single client for the single display version
 
     /**
-     * Constructor, instantiates a new buffer and opens a socket
+     * Constructor, instantiates a new buffer and opens a ServerSocket
      */
     public PredictionFeedServer()
     {
         toBeSentBuffer = new ArrayList<PredictionFeedServe.PredictionMessage>();
         try{
             pDServer = new ServerSocket(PORTNUMBER);
-        }catch(IOException e)
-            {System.err.println("PredictionFeedServer Failed");
-            System.exit(1);}
+        }catch(IOException e){System.err.println("PredictionFeedServer Initialisation Failed");System.exit(1);}
     }
 
     /**
-     * Thread to remove top element of buffer and sends it to the PredictionFeedServer
+     * Version 1 thread. This will accept a single client and send it updated predictions whenever they are available
      */
     public void run()
     {
-        if (toBeSentBuffer.size() > 0)
-        {
+        //Receive/Accept request from, and connect to, the display Client.
+        try{
+            singleClientSocket = pDServer.accept();
+        }catch(IOException e){System.err.println("PredictionFeedServer Client Connect Failed");System.exit(1);}
 
+        //Now loop and send new predictions whenever they are placed in the Buffer
+        while(true)
+        {
+            if (toBeSentBuffer.size() > 0)
+            {
+                try {
+                    toBeSentBuffer.get(0).writeDelimitedTo(singleClientSocket.getOutputStream());
+                }catch(IOException e){System.err.println("PredictionFeedServer Send to Client Failed");System.exit(1);}
+            }
         }
     }
-
 
     /**
      * Stores a message in the buffer
@@ -63,6 +73,6 @@ public class PredictionFeedServer implements Runnable{
      */
     public void addNewMessage(PredictionMessage mes)
     {
-        toBeSentBuffer.add(mes); //Add
+        toBeSentBuffer.add(mes);
     }
 }
