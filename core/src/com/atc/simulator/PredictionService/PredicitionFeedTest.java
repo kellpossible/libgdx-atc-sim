@@ -1,6 +1,7 @@
 package com.atc.simulator.PredictionService;
 
 import com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage;
+import com.atc.simulator.Display.PredictionFeedClient;
 import com.atc.simulator.vectors.GeographicCoordinate;
 import com.google.protobuf.InvalidProtocolBufferException;
 
@@ -34,29 +35,52 @@ public class PredicitionFeedTest {
 
     public static void main(String[] arg)
     {
+        PredicitionFeedTest temp = new PredicitionFeedTest();
+        temp.test2();
+    }
+
+    private void test2()
+    {
+        PredictionFeedServer testServer = new PredictionFeedServer();
+        PredictionFeedEncoder testEncoder = new PredictionFeedEncoder(testServer);
+        PredictionFeedClient testClient = new PredictionFeedClient();
+
+        testServer.run();
+        testEncoder.run();
+        testClient.run();
+
+        String planeID = "Test2";
+        GeographicCoordinate tempPos[] = {new GeographicCoordinate(0,0,0)};
+        testEncoder.addNewPrediction(planeID, tempPos);
+
+
+    }
+
+    private void test1()
+    {
         //example data
         String planeID = "ABC123"; //ID string
         //Positions, gets confusing having to build temporary Positions (radius/lat/long) and then build those
         //  into the overarching message (I'm sure this can be simplified at some stage)
         GeographicCoordinate tempPos = new GeographicCoordinate(0,0,0);
         PredictionMessage.Position.Builder tempPosBuilder = PredictionMessage.Position.newBuilder();
-            tempPosBuilder.addPositionData(tempPos.getRadius());
-            tempPosBuilder.addPositionData(tempPos.getLatitude());
-            tempPosBuilder.addPositionData(tempPos.getLongitude());
+        tempPosBuilder.addPositionData(tempPos.getRadius());
+        tempPosBuilder.addPositionData(tempPos.getLatitude());
+        tempPosBuilder.addPositionData(tempPos.getLongitude());
         PredictionMessage.Position position1 = tempPosBuilder.build();
 
         tempPos = new GeographicCoordinate(1,2,3);
         tempPosBuilder = PredictionMessage.Position.newBuilder();
-            tempPosBuilder.addPositionData(tempPos.getRadius());
-            tempPosBuilder.addPositionData(tempPos.getLatitude());
-            tempPosBuilder.addPositionData(tempPos.getLongitude());
+        tempPosBuilder.addPositionData(tempPos.getRadius());
+        tempPosBuilder.addPositionData(tempPos.getLatitude());
+        tempPosBuilder.addPositionData(tempPos.getLongitude());
         PredictionMessage.Position position2 = tempPosBuilder.build();
 
         tempPos = new GeographicCoordinate(2,3,4);
         tempPosBuilder = PredictionMessage.Position.newBuilder();
-            tempPosBuilder.addPositionData(tempPos.getRadius());
-            tempPosBuilder.addPositionData(tempPos.getLatitude());
-            tempPosBuilder.addPositionData(tempPos.getLongitude());
+        tempPosBuilder.addPositionData(tempPos.getRadius());
+        tempPosBuilder.addPositionData(tempPos.getLatitude());
+        tempPosBuilder.addPositionData(tempPos.getLongitude());
         PredictionMessage.Position position3 = tempPosBuilder.build();
 
         //Create the message
@@ -81,9 +105,9 @@ public class PredicitionFeedTest {
             messageToRec = PredictionMessage.parseFrom(messageToSend.toByteArray());
             System.out.println("Plane ID: " + messageToRec.getAircraftID()); //Print ID
             System.out.print("Currently at: (");
-                System.out.print(messageToRec.getPositionFuture(0).getPositionData(0)+", "); //Print the current positions vectors
-                System.out.print(messageToRec.getPositionFuture(0).getPositionData(1)+", ");
-                System.out.println(messageToRec.getPositionFuture(0).getPositionData(2)+")");
+            System.out.print(messageToRec.getPositionFuture(0).getPositionData(0)+", "); //Print the current positions vectors
+            System.out.print(messageToRec.getPositionFuture(0).getPositionData(1)+", ");
+            System.out.println(messageToRec.getPositionFuture(0).getPositionData(2)+")");
 
 
             System.out.println("Going to:");

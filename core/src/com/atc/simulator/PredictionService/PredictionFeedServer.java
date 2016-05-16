@@ -22,7 +22,7 @@ import java.io.*;
  *    PredictionFeedServe.PredictionMessage
  *
  * MODIFIED:
- * @version 0.1, CC 12/05/16
+ * @version 0.2, CC 16/05/16
  * @author    Chris Coleman, 7191375
  */
 
@@ -30,7 +30,7 @@ public class PredictionFeedServer implements Runnable{
     private ArrayList<PredictionFeedServe.PredictionMessage> toBeSentBuffer; //Buffer of encoded messages
 
     //Sockets and Related
-    private static int PORTNUMBER = 6971; //Can we store this in a config?
+    private static int PORTNUMBER = 9000; //Can we store this in a config?
     private ServerSocket pDServer;
     private Socket singleClientSocket; //This is a single client for the single display version
 
@@ -42,7 +42,7 @@ public class PredictionFeedServer implements Runnable{
         toBeSentBuffer = new ArrayList<PredictionFeedServe.PredictionMessage>();
         try{
             pDServer = new ServerSocket(PORTNUMBER);
-        }catch(IOException e){System.err.println("PredictionFeedServer Initialisation Failed");System.exit(1);}
+        }catch(IOException e){System.err.println("PredictionFeedServer Initialisation Failed");e.printStackTrace();System.exit(1);}
     }
 
     /**
