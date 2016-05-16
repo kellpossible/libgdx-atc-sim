@@ -5,6 +5,8 @@ import com.atc.simulator.Display.PredictionFeedClient;
 import com.atc.simulator.vectors.GeographicCoordinate;
 import com.google.protobuf.InvalidProtocolBufferException;
 
+import java.io.IOException;
+
 /**
  * Created by Chris on 7/05/2016.
  *
@@ -43,17 +45,20 @@ public class PredicitionFeedTest {
     {
         PredictionFeedServer testServer = new PredictionFeedServer();
         PredictionFeedEncoder testEncoder = new PredictionFeedEncoder(testServer);
-        PredictionFeedClient testClient = new PredictionFeedClient();
+        //PredictionFeedClient testClient = new PredictionFeedClient();
 
-        testServer.run();
-        testEncoder.run();
-        testClient.run();
+        Thread tEncoder = new Thread(testEncoder);
+        tEncoder.start();
+        //testClient.run();
+        try {
+            while (System.in.read() != 'q') {
+                String planeID = "Test2";
+                GeographicCoordinate tempPos[] = {new GeographicCoordinate(0, 0, 0)};
+                testEncoder.addNewPrediction(planeID, tempPos);
+            }
+        }catch(IOException e){System.err.println("PredictionFeedServer Initialisation Failed");e.printStackTrace();System.exit(1);}
 
-        String planeID = "Test2";
-        GeographicCoordinate tempPos[] = {new GeographicCoordinate(0,0,0)};
-        testEncoder.addNewPrediction(planeID, tempPos);
-
-
+        tEncoder.stop();
     }
 
     private void test1()
