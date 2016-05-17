@@ -46,13 +46,12 @@ public class PredictionFeedEncoder implements Runnable{
      * Thread to remove top element of buffer and sends it to the PredictionFeedServer
      */
     public void run() {
+        while(true) {
             if (toBeSentBuffer.size() > 0) {
-                System.out.println("Encoder has something in its buffer");
                 myServer.addNewMessage(toBeSentBuffer.get(0));
                 toBeSentBuffer.remove(0);
             }
-            else
-                System.out.println("Encoder has nothing in its buffer");
+        }
     }
 
     /**
@@ -60,9 +59,8 @@ public class PredictionFeedEncoder implements Runnable{
      * @param aircraftID : The aircraft this prediction is meant for
      * @param predictions : Array of Coordinates in prediction
      */
-    public void addNewPrediction(String aircraftID, GeographicCoordinate[] predictions)
+    public synchronized void addNewPrediction(String aircraftID, GeographicCoordinate[] predictions)
     {
-        System.out.println("Enter add new Prediction");
         PredictionMessage.Builder MesBuilder = PredictionMessage.newBuilder();
         PredictionMessage.Position.Builder tempPosBuilder;
 
@@ -70,7 +68,6 @@ public class PredictionFeedEncoder implements Runnable{
 
         for(GeographicCoordinate temp : predictions)
         {
-            System.out.println("Adding a new Coordinate");
             tempPosBuilder = PredictionMessage.Position.newBuilder(); //New, fresh, builder
             tempPosBuilder.addPositionData(temp.getRadius());   //Add the location data
             tempPosBuilder.addPositionData(temp.getLatitude());
@@ -78,9 +75,6 @@ public class PredictionFeedEncoder implements Runnable{
 
             MesBuilder.addPositionFuture(tempPosBuilder);   //Add this new position to the message
         }
-
-        System.out.println("Before adding : " + toBeSentBuffer.size());
         toBeSentBuffer.add(MesBuilder.build()); //Build message and add to buffer
-        System.out.println("After adding : " + toBeSentBuffer.size());
     }
 }

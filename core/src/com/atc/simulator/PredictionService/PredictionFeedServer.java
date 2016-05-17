@@ -26,13 +26,9 @@ import java.io.*;
  * @author    Chris Coleman, 7191375
  */
 
-public class PredictionFeedServer implements Runnable{
+public class PredictionFeedServer{
     private ArrayList<PredictionFeedServe.PredictionMessage> toBeSentBuffer; //Buffer of encoded messages
 
-    //Sockets and Related
-    private static int PORTNUMBER = 9000; //Can we store this in a config?
-    private ServerSocket pDServer;
-    private Socket singleClientSocket; //This is a single client for the single display version
 
     /**
      * Constructor, instantiates a new buffer and opens a ServerSocket
@@ -40,39 +36,29 @@ public class PredictionFeedServer implements Runnable{
     public PredictionFeedServer()
     {
         toBeSentBuffer = new ArrayList<PredictionFeedServe.PredictionMessage>();
-        try{
-            pDServer = new ServerSocket(PORTNUMBER);
-        }catch(IOException e){System.err.println("PredictionFeedServer Initialisation Failed");e.printStackTrace();System.exit(1);}
-    }
-
-    /**
-     * Version 1 thread. This will accept a single client and send it updated predictions whenever they are available
-     */
-    public void run()
-    {
-        //Receive/Accept request from, and connect to, the display Client.
-        try{
-            singleClientSocket = pDServer.accept();
-        }catch(IOException e){System.err.println("PredictionFeedServer Client Connect Failed");System.exit(1);}
-
-        //Now loop and send new predictions whenever they are placed in the Buffer
-        while(true)
-        {
-            if (toBeSentBuffer.size() > 0)
-            {
-                try {
-                    toBeSentBuffer.get(0).writeDelimitedTo(singleClientSocket.getOutputStream());
-                }catch(IOException e){System.err.println("PredictionFeedServer Send to Client Failed");System.exit(1);}
-            }
-        }
     }
 
     /**
      * Stores a message in the buffer
      * @param mes : The PredicationMessage that is wanting to be sent
      */
-    public void addNewMessage(PredictionMessage mes)
+    public synchronized void addNewMessage(PredictionMessage mes)
     {
         toBeSentBuffer.add(mes);
+        System.out.println("Item added to Server. Size " + toBeSentBuffer.size());
     }
+
+    /**
+     * Version 1 Run. Will empty the buffer if it finds anything in there
+     */
+ /*   public void run() {
+        while(true){
+            if(toBeSentBuffer.size() > 0)
+            {
+                toBeSentBuffer.remove(0);
+                System.out.println("Left in Server Buffer: " + toBeSentBuffer.size());
+            }
+        }
+    }
+*/
 }

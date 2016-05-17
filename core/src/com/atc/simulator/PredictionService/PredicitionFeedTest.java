@@ -22,107 +22,31 @@ import java.io.IOException;
 public class PredicitionFeedTest {
     //Test method to be comfortable with using PredictionFeedServe's protocol buffer
 
-    //Stealing this from Luke's DebugDataFeed:
-    final protected static char[] hexArray = "0123456789ABCDEF".toCharArray();
-    public static String bytesToHex(byte[] bytes) {
-        char[] hexChars = new char[bytes.length * 2];
-        for ( int j = 0; j < bytes.length; j++ ) {
-            int v = bytes[j] & 0xFF;
-            hexChars[j * 2] = hexArray[v >>> 4];
-            hexChars[j * 2 + 1] = hexArray[v & 0x0F];
-        }
-        return new String(hexChars);
-    }
 
-
-    public static void main(String[] arg)
-    {
-        PredicitionFeedTest temp = new PredicitionFeedTest();
-        temp.test2();
-    }
-
-    private void test2()
-    {
+    public static void main(String[] arg) {
         PredictionFeedServer testServer = new PredictionFeedServer();
         PredictionFeedEncoder testEncoder = new PredictionFeedEncoder(testServer);
-        //PredictionFeedClient testClient = new PredictionFeedClient();
 
+        //If you comment out these 3 lines of code, nothing will run..?
+        System.out.println("Adding message before Thread start");
+        GeographicCoordinate tempPos[] = {new GeographicCoordinate(0, 0, 0)};
+        testEncoder.addNewPrediction("TestPos", tempPos);
+
+        //Thread tServer = new Thread(testServer);
         Thread tEncoder = new Thread(testEncoder);
+
+        //tServer.start();
         tEncoder.start();
-        //testClient.run();
-        try {
-            while (System.in.read() != 'q') {
-                String planeID = "Test2";
-                GeographicCoordinate tempPos[] = {new GeographicCoordinate(0, 0, 0)};
-                testEncoder.addNewPrediction(planeID, tempPos);
-            }
-        }catch(IOException e){System.err.println("PredictionFeedServer Initialisation Failed");e.printStackTrace();System.exit(1);}
-
-        tEncoder.stop();
-    }
-
-    private void test1()
-    {
-        //example data
-        String planeID = "ABC123"; //ID string
-        //Positions, gets confusing having to build temporary Positions (radius/lat/long) and then build those
-        //  into the overarching message (I'm sure this can be simplified at some stage)
-        GeographicCoordinate tempPos = new GeographicCoordinate(0,0,0);
-        PredictionMessage.Position.Builder tempPosBuilder = PredictionMessage.Position.newBuilder();
-        tempPosBuilder.addPositionData(tempPos.getRadius());
-        tempPosBuilder.addPositionData(tempPos.getLatitude());
-        tempPosBuilder.addPositionData(tempPos.getLongitude());
-        PredictionMessage.Position position1 = tempPosBuilder.build();
-
-        tempPos = new GeographicCoordinate(1,2,3);
-        tempPosBuilder = PredictionMessage.Position.newBuilder();
-        tempPosBuilder.addPositionData(tempPos.getRadius());
-        tempPosBuilder.addPositionData(tempPos.getLatitude());
-        tempPosBuilder.addPositionData(tempPos.getLongitude());
-        PredictionMessage.Position position2 = tempPosBuilder.build();
-
-        tempPos = new GeographicCoordinate(2,3,4);
-        tempPosBuilder = PredictionMessage.Position.newBuilder();
-        tempPosBuilder.addPositionData(tempPos.getRadius());
-        tempPosBuilder.addPositionData(tempPos.getLatitude());
-        tempPosBuilder.addPositionData(tempPos.getLongitude());
-        PredictionMessage.Position position3 = tempPosBuilder.build();
-
-        //Create the message
-        PredictionMessage.Builder mesBuilder = PredictionMessage.newBuilder();
-        //Add in all the data
-        mesBuilder.setAircraftID(planeID);
-        mesBuilder.addPositionFuture(0, position2);  //You can either add the Index,Value
-        mesBuilder.addPositionFuture(position1);     //Just the value to the next array location
-        mesBuilder.addPositionFuture(tempPosBuilder);//Or the builder, and it builds for you (might be easier option later)
-        //Then we Build the message
-        PredictionMessage messageToSend = mesBuilder.build();
-        System.out.println("Message has been created:");
-        System.out.println(messageToSend.toString());
-
-        System.out.println("And as Hex String:");
-        System.out.println(bytesToHex(messageToSend.toByteArray()));
-        System.out.println("Easy to read!\n");
-
-        System.out.println("Decoding the Message");
-        try {
-            PredictionMessage messageToRec;
-            messageToRec = PredictionMessage.parseFrom(messageToSend.toByteArray());
-            System.out.println("Plane ID: " + messageToRec.getAircraftID()); //Print ID
-            System.out.print("Currently at: (");
-            System.out.print(messageToRec.getPositionFuture(0).getPositionData(0)+", "); //Print the current positions vectors
-            System.out.print(messageToRec.getPositionFuture(0).getPositionData(1)+", ");
-            System.out.println(messageToRec.getPositionFuture(0).getPositionData(2)+")");
-
-
-            System.out.println("Going to:");
-            for(PredictionMessage.Position temp : messageToRec.getPositionFutureList())
-            {
-                System.out.println("("+temp.getPositionData(0)+", "+temp.getPositionData(1)+", "+temp.getPositionData(2)+")");
-            }
-
-        } catch (InvalidProtocolBufferException e) {
-            e.printStackTrace();
+/*
+        System.out.println("Adding message after Thread start");
+        GeographicCoordinate tempPos2[] = {new GeographicCoordinate(1, 2, 3)};
+        testEncoder.addNewPrediction("TestPos2", tempPos2);
+*/
+        for(int i = 0; i < 10; i++)
+        {
+            GeographicCoordinate tempPos3[] = {new GeographicCoordinate(0, 0, 0)};
+            testEncoder.addNewPrediction("TestPos", tempPos3);
         }
     }
 }
+
