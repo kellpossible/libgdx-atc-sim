@@ -18,35 +18,39 @@ import java.io.IOException;
  *
  *      The Position datatype contains three doubles, similar to the DebugDataFeedServe's protocol
  *
+ * MODIFIED:
+ * @version 0.1, CC 18/05/16
+ * @author    Chris Coleman, 7191375
  */
 public class PredicitionFeedTest {
     //Test method to be comfortable with using PredictionFeedServe's protocol buffer
 
 
     public static void main(String[] arg) {
+        PredicitionFeedTest p = new PredicitionFeedTest();
+        GeographicCoordinate tempPos2[] = {new GeographicCoordinate(1, 2, 3)};
+
         PredictionFeedServer testServer = new PredictionFeedServer();
         PredictionFeedEncoder testEncoder = new PredictionFeedEncoder(testServer);
 
-        //If you comment out these 3 lines of code, nothing will run..?
-        System.out.println("Adding message before Thread start");
-        GeographicCoordinate tempPos[] = {new GeographicCoordinate(0, 0, 0)};
-        testEncoder.addNewPrediction("TestPos", tempPos);
+        for(int i = 0; i<10; i++)
+            p.sendPred(testEncoder);
 
-        //Thread tServer = new Thread(testServer);
+        Thread tServer = new Thread(testServer);
         Thread tEncoder = new Thread(testEncoder);
 
-        //tServer.start();
+
         tEncoder.start();
-/*
-        System.out.println("Adding message after Thread start");
-        GeographicCoordinate tempPos2[] = {new GeographicCoordinate(1, 2, 3)};
-        testEncoder.addNewPrediction("TestPos2", tempPos2);
-*/
-        for(int i = 0; i < 10; i++)
-        {
-            GeographicCoordinate tempPos3[] = {new GeographicCoordinate(0, 0, 0)};
-            testEncoder.addNewPrediction("TestPos", tempPos3);
-        }
+
+        for(int i = 0; i<10; i++){p.sendPred(testEncoder);}
+
+        tServer.start();
+    }
+
+    private synchronized void sendPred(PredictionFeedEncoder enc)
+    {
+        GeographicCoordinate tempPos[] = {new GeographicCoordinate(0, 0, 0)};
+        enc.addNewPrediction("TestPos", tempPos);
     }
 }
 

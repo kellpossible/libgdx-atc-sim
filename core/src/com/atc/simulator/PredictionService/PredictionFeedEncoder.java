@@ -23,7 +23,7 @@ import java.util.ArrayList;
  *    com.atc.simulator.PredictionService.PredictionFeedServer
  *
  * MODIFIED:
- * @version 0.1, CC 12/05/16
+ * @version 0.1, CC 18/05/16
  * @author    Chris Coleman, 7191375
  */
 
@@ -51,6 +51,7 @@ public class PredictionFeedEncoder implements Runnable{
                 myServer.addNewMessage(toBeSentBuffer.get(0));
                 toBeSentBuffer.remove(0);
             }
+            try{Thread.sleep(50);}catch(InterruptedException i){}
         }
     }
 

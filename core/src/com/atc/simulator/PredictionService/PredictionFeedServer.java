@@ -22,11 +22,11 @@ import java.io.*;
  *    PredictionFeedServe.PredictionMessage
  *
  * MODIFIED:
- * @version 0.2, CC 16/05/16
+ * @version 0.1, CC 18/05/16
  * @author    Chris Coleman, 7191375
  */
 
-public class PredictionFeedServer{
+public class PredictionFeedServer implements Runnable{
     private ArrayList<PredictionFeedServe.PredictionMessage> toBeSentBuffer; //Buffer of encoded messages
 
 
@@ -45,20 +45,20 @@ public class PredictionFeedServer{
     public synchronized void addNewMessage(PredictionMessage mes)
     {
         toBeSentBuffer.add(mes);
-        System.out.println("Item added to Server. Size " + toBeSentBuffer.size());
     }
 
     /**
      * Version 1 Run. Will empty the buffer if it finds anything in there
      */
- /*   public void run() {
+    public void run() {
         while(true){
             if(toBeSentBuffer.size() > 0)
             {
                 toBeSentBuffer.remove(0);
                 System.out.println("Left in Server Buffer: " + toBeSentBuffer.size());
             }
+            try{Thread.sleep(50);}catch(InterruptedException i){}
         }
     }
-*/
+
 }
