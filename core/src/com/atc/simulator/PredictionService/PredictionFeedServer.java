@@ -1,20 +1,22 @@
 package com.atc.simulator.PredictionService;
-import com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage;
 
-import java.net.ServerSocket;
-import java.net.Socket;
+import com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage;
+import com.atc.simulator.vectors.GeographicCoordinate;
 import java.util.ArrayList;
-import java.io.*;
+
 /**
- * PredictionFeedServer holds onto messages that need to be sent to Displays and sends them when able
+ * PredictionFeedServer is responsible for the encoding and sending of predictions for display/external systems. Version 0.2 will be capable of
+ * threading the emptying of its buffer, with further versions sending messages to clients and, possibly, testing the information being passed.
+ *
+ *  Version 1 will be capable of connecting and sending to clients
  *
  * @
  * PUBLIC FEATURES:
  * // Constructors
  *    PredictionFeedServer()
  * // Methods
- *    addNewPrediction(String aircraftID, GeographicCoordinate[] predictions)  - Encodes a Prediction and stores in internal buffer
- *    run() - Thread of checking buffer and passing messages to server
+ *    sendPredictionToServer(String aircraftID, GeographicCoordinate[] predictions)  - Encodes a Prediction and stores in internal buffer
+ *    run() - Thread of checking buffer and removing first element
  *
  * COLLABORATORS:
  *    java.util.ArrayList
@@ -22,16 +24,15 @@ import java.io.*;
  *    PredictionFeedServe.PredictionMessage
  *
  * MODIFIED:
- * @version 0.1, CC 18/05/16
+ * @version 0.2, CC 18/05/16, Merged Encoder and Server
  * @author    Chris Coleman, 7191375
  */
 
 public class PredictionFeedServer implements Runnable{
     private ArrayList<PredictionFeedServe.PredictionMessage> toBeSentBuffer; //Buffer of encoded messages
 
-
     /**
-     * Constructor, instantiates a new buffer and opens a ServerSocket
+     * Constructor, instantiates a new buffer for storing of messages to be sent
      */
     public PredictionFeedServer()
     {
@@ -39,16 +40,30 @@ public class PredictionFeedServer implements Runnable{
     }
 
     /**
-     * Stores a message in the buffer
-     * @param mes : The PredicationMessage that is wanting to be sent
+     * Creates a PredictionMessage from the supplied information and adds it to the Server's internal buffer
+     * @param aircraftID : The ID of the Aircraft being predicted
+     * @param predictions: An Array of positions that make up this prediction
      */
-    public synchronized void addNewMessage(PredictionMessage mes)
+    public synchronized void sendPredictionToServer(String aircraftID, GeographicCoordinate[] predictions)
     {
-        toBeSentBuffer.add(mes);
+        PredictionMessage.Builder MesBuilder = PredictionMessage.newBuilder();
+        PredictionMessage.Position.Builder tempPosBuilder;
+        MesBuilder.setAircraftID(aircraftID);
+
+        for(GeographicCoordinate temp : predictions)
+        {
+            tempPosBuilder = PredictionMessage.Position.newBuilder(); //New, fresh, builder
+            tempPosBuilder.addPositionData(temp.getRadius());   //Add the location data
+            tempPosBuilder.addPositionData(temp.getLatitude());
+            tempPosBuilder.addPositionData(temp.getLongitude());
+
+            MesBuilder.addPositionFuture(tempPosBuilder);   //Add this new position to the message
+        }
+        toBeSentBuffer.add(MesBuilder.build()); //Build message and add to buffer
     }
 
     /**
-     * Version 1 Run. Will empty the buffer if it finds anything in there
+     * Version 1 Run. Will remove the first element if their is anything left in the buffer
      */
     public void run() {
         while(true){

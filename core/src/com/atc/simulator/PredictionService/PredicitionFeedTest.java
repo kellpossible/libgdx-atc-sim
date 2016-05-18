@@ -19,7 +19,7 @@ import java.io.IOException;
  *      The Position datatype contains three doubles, similar to the DebugDataFeedServe's protocol
  *
  * MODIFIED:
- * @version 0.1, CC 18/05/16
+ * @version 0.3, CC 18/05/16
  * @author    Chris Coleman, 7191375
  */
 public class PredicitionFeedTest {
@@ -31,26 +31,21 @@ public class PredicitionFeedTest {
         GeographicCoordinate tempPos2[] = {new GeographicCoordinate(1, 2, 3)};
 
         PredictionFeedServer testServer = new PredictionFeedServer();
-        PredictionFeedEncoder testEncoder = new PredictionFeedEncoder(testServer);
 
         for(int i = 0; i<10; i++)
-            p.sendPred(testEncoder);
+            p.sendPred(testServer);
 
         Thread tServer = new Thread(testServer);
-        Thread tEncoder = new Thread(testEncoder);
-
-
-        tEncoder.start();
-
-        for(int i = 0; i<10; i++){p.sendPred(testEncoder);}
-
         tServer.start();
+
+        try{while(System.in.read() != 'q'){p.sendPred(testServer);}}catch(IOException i){}
+
     }
 
-    private synchronized void sendPred(PredictionFeedEncoder enc)
+    private synchronized void sendPred(PredictionFeedServer enc)
     {
         GeographicCoordinate tempPos[] = {new GeographicCoordinate(0, 0, 0)};
-        enc.addNewPrediction("TestPos", tempPos);
+        enc.sendPredictionToServer("TestPos", tempPos);
     }
 }
 
