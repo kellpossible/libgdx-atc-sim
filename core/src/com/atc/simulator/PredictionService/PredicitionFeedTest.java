@@ -35,10 +35,13 @@ public class PredicitionFeedTest {
         for(int i = 0; i<10; i++)
             p.sendPred(testServer);
 
-        Thread tServer = new Thread(testServer);
+        Thread tServer = new Thread(testServer, "ServerThread");
         tServer.start();
 
         try{while(System.in.read() != 'q'){p.sendPred(testServer);}}catch(IOException i){}
+
+        testServer.killThread();
+        System.out.print("Thread Killed\n");
 
     }
 
