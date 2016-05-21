@@ -29,7 +29,7 @@ import java.util.ArrayList;
  *    PredictionFeedServe.PredictionMessage
  *
  * MODIFIED:
- * @version 0.2, CC 18/05/16, Merged Encoder and Server
+ * @version 0.2, CC 21/05/16, Merged Encoder and Server
  * @author    Chris Coleman, 7191375
  */
 
@@ -114,6 +114,7 @@ public class PredictionFeedServer implements Runnable{
                             toBeSentBuffer.get(0).writeDelimitedTo(connectedClient.getOutputStream()); //Try to send message
                         } catch (IOException e) {System.out.println("Send to Display failed");}
                         toBeSentBuffer.remove(0);
+                        System.out.println("Data sent to Client");
                     }
                 }
                 try {
