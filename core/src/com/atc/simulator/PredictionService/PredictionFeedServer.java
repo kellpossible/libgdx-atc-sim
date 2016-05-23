@@ -12,7 +12,6 @@ import java.util.ArrayList;
  * PredictionFeedServer is responsible for the encoding and sending of predictions for display/external systems. Currently able to connect and send
  * to a single client, emptying its buffer if no client has connected.
  *
- *  Version 1 will be capable of connecting and sending to a client
  *
  * @
  * PUBLIC FEATURES:
@@ -21,7 +20,7 @@ import java.util.ArrayList;
  * // Methods
  *    sendPredictionToServer(String aircraftID, GeographicCoordinate[] predictions)  - Encodes a Prediction and stores in internal buffer
  *    run() - Thread of checking buffer and removing first element
- *    killThread() - flags that the Server has been finished with, and to stop all threads running
+ *    killThread() - flags that the Server has been finished with, and to stop all threads running (clearing of buffer and accepting clients)
  *
  * COLLABORATORS:
  *    java.util.ArrayList
@@ -38,13 +37,14 @@ public class PredictionFeedServer implements Runnable{
 
     private ArrayList<PredictionFeedServe.PredictionMessage> toBeSentBuffer; //Buffer of encoded messages
     private Thread serverConnectThread; //Thread to accept connections by clients
-    private ServerSocket connectionSocket;
-    private Socket connectedClient;
-    private boolean continueThread = true;
+    private ServerSocket connectionSocket; //ServerSocket that handles connect requests by clients
+    private Socket connectedClient; //The socket that a successful client connection can be sent message through
+    private boolean continueThread = true;  //Simple flag that dictates whether the Server threads will keep looping
 
     /**
-     * Constructor, instantiates a new buffer for storing of messages to be sent. Also creates a separate thread that handles external
-     * client connection
+     * Constructor, instantiates a new buffer for storing of messages to be sent.
+     * Also creates a separate thread that handles external client connection. Currently only accepts a single client
+     * to be connected before not accepting any more.
      */
     public PredictionFeedServer()
     {
@@ -95,14 +95,16 @@ public class PredictionFeedServer implements Runnable{
     }
 
     /**
-     * Version 2 Run. Will remove the first element if no clients are subscribed, otherwise sends them the prediction
+     * This thread will begin the Server connection thread and then loop; checking its buffer and either sending or deleting
+     * the messages depending on whether a client has connected.
+     * When the continueThread flag is cleared, both the ServerSocket and connecting to Client will be closed.
      */
     public void run() {
         serverConnectThread.start();
         try {
             while (continueThread) {
                 if (toBeSentBuffer.size() > 0) {
-                    if (connectedClient == null || connectedClient.isConnected() == false) //If nothing is connected
+                    if (!connectedClient.isConnected()) //If nothing is connected
                     {
                         toBeSentBuffer.remove(0); //Delete the data
                         System.out.println("No client, data deleted");
@@ -127,8 +129,6 @@ public class PredictionFeedServer implements Runnable{
             try{connectionSocket.close();}catch(IOException i){System.out.println("Can't close ServerSocket");}
             try{connectedClient.close();}catch(IOException i){System.out.println("Can't close clientSocket");}
         }
-
-
         System.out.println("Thread Killed (Server)");
     }
 

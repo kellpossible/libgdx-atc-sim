@@ -7,6 +7,7 @@ import java.net.Socket;
 import java.io.*;
 /**
  * PredictionFeedClient connects to and receives messages from a PredictionFeedServer, feeding the received messages onto its display
+ * These messages are passed as PredictionFeedServe Protocol Buffers
  *
  * @
  * PUBLIC FEATURES:
@@ -14,6 +15,7 @@ import java.io.*;
  *    PredictionFeedClient()
  * // Methods
  *    run() - Thread of checking buffer and passing messages to server
+ *    killThread() - Clears the flag that the client thread runs off, letting the thread finish gracefully
  *
  * COLLABORATORS:
  *    java.util.ArrayList
@@ -21,7 +23,7 @@ import java.io.*;
  *    PredictionFeedServe.PredictionMessage
  *
  * MODIFIED:
- * @version 0.2, CC 21/05/16
+ * @version 0.2, CC 23/05/16
  * @author    Chris Coleman, 7191375
  */
 public class PredictionFeedClient implements Runnable{

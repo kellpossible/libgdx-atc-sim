@@ -30,23 +30,25 @@ public class PredicitionFeedTest {
         PredicitionFeedTest p = new PredicitionFeedTest();
         GeographicCoordinate tempPos2[] = {new GeographicCoordinate(1, 2, 3)};
 
+        //Create Server/Client objects
         PredictionFeedServer testServer = new PredictionFeedServer();
         PredictionFeedClient testClient = new PredictionFeedClient();
-
+        //Fill up the buffer a little bit
         for(int i = 0; i<10; i++)
             p.sendPred(testServer);
-
+        //Start the threads
         Thread tServer = new Thread(testServer, "ServerThread");
         tServer.start();
         Thread tClient = new Thread(testClient,"ClientThread");
         tClient.start();
-
+        //Send messages on every entered item, loop out on 'q' being sent
         try{while(System.in.read() != 'q'){p.sendPred(testServer);}}catch(IOException i){}
 
+        //Close the Threads
         testServer.killThread();
-        System.out.print("Thread Killed\n");
-
         testClient.killThread();
+
+        System.out.print("Test Complete");
     }
 
     private synchronized void sendPred(PredictionFeedServer enc)
