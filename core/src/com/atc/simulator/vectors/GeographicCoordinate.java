@@ -1,6 +1,5 @@
 package com.atc.simulator.vectors;
 
-import com.atc.simulator.vectors.SphericalCoordinate;
 import pythagoras.d.Vector3;
 
 /**
@@ -9,7 +8,7 @@ import pythagoras.d.Vector3;
  */
 public class GeographicCoordinate extends SphericalCoordinate
 {
-    public static final double EARTH_CIRCUMFRANCE = 6371000.0;
+    public static final double EARTH_MSL_RADIUS = 6371000.0;
     public GeographicCoordinate(Vector3 other)
     {
         super(other);
@@ -35,17 +34,17 @@ public class GeographicCoordinate extends SphericalCoordinate
 
     /**
      * Create a new spherical position
-     * @param altitude
-     * @param latitude
-     * @param longitude
+     * @param altitude in meters
+     * @param latitude in radians
+     * @param longitude in radians
      */
     public GeographicCoordinate(double altitude, double latitude, double longitude)
     {
-        super(altitude+EARTH_CIRCUMFRANCE, latitude - Math.PI/2.0, longitude + Math.PI/2.0);
+        super(altitude+ EARTH_MSL_RADIUS, latitude - Math.PI/2.0, longitude + Math.PI/2.0);
     }
 
     /**
-     * Get the Radius.
+     * Get the Radius in meters.
      * @return
      */
     public double getRadius()
@@ -74,11 +73,11 @@ public class GeographicCoordinate extends SphericalCoordinate
 
     /**
      * Assuming MSL/Circumference of the earth is 6371000m
-     * @return
+     * @return altitude in meters
      */
     public double getAltitude()
     {
-        return this.x - EARTH_CIRCUMFRANCE;
+        return this.x - EARTH_MSL_RADIUS;
     }
 
     @Override

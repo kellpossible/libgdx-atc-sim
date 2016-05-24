@@ -49,6 +49,7 @@ public class SimulatorTrackLoader extends TrackLoader {
 
         double latitude;
         double longitude;
+        double altitude;
         Calendar time;
 
         String csv_string = new String(encoded, java.nio.charset.StandardCharsets.UTF_8);
@@ -67,7 +68,8 @@ public class SimulatorTrackLoader extends TrackLoader {
                 //to what you usually find.
                 longitude = Math.toRadians(Double.parseDouble(line_values.get(1)));
                 latitude = Math.toRadians(Double.parseDouble(line_values.get(2)));
-                GeographicCoordinate position = new GeographicCoordinate(0, latitude, longitude); //TODO: implement altitude properly
+                altitude = Double.parseDouble(line_values.get(3)) * 0.3048;
+                GeographicCoordinate position = new GeographicCoordinate(altitude, latitude, longitude); //TODO: implement altitude properly
 
                 double heading = Double.NaN;
                 SphericalVelocity velocity;
