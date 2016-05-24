@@ -1,9 +1,8 @@
-package com.atc.simulator;
+package com.atc.simulator.Display;
 
-import com.atc.simulator.flightdata.SimulatorTrackLoader;
-import com.atc.simulator.flightdata.Track;
-import com.atc.simulator.flightdata.TrackEntry;
-import com.atc.simulator.flightdata.TrackLoader;
+import com.atc.simulator.DebugDataFeed.DataPlaybackListener;
+import com.atc.simulator.DebugDataFeed.Scenarios.Scenario;
+import com.atc.simulator.flightdata.*;
 import com.atc.simulator.vectors.GeographicCoordinate;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
@@ -22,22 +21,33 @@ import com.badlogic.gdx.math.Vector3;
 
 import java.io.IOException;
 
-public class ATCSimulator extends ApplicationAdapter {
-	SpriteBatch batch;
-	public PerspectiveCamera cam;
+public class SimulatorDisplay extends ApplicationAdapter implements DataPlaybackListener {
+    private SpriteBatch batch;
+	private PerspectiveCamera cam;
+    private Model earthTextureModel;
+    private ModelInstance earthTextureInstance;
+    private ModelBatch modelBatch;
+    private Environment environment;
+    private MyCameraController camController;
+    private AssetManager assets;
+    private Track track;
+    private Model trackModel;
+    private ModelInstance trackModelInstance;
+    private Scenario scenario;
 
-	public Model earthTextureModel;
-	public ModelInstance earthTextureInstance;
-	public ModelBatch modelBatch;
-    public Environment environment;
-	public MyCameraController camController;
-    public AssetManager assets;
-    public Track track;
-    public Model trackModel;
-    public ModelInstance trackModelInstance;
+    /**
+     * This method gets called when there is a system update, and gets
+     * passed the new system state
+     *
+     * @param systemState the updated system state
+     */
+    @Override
+    public void onSystemUpdate(SystemState systemState) {
+
+    }
 
 
-	private class MyCameraController extends CameraInputController {
+    private class MyCameraController extends CameraInputController {
 
 		public MyCameraController(Camera camera) {
 			super(camera);
@@ -67,16 +77,17 @@ public class ATCSimulator extends ApplicationAdapter {
 		}
 	}
 
+	public SimulatorDisplay(Scenario scenario)
+	{
+        this.scenario = scenario;
+	}
+
 	@Override
 	public void create () {
 		assets = new AssetManager();
 //		assets.load("flight_data/CallibrateMap/CallibrateMap.csv", Track.class);
-		SimulatorTrackLoader trackLoader = new SimulatorTrackLoader("assets/flight_data/YMMLtoYSCB/YMML2YSCB_track.csv");
-        try {
-            track = trackLoader.load();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        track = scenario.getTracks().get(0);
+        
         assets.load("assets/models/planet.g3db", Model.class);
 		assets.finishLoading();
 
