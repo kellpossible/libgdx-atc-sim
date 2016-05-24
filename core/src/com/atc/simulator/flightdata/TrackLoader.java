@@ -11,5 +11,5 @@ public abstract class TrackLoader {
      * Load a track.
      * @return
      */
-    abstract Track load() throws IOException;
+    public abstract Track load() throws IOException;
 }

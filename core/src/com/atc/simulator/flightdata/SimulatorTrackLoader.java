@@ -1,6 +1,7 @@
 package com.atc.simulator.flightdata;
 
 import com.atc.simulator.vectors.GeographicCoordinate;
+import com.atc.simulator.vectors.SphericalVelocity;
 import com.badlogic.gdx.files.FileHandle;
 import sun.nio.cs.StandardCharsets;
 
@@ -17,13 +18,17 @@ import java.util.List;
  */
 public class SimulatorTrackLoader extends TrackLoader {
     private String filePath;
+
+    /**
+     * @param filePath
+     */
     public SimulatorTrackLoader(String filePath)
     {
         this.filePath = filePath;
     }
 
     @Override
-    Track load() throws IOException {
+    public Track load() throws IOException {
         return readFromCSVFile(this.filePath);
     }
 
@@ -57,7 +62,7 @@ public class SimulatorTrackLoader extends TrackLoader {
                 longitude = Math.toRadians(Double.parseDouble(line_values.get(1)));
                 latitude = Math.toRadians(Double.parseDouble(line_values.get(2)));
                 GeographicCoordinate position = new GeographicCoordinate(0.99, latitude, longitude); //TODO: implement altitude properly
-                AircraftState state = new AircraftState("DEBUG", position, 100); //TODO: implement speed properly
+                AircraftState state = new AircraftState("DEBUG", position, new SphericalVelocity(0,0,0), 80); //TODO: implement speed properly
                 track.add(
                         new TrackEntry(time, state)
                 );

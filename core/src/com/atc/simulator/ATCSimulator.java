@@ -1,5 +1,6 @@
 package com.atc.simulator;
 
+import com.atc.simulator.flightdata.SimulatorTrackLoader;
 import com.atc.simulator.flightdata.Track;
 import com.atc.simulator.flightdata.TrackEntry;
 import com.atc.simulator.flightdata.TrackLoader;
@@ -18,6 +19,8 @@ import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.utils.CameraInputController;
 import com.badlogic.gdx.math.Vector3;
+
+import java.io.IOException;
 
 public class ATCSimulator extends ApplicationAdapter {
 	SpriteBatch batch;
@@ -67,24 +70,18 @@ public class ATCSimulator extends ApplicationAdapter {
 	@Override
 	public void create () {
 		assets = new AssetManager();
-		assets.setLoader(Track.class, new TrackLoader(assets.getFileHandleResolver()));
 //		assets.load("flight_data/CallibrateMap/CallibrateMap.csv", Track.class);
-		assets.load("assets/flight_data/YMMLtoYSCB/YMML2YSCB_track.csv", Track.class);
-		assets.load("assets/models/planet.g3db", Model.class);
+		SimulatorTrackLoader trackLoader = new SimulatorTrackLoader("assets/flight_data/YMMLtoYSCB/YMML2YSCB_track.csv");
+        try {
+            track = trackLoader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        assets.load("assets/models/planet.g3db", Model.class);
 		assets.finishLoading();
 
 //		track = assets.get("flight_data/CallibrateMap/CallibrateMap.csv", Track.class);
 		track = assets.get("assets/flight_data/YMMLtoYSCB/YMML2YSCB_track.csv", Track.class);
-		TrackEntry entry = track.get(track.size()-1);
-		TrackEntry newEntry = new TrackEntry(entry.getTime(), new GeographicCoordinate(0.99, -0.762546753, 2.6038740596));
-//		track.add(newEntry);
-//		track.add(newEntry);
-//		track.add(newEntry);
-//		track.add(newEntry);
-//		track.add(newEntry);
-//		track.add(newEntry);
-//		track.add(newEntry);
-
 		trackModel = track.getModel();
         trackModelInstance = new ModelInstance(trackModel);
 		//trackModelInstance.transform.setToScaling(-1f,1f,1f);
@@ -96,7 +93,7 @@ public class ATCSimulator extends ApplicationAdapter {
 
 		cam = new PerspectiveCamera(40, Gdx.graphics.getWidth(), Gdx.graphics.getWidth());
 		cam.position.set(0f, 0f, 0f);
-		Vector3 firstPos = track.get(0).getPosition().getCartesianDrawVector();
+		Vector3 firstPos = track.get(0).getAircraftState().getPosition().getCartesianDrawVector();
 //		cam.lookAt(firstPos.x, firstPos.y, firstPos.z);
 		cam.lookAt(1, 0, 0);
 		cam.near = 0.01f;
