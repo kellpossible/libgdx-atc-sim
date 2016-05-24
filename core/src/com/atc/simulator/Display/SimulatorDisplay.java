@@ -4,6 +4,7 @@ import com.atc.simulator.DebugDataFeed.DataPlaybackListener;
 import com.atc.simulator.DebugDataFeed.Scenarios.Scenario;
 import com.atc.simulator.flightdata.*;
 import com.atc.simulator.vectors.GeographicCoordinate;
+import com.atc.simulator.vectors.SphericalVelocity;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
@@ -38,6 +39,8 @@ public class SimulatorDisplay extends ApplicationAdapter implements DataPlayback
 
     private Model systemStateModel = null;
     private ModelInstance systemStateModelInstance = null;
+    private Model systemStateVelocityModel = null;
+    private ModelInstance systemStateVelocityModelInstance = null;
 
 
     public SimulatorDisplay(Scenario scenario)
@@ -151,8 +154,9 @@ public class SimulatorDisplay extends ApplicationAdapter implements DataPlayback
             System.out.println("System Update");
             AircraftState aircraftState = systemState.getAircraftStates().get(0);
             GeographicCoordinate position = aircraftState.getPosition();
+            SphericalVelocity velocity = aircraftState.getVelocity();
             System.out.println("Position: " + position.toString());
-            System.out.println("Velocity: " + aircraftState.getVelocity());
+            System.out.println("Velocity: " + velocity);
             System.out.println("Heading: " + Math.toDegrees(aircraftState.getHeading()));
             System.out.println(ISO8601.fromCalendar(systemState.getTime()));
             Vector3 modelDrawVector = position.getModelDrawVector();
@@ -180,6 +184,16 @@ public class SimulatorDisplay extends ApplicationAdapter implements DataPlayback
                     VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal);
             systemStateModelInstance = new ModelInstance(systemStateModel);
             systemStateModelInstance.transform.setTranslation(modelDrawVector.x, modelDrawVector.y, modelDrawVector.z);
+
+
+            GeographicCoordinate velocityEndPos = new GeographicCoordinate(position.add(velocity.mult(120))); //two minute velocity vector
+            systemStateVelocityModel = modelBuilder.createArrow(
+                    modelDrawVector,
+                    velocityEndPos.getModelDrawVector(),
+                    new Material(ColorAttribute.createDiffuse(Color.GREEN)),
+                    VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal);
+            systemStateVelocityModelInstance = new ModelInstance(systemStateVelocityModel);
+            systemStateModelInstance.transform.setTranslation(modelDrawVector.x, modelDrawVector.y, modelDrawVector.z);
         }
     }
 
@@ -196,6 +210,7 @@ public class SimulatorDisplay extends ApplicationAdapter implements DataPlayback
         pollSystemUpdateQueue();
         if ( systemStateModelInstance != null ) {
             modelBatch.render(systemStateModelInstance);
+            modelBatch.render(systemStateVelocityModelInstance);
         }
 
 		modelBatch.end();
