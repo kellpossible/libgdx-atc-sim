@@ -81,7 +81,6 @@ public class ATCSimulator extends ApplicationAdapter {
 		assets.finishLoading();
 
 //		track = assets.get("flight_data/CallibrateMap/CallibrateMap.csv", Track.class);
-		track = assets.get("assets/flight_data/YMMLtoYSCB/YMML2YSCB_track.csv", Track.class);
 		trackModel = track.getModel();
         trackModelInstance = new ModelInstance(trackModel);
 		//trackModelInstance.transform.setToScaling(-1f,1f,1f);
