@@ -4,27 +4,39 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 /**
- * Created by luke on 24/05/16.
+ * Represents the state of a radar tracking/adsb/whatever aircraft tracking system at a given point in time.
+ * @author Luke Frisken
  */
 public class SystemState {
     private Calendar time;
-    private ArrayList<TrackEntry> trackEntries;
+    private ArrayList<AircraftState> aircraftStates;
 
-    public SystemState()
+    /**
+     *
+     * @param time
+     * @param aircraftStates
+     */
+    public SystemState(Calendar time, ArrayList<AircraftState> aircraftStates)
     {
-        trackEntries = new ArrayList<TrackEntry>();
+        this.aircraftStates = aircraftStates;
+        this.time = time;
     }
 
 
+    /**
+     * Get the time for this state
+     * @return
+     */
     public Calendar getTime() {
         return time;
     }
 
-    public void setTime(Calendar time) {
-        this.time = time;
-    }
-
-    public ArrayList<TrackEntry> getTrackEntries() {
-        return trackEntries;
+    /**
+     * Get the array of aircraft states for this system state.
+     * @return
+     */
+    public ArrayList<AircraftState> getAircraftStates()
+    {
+        return this.aircraftStates;
     }
 }
