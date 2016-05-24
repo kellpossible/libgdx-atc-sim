@@ -1,9 +1,8 @@
 package com.atc.simulator.PredictionService;
 
-import com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage;
 import com.atc.simulator.Display.PredictionFeedClient;
+import com.atc.simulator.flightdata.Prediction;
 import com.atc.simulator.vectors.GeographicCoordinate;
-import com.google.protobuf.InvalidProtocolBufferException;
 
 import java.io.IOException;
 
@@ -24,25 +23,27 @@ import java.io.IOException;
  */
 public class PredicitionFeedTest {
     //Test method to be comfortable with using PredictionFeedServe's protocol buffer
-
-
     public static void main(String[] arg) {
-        PredicitionFeedTest p = new PredicitionFeedTest();
-        GeographicCoordinate tempPos2[] = {new GeographicCoordinate(1, 2, 3)};
+
+        //Create some Test data
+        Prediction testPrediction = new Prediction();
+        testPrediction.setPlaneID("TestPlane");
+        testPrediction.addPosition(new GeographicCoordinate(0,0,0));
+        testPrediction.addPosition(new GeographicCoordinate(1,2,3));
 
         //Create Server/Client objects
         PredictionFeedServer testServer = new PredictionFeedServer();
         PredictionFeedClient testClient = new PredictionFeedClient();
         //Fill up the buffer a little bit
         for(int i = 0; i<10; i++)
-            p.sendPred(testServer);
+            testServer.sendPredictionToServer(testPrediction);
         //Start the threads
         Thread tServer = new Thread(testServer, "ServerThread");
         tServer.start();
         Thread tClient = new Thread(testClient,"ClientThread");
         tClient.start();
         //Send messages on every entered item, loop out on 'q' being sent
-        try{while(System.in.read() != 'q'){p.sendPred(testServer);}}catch(IOException i){}
+        try{while(System.in.read() != 'q'){testServer.sendPredictionToServer(testPrediction);}}catch(IOException i){}
 
         //Close the Threads
         testServer.killThread();
@@ -51,10 +52,5 @@ public class PredicitionFeedTest {
         System.out.print("Test Complete");
     }
 
-    private synchronized void sendPred(PredictionFeedServer enc)
-    {
-        GeographicCoordinate tempPos[] = {new GeographicCoordinate(0, 0, 0)};
-        enc.sendPredictionToServer("TestPos", tempPos);
-    }
 }
 

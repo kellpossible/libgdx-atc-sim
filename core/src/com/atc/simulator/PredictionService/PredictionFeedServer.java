@@ -1,6 +1,7 @@
 package com.atc.simulator.PredictionService;
 
 import com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage;
+import com.atc.simulator.flightdata.Prediction;
 import com.atc.simulator.vectors.GeographicCoordinate;
 
 import java.io.IOException;
@@ -73,16 +74,15 @@ public class PredictionFeedServer implements Runnable{
 
     /**
      * Creates a PredictionMessage from the supplied information and adds it to the Server's internal buffer
-     * @param aircraftID : The ID of the Aircraft being predicted
-     * @param predictions: An Array of positions that make up this prediction
+     * @param newPrediction : The prediction datatype created by the PredictionEngine
      */
-    public synchronized void sendPredictionToServer(String aircraftID, GeographicCoordinate[] predictions)
+    public synchronized void sendPredictionToServer(Prediction newPrediction)
     {
         PredictionMessage.Builder MesBuilder = PredictionMessage.newBuilder();
         PredictionMessage.Position.Builder tempPosBuilder;
-        MesBuilder.setAircraftID(aircraftID);
+        MesBuilder.setAircraftID(newPrediction.getPlaneID());
 
-        for(GeographicCoordinate temp : predictions)
+        for(GeographicCoordinate temp : newPrediction.getPositionList())
         {
             tempPosBuilder = PredictionMessage.Position.newBuilder(); //New, fresh, builder
             tempPosBuilder.addPositionData(temp.getRadius());   //Add the location data
