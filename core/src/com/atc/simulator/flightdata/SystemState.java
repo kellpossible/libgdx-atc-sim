@@ -27,8 +27,4 @@ public class SystemState {
     public ArrayList<TrackEntry> getTrackEntries() {
         return trackEntries;
     }
-
-    public void setTrackEntries(ArrayList<TrackEntry> trackEntries) {
-        this.trackEntries = trackEntries;
-    }
 }
