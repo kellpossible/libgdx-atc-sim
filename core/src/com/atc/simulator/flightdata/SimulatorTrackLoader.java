@@ -56,6 +56,7 @@ public class SimulatorTrackLoader extends TrackLoader {
         String[] lines = csv_string.split(System.getProperty("line.separator"));
 
         GeographicCoordinate previousPosition = null;
+        Calendar previousTime = null;
 
         for (String line : lines)
         {
@@ -74,10 +75,12 @@ public class SimulatorTrackLoader extends TrackLoader {
                 double heading = Double.NaN;
                 SphericalVelocity velocity;
 
-                if (previousPosition != null)
+                if (previousPosition != null && previousTime != null)
                 {
                     heading = previousPosition.bearingTo(position); //TODO: pretty sure this is broken although who knows what x-plane's heading is putting out (true or magnetic?)
-                    velocity = new SphericalVelocity(position.subtract(previousPosition)); //TODO: fails hard due to precision error
+                    Vector3 dPos = position.subtract(previousPosition);
+                    double dt = (time.getTimeInMillis()-previousTime.getTimeInMillis())/1000.0;
+                    velocity = new SphericalVelocity(dPos.mult(dt)); //TODO: fails hard due to precision error, need to average
                 } else {
                     velocity = new SphericalVelocity(0,0,0);
                 }
@@ -88,6 +91,7 @@ public class SimulatorTrackLoader extends TrackLoader {
                 );
 
                 previousPosition = position;
+                previousTime = time;
 
             } catch (ParseException e) {
                 e.printStackTrace();
