@@ -1,5 +1,6 @@
 package com.atc.simulator.DebugDataFeed;
 
+import com.atc.simulator.DebugDataFeed.Scenarios.Scenario;
 import com.atc.simulator.flightdata.SystemState;
 
 import java.util.ArrayList;
