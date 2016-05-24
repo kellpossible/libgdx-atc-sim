@@ -149,8 +149,11 @@ public class SimulatorDisplay extends ApplicationAdapter implements DataPlayback
             return;
         } else {
             System.out.println("System Update");
-            GeographicCoordinate position = systemState.getAircraftStates().get(0).getPosition();
-            System.out.println(position.toString());
+            AircraftState aircraftState = systemState.getAircraftStates().get(0);
+            GeographicCoordinate position = aircraftState.getPosition();
+            System.out.println("Position: " + position.toString());
+            System.out.println("Velocity: " + aircraftState.getVelocity());
+            System.out.println("Heading: " + Math.toDegrees(aircraftState.getHeading()));
             System.out.println(ISO8601.fromCalendar(systemState.getTime()));
             Vector3 modelDrawVector = position.getModelDrawVector();
 

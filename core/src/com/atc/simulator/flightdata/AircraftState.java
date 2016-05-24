@@ -12,16 +12,16 @@ public class AircraftState {
     private String aircraftID;
     private GeographicCoordinate position;
     private SphericalVelocity velocity;
-    private float heading;
+    private double heading;
 
     /**
      * Constructor for AircraftState
      * @param aircraftID the id of the aircraft
      * @param position the position of the aircraft
      * @param velocity the velocity of the aircraft
-     * @param heading the heading of the aircraft
+     * @param heading the heading of the aircraft with respect to true north
      */
-    public AircraftState(String aircraftID, GeographicCoordinate position, SphericalVelocity velocity, float heading)
+    public AircraftState(String aircraftID, GeographicCoordinate position, SphericalVelocity velocity, double heading)
     {
         this.aircraftID = aircraftID;
         this.position = position;
@@ -83,7 +83,7 @@ public class AircraftState {
      * Method getHeading returns the heading of the aircraft represented by this AircraftState
      * @return the heading (type float) of the aircraft represented by this AircraftState
      */
-    public float getHeading() {
+    public double getHeading() {
         return heading;
     }
 
@@ -92,7 +92,7 @@ public class AircraftState {
      * @param heading the heading of the aircraft represented by this AircraftState
      *
      */
-    public void setHeading(float heading) {
+    public void setHeading(double heading) {
         this.heading = heading;
     }
 }

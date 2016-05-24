@@ -84,7 +84,7 @@ public class DataPlaybackThread implements RunnableThread {
                 e.printStackTrace();
             }
 
-            currentTime.add(Calendar.MILLISECOND, updateRate);
+            currentTime.add(Calendar.MILLISECOND, updateRate*10); //10 times speedup TODO: remove
 
 
             //finish if we have passed the end time
@@ -93,11 +93,11 @@ public class DataPlaybackThread implements RunnableThread {
                 return;
             }
 
-            System.out.println("Debug CurrentTime");
-            System.out.println("CurrentTime: " + ISO8601.fromCalendar(currentTime));
+//            System.out.println("Debug CurrentTime");
+//            System.out.println("CurrentTime: " + ISO8601.fromCalendar(currentTime));
 
             SystemState state = scenario.getState(currentTime);
-            System.out.println("StateTime: " + ISO8601.fromCalendar(state.getTime()));
+//            System.out.println("StateTime: " + ISO8601.fromCalendar(state.getTime()));
 
             triggerOnSystemUpdate(state);
         }
