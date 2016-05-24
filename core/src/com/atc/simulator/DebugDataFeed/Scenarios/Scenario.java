@@ -49,7 +49,7 @@ public abstract class Scenario {
      *
      * @return update rate (in milliseconds).
      */
-    public abstract int recommendedUpdateRate();
+    public abstract int getRecommendedUpdateRate();
 
     /**
      * Throw an error if the supplied time is outside the

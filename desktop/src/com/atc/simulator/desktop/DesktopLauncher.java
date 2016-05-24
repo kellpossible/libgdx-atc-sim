@@ -1,5 +1,7 @@
 package com.atc.simulator.desktop;
 
+import com.atc.simulator.DebugDataFeed.DataPlaybackThread;
+import com.atc.simulator.DebugDataFeed.Scenarios.Scenario;
 import com.atc.simulator.DebugDataFeed.Scenarios.YMMLtoYSCBScenario;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
@@ -10,6 +12,13 @@ public class DesktopLauncher {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.height = 768;
 		config.width = 1024;
-		new LwjglApplication(new SimulatorDisplay(new YMMLtoYSCBScenario()), config);
+
+
+		Scenario scenario = new YMMLtoYSCBScenario();
+		DataPlaybackThread dataPlaybackThread = new DataPlaybackThread(scenario, scenario.getRecommendedUpdateRate());
+		SimulatorDisplay display =  new SimulatorDisplay(scenario);
+		dataPlaybackThread.addListener(display);
+		dataPlaybackThread.start();
+		new LwjglApplication(display, config);
 	}
 }

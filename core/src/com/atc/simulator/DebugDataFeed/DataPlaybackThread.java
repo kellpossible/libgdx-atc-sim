@@ -2,6 +2,7 @@ package com.atc.simulator.DebugDataFeed;
 
 import com.atc.simulator.DebugDataFeed.Scenarios.Scenario;
 import com.atc.simulator.RunnableThread;
+import com.atc.simulator.flightdata.ISO8601;
 import com.atc.simulator.flightdata.SystemState;
 
 import java.util.ArrayList;
@@ -85,13 +86,19 @@ public class DataPlaybackThread implements RunnableThread {
 
             currentTime.add(Calendar.MILLISECOND, updateRate);
 
+
             //finish if we have passed the end time
             if (currentTime.compareTo(endTime) > 0)
             {
                 return;
             }
 
+            System.out.println("Debug CurrentTime");
+            System.out.println("CurrentTime: " + ISO8601.fromCalendar(currentTime));
+
             SystemState state = scenario.getState(currentTime);
+            System.out.println("StateTime: " + ISO8601.fromCalendar(state.getTime()));
+
             triggerOnSystemUpdate(state);
         }
     }

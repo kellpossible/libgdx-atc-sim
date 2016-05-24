@@ -9,14 +9,25 @@ import pythagoras.d.Vector3;
  */
 public class GeographicCoordinate extends SphericalCoordinate
 {
+    public static final double EARTH_CIRCUMFRANCE = 6371000.0;
     public GeographicCoordinate(Vector3 other)
     {
         super(other);
     }
+
+    /**
+     * Copy Constructor
+     * @param other
+     */
     public GeographicCoordinate(GeographicCoordinate other)
     {
         super(other);
     }
+
+    /**
+     * Copy Constructor
+     * @param other
+     */
     public GeographicCoordinate(SphericalCoordinate other)
     {
         super(other);
@@ -24,13 +35,13 @@ public class GeographicCoordinate extends SphericalCoordinate
 
     /**
      * Create a new spherical position
-     * @param radius
+     * @param altitude
      * @param latitude
      * @param longitude
      */
-    public GeographicCoordinate(double radius, double latitude, double longitude)
+    public GeographicCoordinate(double altitude, double latitude, double longitude)
     {
-        super(radius, latitude - Math.PI/2.0, longitude + Math.PI/2.0);
+        super(altitude+EARTH_CIRCUMFRANCE, latitude - Math.PI/2.0, longitude + Math.PI/2.0);
     }
 
     /**
@@ -67,7 +78,13 @@ public class GeographicCoordinate extends SphericalCoordinate
      */
     public double getAltitude()
     {
-        return this.x - 6371000.0;
+        return this.x - EARTH_CIRCUMFRANCE;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "[" + getAltitude() + ", " + Math.toDegrees(getLatitude()) + ", " + Math.toDegrees(getLongitude()) + "]";
     }
 }
 

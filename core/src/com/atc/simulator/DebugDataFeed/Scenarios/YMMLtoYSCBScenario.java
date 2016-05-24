@@ -67,6 +67,9 @@ public class YMMLtoYSCBScenario extends Scenario {
         /* loop through track entries,
         starting with the entry which was obtained last with this method.
          */
+
+        TrackEntry prevEntry = track.get(lastStateIndex);
+        Calendar prevEntryTime = prevEntry.getTime();
         for(int i = lastStateIndex; i<track.size();i++)
         {
             TrackEntry entry = track.get(i);
@@ -76,13 +79,16 @@ public class YMMLtoYSCBScenario extends Scenario {
             if the time of this entry is now after the desired time, this track entry
             is recognised as the closest to the desired time, and so it is returned.
              */
-            if (time.compareTo(entryTime) > 0)
+            if (time.compareTo(entryTime) < 0)
             {
-                lastStateIndex = i; //update the index with this track entry index.
+                lastStateIndex = i-1; //update the index with this track entry index.
                 ArrayList<AircraftState> aircraftStates = new ArrayList<AircraftState>();
-                aircraftStates.add(entry.getAircraftState());
-                return new SystemState(entryTime, aircraftStates);
+                aircraftStates.add(prevEntry.getAircraftState());
+                return new SystemState(prevEntryTime, aircraftStates);
             }
+
+            prevEntry = entry;
+            prevEntryTime = entryTime;
         }
 
         return null;
@@ -124,7 +130,7 @@ public class YMMLtoYSCBScenario extends Scenario {
      * @return update rate (in milliseconds).
      */
     @Override
-    public int recommendedUpdateRate() {
+    public int getRecommendedUpdateRate() {
         return 3000;
     }
 }

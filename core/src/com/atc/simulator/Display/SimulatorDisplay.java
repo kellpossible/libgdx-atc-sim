@@ -7,19 +7,19 @@ import com.atc.simulator.vectors.GeographicCoordinate;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.PerspectiveCamera;
+import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g3d.Environment;
-import com.badlogic.gdx.graphics.g3d.Model;
-import com.badlogic.gdx.graphics.g3d.ModelBatch;
-import com.badlogic.gdx.graphics.g3d.ModelInstance;
+import com.badlogic.gdx.graphics.g3d.*;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.utils.CameraInputController;
+import com.badlogic.gdx.graphics.g3d.utils.MeshPartBuilder;
+import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.badlogic.gdx.math.Vector3;
+import sun.awt.Mutex;
 
 import java.io.IOException;
+import java.util.Queue;
+import java.util.concurrent.ArrayBlockingQueue;
 
 public class SimulatorDisplay extends ApplicationAdapter implements DataPlaybackListener {
     private SpriteBatch batch;
@@ -34,6 +34,19 @@ public class SimulatorDisplay extends ApplicationAdapter implements DataPlayback
     private Model trackModel;
     private ModelInstance trackModelInstance;
     private Scenario scenario;
+    private ArrayBlockingQueue<SystemState> systemStateUpdateQueue;
+
+    private Model systemStateModel = null;
+    private ModelInstance systemStateModelInstance = null;
+
+
+    public SimulatorDisplay(Scenario scenario)
+    {
+        this.scenario = scenario;
+        systemStateUpdateQueue = new ArrayBlockingQueue<SystemState>(100);
+    }
+
+
 
     /**
      * This method gets called when there is a system update, and gets
@@ -43,7 +56,7 @@ public class SimulatorDisplay extends ApplicationAdapter implements DataPlayback
      */
     @Override
     public void onSystemUpdate(SystemState systemState) {
-
+        systemStateUpdateQueue.add(systemState);
     }
 
 
@@ -77,17 +90,12 @@ public class SimulatorDisplay extends ApplicationAdapter implements DataPlayback
 		}
 	}
 
-	public SimulatorDisplay(Scenario scenario)
-	{
-        this.scenario = scenario;
-	}
-
 	@Override
 	public void create () {
 		assets = new AssetManager();
 //		assets.load("flight_data/CallibrateMap/CallibrateMap.csv", Track.class);
         track = scenario.getTracks().get(0);
-        
+
         assets.load("assets/models/planet.g3db", Model.class);
 		assets.finishLoading();
 
@@ -132,6 +140,46 @@ public class SimulatorDisplay extends ApplicationAdapter implements DataPlayback
         Gdx.input.setInputProcessor(camController);
     }
 
+    private void pollSystemUpdateQueue()
+    {
+        SystemState systemState = systemStateUpdateQueue.poll();
+
+        if (systemState == null)
+        {
+            return;
+        } else {
+            System.out.println("System Update");
+            GeographicCoordinate position = systemState.getAircraftStates().get(0).getPosition();
+            System.out.println(position.toString());
+            System.out.println(ISO8601.fromCalendar(systemState.getTime()));
+            Vector3 modelDrawVector = position.getModelDrawVector();
+
+            ModelBuilder modelBuilder = new ModelBuilder();
+
+            if (systemStateModel != null )
+            {
+                systemStateModel.dispose();
+            }
+
+//            modelBuilder.begin();
+//            MeshPartBuilder builder = modelBuilder.part(
+//                    "system_state",
+//                    GL20.GL_POINTS,
+//                    VertexAttributes.Usage.Position | VertexAttributes.Usage.ColorUnpacked,
+//                    new Material());
+//            builder.setColor(Color.GREEN);
+//            builder.vertex(position.getModelDrawVector().x, position.getModelDrawVector().y, position.getModelDrawVector().z);
+
+//            systemStateModel = modelBuilder.end();
+            systemStateModel = modelBuilder.createSphere(
+                    0.001f, 0.001f, 0.001f, 10, 10,
+                    new Material(ColorAttribute.createDiffuse(Color.GREEN)),
+                    VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal);
+            systemStateModelInstance = new ModelInstance(systemStateModel);
+            systemStateModelInstance.transform.setTranslation(modelDrawVector.x, modelDrawVector.y, modelDrawVector.z);
+        }
+    }
+
 	@Override
 	public void render () {
 		Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -141,6 +189,12 @@ public class SimulatorDisplay extends ApplicationAdapter implements DataPlayback
 		modelBatch.begin(cam);
 		modelBatch.render(earthTextureInstance);
         modelBatch.render(trackModelInstance);
+
+        pollSystemUpdateQueue();
+        if ( systemStateModelInstance != null ) {
+            modelBatch.render(systemStateModelInstance);
+        }
+
 		modelBatch.end();
 	}
 
