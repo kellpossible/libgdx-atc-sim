@@ -1,5 +1,6 @@
 def javaVersion = JavaVersion.VERSION_1_7;
 
+// solution from here: http://stackoverflow.com/questions/28065488/how-to-enforce-a-java-compiler-version-with-gradle
 task enforceVersion << {
     def foundVersion = JavaVersion.current();
     if (foundVersion != javaVersion)
