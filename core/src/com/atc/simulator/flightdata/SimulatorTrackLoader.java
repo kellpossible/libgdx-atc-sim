@@ -74,7 +74,7 @@ public class SimulatorTrackLoader extends TrackLoader {
 
                 if (previousPosition != null)
                 {
-                    heading = previousPosition.bearingTo(position); //TODO: pretty sure this is broken
+                    heading = previousPosition.bearingTo(position); //TODO: pretty sure this is broken although who knows what x-plane's heading is putting out (true or magnetic?)
                     velocity = new SphericalVelocity(position.subtract(previousPosition)); //TODO: fails hard due to precision error
                 } else {
                     velocity = new SphericalVelocity(0,0,0);

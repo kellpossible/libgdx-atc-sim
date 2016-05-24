@@ -84,7 +84,7 @@ public class DataPlaybackThread implements RunnableThread {
                 e.printStackTrace();
             }
 
-            currentTime.add(Calendar.MILLISECOND, updateRate*10); //10 times speedup TODO: remove
+            currentTime.add(Calendar.MILLISECOND, updateRate*20); //20 times speedup TODO: remove
 
 
             //finish if we have passed the end time

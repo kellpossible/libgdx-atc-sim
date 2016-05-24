@@ -97,7 +97,7 @@ public class GeographicCoordinate extends SphericalCoordinate
      * @param other the other coordinate, that this bearing points to
      * @return
      */
-    public double bearingTo(GeographicCoordinate other)
+    public double bearingTo1(GeographicCoordinate other)
     {
         double lat1 = this.getLatitude();
         double lat2 = other.getLatitude();
@@ -145,7 +145,65 @@ public class GeographicCoordinate extends SphericalCoordinate
             }
         }
 
-        return bearing;
+        return Math.PI/2.0 - bearing; //seems to fix it??
     }
+
+    /**
+     * This one actually seems to work a lot better
+     * @param other
+     * @return
+     */
+    public double bearingTo(GeographicCoordinate other)
+    {
+        double lat1 = this.getLatitude();
+        double lat2 = other.getLatitude();
+        double lon1 = this.getLongitude();
+        double lon2 = other.getLongitude();
+
+        double y = Math.sin(lon2-lon1) * Math.cos(lat2);
+        double x = Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(lon2 - lon1);
+        double bearing = Math.atan2(x, y);
+
+        return Math.PI/2.0 - bearing; //seems to fix it?
+    }
+
+    /**
+     * My own crappy attempt
+     * @param other
+     * @return
+     */
+    public double bearingTo3(GeographicCoordinate other)
+    {
+        SphericalVelocity velocity = new SphericalVelocity(other.subtract(this));
+
+        return Math.PI/2.0 - Math.atan(velocity.getDTheta()/velocity.getDPhi());
+    }
+
+    /**
+     * http://gis.stackexchange.com/questions/29239/calculate-bearing-between-two-decimal-gps-coordinates
+     * @param other
+     * @return
+     */
+    public double bearingTo4(GeographicCoordinate other) {
+        double lat1 = this.getLatitude();
+        double lat2 = other.getLatitude();
+        double lon1 = this.getLongitude();
+        double lon2 = other.getLongitude();
+
+        double dLong = lon2 - lon1;
+        double dPhi = Math.log(Math.tan(lat2/2.0 + Math.PI/4.0)/Math.tan(lat1/2.0 + Math.PI/4.0));
+        if (Math.abs(dLong) > Math.PI)
+        {
+            if (dLong > 0.0)
+            {
+                dLong = -(2.0 * Math.PI - dLong);
+            } else {
+                dLong = (2.0 * Math.PI + dLong);
+            }
+        }
+
+        return Math.atan2(dLong, dPhi);
+    }
+
 }
 
