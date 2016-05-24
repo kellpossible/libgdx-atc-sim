@@ -1,3 +1,13 @@
+def javaVersion = JavaVersion.VERSION_1_7;
+
+// solution from here: http://stackoverflow.com/questions/28065488/how-to-enforce-a-java-compiler-version-with-gradle
+task enforceVersion << {
+    def foundVersion = JavaVersion.current();
+    if (foundVersion != javaVersion)
+        throw new IllegalStateException("Wrong Java version; required is "
+                + javaVersion + ", but found " + foundVersion);
+}
+
 buildscript {
     repositories {
         mavenCentral()
@@ -34,6 +44,11 @@ allprojects {
 project(":desktop") {
     apply plugin: "java"
 
+    sourceCompatibility = javaVersion;
+    targetCompatibility = javaVersion; // defaults to sourceCompatibility
+    compileJava.dependsOn(enforceVersion);
+
+
     dependencies {
         compile project(":core")
         compile "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
@@ -47,6 +62,11 @@ project(":desktop") {
 
 project(":core") {
     apply plugin: "java"
+
+    sourceCompatibility = javaVersion;
+    targetCompatibility = javaVersion; // defaults to sourceCompatibility
+    compileJava.dependsOn(enforceVersion);
+
 
     dependencies {
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
