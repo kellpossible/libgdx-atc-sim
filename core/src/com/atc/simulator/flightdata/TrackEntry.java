@@ -10,34 +10,19 @@ import java.util.Calendar;
  */
 public class TrackEntry {
     private Calendar time;
-    private GeographicCoordinate position;
+    private AircraftState aircraftState;
 
     /**
      * @param time the point in time this entry represents
-     * @param position the geographical position of this entry
+     * @param aircraftState the state of the aircraft in this track entry
      */
-    public TrackEntry(Calendar time, GeographicCoordinate position)
+    public TrackEntry(Calendar time, AircraftState aircraftState)
     {
         this.time = time;
-        this.position = position;
+        this.aircraftState = aircraftState;
 
     }
 
-    /**
-     * Get the geographical position of this track entry
-     * @return
-     */
-    public GeographicCoordinate getPosition() {
-        return position;
-    }
-
-    /**
-     * Set the geographical position of this track entry
-     * @param position
-     */
-    public void setPosition(GeographicCoordinate position) {
-        this.position = position;
-    }
 
     /**
      * Get the time this track entry represents.
@@ -55,4 +40,19 @@ public class TrackEntry {
         this.time = time;
     }
 
+    /**
+     * Get the state of the aircraft referred to in this track entry
+     * @return
+     */
+    public AircraftState getAircraftState() {
+        return aircraftState;
+    }
+
+    /**
+     * Set the state of the aircraft referred to in this track entry
+     * @param aircraftState
+     */
+    public void setAircraftState(AircraftState aircraftState) {
+        this.aircraftState = aircraftState;
+    }
 }
