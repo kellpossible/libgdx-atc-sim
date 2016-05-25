@@ -62,7 +62,7 @@ public class SphericalCoordinate extends Vector3 {
      */
     public com.badlogic.gdx.math.Vector3 getCartesianDrawVector()
     {
-        System.out.println("Coords after transform R:"+this.getR()+" Theta:"+this.getTheta()+" Phi:" + this.getPhi());
+//        System.out.println("Coords after transform R:"+this.getR()+" Theta:"+this.getTheta()+" Phi:" + this.getPhi());
         Vector3 cartesian = this.getCartesian();
         return new com.badlogic.gdx.math.Vector3((float) cartesian.x, (float) cartesian.z, (float) cartesian.y);
     }

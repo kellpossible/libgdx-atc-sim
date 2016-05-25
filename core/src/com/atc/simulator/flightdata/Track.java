@@ -42,11 +42,11 @@ public class Track extends ArrayList<TrackEntry> {
         {
             TrackEntry entry = this.get(i);
             AircraftState state = entry.getAircraftState();
-            System.out.println(state.getPosition());
+//            System.out.println(state.getPosition());
             Vector3 positionDrawVector = state.getPosition().getModelDrawVector();
-            System.out.println(previousPositionDrawVector.len());
-            System.out.println(positionDrawVector.len());
-            System.out.println(positionDrawVector);
+//            System.out.println(previousPositionDrawVector.len());
+//            System.out.println(positionDrawVector.len());
+//            System.out.println(positionDrawVector);
             builder.line(previousPositionDrawVector, positionDrawVector);
             previousPositionDrawVector = positionDrawVector;
         }

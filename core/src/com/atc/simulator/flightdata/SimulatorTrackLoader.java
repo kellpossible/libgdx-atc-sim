@@ -49,8 +49,8 @@ public class SimulatorTrackLoader extends TrackLoader {
         double altitude;
         Calendar time;
 
-        String csv_string = new String(encoded, java.nio.charset.StandardCharsets.UTF_8);
-        String[] lines = csv_string.split(System.getProperty("line.separator"));
+        String csvString = new String(encoded, java.nio.charset.StandardCharsets.UTF_8);
+        String[] lines = csvString.split(System.getProperty("line.separator"));
 
         GeographicCoordinate previousPosition = null;
         Calendar previousTime = null;

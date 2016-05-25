@@ -3,6 +3,7 @@ package com.atc.simulator.Display;
 import com.atc.simulator.DebugDataFeed.DataPlaybackListener;
 import com.atc.simulator.DebugDataFeed.Scenarios.Scenario;
 import com.atc.simulator.flightdata.*;
+import com.atc.simulator.navdata.Countries;
 import com.atc.simulator.vectors.GeographicCoordinate;
 import com.atc.simulator.vectors.SphericalVelocity;
 import com.badlogic.gdx.ApplicationAdapter;
@@ -40,6 +41,9 @@ public class SimulatorDisplay extends ApplicationAdapter implements DataPlayback
     private ModelInstance systemStateModelInstance = null;
     private Model systemStateVelocityModel = null;
     private ModelInstance systemStateVelocityModelInstance = null;
+
+    private Countries countries;
+    private ModelInstance countriesModelInstance;
 
 
     public SimulatorDisplay(Scenario scenario)
@@ -98,8 +102,12 @@ public class SimulatorDisplay extends ApplicationAdapter implements DataPlayback
 //		assets.load("flight_data/CallibrateMap/CallibrateMap.csv", Track.class);
         track = scenario.getTracks().get(0);
 
-        assets.load("assets/models/planet.g3db", Model.class);
+//        assets.load("assets/models/planet.g3db", Model.class);
 		assets.finishLoading();
+
+
+        countries = new Countries("assets/maps/countries.geo.json");
+        countriesModelInstance = new ModelInstance(countries.getModel());
 
 //		track = assets.get("flight_data/CallibrateMap/CallibrateMap.csv", Track.class);
 		trackModel = track.getModel();
@@ -127,12 +135,12 @@ public class SimulatorDisplay extends ApplicationAdapter implements DataPlayback
 //
 
 
-        System.out.println("Finished loading");
-        earthTextureModel = assets.get("assets/models/planet.g3db", Model.class);
+//        System.out.println("Finished loading");
+//        earthTextureModel = assets.get("assets/models/planet.g3db", Model.class);
 
 
-		earthTextureInstance = new ModelInstance(earthTextureModel);
-        earthTextureInstance.transform.setToScaling(-1f,1f,1f);
+//		earthTextureInstance = new ModelInstance(earthTextureModel);
+//        earthTextureInstance.transform.setToScaling(-1f,1f,1f);
 
         environment = new Environment();
         environment.set(new ColorAttribute(ColorAttribute.AmbientLight, 10f, 10f, 10f, 1f));
@@ -203,7 +211,8 @@ public class SimulatorDisplay extends ApplicationAdapter implements DataPlayback
 
         camController.update();
 		modelBatch.begin(cam);
-		modelBatch.render(earthTextureInstance);
+//		modelBatch.render(earthTextureInstance);
+        modelBatch.render(countriesModelInstance);
         modelBatch.render(trackModelInstance);
 
         pollSystemUpdateQueue();
@@ -218,7 +227,7 @@ public class SimulatorDisplay extends ApplicationAdapter implements DataPlayback
 	@Override
 	public void dispose () {
 		modelBatch.dispose();
-		earthTextureModel.dispose();
+//		earthTextureModel.dispose();
         trackModel.dispose();
 	}
 
