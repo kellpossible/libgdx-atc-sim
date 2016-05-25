@@ -37,19 +37,18 @@ public class Track extends ArrayList<TrackEntry> {
                 new Material());
         builder.setColor(Color.RED);
         int jump = 1;
+        Vector3 previousPositionDrawVector = this.get(0).getAircraftState().getPosition().getModelDrawVector();
         for(int i = jump; i < this.size(); i+=jump)
         {
-            TrackEntry previousEntry = this.get(i-jump);
             TrackEntry entry = this.get(i);
             AircraftState state = entry.getAircraftState();
-            AircraftState previousState = previousEntry.getAircraftState();
             System.out.println(state.getPosition());
-            Vector3 prev_pos = previousState.getPosition().getCartesianDrawVector();
-            Vector3 pos = state.getPosition().getCartesianDrawVector();
-            System.out.println(prev_pos.len());
-            System.out.println(pos.len());
-            System.out.println(pos);
-            builder.line(prev_pos, pos);
+            Vector3 positionDrawVector = state.getPosition().getModelDrawVector();
+            System.out.println(previousPositionDrawVector.len());
+            System.out.println(positionDrawVector.len());
+            System.out.println(positionDrawVector);
+            builder.line(previousPositionDrawVector, positionDrawVector);
+            previousPositionDrawVector = positionDrawVector;
         }
 
         return modelBuilder.end();

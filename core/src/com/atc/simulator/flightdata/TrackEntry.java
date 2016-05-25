@@ -6,7 +6,9 @@ import java.util.Calendar;
 
 /**
  * Created by luke on 7/04/16.
- * Represents the state of an aircraft at a particular point in time.
+ * Represents the state of an aircraft at a particular point in time in a track.
+ *
+ * @author Luke Frisken
  */
 public class TrackEntry {
     private Calendar time;
