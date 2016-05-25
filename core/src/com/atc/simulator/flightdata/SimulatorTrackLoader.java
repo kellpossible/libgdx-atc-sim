@@ -1,11 +1,8 @@
 package com.atc.simulator.flightdata;
 
 import com.atc.simulator.vectors.GeographicCoordinate;
-import com.atc.simulator.vectors.SphericalCoordinate;
 import com.atc.simulator.vectors.SphericalVelocity;
-import com.badlogic.gdx.files.FileHandle;
 import pythagoras.d.Vector3;
-import sun.nio.cs.StandardCharsets;
 
 import java.io.IOException;
 import java.nio.file.Files;
