@@ -4,6 +4,8 @@ import pythagoras.d.Vector3;
 
 /**
  * Created by luke on 7/05/16.
+ *
+ * @author Luke Frisken
  */
 public class SphericalVelocity extends Vector3 {
     public SphericalVelocity(SphericalVelocity other)

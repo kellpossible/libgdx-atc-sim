@@ -1,7 +1,6 @@
 package com.atc.simulator.Display;
 import com.atc.simulator.PredictionService.PredictionFeedServe;
 import com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage;
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 
 import java.net.Socket;
 import java.io.*;

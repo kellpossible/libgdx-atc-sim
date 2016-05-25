@@ -6,6 +6,8 @@ import com.atc.simulator.vectors.GeographicCoordinate;
  * Created by luke on 7/04/16.
  * A navigational reference position. ID/Naming conventions:
  * http://www.jeppesen.com/download/navdata/navdata_info1.pdf
+ *
+ * @author Luke Frisken
  */
 public class Waypoint {
     private GeographicCoordinate position;

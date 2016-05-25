@@ -7,6 +7,10 @@ import java.util.HashMap;
 
 /**
  * Created by luke on 13/05/16.
+ *
+ * An example of how to use Google's gson library
+ *
+ * @author Luke Frisken
  */
 public class ExampleJson {
     public static void main(String[] arg)

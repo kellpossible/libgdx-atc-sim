@@ -1,6 +1,7 @@
 package com.atc.simulator.PredictionService;
 
 import com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage;
+import com.atc.simulator.flightdata.AircraftState;
 import com.atc.simulator.flightdata.Prediction;
 import com.atc.simulator.vectors.GeographicCoordinate;
 
@@ -80,14 +81,14 @@ public class PredictionFeedServer implements Runnable{
     {
         PredictionMessage.Builder MesBuilder = PredictionMessage.newBuilder();
         PredictionMessage.Position.Builder tempPosBuilder;
-        MesBuilder.setAircraftID(newPrediction.getPlaneID());
+        MesBuilder.setAircraftID(newPrediction.getListOfStates().get(0).getAircraftID());
 
-        for(GeographicCoordinate temp : newPrediction.getPositionList())
+        for(AircraftState temp : newPrediction.getListOfStates())
         {
             tempPosBuilder = PredictionMessage.Position.newBuilder(); //New, fresh, builder
-            tempPosBuilder.addPositionData(temp.getRadius());   //Add the location data
-            tempPosBuilder.addPositionData(temp.getLatitude());
-            tempPosBuilder.addPositionData(temp.getLongitude());
+            tempPosBuilder.addPositionData(temp.getPosition().getRadius());   //Add the location data
+            tempPosBuilder.addPositionData(temp.getPosition().getLatitude());
+            tempPosBuilder.addPositionData(temp.getPosition().getLongitude());
 
             MesBuilder.addPositionFuture(tempPosBuilder);   //Add this new position to the message
         }

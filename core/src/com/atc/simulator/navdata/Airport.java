@@ -5,6 +5,8 @@ import com.atc.simulator.vectors.GeographicCoordinate;
 /**
  * Created by luke on 7/04/16.
  * Represents an airport navigational reference position.
+ *
+ * @author Luke Frisken
  */
 public class Airport extends Waypoint {
 
