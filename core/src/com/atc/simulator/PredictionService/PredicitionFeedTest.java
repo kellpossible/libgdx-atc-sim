@@ -1,6 +1,7 @@
 package com.atc.simulator.PredictionService;
 
 import com.atc.simulator.Display.PredictionFeedClient;
+import com.atc.simulator.flightdata.AircraftState;
 import com.atc.simulator.flightdata.Prediction;
 import com.atc.simulator.vectors.GeographicCoordinate;
 
@@ -26,8 +27,8 @@ public class PredicitionFeedTest {
     public static void main(String[] arg) {
 
         //Create some Test data
-        Prediction testPrediction = new Prediction();
-        testPrediction.setPlaneID("TestPlane");
+       /* Prediction testPrediction = new Prediction();
+        testPrediction.addState(new AircraftState());
         testPrediction.addPosition(new GeographicCoordinate(0,0,0));
         testPrediction.addPosition(new GeographicCoordinate(1,2,3));
 
@@ -49,7 +50,7 @@ public class PredicitionFeedTest {
         testServer.killThread();
         testClient.killThread();
 
-        System.out.print("Test Complete");
+        System.out.print("Test Complete");*/
     }
 
 }

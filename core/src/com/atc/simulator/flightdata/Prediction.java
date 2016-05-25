@@ -1,65 +1,42 @@
 package com.atc.simulator.flightdata;
-
-import com.atc.simulator.vectors.GeographicCoordinate;
-
 import java.util.ArrayList;
 
 /**
- * Prediction is a simple data type that the Prediction Engine can use to pass messages to the Server.
- * The main components of a prediction are:
- *      - Plane ID - String
- *      - Positions - array of positions (current, and future)
- *
+ * Prediction is a simple data type, storing a list of AircraftStates that form a future prediction made by the Prediction Engine
  *
  * @
  * PUBLIC FEATURES:
  * // Constructors
  *    Prediction()
  * // Methods
- *    sendPredictionToServer(String aircraftID, GeographicCoordinate[] predictions)  - Encodes a Prediction and stores in internal buffer
- *    run() - Thread of checking buffer and removing first element
- *    killThread() - flags that the Server has been finished with, and to stop all threads running (clearing of buffer and accepting clients)
+ *    addState(AircraftState state) - Add a new state to the internal list
+ *    getListOfStates() - Returns the full ArrayList of States
  *
  * COLLABORATORS:
  *    java.util.ArrayList
- *    vectors.GeographicCoordinate
- *    PredictionFeedServe.PredictionMessage
  *
  * MODIFIED:
- * @version 0.2, CC 21/05/16, Merged Encoder and Server
+ * @version 1.0, CC 25/05/16
  * @author    Chris Coleman, 7191375
  */
 public class Prediction {
-    private String PlaneID; //ID of Plane that data is for
-    private ArrayList<GeographicCoordinate> predictionPositions; //Array List of positional predictions
+    private ArrayList<AircraftState> predictedStates; //Array List of positional predictions
 
     /**
-     * Constructor, instantiates a ArrayList of coordinate positions
+     * Constructor, instantiates a ArrayList of AircraftStates
      */
-    public Prediction(){predictionPositions = new ArrayList<GeographicCoordinate>();}
+    public Prediction(){predictedStates = new ArrayList<AircraftState>();}
 
     /**
-     * Set the ID of the Plane that is being predicted
-     * @param newID : The ID of the Aircraft being predicted
+     * Add a new state to the end of the prediction list
+     * @param state : The Coordinate/Position that has been predicted
      */
-    public void setPlaneID(String newID){PlaneID = newID;}
+    public void addState(AircraftState state){predictedStates.add(state);}
 
     /**
-     * Add a new coordinate to the end of the prediction list
-     * @param pos : The Coordinate/Position that has been predicted
+     * Returns all the states in the prediction
+     * @return predictedStates : The full list of states that have been predicted
      */
-    public void addPosition(GeographicCoordinate pos){predictionPositions.add(pos);}
-
-    /**
-     * Get the ID of the Plane that is being predicted
-     * @return PlaneID : The ID of the Aircraft being predicted
-     */
-    public String getPlaneID(){return PlaneID;}
-
-    /**
-     * Add a new coordinate to the end of the prediction list
-     * @return predictionPositions : The full list of positions that have been predicted
-     */
-    public ArrayList<GeographicCoordinate> getPositionList(){return predictionPositions;}
+    public ArrayList<AircraftState> getListOfStates(){return predictedStates;}
 
 }
