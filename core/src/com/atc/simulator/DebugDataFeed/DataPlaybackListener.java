@@ -4,8 +4,6 @@ import com.atc.simulator.flightdata.SystemState;
 
 /**
  * Created by luke on 24/05/16.
- *
- * @author Luke Frisken
  */
 public interface DataPlaybackListener {
     /**

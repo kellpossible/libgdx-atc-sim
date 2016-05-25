@@ -12,7 +12,7 @@ public class SystemState {
     private ArrayList<AircraftState> aircraftStates;
 
     /**
-     * Constructor for SystemState
+     *
      * @param time
      * @param aircraftStates
      */
@@ -25,7 +25,7 @@ public class SystemState {
 
     /**
      * Get the time for this state
-     * @return time
+     * @return
      */
     public Calendar getTime() {
         return time;
@@ -33,7 +33,7 @@ public class SystemState {
 
     /**
      * Get the array of aircraft states for this system state.
-     * @return the array of aircraft states
+     * @return
      */
     public ArrayList<AircraftState> getAircraftStates()
     {

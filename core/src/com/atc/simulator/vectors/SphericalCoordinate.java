@@ -66,16 +66,4 @@ public class SphericalCoordinate extends Vector3 {
         Vector3 cartesian = this.getCartesian();
         return new com.badlogic.gdx.math.Vector3((float) cartesian.x, (float) cartesian.z, (float) cartesian.y);
     }
-
-    public com.badlogic.gdx.math.Vector3 getModelDrawVector()
-    {
-        GeographicCoordinate adjustedCoordinate = new GeographicCoordinate(this);
-        /*
-        set radius to 0.99 to get the draw vector to be beneath the surface of the planet
-        which sits at 1.00. As we are looking at the planet from the inside, this ensures
-        that this coordinate is drawn on top.
-        */
-        adjustedCoordinate.x = 0.99;
-        return adjustedCoordinate.getCartesianDrawVector();
-    }
 }
