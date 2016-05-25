@@ -1,9 +1,11 @@
 package com.atc.simulator.PredictionService;
 
-import com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage;
 import com.atc.simulator.Display.PredictionFeedClient;
+import com.atc.simulator.flightdata.AircraftState;
+import com.atc.simulator.flightdata.Prediction;
 import com.atc.simulator.vectors.GeographicCoordinate;
-import com.google.protobuf.InvalidProtocolBufferException;
+
+import java.io.IOException;
 
 /**
  * Created by Chris on 7/05/2016.
@@ -16,108 +18,40 @@ import com.google.protobuf.InvalidProtocolBufferException;
  *
  *      The Position datatype contains three doubles, similar to the DebugDataFeedServe's protocol
  *
+ * MODIFIED:
+ * @version 0.3, CC 18/05/16
+ * @author    Chris Coleman, 7191375
  */
 public class PredicitionFeedTest {
     //Test method to be comfortable with using PredictionFeedServe's protocol buffer
+    public static void main(String[] arg) {
 
-    //Stealing this from Luke's DebugDataFeed:
-    final protected static char[] hexArray = "0123456789ABCDEF".toCharArray();
-    public static String bytesToHex(byte[] bytes) {
-        char[] hexChars = new char[bytes.length * 2];
-        for ( int j = 0; j < bytes.length; j++ ) {
-            int v = bytes[j] & 0xFF;
-            hexChars[j * 2] = hexArray[v >>> 4];
-            hexChars[j * 2 + 1] = hexArray[v & 0x0F];
-        }
-        return new String(hexChars);
-    }
+        //Create some Test data
+       /* Prediction testPrediction = new Prediction();
+        testPrediction.addState(new AircraftState());
+        testPrediction.addPosition(new GeographicCoordinate(0,0,0));
+        testPrediction.addPosition(new GeographicCoordinate(1,2,3));
 
-
-    public static void main(String[] arg)
-    {
-        PredicitionFeedTest temp = new PredicitionFeedTest();
-        temp.test2();
-    }
-
-    private void test2()
-    {
+        //Create Server/Client objects
         PredictionFeedServer testServer = new PredictionFeedServer();
-        PredictionFeedEncoder testEncoder = new PredictionFeedEncoder(testServer);
         PredictionFeedClient testClient = new PredictionFeedClient();
+        //Fill up the buffer a little bit
+        for(int i = 0; i<10; i++)
+            testServer.sendPredictionToServer(testPrediction);
+        //Start the threads
+        Thread tServer = new Thread(testServer, "ServerThread");
+        tServer.start();
+        Thread tClient = new Thread(testClient,"ClientThread");
+        tClient.start();
+        //Send messages on every entered item, loop out on 'q' being sent
+        try{while(System.in.read() != 'q'){testServer.sendPredictionToServer(testPrediction);}}catch(IOException i){}
 
-        testServer.run();
-        testEncoder.run();
-        testClient.run();
+        //Close the Threads
+        testServer.killThread();
+        testClient.killThread();
 
-        String planeID = "Test2";
-        GeographicCoordinate tempPos[] = {new GeographicCoordinate(0,0,0)};
-        testEncoder.addNewPrediction(planeID, tempPos);
-
-
+        System.out.print("Test Complete");*/
     }
 
-    private void test1()
-    {
-        //example data
-        String planeID = "ABC123"; //ID string
-        //Positions, gets confusing having to build temporary Positions (radius/lat/long) and then build those
-        //  into the overarching message (I'm sure this can be simplified at some stage)
-        GeographicCoordinate tempPos = new GeographicCoordinate(0,0,0);
-        PredictionMessage.Position.Builder tempPosBuilder = PredictionMessage.Position.newBuilder();
-        tempPosBuilder.addPositionData(tempPos.getRadius());
-        tempPosBuilder.addPositionData(tempPos.getLatitude());
-        tempPosBuilder.addPositionData(tempPos.getLongitude());
-        PredictionMessage.Position position1 = tempPosBuilder.build();
-
-        tempPos = new GeographicCoordinate(1,2,3);
-        tempPosBuilder = PredictionMessage.Position.newBuilder();
-        tempPosBuilder.addPositionData(tempPos.getRadius());
-        tempPosBuilder.addPositionData(tempPos.getLatitude());
-        tempPosBuilder.addPositionData(tempPos.getLongitude());
-        PredictionMessage.Position position2 = tempPosBuilder.build();
-
-        tempPos = new GeographicCoordinate(2,3,4);
-        tempPosBuilder = PredictionMessage.Position.newBuilder();
-        tempPosBuilder.addPositionData(tempPos.getRadius());
-        tempPosBuilder.addPositionData(tempPos.getLatitude());
-        tempPosBuilder.addPositionData(tempPos.getLongitude());
-        PredictionMessage.Position position3 = tempPosBuilder.build();
-
-        //Create the message
-        PredictionMessage.Builder mesBuilder = PredictionMessage.newBuilder();
-        //Add in all the data
-        mesBuilder.setAircraftID(planeID);
-        mesBuilder.addPositionFuture(0, position2);  //You can either add the Index,Value
-        mesBuilder.addPositionFuture(position1);     //Just the value to the next array location
-        mesBuilder.addPositionFuture(tempPosBuilder);//Or the builder, and it builds for you (might be easier option later)
-        //Then we Build the message
-        PredictionMessage messageToSend = mesBuilder.build();
-        System.out.println("Message has been created:");
-        System.out.println(messageToSend.toString());
-
-        System.out.println("And as Hex String:");
-        System.out.println(bytesToHex(messageToSend.toByteArray()));
-        System.out.println("Easy to read!\n");
-
-        System.out.println("Decoding the Message");
-        try {
-            PredictionMessage messageToRec;
-            messageToRec = PredictionMessage.parseFrom(messageToSend.toByteArray());
-            System.out.println("Plane ID: " + messageToRec.getAircraftID()); //Print ID
-            System.out.print("Currently at: (");
-            System.out.print(messageToRec.getPositionFuture(0).getPositionData(0)+", "); //Print the current positions vectors
-            System.out.print(messageToRec.getPositionFuture(0).getPositionData(1)+", ");
-            System.out.println(messageToRec.getPositionFuture(0).getPositionData(2)+")");
-
-
-            System.out.println("Going to:");
-            for(PredictionMessage.Position temp : messageToRec.getPositionFutureList())
-            {
-                System.out.println("("+temp.getPositionData(0)+", "+temp.getPositionData(1)+", "+temp.getPositionData(2)+")");
-            }
-
-        } catch (InvalidProtocolBufferException e) {
-            e.printStackTrace();
-        }
-    }
 }
+
