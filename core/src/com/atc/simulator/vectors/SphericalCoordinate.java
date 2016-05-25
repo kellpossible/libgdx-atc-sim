@@ -5,6 +5,8 @@ import pythagoras.d.Vector3;
 /**
  * Created by luke on 9/04/16.
  * See: http://mathworld.wolfram.com/SphericalCoordinates.html
+ *
+ * @author Luke Frisken
  */
 public class SphericalCoordinate extends Vector3 {
     public SphericalCoordinate(SphericalCoordinate other)
@@ -58,7 +60,7 @@ public class SphericalCoordinate extends Vector3 {
 
     /**
      * Get the cartesian libgdx vector3 required for 3D drawing.
-     * @return
+     * @return the cartesian draw vector
      */
     public com.badlogic.gdx.math.Vector3 getCartesianDrawVector()
     {
@@ -67,6 +69,11 @@ public class SphericalCoordinate extends Vector3 {
         return new com.badlogic.gdx.math.Vector3((float) cartesian.x, (float) cartesian.z, (float) cartesian.y);
     }
 
+    /**
+     * Get a draw vector, but with the radius set to 0.99 to be just below the surface of a textured
+     * model of the earth.
+     * @return the cartesian draw vector
+     */
     public com.badlogic.gdx.math.Vector3 getModelDrawVector()
     {
         GeographicCoordinate adjustedCoordinate = new GeographicCoordinate(this);

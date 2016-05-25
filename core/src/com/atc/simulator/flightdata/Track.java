@@ -20,6 +20,8 @@ import java.util.List;
  * Created by luke on 7/04/16.
  * Represents a continuous track of an aircraft as it flies through the air, with regular
  * TrackEntry's representing the state of the aircraft for each point in time.
+ *
+ * @author Luke Frisken
  */
 public class Track extends ArrayList<TrackEntry> {
 
@@ -36,6 +38,9 @@ public class Track extends ArrayList<TrackEntry> {
                 VertexAttributes.Usage.Position | VertexAttributes.Usage.ColorUnpacked,
                 new Material());
         builder.setColor(Color.RED);
+
+        //jump, just in case we want to skip some elements (it was having trouble drawing the entire track)
+        //for performance reasons.
         int jump = 1;
         Vector3 previousPositionDrawVector = this.get(0).getAircraftState().getPosition().getModelDrawVector();
         for(int i = jump; i < this.size(); i+=jump)

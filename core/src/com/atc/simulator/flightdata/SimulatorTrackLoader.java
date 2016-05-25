@@ -76,6 +76,8 @@ public class SimulatorTrackLoader extends TrackLoader {
                 {
                     heading = previousPosition.bearingTo(position); //TODO: pretty sure this is broken although who knows what x-plane's heading is putting out (true or magnetic?)
                     Vector3 dPos = position.subtract(previousPosition);
+
+                    //calculate the velocity based on the change in position over time.
                     double dt = (time.getTimeInMillis()-previousTime.getTimeInMillis())/1000.0;
                     velocity = new SphericalVelocity(dPos.mult(dt)); //TODO: fails hard due to precision error, need to average
                 } else {

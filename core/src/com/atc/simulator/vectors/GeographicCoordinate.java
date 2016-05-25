@@ -5,6 +5,8 @@ import pythagoras.d.Vector3;
 /**
  * Represents a geographic position using latitude, longitude, altitude (above mean sea level)
  * See https://en.wikipedia.org/wiki/Geographic_coordinate_system
+ *
+ * @author Luke Frisken
  */
 public class GeographicCoordinate extends SphericalCoordinate
 {

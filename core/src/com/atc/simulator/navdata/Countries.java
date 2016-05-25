@@ -9,7 +9,6 @@ import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.utils.MeshPartBuilder;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.utils.Json;
 import com.google.gson.*;
 
 import java.io.IOException;
@@ -18,10 +17,18 @@ import java.nio.file.Paths;
 
 /**
  * Created by luke on 25/05/16.
+ * This class loads in and creates a libgdx model of the world's country borders using the geojson
+ * dataset from this source: http://data.okfn.org/data/datasets/geo-boundaries-world-110m
+ * @author Luke Frisken
  */
 public class Countries {
     private Model model = null;
 
+    /**
+     * Constructor for Countries class.
+     * Loads the file and creates a model.
+     * @param filePath path to countries.geo.json
+     */
     public Countries(String filePath)
     {
         try {
@@ -49,6 +56,7 @@ public class Countries {
                 new Material());
         builder.setColor(Color.BLUE);
 
+        //go through the json file, and construct lines from the coordinates
         for( JsonElement featureElement : features)
         {
             JsonObject feature = featureElement.getAsJsonObject();
@@ -57,6 +65,9 @@ public class Countries {
 
             JsonObject geometry = feature.get("geometry").getAsJsonObject();
             String geometryType = geometry.get("type").getAsString();
+
+            //there are a couple of different array/structures that the
+            //coordinates are stored in in the geojson file.
             if (geometryType.equals("MultiPolygon"))
             {
                 JsonArray coordinates = geometry.get("coordinates").getAsJsonArray();
@@ -116,6 +127,10 @@ public class Countries {
 
     }
 
+    /**
+     * Get the libgdx model of the countries.
+     * @return
+     */
     public Model getModel()
     {
         return this.model;
