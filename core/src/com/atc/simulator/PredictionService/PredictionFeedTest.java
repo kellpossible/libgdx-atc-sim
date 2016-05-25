@@ -4,6 +4,7 @@ import com.atc.simulator.Display.PredictionFeedClient;
 import com.atc.simulator.flightdata.AircraftState;
 import com.atc.simulator.flightdata.Prediction;
 import com.atc.simulator.vectors.GeographicCoordinate;
+import com.atc.simulator.vectors.SphericalVelocity;
 
 import java.io.IOException;
 
@@ -22,15 +23,13 @@ import java.io.IOException;
  * @version 0.3, CC 18/05/16
  * @author    Chris Coleman, 7191375
  */
-public class PredicitionFeedTest {
+public class PredictionFeedTest {
     //Test method to be comfortable with using PredictionFeedServe's protocol buffer
     public static void main(String[] arg) {
 
         //Create some Test data
-       /* Prediction testPrediction = new Prediction();
-        testPrediction.addState(new AircraftState());
-        testPrediction.addPosition(new GeographicCoordinate(0,0,0));
-        testPrediction.addPosition(new GeographicCoordinate(1,2,3));
+       Prediction testPrediction = new Prediction();
+       testPrediction.addState(new AircraftState("TestState", new GeographicCoordinate(0,0,0), new SphericalVelocity(0,0,0), 0));
 
         //Create Server/Client objects
         PredictionFeedServer testServer = new PredictionFeedServer();
@@ -50,7 +49,7 @@ public class PredicitionFeedTest {
         testServer.killThread();
         testClient.killThread();
 
-        System.out.print("Test Complete");*/
+        System.out.println("Test Complete");
     }
 
 }
