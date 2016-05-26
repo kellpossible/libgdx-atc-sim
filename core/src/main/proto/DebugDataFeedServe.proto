@@ -3,27 +3,27 @@ syntax = "proto2";
 option java_package = "com.atc.simulator.DebugDataFeed";
 option java_outer_classname = "DebugDataFeedServe";
 
-message SystemState
+message SystemStateMessage
 {
-    message AircraftState
+    message AircraftStateMessage
     {
-        message GeographicCoordinate {
+        message GeographicCoordinateMessage {
             required double altitude = 1;
             required double latitude = 2;
             required double longitude = 3;
         }
 
-        message SphericalVelocity {
+        message SphericalVelocityMessage {
             required double dr = 1;
             required double dtheta = 2;
             required double dphi = 3;
         }
 
         required string aircraftID = 1;
-        required GeographicCoordinate position = 2;
-        required SphericalVelocity velocity = 3;
+        required GeographicCoordinateMessage position = 2;
+        required SphericalVelocityMessage velocity = 3;
         required double heading = 4;
     }
     required string time = 1;
-    repeated AircraftState aircraftStates = 2;
+    repeated AircraftStateMessage aircraftStates = 2;
 }
