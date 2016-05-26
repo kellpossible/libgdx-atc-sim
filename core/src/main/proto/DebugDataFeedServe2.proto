@@ -1,0 +1,26 @@
+syntax = "proto2;
+
+option java_package = "com.atc.simulator.DebugDataFeed";
+option java_outer_classname = "DebugDataFeedServe2";
+
+message SystemState
+{
+    message AircraftState
+    {
+        message GeographicCoordinate {
+            optional double altitude = 1;
+            optional latitude y = 2;
+            optional double longitude = 3; }
+
+        message SphericalVelocity {
+            optional double x = 1;
+            optional double x = 2;
+            optional double x = 3;
+        }
+
+        required String aircraftID = 1;
+        optional double heading = 2;
+    }
+    required Calendar string = 1;
+    repeated AircraftState aircraftStates = 2;
+}
