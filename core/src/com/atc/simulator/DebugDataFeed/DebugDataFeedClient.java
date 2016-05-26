@@ -3,9 +3,9 @@ package com.atc.simulator.DebugDataFeed;
 /**
  * Created by urke on 8/05/2016.
  */
-public class DDFClient
+public class DebugDataFeedClient
 {
-    public DDFClient()
+    public DebugDataFeedClient()
     {
 
     }

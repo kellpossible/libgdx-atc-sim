@@ -23,7 +23,7 @@ import java.util.List;
  *
  * @author Luke Frisken
  */
-public class Track extends ArrayList<TrackEntry> {
+public class Track extends ArrayList<AircraftState> {
 
     /**
      * Generate a GL_LINES model of the track
@@ -42,11 +42,10 @@ public class Track extends ArrayList<TrackEntry> {
         //jump, just in case we want to skip some elements (it was having trouble drawing the entire track)
         //for performance reasons.
         int jump = 1;
-        Vector3 previousPositionDrawVector = this.get(0).getAircraftState().getPosition().getModelDrawVector();
+        Vector3 previousPositionDrawVector = this.get(0).getPosition().getModelDrawVector();
         for(int i = jump; i < this.size(); i+=jump)
         {
-            TrackEntry entry = this.get(i);
-            AircraftState state = entry.getAircraftState();
+            AircraftState state = this.get(i);
 //            System.out.println(state.getPosition());
             Vector3 positionDrawVector = state.getPosition().getModelDrawVector();
 //            System.out.println(previousPositionDrawVector.len());
