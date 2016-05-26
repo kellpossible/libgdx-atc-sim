@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Queue;
+import java.util.Set;
 import java.util.concurrent.ArrayBlockingQueue;
 
 public class SimulatorDisplay extends ApplicationAdapter implements DataPlaybackListener {
@@ -193,6 +194,7 @@ public class SimulatorDisplay extends ApplicationAdapter implements DataPlayback
         Gdx.input.setInputProcessor(camController);
     }
 
+    //todo: to improve draw performance this should go into the callers thread, and out of the display thread. Only push models into the queue instead.
     private void pollSystemUpdateQueue()
     {
         SystemState systemState = systemStateUpdateQueue.poll();
@@ -201,28 +203,61 @@ public class SimulatorDisplay extends ApplicationAdapter implements DataPlayback
         {
             return;
         } else {
-            System.out.println("System Update");
-            AircraftState aircraftState = systemState.getAircraftStates().get(0);
-            GeographicCoordinate position = aircraftState.getPosition();
-            SphericalVelocity velocity = aircraftState.getVelocity();
-            System.out.println("Position: " + position.toString());
-            System.out.println("Velocity: " + velocity);
-            System.out.println("Heading: " + Math.toDegrees(aircraftState.getHeading()));
-            System.out.println(ISO8601.fromCalendar(systemState.getTime()));
-
-            double depthAdjustment = -0.01;
-            Vector3 modelDrawVector = position.getModelDrawVector(depthAdjustment);
-
-            String aircraftID = aircraftState.getAircraftID();
-
-            ModelBuilder modelBuilder = new ModelBuilder();
-
-            Model aircraftStateModel = aircraftStateModels.get(aircraftID);
-            ModelInstance aircraftStateModelInstance;
-            if (aircraftStateModel != null)
+//            System.out.println("System Update");
+            ArrayList<String> aircraftIDs = new ArrayList<String>(aircraftStateModels.keySet());
+            for (String aircraftID : aircraftIDs)
             {
-                aircraftStateModel.dispose();
+                boolean found = false;
+                for (AircraftState aircraftState : systemState.getAircraftStates())
+                {
+                    if (aircraftID.equals(aircraftState.getAircraftID()))
+                    {
+                        found = true;
+                    }
+                }
+
+                if (!found)
+                {
+                    aircraftStateModels.get(aircraftID).dispose();
+                    aircraftStateModels.remove(aircraftID);
+                    aircraftStateModelInstances.remove(aircraftID);
+
+                    Model mdl = aircraftStateVelocityModels.get(aircraftID);
+                    if (mdl != null) {
+                        mdl.dispose();
+                    }
+                    aircraftStateVelocityModels.remove(aircraftID);
+                    aircraftStateVelocityModelInstances.remove(aircraftID);
+                }
             }
+
+            for (AircraftState aircraftState : systemState.getAircraftStates())
+            {
+                GeographicCoordinate position = aircraftState.getPosition();
+                SphericalVelocity velocity = aircraftState.getVelocity();
+//                System.out.println("Position: " + position.toString());
+//                System.out.println("Velocity: " + velocity);
+//                System.out.println("Heading: " + Math.toDegrees(aircraftState.getHeading()));
+//                System.out.println(ISO8601.fromCalendar(systemState.getTime()));
+
+                double depthAdjustment = -0.01;
+                Vector3 modelDrawVector = position.getModelDrawVector(depthAdjustment);
+
+                String aircraftID = aircraftState.getAircraftID();
+//
+//                System.out.println(aircraftID);
+//                System.out.println(position);
+
+                ModelBuilder modelBuilder = new ModelBuilder();
+
+                Model aircraftStateModel = aircraftStateModels.get(aircraftID);
+                ModelInstance aircraftStateModelInstance;
+                if (aircraftStateModel != null)
+                {
+                    aircraftStateModel.dispose();
+                    aircraftStateModels.remove(aircraftID);
+                }
+
 
 //            modelBuilder.begin();
 //            MeshPartBuilder builder = modelBuilder.part(
@@ -234,36 +269,46 @@ public class SimulatorDisplay extends ApplicationAdapter implements DataPlayback
 //            builder.vertex(position.getModelDrawVector().x, position.getModelDrawVector().y, position.getModelDrawVector().z);
 
 //            systemStateModel = modelBuilder.end();
-            aircraftStateModel = modelBuilder.createSphere(
-                    0.001f, 0.001f, 0.001f, 10, 10,
-                    new Material(ColorAttribute.createDiffuse(Color.GREEN)),
-                    VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal);
-            aircraftStateModelInstance = new ModelInstance(aircraftStateModel);
-            aircraftStateModelInstance.transform.setTranslation(modelDrawVector.x, modelDrawVector.y, modelDrawVector.z);
+                aircraftStateModel = modelBuilder.createSphere(
+                        0.0005f, 0.0005f, 0.0005f, 10, 10,
+                        new Material(ColorAttribute.createDiffuse(Color.GREEN)),
+                        VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal);
+                aircraftStateModelInstance = new ModelInstance(aircraftStateModel);
+                aircraftStateModelInstance.transform.setTranslation(modelDrawVector.x, modelDrawVector.y, modelDrawVector.z);
 
-            aircraftStateModelInstances.put(aircraftID, aircraftStateModelInstance);
-            aircraftStateModels.put(aircraftID, aircraftStateModel);
+                aircraftStateModelInstances.put(aircraftID, aircraftStateModelInstance);
+                aircraftStateModels.put(aircraftID, aircraftStateModel);
 
-            Model aircraftStateVelocityModel = aircraftStateVelocityModels.get(aircraftID);
-            ModelInstance aircraftStateVelocityModelInstance;
-            if (aircraftStateVelocityModel != null)
-            {
-                aircraftStateVelocityModel.dispose();
-            }
+                Model aircraftStateVelocityModel = aircraftStateVelocityModels.get(aircraftID);
+                ModelInstance aircraftStateVelocityModelInstance;
+                if (aircraftStateVelocityModel != null)
+                {
+                    aircraftStateVelocityModel.dispose();
+                    aircraftStateVelocityModels.remove(aircraftID);
+                }
 
-            GeographicCoordinate velocityEndPos = new GeographicCoordinate(position.add(velocity.mult(120))); //two minute velocity vector
-            aircraftStateVelocityModel = modelBuilder.createArrow(
-                    modelDrawVector,
-                    velocityEndPos.getModelDrawVector(depthAdjustment),
-                    new Material(ColorAttribute.createDiffuse(Color.GREEN)),
-                    VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal);
-            aircraftStateVelocityModelInstance = new ModelInstance(aircraftStateVelocityModel);
+                if (velocity.length() > 0.00001)
+                {
+                    GeographicCoordinate velocityEndPos = new GeographicCoordinate(position.add(velocity.mult(120))); //two minute velocity vector
+                    aircraftStateVelocityModel = modelBuilder.createArrow(
+                            modelDrawVector,
+                            velocityEndPos.getModelDrawVector(depthAdjustment),
+                            new Material(ColorAttribute.createDiffuse(Color.GREEN)),
+                            VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal);
+                    aircraftStateVelocityModelInstance = new ModelInstance(aircraftStateVelocityModel);
 
-            //for some strange reason this isn't required...!
+                    //for some strange reason this isn't required...!
 //            aircraftStateVelocityModelInstance.transform.setTranslation(modelDrawVector.x, modelDrawVector.y, modelDrawVector.z);
 
-            aircraftStateVelocityModels.put(aircraftID, aircraftStateVelocityModel);
-            aircraftStateVelocityModelInstances.put(aircraftID, aircraftStateVelocityModelInstance);
+                    aircraftStateVelocityModels.put(aircraftID, aircraftStateVelocityModel);
+                    aircraftStateVelocityModelInstances.put(aircraftID, aircraftStateVelocityModelInstance);
+
+                } else {
+                    aircraftStateVelocityModels.remove(aircraftID);
+                    aircraftStateVelocityModelInstances.remove(aircraftID);
+                }
+            }
+
         }
     }
 

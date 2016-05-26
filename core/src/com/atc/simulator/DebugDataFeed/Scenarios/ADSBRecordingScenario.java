@@ -10,6 +10,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import pythagoras.d.Vector3;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -27,7 +28,7 @@ public class ADSBRecordingScenario extends Scenario {
     private ArrayList<Track> tracks;
     private LinkedHashMap<Calendar, SystemState> systemStates;
     private int recommendedUpdateRate;
-    private Calendar startTime, endTime;
+    private Calendar startTime = null, endTime = null;
 
     /**
      * Constructor ADSBRecordingScenario creates a new ADSBRecordingScenario instance.
@@ -35,6 +36,7 @@ public class ADSBRecordingScenario extends Scenario {
     public ADSBRecordingScenario(String filePath)
     {
         tracksDictionary = new HashMap<String, Track>();
+        systemStates = new LinkedHashMap<Calendar, SystemState>();
         try {
             readFromJsonFile(filePath);
         } catch (IOException e) {
@@ -54,20 +56,13 @@ public class ADSBRecordingScenario extends Scenario {
 
         JsonArray systemStatesJS = object.get("system_states").getAsJsonArray();
 
-        int i = 0;
-        int finalStateIndex = systemStatesJS.size()-1;
+        long startTimeMillis = Long.MAX_VALUE;
+        long endTimeMillis = Long.MIN_VALUE;
 
         for (JsonElement systemStateElement: systemStatesJS) {
             JsonObject systemStateJS = systemStateElement.getAsJsonObject();
 
             Calendar systemStateTime = ISO8601.toCalendar(systemStateJS.get("time").getAsString());
-
-            if (i == 0)
-            {
-                startTime = systemStateTime;
-            } else if (i == finalStateIndex) {
-                endTime = systemStateTime;
-            }
 
             JsonArray aircraftStatesJS = systemStateJS.get("aircraft_states").getAsJsonArray();
 
@@ -76,34 +71,96 @@ public class ADSBRecordingScenario extends Scenario {
             for (JsonElement aircraftStateElement : aircraftStatesJS) {
                 JsonObject aircraftStateJS = aircraftStateElement.getAsJsonObject();
                 String callsign = aircraftStateJS.get("callsign").getAsString();
+
+//                if (!callsign.equals("QFA7373"))
+//                {
+//                    continue;
+//                }
+
                 Calendar aircraftStateTime = ISO8601.toCalendar(aircraftStateJS.get("time").getAsString());
+                long aircraftStateTimeMillis = aircraftStateTime.getTimeInMillis();
+
+                if (aircraftStateTimeMillis > endTimeMillis)
+                {
+                    endTimeMillis = aircraftStateTimeMillis;
+                }
+
+                if (aircraftStateTimeMillis < startTimeMillis)
+                {
+                    startTimeMillis = aircraftStateTimeMillis;
+                }
+
+
                 double altitude = aircraftStateJS.get("altitude").getAsDouble();
-                double latitude = aircraftStateJS.get("latitude").getAsDouble();
-                double longitude = aircraftStateJS.get("longitude").getAsDouble();
+                double latitude = Math.toRadians(aircraftStateJS.get("latitude").getAsDouble());
+                double longitude = Math.toRadians(aircraftStateJS.get("longitude").getAsDouble());
+                double speed = aircraftStateJS.get("speed").getAsDouble();
 
                 GeographicCoordinate position = new GeographicCoordinate(altitude, latitude, longitude);
-                SphericalVelocity velocity = new SphericalVelocity(0,0,0);
 
                 double heading = aircraftStateJS.get("heading").getAsDouble();
 
-                AircraftState aircraftState = new AircraftState(callsign, aircraftStateTime, position, velocity, heading);
+
 
                 Track track = tracksDictionary.get(callsign);
                 if (track == null) {
                     track = new Track();
                     tracksDictionary.put(callsign, track);
                 }
+                SphericalVelocity velocity;
+                SphericalVelocity previousNonZeroVelocity;
+
+                //hack to get the velocities by differentiating the positions.
+                if (track.size() == 0)
+                {
+                    velocity = new SphericalVelocity(0,0,0);
+                } else {
+                    AircraftState previousState = track.get(track.size() - 1);
+                    GeographicCoordinate previousPosition = previousState.getPosition();
+                    Calendar previousTime = previousState.getTime();
+
+                    Vector3 dPos = position.subtract(previousPosition);
+
+                    //calculate the velocity based on the change in position over time.
+                    double dt = (aircraftStateTime.getTimeInMillis()-previousTime.getTimeInMillis())/1000.0;
+
+                    if (dt < 0.1)
+                    {
+                        continue; //exclude records within 0.1 seconds of each other. (probably duplicates)
+                    } else {
+
+//                      velocity = new SphericalVelocity(dPos.mult(dt));
+
+                        double storeX = dPos.x;
+                        dPos.x = 0;
+                        dPos = dPos.normalize();
+                        dPos.x = storeX;
+
+
+                        //hack until I can figure out how to calculate the velocity correctly
+                        velocity = new SphericalVelocity(dPos.mult(0.0000005 * speed));
+                    }
+                }
+
+                AircraftState aircraftState = new AircraftState(callsign, aircraftStateTime, position, velocity, heading);
                 track.add(aircraftState);
+
+
 
                 aircraftStates.add(aircraftState);
             }
 
             systemStates.put(systemStateTime, new SystemState(systemStateTime, aircraftStates));
 
-            i++;
         }
 
         tracks = new ArrayList<Track>(tracksDictionary.values());
+
+        startTime = Calendar.getInstance();
+        startTime.setTimeInMillis(startTimeMillis);
+
+        endTime = Calendar.getInstance();
+        endTime.setTimeInMillis(endTimeMillis);
 
     }
 
@@ -116,6 +173,11 @@ public class ADSBRecordingScenario extends Scenario {
      */
     @Override
     public SystemState getState(Calendar time) {
+        checkStateTimeWithinBoundaries(time);
+
+        System.out.println("getStateTime" + time.getTimeInMillis());
+        System.out.println("startTime" + startTime.getTimeInMillis());
+
         Calendar closestTime = null;
         long closestTimeDiff = Long.MAX_VALUE;
         for (Calendar comparisonTime: systemStates.keySet())
@@ -128,9 +190,30 @@ public class ADSBRecordingScenario extends Scenario {
             }
         }
 
+        System.out.println("startTime" + startTime.getTimeInMillis());
+
         if (closestTime != null)
         {
-            return systemStates.get(closestTime);
+//            SystemState tempSystemState = systemStates.get(closestTime);
+
+            ArrayList<AircraftState> newStates = new ArrayList<AircraftState>();
+//            for(AircraftState aircraftState: tempSystemState.getAircraftStates())
+//            {
+//                Track track = tracksDictionary.get(aircraftState.getAircraftID());
+//                newStates.add(track.lerp(time));
+//            }
+
+            for (Track track : tracksDictionary.values())
+            {
+                if (track.timeWithinBounds(time))
+                {
+                    newStates.add(track.lerp(time));
+                }
+
+            }
+
+            return new SystemState(time, newStates);
+
         }
 
         return null;

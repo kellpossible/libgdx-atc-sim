@@ -1,6 +1,7 @@
 package com.atc.simulator.desktop;
 
 import com.atc.simulator.DebugDataFeed.DataPlaybackThread;
+import com.atc.simulator.DebugDataFeed.Scenarios.ADSBRecordingScenario;
 import com.atc.simulator.DebugDataFeed.Scenarios.Scenario;
 import com.atc.simulator.DebugDataFeed.Scenarios.YMMLtoYSCBScenario;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
@@ -14,7 +15,8 @@ public class DesktopLauncher {
 		config.width = 1024;
 
 
-		Scenario scenario = new YMMLtoYSCBScenario();
+//		Scenario scenario = new YMMLtoYSCBScenario();
+		Scenario scenario = new ADSBRecordingScenario("assets/flight_data/YMML_26_05_2016/database.json");
 		DataPlaybackThread dataPlaybackThread = new DataPlaybackThread(scenario, scenario.getRecommendedUpdateRate());
 		SimulatorDisplay display =  new SimulatorDisplay(scenario);
 		dataPlaybackThread.addListener(display);

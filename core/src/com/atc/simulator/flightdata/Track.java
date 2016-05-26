@@ -1,7 +1,5 @@
 package com.atc.simulator.flightdata;
 
-import com.atc.simulator.vectors.GeographicCoordinate;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.VertexAttributes;
@@ -10,11 +8,9 @@ import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.utils.MeshPartBuilder;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.badlogic.gdx.math.Vector3;
-import java.text.ParseException;
+
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
-import java.util.List;
 
 /**
  * Created by luke on 7/04/16.
@@ -24,6 +20,27 @@ import java.util.List;
  * @author Luke Frisken
  */
 public class Track extends ArrayList<AircraftState> {
+    private Calendar startTime = null;
+    private Calendar endTime = null;
+
+    public boolean add(AircraftState element)
+    {
+        if (startTime != null && endTime != null)
+        {
+            Calendar elementTime = element.getTime();
+            if (elementTime.compareTo(startTime) < 0)
+            {
+                startTime = elementTime;
+            } else if (elementTime.compareTo(endTime)  > 0)
+            {
+                endTime = elementTime;
+            }
+        } else {
+            startTime = element.getTime();
+            endTime = element.getTime();
+        }
+        return super.add(element);
+    }
 
     /**
      * Generate a GL_LINES model of the track
@@ -58,4 +75,80 @@ public class Track extends ArrayList<AircraftState> {
         return modelBuilder.end();
     }
 
+
+    /**
+     * Find a linearly interpolated AircraftState which matches the time
+     * @param time
+     * @return
+     */
+    public AircraftState lerp(Calendar time)
+    {
+        long timeMillis = time.getTimeInMillis();
+        for(int i = 0; i < this.size()-1; i++)
+        {
+            AircraftState i1aircraftState = this.get(i);
+            AircraftState i2aircraftState = this.get(i+1);
+            long i1aircraftStateTimeMillis = i1aircraftState.getTime().getTimeInMillis();
+            long i2aircraftStateTimeMillis = i2aircraftState.getTime().getTimeInMillis();
+
+            //if this time is between two.
+            if (timeMillis >= i1aircraftStateTimeMillis && timeMillis < i2aircraftStateTimeMillis)
+            {
+                double i1i2TimeDiff = i2aircraftStateTimeMillis - i1aircraftStateTimeMillis;
+                double timeDiff = timeMillis - i1aircraftStateTimeMillis;
+
+                double t = timeDiff/i1i2TimeDiff;
+
+                return i1aircraftState.lerp(i2aircraftState, t);
+            }
+        }
+
+        return this.get(0); //todo: implement this properly
+    }
+
+    /**
+     * Find the AircraftState with the closest time
+     *
+     * todo: this isn't implemented completely correctly (it's close but only the first closest)
+     * @param time
+     * @return
+     */
+    public AircraftState closest(Calendar time)
+    {
+        long timeMillis = time.getTimeInMillis();
+        for(int i = 0; i < this.size()-1; i++)
+        {
+            AircraftState i1aircraftState = this.get(i);
+            AircraftState i2aircraftState = this.get(i+1);
+            long i1aircraftStateTimeMillis = i1aircraftState.getTime().getTimeInMillis();
+            long i2aircraftStateTimeMillis = i2aircraftState.getTime().getTimeInMillis();
+
+            //if this time is between two.
+            if (timeMillis >= i1aircraftStateTimeMillis && timeMillis <= i2aircraftStateTimeMillis)
+            {
+                return i1aircraftState;
+            }
+        }
+
+        return this.get(0); //todo: implement this properly
+    }
+
+    public Calendar getStartTime() {
+        return startTime;
+    }
+
+    public Calendar getEndTime() {
+        return endTime;
+    }
+
+    public boolean timeWithinBounds(Calendar time)
+    {
+        if (time.compareTo(startTime) >= 0) {
+            if (time.compareTo(endTime) <= 0) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

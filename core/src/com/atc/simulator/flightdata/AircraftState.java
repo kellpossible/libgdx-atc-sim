@@ -38,6 +38,21 @@ public class AircraftState {
         this.heading = heading;
     }
 
+    public AircraftState lerp(AircraftState other, double t)
+    {
+        GeographicCoordinate newPosition = new GeographicCoordinate(this.getPosition().lerp(other.getPosition(), t));
+        SphericalVelocity newVelocity = new SphericalVelocity(this.getVelocity().lerp(other.getVelocity(), t));
+
+        long newTimeMillis = (long)(((double) (other.getTime().getTimeInMillis() - this.getTime().getTimeInMillis())) * t);
+        Calendar newTime = (Calendar) this.time.clone();
+        newTime.setTimeInMillis(newTimeMillis);
+
+        double headingDiff = other.getHeading() - this.heading;
+        double newHeading = this.heading + headingDiff * t;
+
+        return new AircraftState(aircraftID, newTime, newPosition, newVelocity, newHeading);
+    }
+
     /**
      * Method getPosition returns the position of this AircraftState object.
      * @return the position (type GeographicCoordinate) of this AircraftState object.

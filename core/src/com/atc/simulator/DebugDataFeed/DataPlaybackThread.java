@@ -33,7 +33,7 @@ public class DataPlaybackThread implements RunnableThread {
         this.updateRate = updateRate;
         this.scenario = scenario;
         threadName = "DataPlayback";
-        currentTime = scenario.getStartTime();
+        currentTime = (Calendar) scenario.getStartTime().clone();
         continueThread = true;
     }
 
@@ -79,12 +79,12 @@ public class DataPlaybackThread implements RunnableThread {
                 //TODO: beware this is not precise tracking 1:1 of the time in the track
                 //would be better to use the difference in the system clock, and interpolate
                 //the values along the track in the Scenario. This is easier and better for performance for now.
-                Thread.sleep(updateRate);
+                Thread.sleep(updateRate/10);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
 
-            currentTime.add(Calendar.MILLISECOND, updateRate*20); //20 times speedup TODO: remove
+            currentTime.add(Calendar.MILLISECOND, updateRate); //20 times speedup TODO: remove
 
 
             //finish if we have passed the end time

@@ -31,7 +31,30 @@ public final class ISO8601 {
     public static Calendar toCalendar(final String iso8601string)
             throws ParseException {
         Calendar calendar = GregorianCalendar.getInstance();
-        String s = iso8601string.replace("Z", "+00:00");
+        String s = iso8601string;
+
+        //decimal seconds
+        if (iso8601string.contains("."))
+        {
+            //split to remove the decimal seconds
+            String[] splitString = s.split("[.]\\d+", 2);
+            s = splitString[0];
+
+            //may have something after the decimal seconds
+            if (splitString.length == 2) {
+                s += splitString[1];
+            }
+        }
+        //zulu timezone
+        if (s.contains("Z")) {
+            s = s.replace("Z", "+00:00");
+        } else {
+            //missing timezone
+            if (!s.contains("+"))
+            {
+                s = s + "+00:00";
+            }
+        }
         try {
             s = s.substring(0, 22) + s.substring(23);  // to get rid of the ":"
         } catch (IndexOutOfBoundsException e) {

@@ -104,4 +104,9 @@ public class SphericalCoordinate extends Vector3 {
         adjustedCoordinate.x = 0.99 + adjust;
         return adjustedCoordinate.getCartesianDrawVector();
     }
+
+    public double arcDistance(SphericalCoordinate other)
+    {
+        return x * Math.acos(Math.cos(y)*Math.cos(other.y)+Math.sin(y)*Math.sin(other.y)*Math.sin(z - other.z));
+    }
 }
