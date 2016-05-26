@@ -1,7 +1,10 @@
 package com.atc.simulator.DebugDataFeed;
+import com.atc.simulator.flightdata.AircraftState;
+import com.atc.simulator.flightdata.ISO8601;
 import com.atc.simulator.flightdata.SystemState;
 import com.atc.simulator.DebugDataFeed.DebugDataFeedServe.*;
 import com.atc.simulator.vectors.GeographicCoordinate;
+import com.atc.simulator.vectors.SphericalVelocity;
 import com.google.protobuf.InvalidProtocolBufferException;
 import java.net.*;
 import java.util.*;
@@ -59,7 +62,37 @@ public class DebugDataFeedServerThread implements Runnable, DataPlaybackListener
      */
     @Override
     public void onSystemUpdate(SystemState systemState) {
-        SystemStateMessage.Builder builder = SystemStateMessage.newBuilder();
+        SystemStateMessage.Builder systemStateMessageBuilder = SystemStateMessage.newBuilder();
+
+        systemStateMessageBuilder.setTime(ISO8601.fromCalendar(systemState.getTime()));
+
+        for (AircraftState aircraftState : systemState.getAircraftStates())
+        {
+            AircraftStateMessage.Builder aircraftStateMessageBuilder = AircraftStateMessage.newBuilder();
+            aircraftStateMessageBuilder.setAircraftID(aircraftState.getAircraftID());
+
+            GeographicCoordinate position = aircraftState.getPosition();
+            aircraftStateMessageBuilder.setPosition(
+                    GeographicCoordinateMessage.newBuilder()
+                        .setAltitude(position.getAltitude())
+                        .setLatitude(position.getLatitude())
+                        .setLongitude(position.getLongitude())
+            );
+
+            SphericalVelocity velocity = aircraftState.getVelocity();
+            aircraftStateMessageBuilder.setVelocity(
+                    SphericalVelocityMessage.newBuilder()
+                        .setDr(velocity.getDR())
+                        .setDtheta(velocity.getDTheta())
+                        .setDphi(velocity.getDPhi())
+            );
+
+            aircraftStateMessageBuilder.setHeading(aircraftState.getHeading());
+
+            systemStateMessageBuilder.addAircraftState(aircraftStateMessageBuilder);
+        }
+
+        SystemStateMessage systemStateMessage = systemStateMessageBuilder.build(); //yay the final message all built
 
         //TODO: send message to client when this is called by placing it in the buffer.
     }
