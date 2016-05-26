@@ -9,13 +9,13 @@ import java.io.*;
 /**
  * Created by Uros on 8/05/2016.
  */
-public class DDFServerThread implements Runnable
+public class DebugDataFeedServerThread implements Runnable
 {
     static int OFFSET = 0;
     private DatagramSocket serverSocket;
     private byte[] receiveData;
 
-    public DDFServerThread()
+    public DebugDataFeedServerThread()
     {
         try
         {

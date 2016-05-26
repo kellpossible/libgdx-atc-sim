@@ -3,17 +3,14 @@ import com.atc.simulator.DebugDataFeed.DebugDataFeedServe.Aircraft;
 import com.atc.simulator.vectors.GeographicCoordinate;
 import com.google.protobuf.InvalidProtocolBufferException;
 
-import java.io.IOException;
-import java.net.*;
-
 /**
  * Created by luke on 2/05/16.
  *
  * 8/05/2016 Notes: May need pub-sub pattern to work properly.
  *                  Can store received data (from ADS-B, CAT62 etc
- *                  In String List in Server. DDFServerThread and
- *                  DDFClient Thread may will update the list asynchronously
- *                  Information that gets sent out from DDFClient will be deleted from the list
+ *                  In String List in Server. DebugDataFeedServerThread and
+ *                  DebugDataFeedClient Thread may will update the list asynchronously
+ *                  Information that gets sent out from DebugDataFeedClient will be deleted from the list
  */
 public class DebugDataFeed
 {
@@ -40,7 +37,7 @@ public class DebugDataFeed
 
     public void run()
     {
-        Thread serverThread = new Thread(new DDFServerThread());
+        Thread serverThread = new Thread(new DebugDataFeedServerThread());
         serverThread.start();
         //example data
         GeographicCoordinate position = new GeographicCoordinate(1,2,3);
