@@ -25,7 +25,7 @@ public class SphericalVelocity extends Vector3 {
     }
 
     /**
-     * Get Radius Component
+     * Get Delta Radius Component
      * @return
      */
     public double getDR() {
@@ -33,7 +33,7 @@ public class SphericalVelocity extends Vector3 {
     }
 
     /**
-     * Get Theta Component
+     * Get Delta Theta Component
      * @return
      */
     public double getDTheta() {
@@ -41,7 +41,7 @@ public class SphericalVelocity extends Vector3 {
     }
 
     /**
-     * Get Phi Component
+     * Get Delta Phi Component
      * @return
      */
     public double getDPhi() {
