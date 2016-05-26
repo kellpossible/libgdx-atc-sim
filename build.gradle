@@ -76,6 +76,7 @@ project(":core") {
         compile "com.samskivert:pythagoras:$pythagorasVersion"
         compile "com.google.protobuf:protobuf-java:$protobufVersion"
         compile "com.google.code.gson:gson:$gsonVersion"
+        testCompile "junit:junit:+"
         //compile "net.mikera:vectorz:0.61.0"
 
     }

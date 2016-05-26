@@ -11,6 +11,12 @@ import pythagoras.d.Vector3;
 public class GeographicCoordinate extends SphericalCoordinate
 {
     public static final double EARTH_MSL_RADIUS = 6371000.0;
+
+    public static GeographicCoordinate fromCartesian(Vector3 cv)
+    {
+        return new GeographicCoordinate(SphericalCoordinate.fromCartesian(cv));
+    }
+
     public GeographicCoordinate(Vector3 other)
     {
         super(other);

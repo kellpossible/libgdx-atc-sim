@@ -9,6 +9,14 @@ import pythagoras.d.Vector3;
  * @author Luke Frisken
  */
 public class SphericalCoordinate extends Vector3 {
+    public static SphericalCoordinate fromCartesian(Vector3 cv)
+    {
+        double r = Math.sqrt(cv.x*cv.x + cv.y*cv.y + cv.z*cv.z);
+        double theta = Math.atan(cv.y/cv.x);
+        double phi = Math.acos(cv.z/r);
+        return new SphericalCoordinate(r,theta,phi);
+    }
+
     public SphericalCoordinate(SphericalCoordinate other)
     {
         super(other);
