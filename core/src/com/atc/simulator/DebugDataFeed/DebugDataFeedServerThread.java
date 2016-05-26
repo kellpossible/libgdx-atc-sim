@@ -1,5 +1,5 @@
 package com.atc.simulator.DebugDataFeed;
-import com.atc.simulator.DebugDataFeed.DebugDataFeedServe.Aircraft;
+import com.atc.simulator.flightdata.SystemState;
 import com.atc.simulator.vectors.GeographicCoordinate;
 import com.google.protobuf.InvalidProtocolBufferException;
 import java.net.*;
@@ -9,7 +9,7 @@ import java.io.*;
 /**
  * Created by Uros on 8/05/2016.
  */
-public class DebugDataFeedServerThread implements Runnable
+public class DebugDataFeedServerThread implements Runnable, DataPlaybackListener
 {
     static int OFFSET = 0;
     private DatagramSocket serverSocket;
@@ -48,5 +48,16 @@ public class DebugDataFeedServerThread implements Runnable
                 e.printStackTrace();
             }
         }
+    }
+
+    /**
+     * This method gets called when there is a system update, and gets
+     * passed the new system state
+     *
+     * @param systemState the updated system state
+     */
+    @Override
+    public void onSystemUpdate(SystemState systemState) {
+        //TODO: send message to client when this is called by placing it in the buffer.
     }
 }
