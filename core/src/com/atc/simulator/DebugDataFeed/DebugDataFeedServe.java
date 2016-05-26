@@ -1181,37 +1181,51 @@ public final class DebugDataFeedServe {
         getAircraftIDBytes();
 
     /**
-     * <code>required .GeographicCoordinateMessage position = 2;</code>
+     * <code>required string time = 2;</code>
+     */
+    boolean hasTime();
+    /**
+     * <code>required string time = 2;</code>
+     */
+    java.lang.String getTime();
+    /**
+     * <code>required string time = 2;</code>
+     */
+    com.google.protobuf.ByteString
+        getTimeBytes();
+
+    /**
+     * <code>required .GeographicCoordinateMessage position = 3;</code>
      */
     boolean hasPosition();
     /**
-     * <code>required .GeographicCoordinateMessage position = 2;</code>
+     * <code>required .GeographicCoordinateMessage position = 3;</code>
      */
     com.atc.simulator.DebugDataFeed.DebugDataFeedServe.GeographicCoordinateMessage getPosition();
     /**
-     * <code>required .GeographicCoordinateMessage position = 2;</code>
+     * <code>required .GeographicCoordinateMessage position = 3;</code>
      */
     com.atc.simulator.DebugDataFeed.DebugDataFeedServe.GeographicCoordinateMessageOrBuilder getPositionOrBuilder();
 
     /**
-     * <code>required .SphericalVelocityMessage velocity = 3;</code>
+     * <code>required .SphericalVelocityMessage velocity = 4;</code>
      */
     boolean hasVelocity();
     /**
-     * <code>required .SphericalVelocityMessage velocity = 3;</code>
+     * <code>required .SphericalVelocityMessage velocity = 4;</code>
      */
     com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SphericalVelocityMessage getVelocity();
     /**
-     * <code>required .SphericalVelocityMessage velocity = 3;</code>
+     * <code>required .SphericalVelocityMessage velocity = 4;</code>
      */
     com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SphericalVelocityMessageOrBuilder getVelocityOrBuilder();
 
     /**
-     * <code>required double heading = 4;</code>
+     * <code>required double heading = 5;</code>
      */
     boolean hasHeading();
     /**
-     * <code>required double heading = 4;</code>
+     * <code>required double heading = 5;</code>
      */
     double getHeading();
   }
@@ -1274,8 +1288,14 @@ public final class DebugDataFeedServe {
               break;
             }
             case 18: {
+              com.google.protobuf.ByteString bs = input.readBytes();
+              bitField0_ |= 0x00000002;
+              time_ = bs;
+              break;
+            }
+            case 26: {
               com.atc.simulator.DebugDataFeed.DebugDataFeedServe.GeographicCoordinateMessage.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000002) == 0x00000002)) {
+              if (((bitField0_ & 0x00000004) == 0x00000004)) {
                 subBuilder = position_.toBuilder();
               }
               position_ = input.readMessage(com.atc.simulator.DebugDataFeed.DebugDataFeedServe.GeographicCoordinateMessage.PARSER, extensionRegistry);
@@ -1283,12 +1303,12 @@ public final class DebugDataFeedServe {
                 subBuilder.mergeFrom(position_);
                 position_ = subBuilder.buildPartial();
               }
-              bitField0_ |= 0x00000002;
+              bitField0_ |= 0x00000004;
               break;
             }
-            case 26: {
+            case 34: {
               com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SphericalVelocityMessage.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000004) == 0x00000004)) {
+              if (((bitField0_ & 0x00000008) == 0x00000008)) {
                 subBuilder = velocity_.toBuilder();
               }
               velocity_ = input.readMessage(com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SphericalVelocityMessage.PARSER, extensionRegistry);
@@ -1296,11 +1316,11 @@ public final class DebugDataFeedServe {
                 subBuilder.mergeFrom(velocity_);
                 velocity_ = subBuilder.buildPartial();
               }
-              bitField0_ |= 0x00000004;
+              bitField0_ |= 0x00000008;
               break;
             }
-            case 33: {
-              bitField0_ |= 0x00000008;
+            case 41: {
+              bitField0_ |= 0x00000010;
               heading_ = input.readDouble();
               break;
             }
@@ -1386,58 +1406,100 @@ public final class DebugDataFeedServe {
       }
     }
 
-    public static final int POSITION_FIELD_NUMBER = 2;
-    private com.atc.simulator.DebugDataFeed.DebugDataFeedServe.GeographicCoordinateMessage position_;
+    public static final int TIME_FIELD_NUMBER = 2;
+    private java.lang.Object time_;
     /**
-     * <code>required .GeographicCoordinateMessage position = 2;</code>
+     * <code>required string time = 2;</code>
      */
-    public boolean hasPosition() {
+    public boolean hasTime() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
-     * <code>required .GeographicCoordinateMessage position = 2;</code>
+     * <code>required string time = 2;</code>
+     */
+    public java.lang.String getTime() {
+      java.lang.Object ref = time_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          time_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string time = 2;</code>
+     */
+    public com.google.protobuf.ByteString
+        getTimeBytes() {
+      java.lang.Object ref = time_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        time_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int POSITION_FIELD_NUMBER = 3;
+    private com.atc.simulator.DebugDataFeed.DebugDataFeedServe.GeographicCoordinateMessage position_;
+    /**
+     * <code>required .GeographicCoordinateMessage position = 3;</code>
+     */
+    public boolean hasPosition() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>required .GeographicCoordinateMessage position = 3;</code>
      */
     public com.atc.simulator.DebugDataFeed.DebugDataFeedServe.GeographicCoordinateMessage getPosition() {
       return position_;
     }
     /**
-     * <code>required .GeographicCoordinateMessage position = 2;</code>
+     * <code>required .GeographicCoordinateMessage position = 3;</code>
      */
     public com.atc.simulator.DebugDataFeed.DebugDataFeedServe.GeographicCoordinateMessageOrBuilder getPositionOrBuilder() {
       return position_;
     }
 
-    public static final int VELOCITY_FIELD_NUMBER = 3;
+    public static final int VELOCITY_FIELD_NUMBER = 4;
     private com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SphericalVelocityMessage velocity_;
     /**
-     * <code>required .SphericalVelocityMessage velocity = 3;</code>
+     * <code>required .SphericalVelocityMessage velocity = 4;</code>
      */
     public boolean hasVelocity() {
-      return ((bitField0_ & 0x00000004) == 0x00000004);
+      return ((bitField0_ & 0x00000008) == 0x00000008);
     }
     /**
-     * <code>required .SphericalVelocityMessage velocity = 3;</code>
+     * <code>required .SphericalVelocityMessage velocity = 4;</code>
      */
     public com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SphericalVelocityMessage getVelocity() {
       return velocity_;
     }
     /**
-     * <code>required .SphericalVelocityMessage velocity = 3;</code>
+     * <code>required .SphericalVelocityMessage velocity = 4;</code>
      */
     public com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SphericalVelocityMessageOrBuilder getVelocityOrBuilder() {
       return velocity_;
     }
 
-    public static final int HEADING_FIELD_NUMBER = 4;
+    public static final int HEADING_FIELD_NUMBER = 5;
     private double heading_;
     /**
-     * <code>required double heading = 4;</code>
+     * <code>required double heading = 5;</code>
      */
     public boolean hasHeading() {
-      return ((bitField0_ & 0x00000008) == 0x00000008);
+      return ((bitField0_ & 0x00000010) == 0x00000010);
     }
     /**
-     * <code>required double heading = 4;</code>
+     * <code>required double heading = 5;</code>
      */
     public double getHeading() {
       return heading_;
@@ -1445,6 +1507,7 @@ public final class DebugDataFeedServe {
 
     private void initFields() {
       aircraftID_ = "";
+      time_ = "";
       position_ = com.atc.simulator.DebugDataFeed.DebugDataFeedServe.GeographicCoordinateMessage.getDefaultInstance();
       velocity_ = com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SphericalVelocityMessage.getDefaultInstance();
       heading_ = 0D;
@@ -1456,6 +1519,10 @@ public final class DebugDataFeedServe {
       if (isInitialized == 0) return false;
 
       if (!hasAircraftID()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasTime()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -1490,13 +1557,16 @@ public final class DebugDataFeedServe {
         output.writeBytes(1, getAircraftIDBytes());
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeMessage(2, position_);
+        output.writeBytes(2, getTimeBytes());
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        output.writeMessage(3, velocity_);
+        output.writeMessage(3, position_);
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        output.writeDouble(4, heading_);
+        output.writeMessage(4, velocity_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        output.writeDouble(5, heading_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -1513,15 +1583,19 @@ public final class DebugDataFeedServe {
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(2, position_);
+          .computeBytesSize(2, getTimeBytes());
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(3, velocity_);
+          .computeMessageSize(3, position_);
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeDoubleSize(4, heading_);
+          .computeMessageSize(4, velocity_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeDoubleSize(5, heading_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1644,20 +1718,22 @@ public final class DebugDataFeedServe {
         super.clear();
         aircraftID_ = "";
         bitField0_ = (bitField0_ & ~0x00000001);
+        time_ = "";
+        bitField0_ = (bitField0_ & ~0x00000002);
         if (positionBuilder_ == null) {
           position_ = com.atc.simulator.DebugDataFeed.DebugDataFeedServe.GeographicCoordinateMessage.getDefaultInstance();
         } else {
           positionBuilder_.clear();
         }
-        bitField0_ = (bitField0_ & ~0x00000002);
+        bitField0_ = (bitField0_ & ~0x00000004);
         if (velocityBuilder_ == null) {
           velocity_ = com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SphericalVelocityMessage.getDefaultInstance();
         } else {
           velocityBuilder_.clear();
         }
-        bitField0_ = (bitField0_ & ~0x00000004);
-        heading_ = 0D;
         bitField0_ = (bitField0_ & ~0x00000008);
+        heading_ = 0D;
+        bitField0_ = (bitField0_ & ~0x00000010);
         return this;
       }
 
@@ -1693,21 +1769,25 @@ public final class DebugDataFeedServe {
         if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
         }
+        result.time_ = time_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
         if (positionBuilder_ == null) {
           result.position_ = position_;
         } else {
           result.position_ = positionBuilder_.build();
         }
-        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
-          to_bitField0_ |= 0x00000004;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
         }
         if (velocityBuilder_ == null) {
           result.velocity_ = velocity_;
         } else {
           result.velocity_ = velocityBuilder_.build();
         }
-        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
-          to_bitField0_ |= 0x00000008;
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000010;
         }
         result.heading_ = heading_;
         result.bitField0_ = to_bitField0_;
@@ -1731,6 +1811,11 @@ public final class DebugDataFeedServe {
           aircraftID_ = other.aircraftID_;
           onChanged();
         }
+        if (other.hasTime()) {
+          bitField0_ |= 0x00000002;
+          time_ = other.time_;
+          onChanged();
+        }
         if (other.hasPosition()) {
           mergePosition(other.getPosition());
         }
@@ -1746,6 +1831,10 @@ public final class DebugDataFeedServe {
 
       public final boolean isInitialized() {
         if (!hasAircraftID()) {
+          
+          return false;
+        }
+        if (!hasTime()) {
           
           return false;
         }
@@ -1867,17 +1956,93 @@ public final class DebugDataFeedServe {
         return this;
       }
 
+      private java.lang.Object time_ = "";
+      /**
+       * <code>required string time = 2;</code>
+       */
+      public boolean hasTime() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required string time = 2;</code>
+       */
+      public java.lang.String getTime() {
+        java.lang.Object ref = time_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            time_ = s;
+          }
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string time = 2;</code>
+       */
+      public com.google.protobuf.ByteString
+          getTimeBytes() {
+        java.lang.Object ref = time_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          time_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string time = 2;</code>
+       */
+      public Builder setTime(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        time_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string time = 2;</code>
+       */
+      public Builder clearTime() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        time_ = getDefaultInstance().getTime();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string time = 2;</code>
+       */
+      public Builder setTimeBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        time_ = value;
+        onChanged();
+        return this;
+      }
+
       private com.atc.simulator.DebugDataFeed.DebugDataFeedServe.GeographicCoordinateMessage position_ = com.atc.simulator.DebugDataFeed.DebugDataFeedServe.GeographicCoordinateMessage.getDefaultInstance();
       private com.google.protobuf.SingleFieldBuilder<
           com.atc.simulator.DebugDataFeed.DebugDataFeedServe.GeographicCoordinateMessage, com.atc.simulator.DebugDataFeed.DebugDataFeedServe.GeographicCoordinateMessage.Builder, com.atc.simulator.DebugDataFeed.DebugDataFeedServe.GeographicCoordinateMessageOrBuilder> positionBuilder_;
       /**
-       * <code>required .GeographicCoordinateMessage position = 2;</code>
+       * <code>required .GeographicCoordinateMessage position = 3;</code>
        */
       public boolean hasPosition() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
+        return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
-       * <code>required .GeographicCoordinateMessage position = 2;</code>
+       * <code>required .GeographicCoordinateMessage position = 3;</code>
        */
       public com.atc.simulator.DebugDataFeed.DebugDataFeedServe.GeographicCoordinateMessage getPosition() {
         if (positionBuilder_ == null) {
@@ -1887,7 +2052,7 @@ public final class DebugDataFeedServe {
         }
       }
       /**
-       * <code>required .GeographicCoordinateMessage position = 2;</code>
+       * <code>required .GeographicCoordinateMessage position = 3;</code>
        */
       public Builder setPosition(com.atc.simulator.DebugDataFeed.DebugDataFeedServe.GeographicCoordinateMessage value) {
         if (positionBuilder_ == null) {
@@ -1899,11 +2064,11 @@ public final class DebugDataFeedServe {
         } else {
           positionBuilder_.setMessage(value);
         }
-        bitField0_ |= 0x00000002;
+        bitField0_ |= 0x00000004;
         return this;
       }
       /**
-       * <code>required .GeographicCoordinateMessage position = 2;</code>
+       * <code>required .GeographicCoordinateMessage position = 3;</code>
        */
       public Builder setPosition(
           com.atc.simulator.DebugDataFeed.DebugDataFeedServe.GeographicCoordinateMessage.Builder builderForValue) {
@@ -1913,15 +2078,15 @@ public final class DebugDataFeedServe {
         } else {
           positionBuilder_.setMessage(builderForValue.build());
         }
-        bitField0_ |= 0x00000002;
+        bitField0_ |= 0x00000004;
         return this;
       }
       /**
-       * <code>required .GeographicCoordinateMessage position = 2;</code>
+       * <code>required .GeographicCoordinateMessage position = 3;</code>
        */
       public Builder mergePosition(com.atc.simulator.DebugDataFeed.DebugDataFeedServe.GeographicCoordinateMessage value) {
         if (positionBuilder_ == null) {
-          if (((bitField0_ & 0x00000002) == 0x00000002) &&
+          if (((bitField0_ & 0x00000004) == 0x00000004) &&
               position_ != com.atc.simulator.DebugDataFeed.DebugDataFeedServe.GeographicCoordinateMessage.getDefaultInstance()) {
             position_ =
               com.atc.simulator.DebugDataFeed.DebugDataFeedServe.GeographicCoordinateMessage.newBuilder(position_).mergeFrom(value).buildPartial();
@@ -1932,11 +2097,11 @@ public final class DebugDataFeedServe {
         } else {
           positionBuilder_.mergeFrom(value);
         }
-        bitField0_ |= 0x00000002;
+        bitField0_ |= 0x00000004;
         return this;
       }
       /**
-       * <code>required .GeographicCoordinateMessage position = 2;</code>
+       * <code>required .GeographicCoordinateMessage position = 3;</code>
        */
       public Builder clearPosition() {
         if (positionBuilder_ == null) {
@@ -1945,19 +2110,19 @@ public final class DebugDataFeedServe {
         } else {
           positionBuilder_.clear();
         }
-        bitField0_ = (bitField0_ & ~0x00000002);
+        bitField0_ = (bitField0_ & ~0x00000004);
         return this;
       }
       /**
-       * <code>required .GeographicCoordinateMessage position = 2;</code>
+       * <code>required .GeographicCoordinateMessage position = 3;</code>
        */
       public com.atc.simulator.DebugDataFeed.DebugDataFeedServe.GeographicCoordinateMessage.Builder getPositionBuilder() {
-        bitField0_ |= 0x00000002;
+        bitField0_ |= 0x00000004;
         onChanged();
         return getPositionFieldBuilder().getBuilder();
       }
       /**
-       * <code>required .GeographicCoordinateMessage position = 2;</code>
+       * <code>required .GeographicCoordinateMessage position = 3;</code>
        */
       public com.atc.simulator.DebugDataFeed.DebugDataFeedServe.GeographicCoordinateMessageOrBuilder getPositionOrBuilder() {
         if (positionBuilder_ != null) {
@@ -1967,7 +2132,7 @@ public final class DebugDataFeedServe {
         }
       }
       /**
-       * <code>required .GeographicCoordinateMessage position = 2;</code>
+       * <code>required .GeographicCoordinateMessage position = 3;</code>
        */
       private com.google.protobuf.SingleFieldBuilder<
           com.atc.simulator.DebugDataFeed.DebugDataFeedServe.GeographicCoordinateMessage, com.atc.simulator.DebugDataFeed.DebugDataFeedServe.GeographicCoordinateMessage.Builder, com.atc.simulator.DebugDataFeed.DebugDataFeedServe.GeographicCoordinateMessageOrBuilder> 
@@ -1987,13 +2152,13 @@ public final class DebugDataFeedServe {
       private com.google.protobuf.SingleFieldBuilder<
           com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SphericalVelocityMessage, com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SphericalVelocityMessage.Builder, com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SphericalVelocityMessageOrBuilder> velocityBuilder_;
       /**
-       * <code>required .SphericalVelocityMessage velocity = 3;</code>
+       * <code>required .SphericalVelocityMessage velocity = 4;</code>
        */
       public boolean hasVelocity() {
-        return ((bitField0_ & 0x00000004) == 0x00000004);
+        return ((bitField0_ & 0x00000008) == 0x00000008);
       }
       /**
-       * <code>required .SphericalVelocityMessage velocity = 3;</code>
+       * <code>required .SphericalVelocityMessage velocity = 4;</code>
        */
       public com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SphericalVelocityMessage getVelocity() {
         if (velocityBuilder_ == null) {
@@ -2003,7 +2168,7 @@ public final class DebugDataFeedServe {
         }
       }
       /**
-       * <code>required .SphericalVelocityMessage velocity = 3;</code>
+       * <code>required .SphericalVelocityMessage velocity = 4;</code>
        */
       public Builder setVelocity(com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SphericalVelocityMessage value) {
         if (velocityBuilder_ == null) {
@@ -2015,11 +2180,11 @@ public final class DebugDataFeedServe {
         } else {
           velocityBuilder_.setMessage(value);
         }
-        bitField0_ |= 0x00000004;
+        bitField0_ |= 0x00000008;
         return this;
       }
       /**
-       * <code>required .SphericalVelocityMessage velocity = 3;</code>
+       * <code>required .SphericalVelocityMessage velocity = 4;</code>
        */
       public Builder setVelocity(
           com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SphericalVelocityMessage.Builder builderForValue) {
@@ -2029,15 +2194,15 @@ public final class DebugDataFeedServe {
         } else {
           velocityBuilder_.setMessage(builderForValue.build());
         }
-        bitField0_ |= 0x00000004;
+        bitField0_ |= 0x00000008;
         return this;
       }
       /**
-       * <code>required .SphericalVelocityMessage velocity = 3;</code>
+       * <code>required .SphericalVelocityMessage velocity = 4;</code>
        */
       public Builder mergeVelocity(com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SphericalVelocityMessage value) {
         if (velocityBuilder_ == null) {
-          if (((bitField0_ & 0x00000004) == 0x00000004) &&
+          if (((bitField0_ & 0x00000008) == 0x00000008) &&
               velocity_ != com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SphericalVelocityMessage.getDefaultInstance()) {
             velocity_ =
               com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SphericalVelocityMessage.newBuilder(velocity_).mergeFrom(value).buildPartial();
@@ -2048,11 +2213,11 @@ public final class DebugDataFeedServe {
         } else {
           velocityBuilder_.mergeFrom(value);
         }
-        bitField0_ |= 0x00000004;
+        bitField0_ |= 0x00000008;
         return this;
       }
       /**
-       * <code>required .SphericalVelocityMessage velocity = 3;</code>
+       * <code>required .SphericalVelocityMessage velocity = 4;</code>
        */
       public Builder clearVelocity() {
         if (velocityBuilder_ == null) {
@@ -2061,19 +2226,19 @@ public final class DebugDataFeedServe {
         } else {
           velocityBuilder_.clear();
         }
-        bitField0_ = (bitField0_ & ~0x00000004);
+        bitField0_ = (bitField0_ & ~0x00000008);
         return this;
       }
       /**
-       * <code>required .SphericalVelocityMessage velocity = 3;</code>
+       * <code>required .SphericalVelocityMessage velocity = 4;</code>
        */
       public com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SphericalVelocityMessage.Builder getVelocityBuilder() {
-        bitField0_ |= 0x00000004;
+        bitField0_ |= 0x00000008;
         onChanged();
         return getVelocityFieldBuilder().getBuilder();
       }
       /**
-       * <code>required .SphericalVelocityMessage velocity = 3;</code>
+       * <code>required .SphericalVelocityMessage velocity = 4;</code>
        */
       public com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SphericalVelocityMessageOrBuilder getVelocityOrBuilder() {
         if (velocityBuilder_ != null) {
@@ -2083,7 +2248,7 @@ public final class DebugDataFeedServe {
         }
       }
       /**
-       * <code>required .SphericalVelocityMessage velocity = 3;</code>
+       * <code>required .SphericalVelocityMessage velocity = 4;</code>
        */
       private com.google.protobuf.SingleFieldBuilder<
           com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SphericalVelocityMessage, com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SphericalVelocityMessage.Builder, com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SphericalVelocityMessageOrBuilder> 
@@ -2101,31 +2266,31 @@ public final class DebugDataFeedServe {
 
       private double heading_ ;
       /**
-       * <code>required double heading = 4;</code>
+       * <code>required double heading = 5;</code>
        */
       public boolean hasHeading() {
-        return ((bitField0_ & 0x00000008) == 0x00000008);
+        return ((bitField0_ & 0x00000010) == 0x00000010);
       }
       /**
-       * <code>required double heading = 4;</code>
+       * <code>required double heading = 5;</code>
        */
       public double getHeading() {
         return heading_;
       }
       /**
-       * <code>required double heading = 4;</code>
+       * <code>required double heading = 5;</code>
        */
       public Builder setHeading(double value) {
-        bitField0_ |= 0x00000008;
+        bitField0_ |= 0x00000010;
         heading_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required double heading = 4;</code>
+       * <code>required double heading = 5;</code>
        */
       public Builder clearHeading() {
-        bitField0_ = (bitField0_ & ~0x00000008);
+        bitField0_ = (bitField0_ & ~0x00000010);
         heading_ = 0D;
         onChanged();
         return this;
@@ -3031,15 +3196,15 @@ public final class DebugDataFeedServe {
       "\030SphericalVelocityMessage\022\n\n\002dr\030\001 \002(\001\022\016\n" +
       "\006dtheta\030\002 \002(\001\022\014\n\004dphi\030\003 \002(\001\"T\n\033Geographi" +
       "cCoordinateMessage\022\020\n\010altitude\030\001 \002(\001\022\020\n\010" +
-      "latitude\030\002 \002(\001\022\021\n\tlongitude\030\003 \002(\001\"\230\001\n\024Ai" +
-      "rcraftStateMessage\022\022\n\naircraftID\030\001 \002(\t\022." +
-      "\n\010position\030\002 \002(\0132\034.GeographicCoordinateM" +
-      "essage\022+\n\010velocity\030\003 \002(\0132\031.SphericalVelo" +
-      "cityMessage\022\017\n\007heading\030\004 \002(\001\"P\n\022SystemSt" +
-      "ateMessage\022\014\n\004time\030\001 \002(\t\022,\n\raircraftStat",
-      "e\030\002 \003(\0132\025.AircraftStateMessageB5\n\037com.at" +
-      "c.simulator.DebugDataFeedB\022DebugDataFeed" +
-      "Serve"
+      "latitude\030\002 \002(\001\022\021\n\tlongitude\030\003 \002(\001\"\246\001\n\024Ai" +
+      "rcraftStateMessage\022\022\n\naircraftID\030\001 \002(\t\022\014" +
+      "\n\004time\030\002 \002(\t\022.\n\010position\030\003 \002(\0132\034.Geograp" +
+      "hicCoordinateMessage\022+\n\010velocity\030\004 \002(\0132\031" +
+      ".SphericalVelocityMessage\022\017\n\007heading\030\005 \002" +
+      "(\001\"P\n\022SystemStateMessage\022\014\n\004time\030\001 \002(\t\022,",
+      "\n\raircraftState\030\002 \003(\0132\025.AircraftStateMes" +
+      "sageB5\n\037com.atc.simulator.DebugDataFeedB" +
+      "\022DebugDataFeedServe"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -3070,7 +3235,7 @@ public final class DebugDataFeedServe {
     internal_static_AircraftStateMessage_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_AircraftStateMessage_descriptor,
-        new java.lang.String[] { "AircraftID", "Position", "Velocity", "Heading", });
+        new java.lang.String[] { "AircraftID", "Time", "Position", "Velocity", "Heading", });
     internal_static_SystemStateMessage_descriptor =
       getDescriptor().getMessageTypes().get(3);
     internal_static_SystemStateMessage_fieldAccessorTable = new

@@ -70,6 +70,7 @@ public class DebugDataFeedServerThread implements Runnable, DataPlaybackListener
         {
             AircraftStateMessage.Builder aircraftStateMessageBuilder = AircraftStateMessage.newBuilder();
             aircraftStateMessageBuilder.setAircraftID(aircraftState.getAircraftID());
+            aircraftStateMessageBuilder.setTime(ISO8601.fromCalendar(aircraftState.getTime()));
 
             GeographicCoordinate position = aircraftState.getPosition();
             aircraftStateMessageBuilder.setPosition(

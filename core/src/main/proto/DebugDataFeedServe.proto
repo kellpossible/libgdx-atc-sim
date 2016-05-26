@@ -18,9 +18,10 @@ message GeographicCoordinateMessage {
 message AircraftStateMessage
 {
     required string aircraftID = 1;
-    required GeographicCoordinateMessage position = 2;
-    required SphericalVelocityMessage velocity = 3;
-    required double heading = 4;
+    required string time = 2;
+    required GeographicCoordinateMessage position = 3;
+    required SphericalVelocityMessage velocity = 4;
+    required double heading = 5;
 }
 
 message SystemStateMessage
