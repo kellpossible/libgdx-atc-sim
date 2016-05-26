@@ -19,7 +19,7 @@ message SystemState
             required double dphi = 3;
         }
 
-        required String aircraftID = 1;
+        required string aircraftID = 1;
         required GeographicCoordinate position = 2;
         required SphericalVelocity velocity = 3;
         required double heading = 4;

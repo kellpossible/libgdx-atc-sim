@@ -8,52 +8,68 @@ public final class DebugDataFeedServe {
   public static void registerAllExtensions(
       com.google.protobuf.ExtensionRegistry registry) {
   }
-  public interface AircraftOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:Aircraft)
+  public interface SystemStateOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:SystemState)
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>repeated double position = 1;</code>
+     * <code>required string time = 1;</code>
      */
-    java.util.List<java.lang.Double> getPositionList();
+    boolean hasTime();
     /**
-     * <code>repeated double position = 1;</code>
+     * <code>required string time = 1;</code>
      */
-    int getPositionCount();
+    java.lang.String getTime();
     /**
-     * <code>repeated double position = 1;</code>
+     * <code>required string time = 1;</code>
      */
-    double getPosition(int index);
+    com.google.protobuf.ByteString
+        getTimeBytes();
 
     /**
-     * <code>required float speed = 2;</code>
+     * <code>repeated .SystemState.AircraftState aircraftStates = 2;</code>
      */
-    boolean hasSpeed();
+    java.util.List<com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState> 
+        getAircraftStatesList();
     /**
-     * <code>required float speed = 2;</code>
+     * <code>repeated .SystemState.AircraftState aircraftStates = 2;</code>
      */
-    float getSpeed();
+    com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState getAircraftStates(int index);
+    /**
+     * <code>repeated .SystemState.AircraftState aircraftStates = 2;</code>
+     */
+    int getAircraftStatesCount();
+    /**
+     * <code>repeated .SystemState.AircraftState aircraftStates = 2;</code>
+     */
+    java.util.List<? extends com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftStateOrBuilder> 
+        getAircraftStatesOrBuilderList();
+    /**
+     * <code>repeated .SystemState.AircraftState aircraftStates = 2;</code>
+     */
+    com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftStateOrBuilder getAircraftStatesOrBuilder(
+        int index);
   }
   /**
-   * Protobuf type {@code Aircraft}
+   * Protobuf type {@code SystemState}
    */
-  public static final class Aircraft extends
+  public static final class SystemState extends
       com.google.protobuf.GeneratedMessage implements
-      // @@protoc_insertion_point(message_implements:Aircraft)
-      AircraftOrBuilder {
-    // Use Aircraft.newBuilder() to construct.
-    private Aircraft(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      // @@protoc_insertion_point(message_implements:SystemState)
+      SystemStateOrBuilder {
+    // Use SystemState.newBuilder() to construct.
+    private SystemState(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
       super(builder);
       this.unknownFields = builder.getUnknownFields();
     }
-    private Aircraft(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+    private SystemState(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
 
-    private static final Aircraft defaultInstance;
-    public static Aircraft getDefaultInstance() {
+    private static final SystemState defaultInstance;
+    public static SystemState getDefaultInstance() {
       return defaultInstance;
     }
 
-    public Aircraft getDefaultInstanceForType() {
+    public SystemState getDefaultInstanceForType() {
       return defaultInstance;
     }
 
@@ -63,7 +79,7 @@ public final class DebugDataFeedServe {
         getUnknownFields() {
       return this.unknownFields;
     }
-    private Aircraft(
+    private SystemState(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -86,30 +102,18 @@ public final class DebugDataFeedServe {
               }
               break;
             }
-            case 9: {
-              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
-                position_ = new java.util.ArrayList<java.lang.Double>();
-                mutable_bitField0_ |= 0x00000001;
-              }
-              position_.add(input.readDouble());
-              break;
-            }
             case 10: {
-              int length = input.readRawVarint32();
-              int limit = input.pushLimit(length);
-              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001) && input.getBytesUntilLimit() > 0) {
-                position_ = new java.util.ArrayList<java.lang.Double>();
-                mutable_bitField0_ |= 0x00000001;
-              }
-              while (input.getBytesUntilLimit() > 0) {
-                position_.add(input.readDouble());
-              }
-              input.popLimit(limit);
+              com.google.protobuf.ByteString bs = input.readBytes();
+              bitField0_ |= 0x00000001;
+              time_ = bs;
               break;
             }
-            case 21: {
-              bitField0_ |= 0x00000001;
-              speed_ = input.readFloat();
+            case 18: {
+              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+                aircraftStates_ = new java.util.ArrayList<com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState>();
+                mutable_bitField0_ |= 0x00000002;
+              }
+              aircraftStates_.add(input.readMessage(com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.PARSER, extensionRegistry));
               break;
             }
           }
@@ -120,8 +124,8 @@ public final class DebugDataFeedServe {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
-          position_ = java.util.Collections.unmodifiableList(position_);
+        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+          aircraftStates_ = java.util.Collections.unmodifiableList(aircraftStates_);
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -129,72 +133,2246 @@ public final class DebugDataFeedServe {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return com.atc.simulator.DebugDataFeed.DebugDataFeedServe.internal_static_Aircraft_descriptor;
+      return com.atc.simulator.DebugDataFeed.DebugDataFeedServe.internal_static_SystemState_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return com.atc.simulator.DebugDataFeed.DebugDataFeedServe.internal_static_Aircraft_fieldAccessorTable
+      return com.atc.simulator.DebugDataFeed.DebugDataFeedServe.internal_static_SystemState_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              com.atc.simulator.DebugDataFeed.DebugDataFeedServe.Aircraft.class, com.atc.simulator.DebugDataFeed.DebugDataFeedServe.Aircraft.Builder.class);
+              com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.class, com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.Builder.class);
     }
 
-    public static com.google.protobuf.Parser<Aircraft> PARSER =
-        new com.google.protobuf.AbstractParser<Aircraft>() {
-      public Aircraft parsePartialFrom(
+    public static com.google.protobuf.Parser<SystemState> PARSER =
+        new com.google.protobuf.AbstractParser<SystemState>() {
+      public SystemState parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new Aircraft(input, extensionRegistry);
+        return new SystemState(input, extensionRegistry);
       }
     };
 
     @java.lang.Override
-    public com.google.protobuf.Parser<Aircraft> getParserForType() {
+    public com.google.protobuf.Parser<SystemState> getParserForType() {
       return PARSER;
     }
 
-    private int bitField0_;
-    public static final int POSITION_FIELD_NUMBER = 1;
-    private java.util.List<java.lang.Double> position_;
-    /**
-     * <code>repeated double position = 1;</code>
-     */
-    public java.util.List<java.lang.Double>
-        getPositionList() {
-      return position_;
+    public interface AircraftStateOrBuilder extends
+        // @@protoc_insertion_point(interface_extends:SystemState.AircraftState)
+        com.google.protobuf.MessageOrBuilder {
+
+      /**
+       * <code>required string aircraftID = 1;</code>
+       */
+      boolean hasAircraftID();
+      /**
+       * <code>required string aircraftID = 1;</code>
+       */
+      java.lang.String getAircraftID();
+      /**
+       * <code>required string aircraftID = 1;</code>
+       */
+      com.google.protobuf.ByteString
+          getAircraftIDBytes();
+
+      /**
+       * <code>required .SystemState.AircraftState.GeographicCoordinate position = 2;</code>
+       */
+      boolean hasPosition();
+      /**
+       * <code>required .SystemState.AircraftState.GeographicCoordinate position = 2;</code>
+       */
+      com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.GeographicCoordinate getPosition();
+      /**
+       * <code>required .SystemState.AircraftState.GeographicCoordinate position = 2;</code>
+       */
+      com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.GeographicCoordinateOrBuilder getPositionOrBuilder();
+
+      /**
+       * <code>required .SystemState.AircraftState.SphericalVelocity velocity = 3;</code>
+       */
+      boolean hasVelocity();
+      /**
+       * <code>required .SystemState.AircraftState.SphericalVelocity velocity = 3;</code>
+       */
+      com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.SphericalVelocity getVelocity();
+      /**
+       * <code>required .SystemState.AircraftState.SphericalVelocity velocity = 3;</code>
+       */
+      com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.SphericalVelocityOrBuilder getVelocityOrBuilder();
+
+      /**
+       * <code>required double heading = 4;</code>
+       */
+      boolean hasHeading();
+      /**
+       * <code>required double heading = 4;</code>
+       */
+      double getHeading();
     }
     /**
-     * <code>repeated double position = 1;</code>
+     * Protobuf type {@code SystemState.AircraftState}
      */
-    public int getPositionCount() {
-      return position_.size();
-    }
-    /**
-     * <code>repeated double position = 1;</code>
-     */
-    public double getPosition(int index) {
-      return position_.get(index);
+    public static final class AircraftState extends
+        com.google.protobuf.GeneratedMessage implements
+        // @@protoc_insertion_point(message_implements:SystemState.AircraftState)
+        AircraftStateOrBuilder {
+      // Use AircraftState.newBuilder() to construct.
+      private AircraftState(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+        super(builder);
+        this.unknownFields = builder.getUnknownFields();
+      }
+      private AircraftState(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+      private static final AircraftState defaultInstance;
+      public static AircraftState getDefaultInstance() {
+        return defaultInstance;
+      }
+
+      public AircraftState getDefaultInstanceForType() {
+        return defaultInstance;
+      }
+
+      private final com.google.protobuf.UnknownFieldSet unknownFields;
+      @java.lang.Override
+      public final com.google.protobuf.UnknownFieldSet
+          getUnknownFields() {
+        return this.unknownFields;
+      }
+      private AircraftState(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        initFields();
+        int mutable_bitField0_ = 0;
+        com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+            com.google.protobuf.UnknownFieldSet.newBuilder();
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              default: {
+                if (!parseUnknownField(input, unknownFields,
+                                       extensionRegistry, tag)) {
+                  done = true;
+                }
+                break;
+              }
+              case 10: {
+                com.google.protobuf.ByteString bs = input.readBytes();
+                bitField0_ |= 0x00000001;
+                aircraftID_ = bs;
+                break;
+              }
+              case 18: {
+                com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.GeographicCoordinate.Builder subBuilder = null;
+                if (((bitField0_ & 0x00000002) == 0x00000002)) {
+                  subBuilder = position_.toBuilder();
+                }
+                position_ = input.readMessage(com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.GeographicCoordinate.PARSER, extensionRegistry);
+                if (subBuilder != null) {
+                  subBuilder.mergeFrom(position_);
+                  position_ = subBuilder.buildPartial();
+                }
+                bitField0_ |= 0x00000002;
+                break;
+              }
+              case 26: {
+                com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.SphericalVelocity.Builder subBuilder = null;
+                if (((bitField0_ & 0x00000004) == 0x00000004)) {
+                  subBuilder = velocity_.toBuilder();
+                }
+                velocity_ = input.readMessage(com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.SphericalVelocity.PARSER, extensionRegistry);
+                if (subBuilder != null) {
+                  subBuilder.mergeFrom(velocity_);
+                  velocity_ = subBuilder.buildPartial();
+                }
+                bitField0_ |= 0x00000004;
+                break;
+              }
+              case 33: {
+                bitField0_ |= 0x00000008;
+                heading_ = input.readDouble();
+                break;
+              }
+            }
+          }
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(this);
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(
+              e.getMessage()).setUnfinishedMessage(this);
+        } finally {
+          this.unknownFields = unknownFields.build();
+          makeExtensionsImmutable();
+        }
+      }
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.atc.simulator.DebugDataFeed.DebugDataFeedServe.internal_static_SystemState_AircraftState_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.atc.simulator.DebugDataFeed.DebugDataFeedServe.internal_static_SystemState_AircraftState_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.class, com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.Builder.class);
+      }
+
+      public static com.google.protobuf.Parser<AircraftState> PARSER =
+          new com.google.protobuf.AbstractParser<AircraftState>() {
+        public AircraftState parsePartialFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+          return new AircraftState(input, extensionRegistry);
+        }
+      };
+
+      @java.lang.Override
+      public com.google.protobuf.Parser<AircraftState> getParserForType() {
+        return PARSER;
+      }
+
+      public interface GeographicCoordinateOrBuilder extends
+          // @@protoc_insertion_point(interface_extends:SystemState.AircraftState.GeographicCoordinate)
+          com.google.protobuf.MessageOrBuilder {
+
+        /**
+         * <code>required double altitude = 1;</code>
+         */
+        boolean hasAltitude();
+        /**
+         * <code>required double altitude = 1;</code>
+         */
+        double getAltitude();
+
+        /**
+         * <code>required double latitude = 2;</code>
+         */
+        boolean hasLatitude();
+        /**
+         * <code>required double latitude = 2;</code>
+         */
+        double getLatitude();
+
+        /**
+         * <code>required double longitude = 3;</code>
+         */
+        boolean hasLongitude();
+        /**
+         * <code>required double longitude = 3;</code>
+         */
+        double getLongitude();
+      }
+      /**
+       * Protobuf type {@code SystemState.AircraftState.GeographicCoordinate}
+       */
+      public static final class GeographicCoordinate extends
+          com.google.protobuf.GeneratedMessage implements
+          // @@protoc_insertion_point(message_implements:SystemState.AircraftState.GeographicCoordinate)
+          GeographicCoordinateOrBuilder {
+        // Use GeographicCoordinate.newBuilder() to construct.
+        private GeographicCoordinate(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+          super(builder);
+          this.unknownFields = builder.getUnknownFields();
+        }
+        private GeographicCoordinate(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+        private static final GeographicCoordinate defaultInstance;
+        public static GeographicCoordinate getDefaultInstance() {
+          return defaultInstance;
+        }
+
+        public GeographicCoordinate getDefaultInstanceForType() {
+          return defaultInstance;
+        }
+
+        private final com.google.protobuf.UnknownFieldSet unknownFields;
+        @java.lang.Override
+        public final com.google.protobuf.UnknownFieldSet
+            getUnknownFields() {
+          return this.unknownFields;
+        }
+        private GeographicCoordinate(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+          initFields();
+          int mutable_bitField0_ = 0;
+          com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+              com.google.protobuf.UnknownFieldSet.newBuilder();
+          try {
+            boolean done = false;
+            while (!done) {
+              int tag = input.readTag();
+              switch (tag) {
+                case 0:
+                  done = true;
+                  break;
+                default: {
+                  if (!parseUnknownField(input, unknownFields,
+                                         extensionRegistry, tag)) {
+                    done = true;
+                  }
+                  break;
+                }
+                case 9: {
+                  bitField0_ |= 0x00000001;
+                  altitude_ = input.readDouble();
+                  break;
+                }
+                case 17: {
+                  bitField0_ |= 0x00000002;
+                  latitude_ = input.readDouble();
+                  break;
+                }
+                case 25: {
+                  bitField0_ |= 0x00000004;
+                  longitude_ = input.readDouble();
+                  break;
+                }
+              }
+            }
+          } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+            throw e.setUnfinishedMessage(this);
+          } catch (java.io.IOException e) {
+            throw new com.google.protobuf.InvalidProtocolBufferException(
+                e.getMessage()).setUnfinishedMessage(this);
+          } finally {
+            this.unknownFields = unknownFields.build();
+            makeExtensionsImmutable();
+          }
+        }
+        public static final com.google.protobuf.Descriptors.Descriptor
+            getDescriptor() {
+          return com.atc.simulator.DebugDataFeed.DebugDataFeedServe.internal_static_SystemState_AircraftState_GeographicCoordinate_descriptor;
+        }
+
+        protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+            internalGetFieldAccessorTable() {
+          return com.atc.simulator.DebugDataFeed.DebugDataFeedServe.internal_static_SystemState_AircraftState_GeographicCoordinate_fieldAccessorTable
+              .ensureFieldAccessorsInitialized(
+                  com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.GeographicCoordinate.class, com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.GeographicCoordinate.Builder.class);
+        }
+
+        public static com.google.protobuf.Parser<GeographicCoordinate> PARSER =
+            new com.google.protobuf.AbstractParser<GeographicCoordinate>() {
+          public GeographicCoordinate parsePartialFrom(
+              com.google.protobuf.CodedInputStream input,
+              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+              throws com.google.protobuf.InvalidProtocolBufferException {
+            return new GeographicCoordinate(input, extensionRegistry);
+          }
+        };
+
+        @java.lang.Override
+        public com.google.protobuf.Parser<GeographicCoordinate> getParserForType() {
+          return PARSER;
+        }
+
+        private int bitField0_;
+        public static final int ALTITUDE_FIELD_NUMBER = 1;
+        private double altitude_;
+        /**
+         * <code>required double altitude = 1;</code>
+         */
+        public boolean hasAltitude() {
+          return ((bitField0_ & 0x00000001) == 0x00000001);
+        }
+        /**
+         * <code>required double altitude = 1;</code>
+         */
+        public double getAltitude() {
+          return altitude_;
+        }
+
+        public static final int LATITUDE_FIELD_NUMBER = 2;
+        private double latitude_;
+        /**
+         * <code>required double latitude = 2;</code>
+         */
+        public boolean hasLatitude() {
+          return ((bitField0_ & 0x00000002) == 0x00000002);
+        }
+        /**
+         * <code>required double latitude = 2;</code>
+         */
+        public double getLatitude() {
+          return latitude_;
+        }
+
+        public static final int LONGITUDE_FIELD_NUMBER = 3;
+        private double longitude_;
+        /**
+         * <code>required double longitude = 3;</code>
+         */
+        public boolean hasLongitude() {
+          return ((bitField0_ & 0x00000004) == 0x00000004);
+        }
+        /**
+         * <code>required double longitude = 3;</code>
+         */
+        public double getLongitude() {
+          return longitude_;
+        }
+
+        private void initFields() {
+          altitude_ = 0D;
+          latitude_ = 0D;
+          longitude_ = 0D;
+        }
+        private byte memoizedIsInitialized = -1;
+        public final boolean isInitialized() {
+          byte isInitialized = memoizedIsInitialized;
+          if (isInitialized == 1) return true;
+          if (isInitialized == 0) return false;
+
+          if (!hasAltitude()) {
+            memoizedIsInitialized = 0;
+            return false;
+          }
+          if (!hasLatitude()) {
+            memoizedIsInitialized = 0;
+            return false;
+          }
+          if (!hasLongitude()) {
+            memoizedIsInitialized = 0;
+            return false;
+          }
+          memoizedIsInitialized = 1;
+          return true;
+        }
+
+        public void writeTo(com.google.protobuf.CodedOutputStream output)
+                            throws java.io.IOException {
+          getSerializedSize();
+          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+            output.writeDouble(1, altitude_);
+          }
+          if (((bitField0_ & 0x00000002) == 0x00000002)) {
+            output.writeDouble(2, latitude_);
+          }
+          if (((bitField0_ & 0x00000004) == 0x00000004)) {
+            output.writeDouble(3, longitude_);
+          }
+          getUnknownFields().writeTo(output);
+        }
+
+        private int memoizedSerializedSize = -1;
+        public int getSerializedSize() {
+          int size = memoizedSerializedSize;
+          if (size != -1) return size;
+
+          size = 0;
+          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+            size += com.google.protobuf.CodedOutputStream
+              .computeDoubleSize(1, altitude_);
+          }
+          if (((bitField0_ & 0x00000002) == 0x00000002)) {
+            size += com.google.protobuf.CodedOutputStream
+              .computeDoubleSize(2, latitude_);
+          }
+          if (((bitField0_ & 0x00000004) == 0x00000004)) {
+            size += com.google.protobuf.CodedOutputStream
+              .computeDoubleSize(3, longitude_);
+          }
+          size += getUnknownFields().getSerializedSize();
+          memoizedSerializedSize = size;
+          return size;
+        }
+
+        private static final long serialVersionUID = 0L;
+        @java.lang.Override
+        protected java.lang.Object writeReplace()
+            throws java.io.ObjectStreamException {
+          return super.writeReplace();
+        }
+
+        public static com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.GeographicCoordinate parseFrom(
+            com.google.protobuf.ByteString data)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+          return PARSER.parseFrom(data);
+        }
+        public static com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.GeographicCoordinate parseFrom(
+            com.google.protobuf.ByteString data,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+          return PARSER.parseFrom(data, extensionRegistry);
+        }
+        public static com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.GeographicCoordinate parseFrom(byte[] data)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+          return PARSER.parseFrom(data);
+        }
+        public static com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.GeographicCoordinate parseFrom(
+            byte[] data,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+          return PARSER.parseFrom(data, extensionRegistry);
+        }
+        public static com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.GeographicCoordinate parseFrom(java.io.InputStream input)
+            throws java.io.IOException {
+          return PARSER.parseFrom(input);
+        }
+        public static com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.GeographicCoordinate parseFrom(
+            java.io.InputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws java.io.IOException {
+          return PARSER.parseFrom(input, extensionRegistry);
+        }
+        public static com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.GeographicCoordinate parseDelimitedFrom(java.io.InputStream input)
+            throws java.io.IOException {
+          return PARSER.parseDelimitedFrom(input);
+        }
+        public static com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.GeographicCoordinate parseDelimitedFrom(
+            java.io.InputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws java.io.IOException {
+          return PARSER.parseDelimitedFrom(input, extensionRegistry);
+        }
+        public static com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.GeographicCoordinate parseFrom(
+            com.google.protobuf.CodedInputStream input)
+            throws java.io.IOException {
+          return PARSER.parseFrom(input);
+        }
+        public static com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.GeographicCoordinate parseFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws java.io.IOException {
+          return PARSER.parseFrom(input, extensionRegistry);
+        }
+
+        public static Builder newBuilder() { return Builder.create(); }
+        public Builder newBuilderForType() { return newBuilder(); }
+        public static Builder newBuilder(com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.GeographicCoordinate prototype) {
+          return newBuilder().mergeFrom(prototype);
+        }
+        public Builder toBuilder() { return newBuilder(this); }
+
+        @java.lang.Override
+        protected Builder newBuilderForType(
+            com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+          Builder builder = new Builder(parent);
+          return builder;
+        }
+        /**
+         * Protobuf type {@code SystemState.AircraftState.GeographicCoordinate}
+         */
+        public static final class Builder extends
+            com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+            // @@protoc_insertion_point(builder_implements:SystemState.AircraftState.GeographicCoordinate)
+            com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.GeographicCoordinateOrBuilder {
+          public static final com.google.protobuf.Descriptors.Descriptor
+              getDescriptor() {
+            return com.atc.simulator.DebugDataFeed.DebugDataFeedServe.internal_static_SystemState_AircraftState_GeographicCoordinate_descriptor;
+          }
+
+          protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+              internalGetFieldAccessorTable() {
+            return com.atc.simulator.DebugDataFeed.DebugDataFeedServe.internal_static_SystemState_AircraftState_GeographicCoordinate_fieldAccessorTable
+                .ensureFieldAccessorsInitialized(
+                    com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.GeographicCoordinate.class, com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.GeographicCoordinate.Builder.class);
+          }
+
+          // Construct using com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.GeographicCoordinate.newBuilder()
+          private Builder() {
+            maybeForceBuilderInitialization();
+          }
+
+          private Builder(
+              com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+            super(parent);
+            maybeForceBuilderInitialization();
+          }
+          private void maybeForceBuilderInitialization() {
+            if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+            }
+          }
+          private static Builder create() {
+            return new Builder();
+          }
+
+          public Builder clear() {
+            super.clear();
+            altitude_ = 0D;
+            bitField0_ = (bitField0_ & ~0x00000001);
+            latitude_ = 0D;
+            bitField0_ = (bitField0_ & ~0x00000002);
+            longitude_ = 0D;
+            bitField0_ = (bitField0_ & ~0x00000004);
+            return this;
+          }
+
+          public Builder clone() {
+            return create().mergeFrom(buildPartial());
+          }
+
+          public com.google.protobuf.Descriptors.Descriptor
+              getDescriptorForType() {
+            return com.atc.simulator.DebugDataFeed.DebugDataFeedServe.internal_static_SystemState_AircraftState_GeographicCoordinate_descriptor;
+          }
+
+          public com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.GeographicCoordinate getDefaultInstanceForType() {
+            return com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.GeographicCoordinate.getDefaultInstance();
+          }
+
+          public com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.GeographicCoordinate build() {
+            com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.GeographicCoordinate result = buildPartial();
+            if (!result.isInitialized()) {
+              throw newUninitializedMessageException(result);
+            }
+            return result;
+          }
+
+          public com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.GeographicCoordinate buildPartial() {
+            com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.GeographicCoordinate result = new com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.GeographicCoordinate(this);
+            int from_bitField0_ = bitField0_;
+            int to_bitField0_ = 0;
+            if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+              to_bitField0_ |= 0x00000001;
+            }
+            result.altitude_ = altitude_;
+            if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+              to_bitField0_ |= 0x00000002;
+            }
+            result.latitude_ = latitude_;
+            if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+              to_bitField0_ |= 0x00000004;
+            }
+            result.longitude_ = longitude_;
+            result.bitField0_ = to_bitField0_;
+            onBuilt();
+            return result;
+          }
+
+          public Builder mergeFrom(com.google.protobuf.Message other) {
+            if (other instanceof com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.GeographicCoordinate) {
+              return mergeFrom((com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.GeographicCoordinate)other);
+            } else {
+              super.mergeFrom(other);
+              return this;
+            }
+          }
+
+          public Builder mergeFrom(com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.GeographicCoordinate other) {
+            if (other == com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.GeographicCoordinate.getDefaultInstance()) return this;
+            if (other.hasAltitude()) {
+              setAltitude(other.getAltitude());
+            }
+            if (other.hasLatitude()) {
+              setLatitude(other.getLatitude());
+            }
+            if (other.hasLongitude()) {
+              setLongitude(other.getLongitude());
+            }
+            this.mergeUnknownFields(other.getUnknownFields());
+            return this;
+          }
+
+          public final boolean isInitialized() {
+            if (!hasAltitude()) {
+              
+              return false;
+            }
+            if (!hasLatitude()) {
+              
+              return false;
+            }
+            if (!hasLongitude()) {
+              
+              return false;
+            }
+            return true;
+          }
+
+          public Builder mergeFrom(
+              com.google.protobuf.CodedInputStream input,
+              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+              throws java.io.IOException {
+            com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.GeographicCoordinate parsedMessage = null;
+            try {
+              parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+            } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+              parsedMessage = (com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.GeographicCoordinate) e.getUnfinishedMessage();
+              throw e;
+            } finally {
+              if (parsedMessage != null) {
+                mergeFrom(parsedMessage);
+              }
+            }
+            return this;
+          }
+          private int bitField0_;
+
+          private double altitude_ ;
+          /**
+           * <code>required double altitude = 1;</code>
+           */
+          public boolean hasAltitude() {
+            return ((bitField0_ & 0x00000001) == 0x00000001);
+          }
+          /**
+           * <code>required double altitude = 1;</code>
+           */
+          public double getAltitude() {
+            return altitude_;
+          }
+          /**
+           * <code>required double altitude = 1;</code>
+           */
+          public Builder setAltitude(double value) {
+            bitField0_ |= 0x00000001;
+            altitude_ = value;
+            onChanged();
+            return this;
+          }
+          /**
+           * <code>required double altitude = 1;</code>
+           */
+          public Builder clearAltitude() {
+            bitField0_ = (bitField0_ & ~0x00000001);
+            altitude_ = 0D;
+            onChanged();
+            return this;
+          }
+
+          private double latitude_ ;
+          /**
+           * <code>required double latitude = 2;</code>
+           */
+          public boolean hasLatitude() {
+            return ((bitField0_ & 0x00000002) == 0x00000002);
+          }
+          /**
+           * <code>required double latitude = 2;</code>
+           */
+          public double getLatitude() {
+            return latitude_;
+          }
+          /**
+           * <code>required double latitude = 2;</code>
+           */
+          public Builder setLatitude(double value) {
+            bitField0_ |= 0x00000002;
+            latitude_ = value;
+            onChanged();
+            return this;
+          }
+          /**
+           * <code>required double latitude = 2;</code>
+           */
+          public Builder clearLatitude() {
+            bitField0_ = (bitField0_ & ~0x00000002);
+            latitude_ = 0D;
+            onChanged();
+            return this;
+          }
+
+          private double longitude_ ;
+          /**
+           * <code>required double longitude = 3;</code>
+           */
+          public boolean hasLongitude() {
+            return ((bitField0_ & 0x00000004) == 0x00000004);
+          }
+          /**
+           * <code>required double longitude = 3;</code>
+           */
+          public double getLongitude() {
+            return longitude_;
+          }
+          /**
+           * <code>required double longitude = 3;</code>
+           */
+          public Builder setLongitude(double value) {
+            bitField0_ |= 0x00000004;
+            longitude_ = value;
+            onChanged();
+            return this;
+          }
+          /**
+           * <code>required double longitude = 3;</code>
+           */
+          public Builder clearLongitude() {
+            bitField0_ = (bitField0_ & ~0x00000004);
+            longitude_ = 0D;
+            onChanged();
+            return this;
+          }
+
+          // @@protoc_insertion_point(builder_scope:SystemState.AircraftState.GeographicCoordinate)
+        }
+
+        static {
+          defaultInstance = new GeographicCoordinate(true);
+          defaultInstance.initFields();
+        }
+
+        // @@protoc_insertion_point(class_scope:SystemState.AircraftState.GeographicCoordinate)
+      }
+
+      public interface SphericalVelocityOrBuilder extends
+          // @@protoc_insertion_point(interface_extends:SystemState.AircraftState.SphericalVelocity)
+          com.google.protobuf.MessageOrBuilder {
+
+        /**
+         * <code>required double dr = 1;</code>
+         */
+        boolean hasDr();
+        /**
+         * <code>required double dr = 1;</code>
+         */
+        double getDr();
+
+        /**
+         * <code>required double dtheta = 2;</code>
+         */
+        boolean hasDtheta();
+        /**
+         * <code>required double dtheta = 2;</code>
+         */
+        double getDtheta();
+
+        /**
+         * <code>required double dphi = 3;</code>
+         */
+        boolean hasDphi();
+        /**
+         * <code>required double dphi = 3;</code>
+         */
+        double getDphi();
+      }
+      /**
+       * Protobuf type {@code SystemState.AircraftState.SphericalVelocity}
+       */
+      public static final class SphericalVelocity extends
+          com.google.protobuf.GeneratedMessage implements
+          // @@protoc_insertion_point(message_implements:SystemState.AircraftState.SphericalVelocity)
+          SphericalVelocityOrBuilder {
+        // Use SphericalVelocity.newBuilder() to construct.
+        private SphericalVelocity(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+          super(builder);
+          this.unknownFields = builder.getUnknownFields();
+        }
+        private SphericalVelocity(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+        private static final SphericalVelocity defaultInstance;
+        public static SphericalVelocity getDefaultInstance() {
+          return defaultInstance;
+        }
+
+        public SphericalVelocity getDefaultInstanceForType() {
+          return defaultInstance;
+        }
+
+        private final com.google.protobuf.UnknownFieldSet unknownFields;
+        @java.lang.Override
+        public final com.google.protobuf.UnknownFieldSet
+            getUnknownFields() {
+          return this.unknownFields;
+        }
+        private SphericalVelocity(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+          initFields();
+          int mutable_bitField0_ = 0;
+          com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+              com.google.protobuf.UnknownFieldSet.newBuilder();
+          try {
+            boolean done = false;
+            while (!done) {
+              int tag = input.readTag();
+              switch (tag) {
+                case 0:
+                  done = true;
+                  break;
+                default: {
+                  if (!parseUnknownField(input, unknownFields,
+                                         extensionRegistry, tag)) {
+                    done = true;
+                  }
+                  break;
+                }
+                case 9: {
+                  bitField0_ |= 0x00000001;
+                  dr_ = input.readDouble();
+                  break;
+                }
+                case 17: {
+                  bitField0_ |= 0x00000002;
+                  dtheta_ = input.readDouble();
+                  break;
+                }
+                case 25: {
+                  bitField0_ |= 0x00000004;
+                  dphi_ = input.readDouble();
+                  break;
+                }
+              }
+            }
+          } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+            throw e.setUnfinishedMessage(this);
+          } catch (java.io.IOException e) {
+            throw new com.google.protobuf.InvalidProtocolBufferException(
+                e.getMessage()).setUnfinishedMessage(this);
+          } finally {
+            this.unknownFields = unknownFields.build();
+            makeExtensionsImmutable();
+          }
+        }
+        public static final com.google.protobuf.Descriptors.Descriptor
+            getDescriptor() {
+          return com.atc.simulator.DebugDataFeed.DebugDataFeedServe.internal_static_SystemState_AircraftState_SphericalVelocity_descriptor;
+        }
+
+        protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+            internalGetFieldAccessorTable() {
+          return com.atc.simulator.DebugDataFeed.DebugDataFeedServe.internal_static_SystemState_AircraftState_SphericalVelocity_fieldAccessorTable
+              .ensureFieldAccessorsInitialized(
+                  com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.SphericalVelocity.class, com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.SphericalVelocity.Builder.class);
+        }
+
+        public static com.google.protobuf.Parser<SphericalVelocity> PARSER =
+            new com.google.protobuf.AbstractParser<SphericalVelocity>() {
+          public SphericalVelocity parsePartialFrom(
+              com.google.protobuf.CodedInputStream input,
+              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+              throws com.google.protobuf.InvalidProtocolBufferException {
+            return new SphericalVelocity(input, extensionRegistry);
+          }
+        };
+
+        @java.lang.Override
+        public com.google.protobuf.Parser<SphericalVelocity> getParserForType() {
+          return PARSER;
+        }
+
+        private int bitField0_;
+        public static final int DR_FIELD_NUMBER = 1;
+        private double dr_;
+        /**
+         * <code>required double dr = 1;</code>
+         */
+        public boolean hasDr() {
+          return ((bitField0_ & 0x00000001) == 0x00000001);
+        }
+        /**
+         * <code>required double dr = 1;</code>
+         */
+        public double getDr() {
+          return dr_;
+        }
+
+        public static final int DTHETA_FIELD_NUMBER = 2;
+        private double dtheta_;
+        /**
+         * <code>required double dtheta = 2;</code>
+         */
+        public boolean hasDtheta() {
+          return ((bitField0_ & 0x00000002) == 0x00000002);
+        }
+        /**
+         * <code>required double dtheta = 2;</code>
+         */
+        public double getDtheta() {
+          return dtheta_;
+        }
+
+        public static final int DPHI_FIELD_NUMBER = 3;
+        private double dphi_;
+        /**
+         * <code>required double dphi = 3;</code>
+         */
+        public boolean hasDphi() {
+          return ((bitField0_ & 0x00000004) == 0x00000004);
+        }
+        /**
+         * <code>required double dphi = 3;</code>
+         */
+        public double getDphi() {
+          return dphi_;
+        }
+
+        private void initFields() {
+          dr_ = 0D;
+          dtheta_ = 0D;
+          dphi_ = 0D;
+        }
+        private byte memoizedIsInitialized = -1;
+        public final boolean isInitialized() {
+          byte isInitialized = memoizedIsInitialized;
+          if (isInitialized == 1) return true;
+          if (isInitialized == 0) return false;
+
+          if (!hasDr()) {
+            memoizedIsInitialized = 0;
+            return false;
+          }
+          if (!hasDtheta()) {
+            memoizedIsInitialized = 0;
+            return false;
+          }
+          if (!hasDphi()) {
+            memoizedIsInitialized = 0;
+            return false;
+          }
+          memoizedIsInitialized = 1;
+          return true;
+        }
+
+        public void writeTo(com.google.protobuf.CodedOutputStream output)
+                            throws java.io.IOException {
+          getSerializedSize();
+          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+            output.writeDouble(1, dr_);
+          }
+          if (((bitField0_ & 0x00000002) == 0x00000002)) {
+            output.writeDouble(2, dtheta_);
+          }
+          if (((bitField0_ & 0x00000004) == 0x00000004)) {
+            output.writeDouble(3, dphi_);
+          }
+          getUnknownFields().writeTo(output);
+        }
+
+        private int memoizedSerializedSize = -1;
+        public int getSerializedSize() {
+          int size = memoizedSerializedSize;
+          if (size != -1) return size;
+
+          size = 0;
+          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+            size += com.google.protobuf.CodedOutputStream
+              .computeDoubleSize(1, dr_);
+          }
+          if (((bitField0_ & 0x00000002) == 0x00000002)) {
+            size += com.google.protobuf.CodedOutputStream
+              .computeDoubleSize(2, dtheta_);
+          }
+          if (((bitField0_ & 0x00000004) == 0x00000004)) {
+            size += com.google.protobuf.CodedOutputStream
+              .computeDoubleSize(3, dphi_);
+          }
+          size += getUnknownFields().getSerializedSize();
+          memoizedSerializedSize = size;
+          return size;
+        }
+
+        private static final long serialVersionUID = 0L;
+        @java.lang.Override
+        protected java.lang.Object writeReplace()
+            throws java.io.ObjectStreamException {
+          return super.writeReplace();
+        }
+
+        public static com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.SphericalVelocity parseFrom(
+            com.google.protobuf.ByteString data)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+          return PARSER.parseFrom(data);
+        }
+        public static com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.SphericalVelocity parseFrom(
+            com.google.protobuf.ByteString data,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+          return PARSER.parseFrom(data, extensionRegistry);
+        }
+        public static com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.SphericalVelocity parseFrom(byte[] data)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+          return PARSER.parseFrom(data);
+        }
+        public static com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.SphericalVelocity parseFrom(
+            byte[] data,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+          return PARSER.parseFrom(data, extensionRegistry);
+        }
+        public static com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.SphericalVelocity parseFrom(java.io.InputStream input)
+            throws java.io.IOException {
+          return PARSER.parseFrom(input);
+        }
+        public static com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.SphericalVelocity parseFrom(
+            java.io.InputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws java.io.IOException {
+          return PARSER.parseFrom(input, extensionRegistry);
+        }
+        public static com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.SphericalVelocity parseDelimitedFrom(java.io.InputStream input)
+            throws java.io.IOException {
+          return PARSER.parseDelimitedFrom(input);
+        }
+        public static com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.SphericalVelocity parseDelimitedFrom(
+            java.io.InputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws java.io.IOException {
+          return PARSER.parseDelimitedFrom(input, extensionRegistry);
+        }
+        public static com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.SphericalVelocity parseFrom(
+            com.google.protobuf.CodedInputStream input)
+            throws java.io.IOException {
+          return PARSER.parseFrom(input);
+        }
+        public static com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.SphericalVelocity parseFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws java.io.IOException {
+          return PARSER.parseFrom(input, extensionRegistry);
+        }
+
+        public static Builder newBuilder() { return Builder.create(); }
+        public Builder newBuilderForType() { return newBuilder(); }
+        public static Builder newBuilder(com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.SphericalVelocity prototype) {
+          return newBuilder().mergeFrom(prototype);
+        }
+        public Builder toBuilder() { return newBuilder(this); }
+
+        @java.lang.Override
+        protected Builder newBuilderForType(
+            com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+          Builder builder = new Builder(parent);
+          return builder;
+        }
+        /**
+         * Protobuf type {@code SystemState.AircraftState.SphericalVelocity}
+         */
+        public static final class Builder extends
+            com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+            // @@protoc_insertion_point(builder_implements:SystemState.AircraftState.SphericalVelocity)
+            com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.SphericalVelocityOrBuilder {
+          public static final com.google.protobuf.Descriptors.Descriptor
+              getDescriptor() {
+            return com.atc.simulator.DebugDataFeed.DebugDataFeedServe.internal_static_SystemState_AircraftState_SphericalVelocity_descriptor;
+          }
+
+          protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+              internalGetFieldAccessorTable() {
+            return com.atc.simulator.DebugDataFeed.DebugDataFeedServe.internal_static_SystemState_AircraftState_SphericalVelocity_fieldAccessorTable
+                .ensureFieldAccessorsInitialized(
+                    com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.SphericalVelocity.class, com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.SphericalVelocity.Builder.class);
+          }
+
+          // Construct using com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.SphericalVelocity.newBuilder()
+          private Builder() {
+            maybeForceBuilderInitialization();
+          }
+
+          private Builder(
+              com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+            super(parent);
+            maybeForceBuilderInitialization();
+          }
+          private void maybeForceBuilderInitialization() {
+            if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+            }
+          }
+          private static Builder create() {
+            return new Builder();
+          }
+
+          public Builder clear() {
+            super.clear();
+            dr_ = 0D;
+            bitField0_ = (bitField0_ & ~0x00000001);
+            dtheta_ = 0D;
+            bitField0_ = (bitField0_ & ~0x00000002);
+            dphi_ = 0D;
+            bitField0_ = (bitField0_ & ~0x00000004);
+            return this;
+          }
+
+          public Builder clone() {
+            return create().mergeFrom(buildPartial());
+          }
+
+          public com.google.protobuf.Descriptors.Descriptor
+              getDescriptorForType() {
+            return com.atc.simulator.DebugDataFeed.DebugDataFeedServe.internal_static_SystemState_AircraftState_SphericalVelocity_descriptor;
+          }
+
+          public com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.SphericalVelocity getDefaultInstanceForType() {
+            return com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.SphericalVelocity.getDefaultInstance();
+          }
+
+          public com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.SphericalVelocity build() {
+            com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.SphericalVelocity result = buildPartial();
+            if (!result.isInitialized()) {
+              throw newUninitializedMessageException(result);
+            }
+            return result;
+          }
+
+          public com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.SphericalVelocity buildPartial() {
+            com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.SphericalVelocity result = new com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.SphericalVelocity(this);
+            int from_bitField0_ = bitField0_;
+            int to_bitField0_ = 0;
+            if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+              to_bitField0_ |= 0x00000001;
+            }
+            result.dr_ = dr_;
+            if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+              to_bitField0_ |= 0x00000002;
+            }
+            result.dtheta_ = dtheta_;
+            if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+              to_bitField0_ |= 0x00000004;
+            }
+            result.dphi_ = dphi_;
+            result.bitField0_ = to_bitField0_;
+            onBuilt();
+            return result;
+          }
+
+          public Builder mergeFrom(com.google.protobuf.Message other) {
+            if (other instanceof com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.SphericalVelocity) {
+              return mergeFrom((com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.SphericalVelocity)other);
+            } else {
+              super.mergeFrom(other);
+              return this;
+            }
+          }
+
+          public Builder mergeFrom(com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.SphericalVelocity other) {
+            if (other == com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.SphericalVelocity.getDefaultInstance()) return this;
+            if (other.hasDr()) {
+              setDr(other.getDr());
+            }
+            if (other.hasDtheta()) {
+              setDtheta(other.getDtheta());
+            }
+            if (other.hasDphi()) {
+              setDphi(other.getDphi());
+            }
+            this.mergeUnknownFields(other.getUnknownFields());
+            return this;
+          }
+
+          public final boolean isInitialized() {
+            if (!hasDr()) {
+              
+              return false;
+            }
+            if (!hasDtheta()) {
+              
+              return false;
+            }
+            if (!hasDphi()) {
+              
+              return false;
+            }
+            return true;
+          }
+
+          public Builder mergeFrom(
+              com.google.protobuf.CodedInputStream input,
+              com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+              throws java.io.IOException {
+            com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.SphericalVelocity parsedMessage = null;
+            try {
+              parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+            } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+              parsedMessage = (com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.SphericalVelocity) e.getUnfinishedMessage();
+              throw e;
+            } finally {
+              if (parsedMessage != null) {
+                mergeFrom(parsedMessage);
+              }
+            }
+            return this;
+          }
+          private int bitField0_;
+
+          private double dr_ ;
+          /**
+           * <code>required double dr = 1;</code>
+           */
+          public boolean hasDr() {
+            return ((bitField0_ & 0x00000001) == 0x00000001);
+          }
+          /**
+           * <code>required double dr = 1;</code>
+           */
+          public double getDr() {
+            return dr_;
+          }
+          /**
+           * <code>required double dr = 1;</code>
+           */
+          public Builder setDr(double value) {
+            bitField0_ |= 0x00000001;
+            dr_ = value;
+            onChanged();
+            return this;
+          }
+          /**
+           * <code>required double dr = 1;</code>
+           */
+          public Builder clearDr() {
+            bitField0_ = (bitField0_ & ~0x00000001);
+            dr_ = 0D;
+            onChanged();
+            return this;
+          }
+
+          private double dtheta_ ;
+          /**
+           * <code>required double dtheta = 2;</code>
+           */
+          public boolean hasDtheta() {
+            return ((bitField0_ & 0x00000002) == 0x00000002);
+          }
+          /**
+           * <code>required double dtheta = 2;</code>
+           */
+          public double getDtheta() {
+            return dtheta_;
+          }
+          /**
+           * <code>required double dtheta = 2;</code>
+           */
+          public Builder setDtheta(double value) {
+            bitField0_ |= 0x00000002;
+            dtheta_ = value;
+            onChanged();
+            return this;
+          }
+          /**
+           * <code>required double dtheta = 2;</code>
+           */
+          public Builder clearDtheta() {
+            bitField0_ = (bitField0_ & ~0x00000002);
+            dtheta_ = 0D;
+            onChanged();
+            return this;
+          }
+
+          private double dphi_ ;
+          /**
+           * <code>required double dphi = 3;</code>
+           */
+          public boolean hasDphi() {
+            return ((bitField0_ & 0x00000004) == 0x00000004);
+          }
+          /**
+           * <code>required double dphi = 3;</code>
+           */
+          public double getDphi() {
+            return dphi_;
+          }
+          /**
+           * <code>required double dphi = 3;</code>
+           */
+          public Builder setDphi(double value) {
+            bitField0_ |= 0x00000004;
+            dphi_ = value;
+            onChanged();
+            return this;
+          }
+          /**
+           * <code>required double dphi = 3;</code>
+           */
+          public Builder clearDphi() {
+            bitField0_ = (bitField0_ & ~0x00000004);
+            dphi_ = 0D;
+            onChanged();
+            return this;
+          }
+
+          // @@protoc_insertion_point(builder_scope:SystemState.AircraftState.SphericalVelocity)
+        }
+
+        static {
+          defaultInstance = new SphericalVelocity(true);
+          defaultInstance.initFields();
+        }
+
+        // @@protoc_insertion_point(class_scope:SystemState.AircraftState.SphericalVelocity)
+      }
+
+      private int bitField0_;
+      public static final int AIRCRAFTID_FIELD_NUMBER = 1;
+      private java.lang.Object aircraftID_;
+      /**
+       * <code>required string aircraftID = 1;</code>
+       */
+      public boolean hasAircraftID() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required string aircraftID = 1;</code>
+       */
+      public java.lang.String getAircraftID() {
+        java.lang.Object ref = aircraftID_;
+        if (ref instanceof java.lang.String) {
+          return (java.lang.String) ref;
+        } else {
+          com.google.protobuf.ByteString bs = 
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            aircraftID_ = s;
+          }
+          return s;
+        }
+      }
+      /**
+       * <code>required string aircraftID = 1;</code>
+       */
+      public com.google.protobuf.ByteString
+          getAircraftIDBytes() {
+        java.lang.Object ref = aircraftID_;
+        if (ref instanceof java.lang.String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          aircraftID_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+
+      public static final int POSITION_FIELD_NUMBER = 2;
+      private com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.GeographicCoordinate position_;
+      /**
+       * <code>required .SystemState.AircraftState.GeographicCoordinate position = 2;</code>
+       */
+      public boolean hasPosition() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required .SystemState.AircraftState.GeographicCoordinate position = 2;</code>
+       */
+      public com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.GeographicCoordinate getPosition() {
+        return position_;
+      }
+      /**
+       * <code>required .SystemState.AircraftState.GeographicCoordinate position = 2;</code>
+       */
+      public com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.GeographicCoordinateOrBuilder getPositionOrBuilder() {
+        return position_;
+      }
+
+      public static final int VELOCITY_FIELD_NUMBER = 3;
+      private com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.SphericalVelocity velocity_;
+      /**
+       * <code>required .SystemState.AircraftState.SphericalVelocity velocity = 3;</code>
+       */
+      public boolean hasVelocity() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>required .SystemState.AircraftState.SphericalVelocity velocity = 3;</code>
+       */
+      public com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.SphericalVelocity getVelocity() {
+        return velocity_;
+      }
+      /**
+       * <code>required .SystemState.AircraftState.SphericalVelocity velocity = 3;</code>
+       */
+      public com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.SphericalVelocityOrBuilder getVelocityOrBuilder() {
+        return velocity_;
+      }
+
+      public static final int HEADING_FIELD_NUMBER = 4;
+      private double heading_;
+      /**
+       * <code>required double heading = 4;</code>
+       */
+      public boolean hasHeading() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>required double heading = 4;</code>
+       */
+      public double getHeading() {
+        return heading_;
+      }
+
+      private void initFields() {
+        aircraftID_ = "";
+        position_ = com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.GeographicCoordinate.getDefaultInstance();
+        velocity_ = com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.SphericalVelocity.getDefaultInstance();
+        heading_ = 0D;
+      }
+      private byte memoizedIsInitialized = -1;
+      public final boolean isInitialized() {
+        byte isInitialized = memoizedIsInitialized;
+        if (isInitialized == 1) return true;
+        if (isInitialized == 0) return false;
+
+        if (!hasAircraftID()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+        if (!hasPosition()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+        if (!hasVelocity()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+        if (!hasHeading()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+        if (!getPosition().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+        if (!getVelocity().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+        memoizedIsInitialized = 1;
+        return true;
+      }
+
+      public void writeTo(com.google.protobuf.CodedOutputStream output)
+                          throws java.io.IOException {
+        getSerializedSize();
+        if (((bitField0_ & 0x00000001) == 0x00000001)) {
+          output.writeBytes(1, getAircraftIDBytes());
+        }
+        if (((bitField0_ & 0x00000002) == 0x00000002)) {
+          output.writeMessage(2, position_);
+        }
+        if (((bitField0_ & 0x00000004) == 0x00000004)) {
+          output.writeMessage(3, velocity_);
+        }
+        if (((bitField0_ & 0x00000008) == 0x00000008)) {
+          output.writeDouble(4, heading_);
+        }
+        getUnknownFields().writeTo(output);
+      }
+
+      private int memoizedSerializedSize = -1;
+      public int getSerializedSize() {
+        int size = memoizedSerializedSize;
+        if (size != -1) return size;
+
+        size = 0;
+        if (((bitField0_ & 0x00000001) == 0x00000001)) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeBytesSize(1, getAircraftIDBytes());
+        }
+        if (((bitField0_ & 0x00000002) == 0x00000002)) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeMessageSize(2, position_);
+        }
+        if (((bitField0_ & 0x00000004) == 0x00000004)) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeMessageSize(3, velocity_);
+        }
+        if (((bitField0_ & 0x00000008) == 0x00000008)) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeDoubleSize(4, heading_);
+        }
+        size += getUnknownFields().getSerializedSize();
+        memoizedSerializedSize = size;
+        return size;
+      }
+
+      private static final long serialVersionUID = 0L;
+      @java.lang.Override
+      protected java.lang.Object writeReplace()
+          throws java.io.ObjectStreamException {
+        return super.writeReplace();
+      }
+
+      public static com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState parseFrom(
+          com.google.protobuf.ByteString data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState parseFrom(
+          com.google.protobuf.ByteString data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState parseFrom(byte[] data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState parseFrom(
+          byte[] data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState parseFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        return PARSER.parseFrom(input);
+      }
+      public static com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState parseFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return PARSER.parseFrom(input, extensionRegistry);
+      }
+      public static com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState parseDelimitedFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        return PARSER.parseDelimitedFrom(input);
+      }
+      public static com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState parseDelimitedFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return PARSER.parseDelimitedFrom(input, extensionRegistry);
+      }
+      public static com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState parseFrom(
+          com.google.protobuf.CodedInputStream input)
+          throws java.io.IOException {
+        return PARSER.parseFrom(input);
+      }
+      public static com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState parseFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return PARSER.parseFrom(input, extensionRegistry);
+      }
+
+      public static Builder newBuilder() { return Builder.create(); }
+      public Builder newBuilderForType() { return newBuilder(); }
+      public static Builder newBuilder(com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState prototype) {
+        return newBuilder().mergeFrom(prototype);
+      }
+      public Builder toBuilder() { return newBuilder(this); }
+
+      @java.lang.Override
+      protected Builder newBuilderForType(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        Builder builder = new Builder(parent);
+        return builder;
+      }
+      /**
+       * Protobuf type {@code SystemState.AircraftState}
+       */
+      public static final class Builder extends
+          com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+          // @@protoc_insertion_point(builder_implements:SystemState.AircraftState)
+          com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftStateOrBuilder {
+        public static final com.google.protobuf.Descriptors.Descriptor
+            getDescriptor() {
+          return com.atc.simulator.DebugDataFeed.DebugDataFeedServe.internal_static_SystemState_AircraftState_descriptor;
+        }
+
+        protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+            internalGetFieldAccessorTable() {
+          return com.atc.simulator.DebugDataFeed.DebugDataFeedServe.internal_static_SystemState_AircraftState_fieldAccessorTable
+              .ensureFieldAccessorsInitialized(
+                  com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.class, com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.Builder.class);
+        }
+
+        // Construct using com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.newBuilder()
+        private Builder() {
+          maybeForceBuilderInitialization();
+        }
+
+        private Builder(
+            com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+          super(parent);
+          maybeForceBuilderInitialization();
+        }
+        private void maybeForceBuilderInitialization() {
+          if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+            getPositionFieldBuilder();
+            getVelocityFieldBuilder();
+          }
+        }
+        private static Builder create() {
+          return new Builder();
+        }
+
+        public Builder clear() {
+          super.clear();
+          aircraftID_ = "";
+          bitField0_ = (bitField0_ & ~0x00000001);
+          if (positionBuilder_ == null) {
+            position_ = com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.GeographicCoordinate.getDefaultInstance();
+          } else {
+            positionBuilder_.clear();
+          }
+          bitField0_ = (bitField0_ & ~0x00000002);
+          if (velocityBuilder_ == null) {
+            velocity_ = com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.SphericalVelocity.getDefaultInstance();
+          } else {
+            velocityBuilder_.clear();
+          }
+          bitField0_ = (bitField0_ & ~0x00000004);
+          heading_ = 0D;
+          bitField0_ = (bitField0_ & ~0x00000008);
+          return this;
+        }
+
+        public Builder clone() {
+          return create().mergeFrom(buildPartial());
+        }
+
+        public com.google.protobuf.Descriptors.Descriptor
+            getDescriptorForType() {
+          return com.atc.simulator.DebugDataFeed.DebugDataFeedServe.internal_static_SystemState_AircraftState_descriptor;
+        }
+
+        public com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState getDefaultInstanceForType() {
+          return com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.getDefaultInstance();
+        }
+
+        public com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState build() {
+          com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState result = buildPartial();
+          if (!result.isInitialized()) {
+            throw newUninitializedMessageException(result);
+          }
+          return result;
+        }
+
+        public com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState buildPartial() {
+          com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState result = new com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState(this);
+          int from_bitField0_ = bitField0_;
+          int to_bitField0_ = 0;
+          if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+            to_bitField0_ |= 0x00000001;
+          }
+          result.aircraftID_ = aircraftID_;
+          if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+            to_bitField0_ |= 0x00000002;
+          }
+          if (positionBuilder_ == null) {
+            result.position_ = position_;
+          } else {
+            result.position_ = positionBuilder_.build();
+          }
+          if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+            to_bitField0_ |= 0x00000004;
+          }
+          if (velocityBuilder_ == null) {
+            result.velocity_ = velocity_;
+          } else {
+            result.velocity_ = velocityBuilder_.build();
+          }
+          if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+            to_bitField0_ |= 0x00000008;
+          }
+          result.heading_ = heading_;
+          result.bitField0_ = to_bitField0_;
+          onBuilt();
+          return result;
+        }
+
+        public Builder mergeFrom(com.google.protobuf.Message other) {
+          if (other instanceof com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState) {
+            return mergeFrom((com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState)other);
+          } else {
+            super.mergeFrom(other);
+            return this;
+          }
+        }
+
+        public Builder mergeFrom(com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState other) {
+          if (other == com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.getDefaultInstance()) return this;
+          if (other.hasAircraftID()) {
+            bitField0_ |= 0x00000001;
+            aircraftID_ = other.aircraftID_;
+            onChanged();
+          }
+          if (other.hasPosition()) {
+            mergePosition(other.getPosition());
+          }
+          if (other.hasVelocity()) {
+            mergeVelocity(other.getVelocity());
+          }
+          if (other.hasHeading()) {
+            setHeading(other.getHeading());
+          }
+          this.mergeUnknownFields(other.getUnknownFields());
+          return this;
+        }
+
+        public final boolean isInitialized() {
+          if (!hasAircraftID()) {
+            
+            return false;
+          }
+          if (!hasPosition()) {
+            
+            return false;
+          }
+          if (!hasVelocity()) {
+            
+            return false;
+          }
+          if (!hasHeading()) {
+            
+            return false;
+          }
+          if (!getPosition().isInitialized()) {
+            
+            return false;
+          }
+          if (!getVelocity().isInitialized()) {
+            
+            return false;
+          }
+          return true;
+        }
+
+        public Builder mergeFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws java.io.IOException {
+          com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState parsedMessage = null;
+          try {
+            parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+          } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+            parsedMessage = (com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState) e.getUnfinishedMessage();
+            throw e;
+          } finally {
+            if (parsedMessage != null) {
+              mergeFrom(parsedMessage);
+            }
+          }
+          return this;
+        }
+        private int bitField0_;
+
+        private java.lang.Object aircraftID_ = "";
+        /**
+         * <code>required string aircraftID = 1;</code>
+         */
+        public boolean hasAircraftID() {
+          return ((bitField0_ & 0x00000001) == 0x00000001);
+        }
+        /**
+         * <code>required string aircraftID = 1;</code>
+         */
+        public java.lang.String getAircraftID() {
+          java.lang.Object ref = aircraftID_;
+          if (!(ref instanceof java.lang.String)) {
+            com.google.protobuf.ByteString bs =
+                (com.google.protobuf.ByteString) ref;
+            java.lang.String s = bs.toStringUtf8();
+            if (bs.isValidUtf8()) {
+              aircraftID_ = s;
+            }
+            return s;
+          } else {
+            return (java.lang.String) ref;
+          }
+        }
+        /**
+         * <code>required string aircraftID = 1;</code>
+         */
+        public com.google.protobuf.ByteString
+            getAircraftIDBytes() {
+          java.lang.Object ref = aircraftID_;
+          if (ref instanceof String) {
+            com.google.protobuf.ByteString b = 
+                com.google.protobuf.ByteString.copyFromUtf8(
+                    (java.lang.String) ref);
+            aircraftID_ = b;
+            return b;
+          } else {
+            return (com.google.protobuf.ByteString) ref;
+          }
+        }
+        /**
+         * <code>required string aircraftID = 1;</code>
+         */
+        public Builder setAircraftID(
+            java.lang.String value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+          aircraftID_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>required string aircraftID = 1;</code>
+         */
+        public Builder clearAircraftID() {
+          bitField0_ = (bitField0_ & ~0x00000001);
+          aircraftID_ = getDefaultInstance().getAircraftID();
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>required string aircraftID = 1;</code>
+         */
+        public Builder setAircraftIDBytes(
+            com.google.protobuf.ByteString value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+          aircraftID_ = value;
+          onChanged();
+          return this;
+        }
+
+        private com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.GeographicCoordinate position_ = com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.GeographicCoordinate.getDefaultInstance();
+        private com.google.protobuf.SingleFieldBuilder<
+            com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.GeographicCoordinate, com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.GeographicCoordinate.Builder, com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.GeographicCoordinateOrBuilder> positionBuilder_;
+        /**
+         * <code>required .SystemState.AircraftState.GeographicCoordinate position = 2;</code>
+         */
+        public boolean hasPosition() {
+          return ((bitField0_ & 0x00000002) == 0x00000002);
+        }
+        /**
+         * <code>required .SystemState.AircraftState.GeographicCoordinate position = 2;</code>
+         */
+        public com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.GeographicCoordinate getPosition() {
+          if (positionBuilder_ == null) {
+            return position_;
+          } else {
+            return positionBuilder_.getMessage();
+          }
+        }
+        /**
+         * <code>required .SystemState.AircraftState.GeographicCoordinate position = 2;</code>
+         */
+        public Builder setPosition(com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.GeographicCoordinate value) {
+          if (positionBuilder_ == null) {
+            if (value == null) {
+              throw new NullPointerException();
+            }
+            position_ = value;
+            onChanged();
+          } else {
+            positionBuilder_.setMessage(value);
+          }
+          bitField0_ |= 0x00000002;
+          return this;
+        }
+        /**
+         * <code>required .SystemState.AircraftState.GeographicCoordinate position = 2;</code>
+         */
+        public Builder setPosition(
+            com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.GeographicCoordinate.Builder builderForValue) {
+          if (positionBuilder_ == null) {
+            position_ = builderForValue.build();
+            onChanged();
+          } else {
+            positionBuilder_.setMessage(builderForValue.build());
+          }
+          bitField0_ |= 0x00000002;
+          return this;
+        }
+        /**
+         * <code>required .SystemState.AircraftState.GeographicCoordinate position = 2;</code>
+         */
+        public Builder mergePosition(com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.GeographicCoordinate value) {
+          if (positionBuilder_ == null) {
+            if (((bitField0_ & 0x00000002) == 0x00000002) &&
+                position_ != com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.GeographicCoordinate.getDefaultInstance()) {
+              position_ =
+                com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.GeographicCoordinate.newBuilder(position_).mergeFrom(value).buildPartial();
+            } else {
+              position_ = value;
+            }
+            onChanged();
+          } else {
+            positionBuilder_.mergeFrom(value);
+          }
+          bitField0_ |= 0x00000002;
+          return this;
+        }
+        /**
+         * <code>required .SystemState.AircraftState.GeographicCoordinate position = 2;</code>
+         */
+        public Builder clearPosition() {
+          if (positionBuilder_ == null) {
+            position_ = com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.GeographicCoordinate.getDefaultInstance();
+            onChanged();
+          } else {
+            positionBuilder_.clear();
+          }
+          bitField0_ = (bitField0_ & ~0x00000002);
+          return this;
+        }
+        /**
+         * <code>required .SystemState.AircraftState.GeographicCoordinate position = 2;</code>
+         */
+        public com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.GeographicCoordinate.Builder getPositionBuilder() {
+          bitField0_ |= 0x00000002;
+          onChanged();
+          return getPositionFieldBuilder().getBuilder();
+        }
+        /**
+         * <code>required .SystemState.AircraftState.GeographicCoordinate position = 2;</code>
+         */
+        public com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.GeographicCoordinateOrBuilder getPositionOrBuilder() {
+          if (positionBuilder_ != null) {
+            return positionBuilder_.getMessageOrBuilder();
+          } else {
+            return position_;
+          }
+        }
+        /**
+         * <code>required .SystemState.AircraftState.GeographicCoordinate position = 2;</code>
+         */
+        private com.google.protobuf.SingleFieldBuilder<
+            com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.GeographicCoordinate, com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.GeographicCoordinate.Builder, com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.GeographicCoordinateOrBuilder> 
+            getPositionFieldBuilder() {
+          if (positionBuilder_ == null) {
+            positionBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+                com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.GeographicCoordinate, com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.GeographicCoordinate.Builder, com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.GeographicCoordinateOrBuilder>(
+                    getPosition(),
+                    getParentForChildren(),
+                    isClean());
+            position_ = null;
+          }
+          return positionBuilder_;
+        }
+
+        private com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.SphericalVelocity velocity_ = com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.SphericalVelocity.getDefaultInstance();
+        private com.google.protobuf.SingleFieldBuilder<
+            com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.SphericalVelocity, com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.SphericalVelocity.Builder, com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.SphericalVelocityOrBuilder> velocityBuilder_;
+        /**
+         * <code>required .SystemState.AircraftState.SphericalVelocity velocity = 3;</code>
+         */
+        public boolean hasVelocity() {
+          return ((bitField0_ & 0x00000004) == 0x00000004);
+        }
+        /**
+         * <code>required .SystemState.AircraftState.SphericalVelocity velocity = 3;</code>
+         */
+        public com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.SphericalVelocity getVelocity() {
+          if (velocityBuilder_ == null) {
+            return velocity_;
+          } else {
+            return velocityBuilder_.getMessage();
+          }
+        }
+        /**
+         * <code>required .SystemState.AircraftState.SphericalVelocity velocity = 3;</code>
+         */
+        public Builder setVelocity(com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.SphericalVelocity value) {
+          if (velocityBuilder_ == null) {
+            if (value == null) {
+              throw new NullPointerException();
+            }
+            velocity_ = value;
+            onChanged();
+          } else {
+            velocityBuilder_.setMessage(value);
+          }
+          bitField0_ |= 0x00000004;
+          return this;
+        }
+        /**
+         * <code>required .SystemState.AircraftState.SphericalVelocity velocity = 3;</code>
+         */
+        public Builder setVelocity(
+            com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.SphericalVelocity.Builder builderForValue) {
+          if (velocityBuilder_ == null) {
+            velocity_ = builderForValue.build();
+            onChanged();
+          } else {
+            velocityBuilder_.setMessage(builderForValue.build());
+          }
+          bitField0_ |= 0x00000004;
+          return this;
+        }
+        /**
+         * <code>required .SystemState.AircraftState.SphericalVelocity velocity = 3;</code>
+         */
+        public Builder mergeVelocity(com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.SphericalVelocity value) {
+          if (velocityBuilder_ == null) {
+            if (((bitField0_ & 0x00000004) == 0x00000004) &&
+                velocity_ != com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.SphericalVelocity.getDefaultInstance()) {
+              velocity_ =
+                com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.SphericalVelocity.newBuilder(velocity_).mergeFrom(value).buildPartial();
+            } else {
+              velocity_ = value;
+            }
+            onChanged();
+          } else {
+            velocityBuilder_.mergeFrom(value);
+          }
+          bitField0_ |= 0x00000004;
+          return this;
+        }
+        /**
+         * <code>required .SystemState.AircraftState.SphericalVelocity velocity = 3;</code>
+         */
+        public Builder clearVelocity() {
+          if (velocityBuilder_ == null) {
+            velocity_ = com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.SphericalVelocity.getDefaultInstance();
+            onChanged();
+          } else {
+            velocityBuilder_.clear();
+          }
+          bitField0_ = (bitField0_ & ~0x00000004);
+          return this;
+        }
+        /**
+         * <code>required .SystemState.AircraftState.SphericalVelocity velocity = 3;</code>
+         */
+        public com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.SphericalVelocity.Builder getVelocityBuilder() {
+          bitField0_ |= 0x00000004;
+          onChanged();
+          return getVelocityFieldBuilder().getBuilder();
+        }
+        /**
+         * <code>required .SystemState.AircraftState.SphericalVelocity velocity = 3;</code>
+         */
+        public com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.SphericalVelocityOrBuilder getVelocityOrBuilder() {
+          if (velocityBuilder_ != null) {
+            return velocityBuilder_.getMessageOrBuilder();
+          } else {
+            return velocity_;
+          }
+        }
+        /**
+         * <code>required .SystemState.AircraftState.SphericalVelocity velocity = 3;</code>
+         */
+        private com.google.protobuf.SingleFieldBuilder<
+            com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.SphericalVelocity, com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.SphericalVelocity.Builder, com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.SphericalVelocityOrBuilder> 
+            getVelocityFieldBuilder() {
+          if (velocityBuilder_ == null) {
+            velocityBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+                com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.SphericalVelocity, com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.SphericalVelocity.Builder, com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.SphericalVelocityOrBuilder>(
+                    getVelocity(),
+                    getParentForChildren(),
+                    isClean());
+            velocity_ = null;
+          }
+          return velocityBuilder_;
+        }
+
+        private double heading_ ;
+        /**
+         * <code>required double heading = 4;</code>
+         */
+        public boolean hasHeading() {
+          return ((bitField0_ & 0x00000008) == 0x00000008);
+        }
+        /**
+         * <code>required double heading = 4;</code>
+         */
+        public double getHeading() {
+          return heading_;
+        }
+        /**
+         * <code>required double heading = 4;</code>
+         */
+        public Builder setHeading(double value) {
+          bitField0_ |= 0x00000008;
+          heading_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>required double heading = 4;</code>
+         */
+        public Builder clearHeading() {
+          bitField0_ = (bitField0_ & ~0x00000008);
+          heading_ = 0D;
+          onChanged();
+          return this;
+        }
+
+        // @@protoc_insertion_point(builder_scope:SystemState.AircraftState)
+      }
+
+      static {
+        defaultInstance = new AircraftState(true);
+        defaultInstance.initFields();
+      }
+
+      // @@protoc_insertion_point(class_scope:SystemState.AircraftState)
     }
 
-    public static final int SPEED_FIELD_NUMBER = 2;
-    private float speed_;
+    private int bitField0_;
+    public static final int TIME_FIELD_NUMBER = 1;
+    private java.lang.Object time_;
     /**
-     * <code>required float speed = 2;</code>
+     * <code>required string time = 1;</code>
      */
-    public boolean hasSpeed() {
+    public boolean hasTime() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>required float speed = 2;</code>
+     * <code>required string time = 1;</code>
      */
-    public float getSpeed() {
-      return speed_;
+    public java.lang.String getTime() {
+      java.lang.Object ref = time_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          time_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string time = 1;</code>
+     */
+    public com.google.protobuf.ByteString
+        getTimeBytes() {
+      java.lang.Object ref = time_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        time_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int AIRCRAFTSTATES_FIELD_NUMBER = 2;
+    private java.util.List<com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState> aircraftStates_;
+    /**
+     * <code>repeated .SystemState.AircraftState aircraftStates = 2;</code>
+     */
+    public java.util.List<com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState> getAircraftStatesList() {
+      return aircraftStates_;
+    }
+    /**
+     * <code>repeated .SystemState.AircraftState aircraftStates = 2;</code>
+     */
+    public java.util.List<? extends com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftStateOrBuilder> 
+        getAircraftStatesOrBuilderList() {
+      return aircraftStates_;
+    }
+    /**
+     * <code>repeated .SystemState.AircraftState aircraftStates = 2;</code>
+     */
+    public int getAircraftStatesCount() {
+      return aircraftStates_.size();
+    }
+    /**
+     * <code>repeated .SystemState.AircraftState aircraftStates = 2;</code>
+     */
+    public com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState getAircraftStates(int index) {
+      return aircraftStates_.get(index);
+    }
+    /**
+     * <code>repeated .SystemState.AircraftState aircraftStates = 2;</code>
+     */
+    public com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftStateOrBuilder getAircraftStatesOrBuilder(
+        int index) {
+      return aircraftStates_.get(index);
     }
 
     private void initFields() {
-      position_ = java.util.Collections.emptyList();
-      speed_ = 0F;
+      time_ = "";
+      aircraftStates_ = java.util.Collections.emptyList();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -202,9 +2380,15 @@ public final class DebugDataFeedServe {
       if (isInitialized == 1) return true;
       if (isInitialized == 0) return false;
 
-      if (!hasSpeed()) {
+      if (!hasTime()) {
         memoizedIsInitialized = 0;
         return false;
+      }
+      for (int i = 0; i < getAircraftStatesCount(); i++) {
+        if (!getAircraftStates(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
       }
       memoizedIsInitialized = 1;
       return true;
@@ -213,11 +2397,11 @@ public final class DebugDataFeedServe {
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       getSerializedSize();
-      for (int i = 0; i < position_.size(); i++) {
-        output.writeDouble(1, position_.get(i));
-      }
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeFloat(2, speed_);
+        output.writeBytes(1, getTimeBytes());
+      }
+      for (int i = 0; i < aircraftStates_.size(); i++) {
+        output.writeMessage(2, aircraftStates_.get(i));
       }
       getUnknownFields().writeTo(output);
     }
@@ -228,15 +2412,13 @@ public final class DebugDataFeedServe {
       if (size != -1) return size;
 
       size = 0;
-      {
-        int dataSize = 0;
-        dataSize = 8 * getPositionList().size();
-        size += dataSize;
-        size += 1 * getPositionList().size();
-      }
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFloatSize(2, speed_);
+          .computeBytesSize(1, getTimeBytes());
+      }
+      for (int i = 0; i < aircraftStates_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, aircraftStates_.get(i));
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -250,53 +2432,53 @@ public final class DebugDataFeedServe {
       return super.writeReplace();
     }
 
-    public static com.atc.simulator.DebugDataFeed.DebugDataFeedServe.Aircraft parseFrom(
+    public static com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.atc.simulator.DebugDataFeed.DebugDataFeedServe.Aircraft parseFrom(
+    public static com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.atc.simulator.DebugDataFeed.DebugDataFeedServe.Aircraft parseFrom(byte[] data)
+    public static com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.atc.simulator.DebugDataFeed.DebugDataFeedServe.Aircraft parseFrom(
+    public static com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.atc.simulator.DebugDataFeed.DebugDataFeedServe.Aircraft parseFrom(java.io.InputStream input)
+    public static com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return PARSER.parseFrom(input);
     }
-    public static com.atc.simulator.DebugDataFeed.DebugDataFeedServe.Aircraft parseFrom(
+    public static com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return PARSER.parseFrom(input, extensionRegistry);
     }
-    public static com.atc.simulator.DebugDataFeed.DebugDataFeedServe.Aircraft parseDelimitedFrom(java.io.InputStream input)
+    public static com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return PARSER.parseDelimitedFrom(input);
     }
-    public static com.atc.simulator.DebugDataFeed.DebugDataFeedServe.Aircraft parseDelimitedFrom(
+    public static com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return PARSER.parseDelimitedFrom(input, extensionRegistry);
     }
-    public static com.atc.simulator.DebugDataFeed.DebugDataFeedServe.Aircraft parseFrom(
+    public static com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return PARSER.parseFrom(input);
     }
-    public static com.atc.simulator.DebugDataFeed.DebugDataFeedServe.Aircraft parseFrom(
+    public static com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -305,7 +2487,7 @@ public final class DebugDataFeedServe {
 
     public static Builder newBuilder() { return Builder.create(); }
     public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(com.atc.simulator.DebugDataFeed.DebugDataFeedServe.Aircraft prototype) {
+    public static Builder newBuilder(com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState prototype) {
       return newBuilder().mergeFrom(prototype);
     }
     public Builder toBuilder() { return newBuilder(this); }
@@ -317,25 +2499,25 @@ public final class DebugDataFeedServe {
       return builder;
     }
     /**
-     * Protobuf type {@code Aircraft}
+     * Protobuf type {@code SystemState}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:Aircraft)
-        com.atc.simulator.DebugDataFeed.DebugDataFeedServe.AircraftOrBuilder {
+        // @@protoc_insertion_point(builder_implements:SystemState)
+        com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemStateOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return com.atc.simulator.DebugDataFeed.DebugDataFeedServe.internal_static_Aircraft_descriptor;
+        return com.atc.simulator.DebugDataFeed.DebugDataFeedServe.internal_static_SystemState_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return com.atc.simulator.DebugDataFeed.DebugDataFeedServe.internal_static_Aircraft_fieldAccessorTable
+        return com.atc.simulator.DebugDataFeed.DebugDataFeedServe.internal_static_SystemState_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                com.atc.simulator.DebugDataFeed.DebugDataFeedServe.Aircraft.class, com.atc.simulator.DebugDataFeed.DebugDataFeedServe.Aircraft.Builder.class);
+                com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.class, com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.Builder.class);
       }
 
-      // Construct using com.atc.simulator.DebugDataFeed.DebugDataFeedServe.Aircraft.newBuilder()
+      // Construct using com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -347,6 +2529,7 @@ public final class DebugDataFeedServe {
       }
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getAircraftStatesFieldBuilder();
         }
       }
       private static Builder create() {
@@ -355,10 +2538,14 @@ public final class DebugDataFeedServe {
 
       public Builder clear() {
         super.clear();
-        position_ = java.util.Collections.emptyList();
+        time_ = "";
         bitField0_ = (bitField0_ & ~0x00000001);
-        speed_ = 0F;
-        bitField0_ = (bitField0_ & ~0x00000002);
+        if (aircraftStatesBuilder_ == null) {
+          aircraftStates_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000002);
+        } else {
+          aircraftStatesBuilder_.clear();
+        }
         return this;
       }
 
@@ -368,71 +2555,99 @@ public final class DebugDataFeedServe {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return com.atc.simulator.DebugDataFeed.DebugDataFeedServe.internal_static_Aircraft_descriptor;
+        return com.atc.simulator.DebugDataFeed.DebugDataFeedServe.internal_static_SystemState_descriptor;
       }
 
-      public com.atc.simulator.DebugDataFeed.DebugDataFeedServe.Aircraft getDefaultInstanceForType() {
-        return com.atc.simulator.DebugDataFeed.DebugDataFeedServe.Aircraft.getDefaultInstance();
+      public com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState getDefaultInstanceForType() {
+        return com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.getDefaultInstance();
       }
 
-      public com.atc.simulator.DebugDataFeed.DebugDataFeedServe.Aircraft build() {
-        com.atc.simulator.DebugDataFeed.DebugDataFeedServe.Aircraft result = buildPartial();
+      public com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState build() {
+        com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public com.atc.simulator.DebugDataFeed.DebugDataFeedServe.Aircraft buildPartial() {
-        com.atc.simulator.DebugDataFeed.DebugDataFeedServe.Aircraft result = new com.atc.simulator.DebugDataFeed.DebugDataFeedServe.Aircraft(this);
+      public com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState buildPartial() {
+        com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState result = new com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
-        if (((bitField0_ & 0x00000001) == 0x00000001)) {
-          position_ = java.util.Collections.unmodifiableList(position_);
-          bitField0_ = (bitField0_ & ~0x00000001);
-        }
-        result.position_ = position_;
-        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
-        result.speed_ = speed_;
+        result.time_ = time_;
+        if (aircraftStatesBuilder_ == null) {
+          if (((bitField0_ & 0x00000002) == 0x00000002)) {
+            aircraftStates_ = java.util.Collections.unmodifiableList(aircraftStates_);
+            bitField0_ = (bitField0_ & ~0x00000002);
+          }
+          result.aircraftStates_ = aircraftStates_;
+        } else {
+          result.aircraftStates_ = aircraftStatesBuilder_.build();
+        }
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof com.atc.simulator.DebugDataFeed.DebugDataFeedServe.Aircraft) {
-          return mergeFrom((com.atc.simulator.DebugDataFeed.DebugDataFeedServe.Aircraft)other);
+        if (other instanceof com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState) {
+          return mergeFrom((com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(com.atc.simulator.DebugDataFeed.DebugDataFeedServe.Aircraft other) {
-        if (other == com.atc.simulator.DebugDataFeed.DebugDataFeedServe.Aircraft.getDefaultInstance()) return this;
-        if (!other.position_.isEmpty()) {
-          if (position_.isEmpty()) {
-            position_ = other.position_;
-            bitField0_ = (bitField0_ & ~0x00000001);
-          } else {
-            ensurePositionIsMutable();
-            position_.addAll(other.position_);
-          }
+      public Builder mergeFrom(com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState other) {
+        if (other == com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.getDefaultInstance()) return this;
+        if (other.hasTime()) {
+          bitField0_ |= 0x00000001;
+          time_ = other.time_;
           onChanged();
         }
-        if (other.hasSpeed()) {
-          setSpeed(other.getSpeed());
+        if (aircraftStatesBuilder_ == null) {
+          if (!other.aircraftStates_.isEmpty()) {
+            if (aircraftStates_.isEmpty()) {
+              aircraftStates_ = other.aircraftStates_;
+              bitField0_ = (bitField0_ & ~0x00000002);
+            } else {
+              ensureAircraftStatesIsMutable();
+              aircraftStates_.addAll(other.aircraftStates_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.aircraftStates_.isEmpty()) {
+            if (aircraftStatesBuilder_.isEmpty()) {
+              aircraftStatesBuilder_.dispose();
+              aircraftStatesBuilder_ = null;
+              aircraftStates_ = other.aircraftStates_;
+              bitField0_ = (bitField0_ & ~0x00000002);
+              aircraftStatesBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getAircraftStatesFieldBuilder() : null;
+            } else {
+              aircraftStatesBuilder_.addAllMessages(other.aircraftStates_);
+            }
+          }
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
 
       public final boolean isInitialized() {
-        if (!hasSpeed()) {
+        if (!hasTime()) {
           
           return false;
+        }
+        for (int i = 0; i < getAircraftStatesCount(); i++) {
+          if (!getAircraftStates(i).isInitialized()) {
+            
+            return false;
+          }
         }
         return true;
       }
@@ -441,11 +2656,11 @@ public final class DebugDataFeedServe {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        com.atc.simulator.DebugDataFeed.DebugDataFeedServe.Aircraft parsedMessage = null;
+        com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (com.atc.simulator.DebugDataFeed.DebugDataFeedServe.Aircraft) e.getUnfinishedMessage();
+          parsedMessage = (com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState) e.getUnfinishedMessage();
           throw e;
         } finally {
           if (parsedMessage != null) {
@@ -456,120 +2671,353 @@ public final class DebugDataFeedServe {
       }
       private int bitField0_;
 
-      private java.util.List<java.lang.Double> position_ = java.util.Collections.emptyList();
-      private void ensurePositionIsMutable() {
-        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
-          position_ = new java.util.ArrayList<java.lang.Double>(position_);
-          bitField0_ |= 0x00000001;
+      private java.lang.Object time_ = "";
+      /**
+       * <code>required string time = 1;</code>
+       */
+      public boolean hasTime() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required string time = 1;</code>
+       */
+      public java.lang.String getTime() {
+        java.lang.Object ref = time_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            time_ = s;
+          }
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string time = 1;</code>
+       */
+      public com.google.protobuf.ByteString
+          getTimeBytes() {
+        java.lang.Object ref = time_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          time_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string time = 1;</code>
+       */
+      public Builder setTime(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        time_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string time = 1;</code>
+       */
+      public Builder clearTime() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        time_ = getDefaultInstance().getTime();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string time = 1;</code>
+       */
+      public Builder setTimeBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        time_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.util.List<com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState> aircraftStates_ =
+        java.util.Collections.emptyList();
+      private void ensureAircraftStatesIsMutable() {
+        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+          aircraftStates_ = new java.util.ArrayList<com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState>(aircraftStates_);
+          bitField0_ |= 0x00000002;
          }
       }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState, com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.Builder, com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftStateOrBuilder> aircraftStatesBuilder_;
+
       /**
-       * <code>repeated double position = 1;</code>
+       * <code>repeated .SystemState.AircraftState aircraftStates = 2;</code>
        */
-      public java.util.List<java.lang.Double>
-          getPositionList() {
-        return java.util.Collections.unmodifiableList(position_);
+      public java.util.List<com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState> getAircraftStatesList() {
+        if (aircraftStatesBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(aircraftStates_);
+        } else {
+          return aircraftStatesBuilder_.getMessageList();
+        }
       }
       /**
-       * <code>repeated double position = 1;</code>
+       * <code>repeated .SystemState.AircraftState aircraftStates = 2;</code>
        */
-      public int getPositionCount() {
-        return position_.size();
+      public int getAircraftStatesCount() {
+        if (aircraftStatesBuilder_ == null) {
+          return aircraftStates_.size();
+        } else {
+          return aircraftStatesBuilder_.getCount();
+        }
       }
       /**
-       * <code>repeated double position = 1;</code>
+       * <code>repeated .SystemState.AircraftState aircraftStates = 2;</code>
        */
-      public double getPosition(int index) {
-        return position_.get(index);
+      public com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState getAircraftStates(int index) {
+        if (aircraftStatesBuilder_ == null) {
+          return aircraftStates_.get(index);
+        } else {
+          return aircraftStatesBuilder_.getMessage(index);
+        }
       }
       /**
-       * <code>repeated double position = 1;</code>
+       * <code>repeated .SystemState.AircraftState aircraftStates = 2;</code>
        */
-      public Builder setPosition(
-          int index, double value) {
-        ensurePositionIsMutable();
-        position_.set(index, value);
-        onChanged();
+      public Builder setAircraftStates(
+          int index, com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState value) {
+        if (aircraftStatesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureAircraftStatesIsMutable();
+          aircraftStates_.set(index, value);
+          onChanged();
+        } else {
+          aircraftStatesBuilder_.setMessage(index, value);
+        }
         return this;
       }
       /**
-       * <code>repeated double position = 1;</code>
+       * <code>repeated .SystemState.AircraftState aircraftStates = 2;</code>
        */
-      public Builder addPosition(double value) {
-        ensurePositionIsMutable();
-        position_.add(value);
-        onChanged();
+      public Builder setAircraftStates(
+          int index, com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.Builder builderForValue) {
+        if (aircraftStatesBuilder_ == null) {
+          ensureAircraftStatesIsMutable();
+          aircraftStates_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          aircraftStatesBuilder_.setMessage(index, builderForValue.build());
+        }
         return this;
       }
       /**
-       * <code>repeated double position = 1;</code>
+       * <code>repeated .SystemState.AircraftState aircraftStates = 2;</code>
        */
-      public Builder addAllPosition(
-          java.lang.Iterable<? extends java.lang.Double> values) {
-        ensurePositionIsMutable();
-        com.google.protobuf.AbstractMessageLite.Builder.addAll(
-            values, position_);
-        onChanged();
+      public Builder addAircraftStates(com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState value) {
+        if (aircraftStatesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureAircraftStatesIsMutable();
+          aircraftStates_.add(value);
+          onChanged();
+        } else {
+          aircraftStatesBuilder_.addMessage(value);
+        }
         return this;
       }
       /**
-       * <code>repeated double position = 1;</code>
+       * <code>repeated .SystemState.AircraftState aircraftStates = 2;</code>
        */
-      public Builder clearPosition() {
-        position_ = java.util.Collections.emptyList();
-        bitField0_ = (bitField0_ & ~0x00000001);
-        onChanged();
+      public Builder addAircraftStates(
+          int index, com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState value) {
+        if (aircraftStatesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureAircraftStatesIsMutable();
+          aircraftStates_.add(index, value);
+          onChanged();
+        } else {
+          aircraftStatesBuilder_.addMessage(index, value);
+        }
         return this;
+      }
+      /**
+       * <code>repeated .SystemState.AircraftState aircraftStates = 2;</code>
+       */
+      public Builder addAircraftStates(
+          com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.Builder builderForValue) {
+        if (aircraftStatesBuilder_ == null) {
+          ensureAircraftStatesIsMutable();
+          aircraftStates_.add(builderForValue.build());
+          onChanged();
+        } else {
+          aircraftStatesBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .SystemState.AircraftState aircraftStates = 2;</code>
+       */
+      public Builder addAircraftStates(
+          int index, com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.Builder builderForValue) {
+        if (aircraftStatesBuilder_ == null) {
+          ensureAircraftStatesIsMutable();
+          aircraftStates_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          aircraftStatesBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .SystemState.AircraftState aircraftStates = 2;</code>
+       */
+      public Builder addAllAircraftStates(
+          java.lang.Iterable<? extends com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState> values) {
+        if (aircraftStatesBuilder_ == null) {
+          ensureAircraftStatesIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, aircraftStates_);
+          onChanged();
+        } else {
+          aircraftStatesBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .SystemState.AircraftState aircraftStates = 2;</code>
+       */
+      public Builder clearAircraftStates() {
+        if (aircraftStatesBuilder_ == null) {
+          aircraftStates_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000002);
+          onChanged();
+        } else {
+          aircraftStatesBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .SystemState.AircraftState aircraftStates = 2;</code>
+       */
+      public Builder removeAircraftStates(int index) {
+        if (aircraftStatesBuilder_ == null) {
+          ensureAircraftStatesIsMutable();
+          aircraftStates_.remove(index);
+          onChanged();
+        } else {
+          aircraftStatesBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .SystemState.AircraftState aircraftStates = 2;</code>
+       */
+      public com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.Builder getAircraftStatesBuilder(
+          int index) {
+        return getAircraftStatesFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .SystemState.AircraftState aircraftStates = 2;</code>
+       */
+      public com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftStateOrBuilder getAircraftStatesOrBuilder(
+          int index) {
+        if (aircraftStatesBuilder_ == null) {
+          return aircraftStates_.get(index);  } else {
+          return aircraftStatesBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .SystemState.AircraftState aircraftStates = 2;</code>
+       */
+      public java.util.List<? extends com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftStateOrBuilder> 
+           getAircraftStatesOrBuilderList() {
+        if (aircraftStatesBuilder_ != null) {
+          return aircraftStatesBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(aircraftStates_);
+        }
+      }
+      /**
+       * <code>repeated .SystemState.AircraftState aircraftStates = 2;</code>
+       */
+      public com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.Builder addAircraftStatesBuilder() {
+        return getAircraftStatesFieldBuilder().addBuilder(
+            com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .SystemState.AircraftState aircraftStates = 2;</code>
+       */
+      public com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.Builder addAircraftStatesBuilder(
+          int index) {
+        return getAircraftStatesFieldBuilder().addBuilder(
+            index, com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .SystemState.AircraftState aircraftStates = 2;</code>
+       */
+      public java.util.List<com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.Builder> 
+           getAircraftStatesBuilderList() {
+        return getAircraftStatesFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState, com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.Builder, com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftStateOrBuilder> 
+          getAircraftStatesFieldBuilder() {
+        if (aircraftStatesBuilder_ == null) {
+          aircraftStatesBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState, com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftState.Builder, com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemState.AircraftStateOrBuilder>(
+                  aircraftStates_,
+                  ((bitField0_ & 0x00000002) == 0x00000002),
+                  getParentForChildren(),
+                  isClean());
+          aircraftStates_ = null;
+        }
+        return aircraftStatesBuilder_;
       }
 
-      private float speed_ ;
-      /**
-       * <code>required float speed = 2;</code>
-       */
-      public boolean hasSpeed() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
-      }
-      /**
-       * <code>required float speed = 2;</code>
-       */
-      public float getSpeed() {
-        return speed_;
-      }
-      /**
-       * <code>required float speed = 2;</code>
-       */
-      public Builder setSpeed(float value) {
-        bitField0_ |= 0x00000002;
-        speed_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required float speed = 2;</code>
-       */
-      public Builder clearSpeed() {
-        bitField0_ = (bitField0_ & ~0x00000002);
-        speed_ = 0F;
-        onChanged();
-        return this;
-      }
-
-      // @@protoc_insertion_point(builder_scope:Aircraft)
+      // @@protoc_insertion_point(builder_scope:SystemState)
     }
 
     static {
-      defaultInstance = new Aircraft(true);
+      defaultInstance = new SystemState(true);
       defaultInstance.initFields();
     }
 
-    // @@protoc_insertion_point(class_scope:Aircraft)
+    // @@protoc_insertion_point(class_scope:SystemState)
   }
 
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_Aircraft_descriptor;
+    internal_static_SystemState_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_Aircraft_fieldAccessorTable;
+      internal_static_SystemState_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_SystemState_AircraftState_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_SystemState_AircraftState_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_SystemState_AircraftState_GeographicCoordinate_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_SystemState_AircraftState_GeographicCoordinate_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_SystemState_AircraftState_SphericalVelocity_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_SystemState_AircraftState_SphericalVelocity_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -579,10 +3027,19 @@ public final class DebugDataFeedServe {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n#main/proto/DebugDataFeedServe.proto\"+\n" +
-      "\010Aircraft\022\020\n\010position\030\001 \003(\001\022\r\n\005speed\030\002 \002" +
-      "(\002B5\n\037com.atc.simulator.DebugDataFeedB\022D" +
-      "ebugDataFeedServe"
+      "\n#main/proto/DebugDataFeedServe.proto\"\227\003" +
+      "\n\013SystemState\022\014\n\004time\030\001 \002(\t\0222\n\016aircraftS" +
+      "tates\030\002 \003(\0132\032.SystemState.AircraftState\032" +
+      "\305\002\n\rAircraftState\022\022\n\naircraftID\030\001 \002(\t\022A\n" +
+      "\010position\030\002 \002(\0132/.SystemState.AircraftSt" +
+      "ate.GeographicCoordinate\022>\n\010velocity\030\003 \002" +
+      "(\0132,.SystemState.AircraftState.Spherical" +
+      "Velocity\022\017\n\007heading\030\004 \002(\001\032M\n\024GeographicC" +
+      "oordinate\022\020\n\010altitude\030\001 \002(\001\022\020\n\010latitude\030" +
+      "\002 \002(\001\022\021\n\tlongitude\030\003 \002(\001\032=\n\021SphericalVel",
+      "ocity\022\n\n\002dr\030\001 \002(\001\022\016\n\006dtheta\030\002 \002(\001\022\014\n\004dph" +
+      "i\030\003 \002(\001B5\n\037com.atc.simulator.DebugDataFe" +
+      "edB\022DebugDataFeedServe"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -596,12 +3053,30 @@ public final class DebugDataFeedServe {
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
         }, assigner);
-    internal_static_Aircraft_descriptor =
+    internal_static_SystemState_descriptor =
       getDescriptor().getMessageTypes().get(0);
-    internal_static_Aircraft_fieldAccessorTable = new
+    internal_static_SystemState_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-        internal_static_Aircraft_descriptor,
-        new java.lang.String[] { "Position", "Speed", });
+        internal_static_SystemState_descriptor,
+        new java.lang.String[] { "Time", "AircraftStates", });
+    internal_static_SystemState_AircraftState_descriptor =
+      internal_static_SystemState_descriptor.getNestedTypes().get(0);
+    internal_static_SystemState_AircraftState_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_SystemState_AircraftState_descriptor,
+        new java.lang.String[] { "AircraftID", "Position", "Velocity", "Heading", });
+    internal_static_SystemState_AircraftState_GeographicCoordinate_descriptor =
+      internal_static_SystemState_AircraftState_descriptor.getNestedTypes().get(0);
+    internal_static_SystemState_AircraftState_GeographicCoordinate_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_SystemState_AircraftState_GeographicCoordinate_descriptor,
+        new java.lang.String[] { "Altitude", "Latitude", "Longitude", });
+    internal_static_SystemState_AircraftState_SphericalVelocity_descriptor =
+      internal_static_SystemState_AircraftState_descriptor.getNestedTypes().get(1);
+    internal_static_SystemState_AircraftState_SphericalVelocity_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_SystemState_AircraftState_SphericalVelocity_descriptor,
+        new java.lang.String[] { "Dr", "Dtheta", "Dphi", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)
