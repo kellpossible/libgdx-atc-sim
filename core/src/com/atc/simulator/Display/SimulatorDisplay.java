@@ -19,6 +19,7 @@ import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.badlogic.gdx.math.Vector3;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Queue;
 import java.util.concurrent.ArrayBlockingQueue;
 
@@ -31,9 +32,8 @@ public class SimulatorDisplay extends ApplicationAdapter implements DataPlayback
     private Environment environment;
     private MyCameraController camController;
     private AssetManager assets;
-    private Track track;
-    private Model trackModel;
-    private ModelInstance trackModelInstance;
+    private Model tracksModel;
+    private ModelInstance tracksModelInstance;
     private Scenario scenario;
     private ArrayBlockingQueue<SystemState> systemStateUpdateQueue;
 
@@ -42,7 +42,7 @@ public class SimulatorDisplay extends ApplicationAdapter implements DataPlayback
     private Model systemStateVelocityModel = null;
     private ModelInstance systemStateVelocityModelInstance = null;
 
-    private Countries countries;
+    private Model countriesModel;
     private ModelInstance countriesModelInstance;
 
 
@@ -96,23 +96,56 @@ public class SimulatorDisplay extends ApplicationAdapter implements DataPlayback
 		}
 	}
 
+    private void generateTracksModel()
+    {
+        ArrayList<Track> tracks = scenario.getTracks();
+
+        ModelBuilder modelBuilder = new ModelBuilder();
+        modelBuilder.begin();
+        MeshPartBuilder builder = modelBuilder.part(
+                "track",
+                GL20.GL_LINES,
+                VertexAttributes.Usage.Position | VertexAttributes.Usage.ColorUnpacked,
+                new Material());
+        builder.setColor(Color.RED);
+
+        for (Track track : tracks)
+        {
+            //jump, just in case we want to skip some elements (it was having trouble drawing the entire track)
+            //for performance reasons.
+            int jump = 1;
+            Vector3 previousPositionDrawVector = track.get(0).getPosition().getModelDrawVector();
+            for(int i = jump; i < track.size(); i+=jump)
+            {
+                AircraftState state = track.get(i);
+                Vector3 positionDrawVector = state.getPosition().getModelDrawVector();
+                builder.line(previousPositionDrawVector, positionDrawVector);
+                previousPositionDrawVector = positionDrawVector;
+            }
+        }
+
+        tracksModel = modelBuilder.end();
+        tracksModelInstance = new ModelInstance(tracksModel);
+    }
+
+    private void generateCountriesModel()
+    {
+        Countries countries = new Countries("assets/maps/countries.geo.json");
+        countriesModel = countries.getModel();
+        countriesModelInstance = new ModelInstance(countriesModel);
+    }
+
 	@Override
 	public void create () {
 		assets = new AssetManager();
 //		assets.load("flight_data/CallibrateMap/CallibrateMap.csv", Track.class);
-        track = scenario.getTracks().get(0);
-
 //        assets.load("assets/models/planet.g3db", Model.class);
 		assets.finishLoading();
 
+        generateCountriesModel();
+        generateTracksModel();
 
-        countries = new Countries("assets/maps/countries.geo.json");
-        countriesModelInstance = new ModelInstance(countries.getModel());
 
-//		track = assets.get("flight_data/CallibrateMap/CallibrateMap.csv", Track.class);
-		trackModel = track.getModel();
-        trackModelInstance = new ModelInstance(trackModel);
-		//trackModelInstance.transform.setToScaling(-1f,1f,1f);
 
 
 
@@ -121,7 +154,7 @@ public class SimulatorDisplay extends ApplicationAdapter implements DataPlayback
 
 		cam = new PerspectiveCamera(40, Gdx.graphics.getWidth(), Gdx.graphics.getWidth());
 		cam.position.set(0f, 0f, 0f);
-		Vector3 firstPos = track.get(0).getPosition().getCartesianDrawVector();
+//		Vector3 firstPos = track.get(0).getPosition().getCartesianDrawVector();
 //		cam.lookAt(firstPos.x, firstPos.y, firstPos.z);
 		cam.lookAt(1, 0, 0);
 		cam.near = 0.01f;
@@ -213,7 +246,7 @@ public class SimulatorDisplay extends ApplicationAdapter implements DataPlayback
 		modelBatch.begin(cam);
 //		modelBatch.render(earthTextureInstance);
         modelBatch.render(countriesModelInstance);
-        modelBatch.render(trackModelInstance);
+        modelBatch.render(tracksModelInstance);
 
         pollSystemUpdateQueue();
         if ( systemStateModelInstance != null ) {
@@ -228,7 +261,8 @@ public class SimulatorDisplay extends ApplicationAdapter implements DataPlayback
 	public void dispose () {
 		modelBatch.dispose();
 //		earthTextureModel.dispose();
-        trackModel.dispose();
+        tracksModel.dispose();
+        countriesModel.dispose();
 	}
 
     @Override
