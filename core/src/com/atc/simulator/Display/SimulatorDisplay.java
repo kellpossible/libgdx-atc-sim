@@ -121,7 +121,7 @@ public class SimulatorDisplay extends ApplicationAdapter implements DataPlayback
 
 		cam = new PerspectiveCamera(40, Gdx.graphics.getWidth(), Gdx.graphics.getWidth());
 		cam.position.set(0f, 0f, 0f);
-		Vector3 firstPos = track.get(0).getAircraftState().getPosition().getCartesianDrawVector();
+		Vector3 firstPos = track.get(0).getPosition().getCartesianDrawVector();
 //		cam.lookAt(firstPos.x, firstPos.y, firstPos.z);
 		cam.lookAt(1, 0, 0);
 		cam.near = 0.01f;
