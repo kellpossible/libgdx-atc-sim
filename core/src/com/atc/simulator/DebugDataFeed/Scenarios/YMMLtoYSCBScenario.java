@@ -68,27 +68,27 @@ public class YMMLtoYSCBScenario extends Scenario {
         starting with the entry which was obtained last with this method.
          */
 
-        TrackEntry prevEntry = track.get(lastStateIndex);
-        Calendar prevEntryTime = prevEntry.getTime();
+        AircraftState prevState = track.get(lastStateIndex);
+        Calendar prevStateTime = prevState.getTime();
         for(int i = lastStateIndex; i<track.size();i++)
         {
-            TrackEntry entry = track.get(i);
-            Calendar entryTime = entry.getTime();
+            AircraftState state = track.get(i);
+            Calendar stateTime = state.getTime();
 
             /* compare the entry time with the time this method is aiming to get
             if the time of this entry is now after the desired time, this track entry
             is recognised as the closest to the desired time, and so it is returned.
              */
-            if (time.compareTo(entryTime) < 0)
+            if (time.compareTo(stateTime) < 0)
             {
                 lastStateIndex = i-1; //update the index with this track entry index.
                 ArrayList<AircraftState> aircraftStates = new ArrayList<AircraftState>();
-                aircraftStates.add(prevEntry.getAircraftState());
-                return new SystemState(prevEntryTime, aircraftStates);
+                aircraftStates.add(prevState);
+                return new SystemState(prevStateTime, aircraftStates);
             }
 
-            prevEntry = entry;
-            prevEntryTime = entryTime;
+            prevState = state;
+            prevStateTime = stateTime;
         }
 
         return null;

@@ -84,10 +84,8 @@ public class SimulatorTrackLoader extends TrackLoader {
                     velocity = new SphericalVelocity(0,0,0);
                 }
 
-                AircraftState state = new AircraftState("DEBUG", position, velocity, heading); //TODO: implement velocity and heading properly
-                track.add(
-                        new TrackEntry(time, state)
-                );
+                AircraftState state = new AircraftState("DEBUG", time, position, velocity, heading); //TODO: implement velocity and heading properly
+                track.add(state);
 
                 previousPosition = position;
                 previousTime = time;

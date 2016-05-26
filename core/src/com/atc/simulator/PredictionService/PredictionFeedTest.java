@@ -7,6 +7,7 @@ import com.atc.simulator.vectors.GeographicCoordinate;
 import com.atc.simulator.vectors.SphericalVelocity;
 
 import java.io.IOException;
+import java.util.Calendar;
 
 /**
  * Created by Chris on 7/05/2016.
@@ -29,7 +30,7 @@ public class PredictionFeedTest {
 
         //Create some Test data
        Prediction testPrediction = new Prediction();
-       testPrediction.addState(new AircraftState("TestState", new GeographicCoordinate(0,0,0), new SphericalVelocity(0,0,0), 0));
+       testPrediction.addState(new AircraftState("TestState", Calendar.getInstance(), new GeographicCoordinate(0,0,0), new SphericalVelocity(0,0,0), 0));
 
         //Create Server/Client objects
         PredictionFeedServer testServer = new PredictionFeedServer();
