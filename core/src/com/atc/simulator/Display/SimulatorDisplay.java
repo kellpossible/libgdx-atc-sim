@@ -5,6 +5,7 @@ import com.atc.simulator.DebugDataFeed.Scenarios.Scenario;
 import com.atc.simulator.flightdata.*;
 import com.atc.simulator.navdata.Countries;
 import com.atc.simulator.vectors.GeographicCoordinate;
+import com.atc.simulator.vectors.SphericalCoordinate;
 import com.atc.simulator.vectors.SphericalVelocity;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
@@ -20,6 +21,7 @@ import com.badlogic.gdx.math.Vector3;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Queue;
 import java.util.concurrent.ArrayBlockingQueue;
 
@@ -37,10 +39,10 @@ public class SimulatorDisplay extends ApplicationAdapter implements DataPlayback
     private Scenario scenario;
     private ArrayBlockingQueue<SystemState> systemStateUpdateQueue;
 
-    private Model systemStateModel = null;
-    private ModelInstance systemStateModelInstance = null;
-    private Model systemStateVelocityModel = null;
-    private ModelInstance systemStateVelocityModelInstance = null;
+    private HashMap<String, Model> aircraftStateModels = null;
+    private HashMap<String, ModelInstance> aircraftStateModelInstances = null;
+    private HashMap<String, Model> aircraftStateVelocityModels = null;
+    private HashMap<String, ModelInstance> aircraftStateVelocityModelInstances = null;
 
     private Model countriesModel;
     private ModelInstance countriesModelInstance;
@@ -50,6 +52,10 @@ public class SimulatorDisplay extends ApplicationAdapter implements DataPlayback
     {
         this.scenario = scenario;
         systemStateUpdateQueue = new ArrayBlockingQueue<SystemState>(100);
+        aircraftStateModels = new HashMap<String, Model>();
+        aircraftStateModelInstances = new HashMap<String, ModelInstance>();
+        aircraftStateVelocityModels = new HashMap<String, Model>();
+        aircraftStateVelocityModelInstances = new HashMap<String, ModelInstance>();
     }
 
 
@@ -96,6 +102,10 @@ public class SimulatorDisplay extends ApplicationAdapter implements DataPlayback
 		}
 	}
 
+    /**
+     * Generate a model with all the tracks in a scenario in it
+     * drawn as red lines.
+     */
     private void generateTracksModel()
     {
         ArrayList<Track> tracks = scenario.getTracks();
@@ -199,13 +209,19 @@ public class SimulatorDisplay extends ApplicationAdapter implements DataPlayback
             System.out.println("Velocity: " + velocity);
             System.out.println("Heading: " + Math.toDegrees(aircraftState.getHeading()));
             System.out.println(ISO8601.fromCalendar(systemState.getTime()));
-            Vector3 modelDrawVector = position.getModelDrawVector();
+
+            double depthAdjustment = -0.01;
+            Vector3 modelDrawVector = position.getModelDrawVector(depthAdjustment);
+
+            String aircraftID = aircraftState.getAircraftID();
 
             ModelBuilder modelBuilder = new ModelBuilder();
 
-            if (systemStateModel != null )
+            Model aircraftStateModel = aircraftStateModels.get(aircraftID);
+            ModelInstance aircraftStateModelInstance;
+            if (aircraftStateModel != null)
             {
-                systemStateModel.dispose();
+                aircraftStateModel.dispose();
             }
 
 //            modelBuilder.begin();
@@ -218,22 +234,36 @@ public class SimulatorDisplay extends ApplicationAdapter implements DataPlayback
 //            builder.vertex(position.getModelDrawVector().x, position.getModelDrawVector().y, position.getModelDrawVector().z);
 
 //            systemStateModel = modelBuilder.end();
-            systemStateModel = modelBuilder.createSphere(
+            aircraftStateModel = modelBuilder.createSphere(
                     0.001f, 0.001f, 0.001f, 10, 10,
                     new Material(ColorAttribute.createDiffuse(Color.GREEN)),
                     VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal);
-            systemStateModelInstance = new ModelInstance(systemStateModel);
-            systemStateModelInstance.transform.setTranslation(modelDrawVector.x, modelDrawVector.y, modelDrawVector.z);
+            aircraftStateModelInstance = new ModelInstance(aircraftStateModel);
+            aircraftStateModelInstance.transform.setTranslation(modelDrawVector.x, modelDrawVector.y, modelDrawVector.z);
 
+            aircraftStateModelInstances.put(aircraftID, aircraftStateModelInstance);
+            aircraftStateModels.put(aircraftID, aircraftStateModel);
+
+            Model aircraftStateVelocityModel = aircraftStateVelocityModels.get(aircraftID);
+            ModelInstance aircraftStateVelocityModelInstance;
+            if (aircraftStateVelocityModel != null)
+            {
+                aircraftStateVelocityModel.dispose();
+            }
 
             GeographicCoordinate velocityEndPos = new GeographicCoordinate(position.add(velocity.mult(120))); //two minute velocity vector
-            systemStateVelocityModel = modelBuilder.createArrow(
+            aircraftStateVelocityModel = modelBuilder.createArrow(
                     modelDrawVector,
-                    velocityEndPos.getModelDrawVector(),
+                    velocityEndPos.getModelDrawVector(depthAdjustment),
                     new Material(ColorAttribute.createDiffuse(Color.GREEN)),
                     VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal);
-            systemStateVelocityModelInstance = new ModelInstance(systemStateVelocityModel);
-            systemStateModelInstance.transform.setTranslation(modelDrawVector.x, modelDrawVector.y, modelDrawVector.z);
+            aircraftStateVelocityModelInstance = new ModelInstance(aircraftStateVelocityModel);
+
+            //for some strange reason this isn't required...!
+//            aircraftStateVelocityModelInstance.transform.setTranslation(modelDrawVector.x, modelDrawVector.y, modelDrawVector.z);
+
+            aircraftStateVelocityModels.put(aircraftID, aircraftStateVelocityModel);
+            aircraftStateVelocityModelInstances.put(aircraftID, aircraftStateVelocityModelInstance);
         }
     }
 
@@ -246,13 +276,19 @@ public class SimulatorDisplay extends ApplicationAdapter implements DataPlayback
 		modelBatch.begin(cam);
 //		modelBatch.render(earthTextureInstance);
         modelBatch.render(countriesModelInstance);
-        modelBatch.render(tracksModelInstance);
+
 
         pollSystemUpdateQueue();
-        if ( systemStateModelInstance != null ) {
-            modelBatch.render(systemStateModelInstance);
-            modelBatch.render(systemStateVelocityModelInstance);
+
+        for (ModelInstance instance: aircraftStateModelInstances.values()){
+            modelBatch.render(instance);
         }
+
+        for (ModelInstance instance: aircraftStateVelocityModelInstances.values()){
+            modelBatch.render(instance);
+        }
+
+        modelBatch.render(tracksModelInstance);
 
 		modelBatch.end();
 	}
@@ -263,6 +299,14 @@ public class SimulatorDisplay extends ApplicationAdapter implements DataPlayback
 //		earthTextureModel.dispose();
         tracksModel.dispose();
         countriesModel.dispose();
+
+        for (Model model: aircraftStateModels.values()){
+            model.dispose();
+        }
+
+        for (Model model: aircraftStateVelocityModels.values()){
+            model.dispose();
+        }
 	}
 
     @Override

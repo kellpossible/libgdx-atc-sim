@@ -1,5 +1,5 @@
 {
-    "update_rate": 5,
+    "update_rate": 5.0,
     "system_states": [
         {
             "time": "2016-05-26T21:21:15.825766",

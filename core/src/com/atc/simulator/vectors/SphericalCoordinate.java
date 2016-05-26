@@ -85,4 +85,23 @@ public class SphericalCoordinate extends Vector3 {
         adjustedCoordinate.x = 0.99;
         return adjustedCoordinate.getCartesianDrawVector();
     }
+
+    /**
+     * Get a draw vector, but with the radius set to 0.99 to be just below the surface of a textured
+     * model of the earth.
+     *
+     * @param adjust adjust the radius (draw depth)
+     * @return the cartesian draw vector
+     */
+    public com.badlogic.gdx.math.Vector3 getModelDrawVector(double adjust)
+    {
+        GeographicCoordinate adjustedCoordinate = new GeographicCoordinate(this);
+        /*
+        set radius to 0.99 to get the draw vector to be beneath the surface of the planet
+        which sits at 1.00. As we are looking at the planet from the inside, this ensures
+        that this coordinate is drawn on top.
+        */
+        adjustedCoordinate.x = 0.99 + adjust;
+        return adjustedCoordinate.getCartesianDrawVector();
+    }
 }

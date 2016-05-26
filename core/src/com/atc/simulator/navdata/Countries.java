@@ -61,7 +61,7 @@ public class Countries {
         {
             JsonObject feature = featureElement.getAsJsonObject();
             JsonObject properties = feature.get("properties").getAsJsonObject();
-            String countryName = properties.get("sovereignt").getAsString();
+//            String countryName = properties.get("sovereignt").getAsString();
 
             JsonObject geometry = feature.get("geometry").getAsJsonObject();
             String geometryType = geometry.get("type").getAsString();
