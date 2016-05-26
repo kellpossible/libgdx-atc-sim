@@ -25,5 +25,5 @@ message SystemStateMessage
         required double heading = 4;
     }
     required string time = 1;
-    repeated AircraftStateMessage aircraftStates = 2;
+    repeated AircraftStateMessage aircraftState = 2;
 }

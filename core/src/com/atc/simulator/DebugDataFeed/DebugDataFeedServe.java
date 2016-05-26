@@ -27,27 +27,27 @@ public final class DebugDataFeedServe {
         getTimeBytes();
 
     /**
-     * <code>repeated .SystemStateMessage.AircraftStateMessage aircraftStates = 2;</code>
+     * <code>repeated .SystemStateMessage.AircraftStateMessage aircraftState = 2;</code>
      */
     java.util.List<com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemStateMessage.AircraftStateMessage> 
-        getAircraftStatesList();
+        getAircraftStateList();
     /**
-     * <code>repeated .SystemStateMessage.AircraftStateMessage aircraftStates = 2;</code>
+     * <code>repeated .SystemStateMessage.AircraftStateMessage aircraftState = 2;</code>
      */
-    com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemStateMessage.AircraftStateMessage getAircraftStates(int index);
+    com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemStateMessage.AircraftStateMessage getAircraftState(int index);
     /**
-     * <code>repeated .SystemStateMessage.AircraftStateMessage aircraftStates = 2;</code>
+     * <code>repeated .SystemStateMessage.AircraftStateMessage aircraftState = 2;</code>
      */
-    int getAircraftStatesCount();
+    int getAircraftStateCount();
     /**
-     * <code>repeated .SystemStateMessage.AircraftStateMessage aircraftStates = 2;</code>
+     * <code>repeated .SystemStateMessage.AircraftStateMessage aircraftState = 2;</code>
      */
     java.util.List<? extends com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemStateMessage.AircraftStateMessageOrBuilder> 
-        getAircraftStatesOrBuilderList();
+        getAircraftStateOrBuilderList();
     /**
-     * <code>repeated .SystemStateMessage.AircraftStateMessage aircraftStates = 2;</code>
+     * <code>repeated .SystemStateMessage.AircraftStateMessage aircraftState = 2;</code>
      */
-    com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemStateMessage.AircraftStateMessageOrBuilder getAircraftStatesOrBuilder(
+    com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemStateMessage.AircraftStateMessageOrBuilder getAircraftStateOrBuilder(
         int index);
   }
   /**
@@ -110,10 +110,10 @@ public final class DebugDataFeedServe {
             }
             case 18: {
               if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
-                aircraftStates_ = new java.util.ArrayList<com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemStateMessage.AircraftStateMessage>();
+                aircraftState_ = new java.util.ArrayList<com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemStateMessage.AircraftStateMessage>();
                 mutable_bitField0_ |= 0x00000002;
               }
-              aircraftStates_.add(input.readMessage(com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemStateMessage.AircraftStateMessage.PARSER, extensionRegistry));
+              aircraftState_.add(input.readMessage(com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemStateMessage.AircraftStateMessage.PARSER, extensionRegistry));
               break;
             }
           }
@@ -125,7 +125,7 @@ public final class DebugDataFeedServe {
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
         if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
-          aircraftStates_ = java.util.Collections.unmodifiableList(aircraftStates_);
+          aircraftState_ = java.util.Collections.unmodifiableList(aircraftState_);
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -2335,44 +2335,44 @@ public final class DebugDataFeedServe {
       }
     }
 
-    public static final int AIRCRAFTSTATES_FIELD_NUMBER = 2;
-    private java.util.List<com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemStateMessage.AircraftStateMessage> aircraftStates_;
+    public static final int AIRCRAFTSTATE_FIELD_NUMBER = 2;
+    private java.util.List<com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemStateMessage.AircraftStateMessage> aircraftState_;
     /**
-     * <code>repeated .SystemStateMessage.AircraftStateMessage aircraftStates = 2;</code>
+     * <code>repeated .SystemStateMessage.AircraftStateMessage aircraftState = 2;</code>
      */
-    public java.util.List<com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemStateMessage.AircraftStateMessage> getAircraftStatesList() {
-      return aircraftStates_;
+    public java.util.List<com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemStateMessage.AircraftStateMessage> getAircraftStateList() {
+      return aircraftState_;
     }
     /**
-     * <code>repeated .SystemStateMessage.AircraftStateMessage aircraftStates = 2;</code>
+     * <code>repeated .SystemStateMessage.AircraftStateMessage aircraftState = 2;</code>
      */
     public java.util.List<? extends com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemStateMessage.AircraftStateMessageOrBuilder> 
-        getAircraftStatesOrBuilderList() {
-      return aircraftStates_;
+        getAircraftStateOrBuilderList() {
+      return aircraftState_;
     }
     /**
-     * <code>repeated .SystemStateMessage.AircraftStateMessage aircraftStates = 2;</code>
+     * <code>repeated .SystemStateMessage.AircraftStateMessage aircraftState = 2;</code>
      */
-    public int getAircraftStatesCount() {
-      return aircraftStates_.size();
+    public int getAircraftStateCount() {
+      return aircraftState_.size();
     }
     /**
-     * <code>repeated .SystemStateMessage.AircraftStateMessage aircraftStates = 2;</code>
+     * <code>repeated .SystemStateMessage.AircraftStateMessage aircraftState = 2;</code>
      */
-    public com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemStateMessage.AircraftStateMessage getAircraftStates(int index) {
-      return aircraftStates_.get(index);
+    public com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemStateMessage.AircraftStateMessage getAircraftState(int index) {
+      return aircraftState_.get(index);
     }
     /**
-     * <code>repeated .SystemStateMessage.AircraftStateMessage aircraftStates = 2;</code>
+     * <code>repeated .SystemStateMessage.AircraftStateMessage aircraftState = 2;</code>
      */
-    public com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemStateMessage.AircraftStateMessageOrBuilder getAircraftStatesOrBuilder(
+    public com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemStateMessage.AircraftStateMessageOrBuilder getAircraftStateOrBuilder(
         int index) {
-      return aircraftStates_.get(index);
+      return aircraftState_.get(index);
     }
 
     private void initFields() {
       time_ = "";
-      aircraftStates_ = java.util.Collections.emptyList();
+      aircraftState_ = java.util.Collections.emptyList();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -2384,8 +2384,8 @@ public final class DebugDataFeedServe {
         memoizedIsInitialized = 0;
         return false;
       }
-      for (int i = 0; i < getAircraftStatesCount(); i++) {
-        if (!getAircraftStates(i).isInitialized()) {
+      for (int i = 0; i < getAircraftStateCount(); i++) {
+        if (!getAircraftState(i).isInitialized()) {
           memoizedIsInitialized = 0;
           return false;
         }
@@ -2400,8 +2400,8 @@ public final class DebugDataFeedServe {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         output.writeBytes(1, getTimeBytes());
       }
-      for (int i = 0; i < aircraftStates_.size(); i++) {
-        output.writeMessage(2, aircraftStates_.get(i));
+      for (int i = 0; i < aircraftState_.size(); i++) {
+        output.writeMessage(2, aircraftState_.get(i));
       }
       getUnknownFields().writeTo(output);
     }
@@ -2416,9 +2416,9 @@ public final class DebugDataFeedServe {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(1, getTimeBytes());
       }
-      for (int i = 0; i < aircraftStates_.size(); i++) {
+      for (int i = 0; i < aircraftState_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(2, aircraftStates_.get(i));
+          .computeMessageSize(2, aircraftState_.get(i));
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -2529,7 +2529,7 @@ public final class DebugDataFeedServe {
       }
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
-          getAircraftStatesFieldBuilder();
+          getAircraftStateFieldBuilder();
         }
       }
       private static Builder create() {
@@ -2540,11 +2540,11 @@ public final class DebugDataFeedServe {
         super.clear();
         time_ = "";
         bitField0_ = (bitField0_ & ~0x00000001);
-        if (aircraftStatesBuilder_ == null) {
-          aircraftStates_ = java.util.Collections.emptyList();
+        if (aircraftStateBuilder_ == null) {
+          aircraftState_ = java.util.Collections.emptyList();
           bitField0_ = (bitField0_ & ~0x00000002);
         } else {
-          aircraftStatesBuilder_.clear();
+          aircraftStateBuilder_.clear();
         }
         return this;
       }
@@ -2578,14 +2578,14 @@ public final class DebugDataFeedServe {
           to_bitField0_ |= 0x00000001;
         }
         result.time_ = time_;
-        if (aircraftStatesBuilder_ == null) {
+        if (aircraftStateBuilder_ == null) {
           if (((bitField0_ & 0x00000002) == 0x00000002)) {
-            aircraftStates_ = java.util.Collections.unmodifiableList(aircraftStates_);
+            aircraftState_ = java.util.Collections.unmodifiableList(aircraftState_);
             bitField0_ = (bitField0_ & ~0x00000002);
           }
-          result.aircraftStates_ = aircraftStates_;
+          result.aircraftState_ = aircraftState_;
         } else {
-          result.aircraftStates_ = aircraftStatesBuilder_.build();
+          result.aircraftState_ = aircraftStateBuilder_.build();
         }
         result.bitField0_ = to_bitField0_;
         onBuilt();
@@ -2608,29 +2608,29 @@ public final class DebugDataFeedServe {
           time_ = other.time_;
           onChanged();
         }
-        if (aircraftStatesBuilder_ == null) {
-          if (!other.aircraftStates_.isEmpty()) {
-            if (aircraftStates_.isEmpty()) {
-              aircraftStates_ = other.aircraftStates_;
+        if (aircraftStateBuilder_ == null) {
+          if (!other.aircraftState_.isEmpty()) {
+            if (aircraftState_.isEmpty()) {
+              aircraftState_ = other.aircraftState_;
               bitField0_ = (bitField0_ & ~0x00000002);
             } else {
-              ensureAircraftStatesIsMutable();
-              aircraftStates_.addAll(other.aircraftStates_);
+              ensureAircraftStateIsMutable();
+              aircraftState_.addAll(other.aircraftState_);
             }
             onChanged();
           }
         } else {
-          if (!other.aircraftStates_.isEmpty()) {
-            if (aircraftStatesBuilder_.isEmpty()) {
-              aircraftStatesBuilder_.dispose();
-              aircraftStatesBuilder_ = null;
-              aircraftStates_ = other.aircraftStates_;
+          if (!other.aircraftState_.isEmpty()) {
+            if (aircraftStateBuilder_.isEmpty()) {
+              aircraftStateBuilder_.dispose();
+              aircraftStateBuilder_ = null;
+              aircraftState_ = other.aircraftState_;
               bitField0_ = (bitField0_ & ~0x00000002);
-              aircraftStatesBuilder_ = 
+              aircraftStateBuilder_ = 
                 com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
-                   getAircraftStatesFieldBuilder() : null;
+                   getAircraftStateFieldBuilder() : null;
             } else {
-              aircraftStatesBuilder_.addAllMessages(other.aircraftStates_);
+              aircraftStateBuilder_.addAllMessages(other.aircraftState_);
             }
           }
         }
@@ -2643,8 +2643,8 @@ public final class DebugDataFeedServe {
           
           return false;
         }
-        for (int i = 0; i < getAircraftStatesCount(); i++) {
-          if (!getAircraftStates(i).isInitialized()) {
+        for (int i = 0; i < getAircraftStateCount(); i++) {
+          if (!getAircraftState(i).isInitialized()) {
             
             return false;
           }
@@ -2747,244 +2747,244 @@ public final class DebugDataFeedServe {
         return this;
       }
 
-      private java.util.List<com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemStateMessage.AircraftStateMessage> aircraftStates_ =
+      private java.util.List<com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemStateMessage.AircraftStateMessage> aircraftState_ =
         java.util.Collections.emptyList();
-      private void ensureAircraftStatesIsMutable() {
+      private void ensureAircraftStateIsMutable() {
         if (!((bitField0_ & 0x00000002) == 0x00000002)) {
-          aircraftStates_ = new java.util.ArrayList<com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemStateMessage.AircraftStateMessage>(aircraftStates_);
+          aircraftState_ = new java.util.ArrayList<com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemStateMessage.AircraftStateMessage>(aircraftState_);
           bitField0_ |= 0x00000002;
          }
       }
 
       private com.google.protobuf.RepeatedFieldBuilder<
-          com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemStateMessage.AircraftStateMessage, com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemStateMessage.AircraftStateMessage.Builder, com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemStateMessage.AircraftStateMessageOrBuilder> aircraftStatesBuilder_;
+          com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemStateMessage.AircraftStateMessage, com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemStateMessage.AircraftStateMessage.Builder, com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemStateMessage.AircraftStateMessageOrBuilder> aircraftStateBuilder_;
 
       /**
-       * <code>repeated .SystemStateMessage.AircraftStateMessage aircraftStates = 2;</code>
+       * <code>repeated .SystemStateMessage.AircraftStateMessage aircraftState = 2;</code>
        */
-      public java.util.List<com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemStateMessage.AircraftStateMessage> getAircraftStatesList() {
-        if (aircraftStatesBuilder_ == null) {
-          return java.util.Collections.unmodifiableList(aircraftStates_);
+      public java.util.List<com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemStateMessage.AircraftStateMessage> getAircraftStateList() {
+        if (aircraftStateBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(aircraftState_);
         } else {
-          return aircraftStatesBuilder_.getMessageList();
+          return aircraftStateBuilder_.getMessageList();
         }
       }
       /**
-       * <code>repeated .SystemStateMessage.AircraftStateMessage aircraftStates = 2;</code>
+       * <code>repeated .SystemStateMessage.AircraftStateMessage aircraftState = 2;</code>
        */
-      public int getAircraftStatesCount() {
-        if (aircraftStatesBuilder_ == null) {
-          return aircraftStates_.size();
+      public int getAircraftStateCount() {
+        if (aircraftStateBuilder_ == null) {
+          return aircraftState_.size();
         } else {
-          return aircraftStatesBuilder_.getCount();
+          return aircraftStateBuilder_.getCount();
         }
       }
       /**
-       * <code>repeated .SystemStateMessage.AircraftStateMessage aircraftStates = 2;</code>
+       * <code>repeated .SystemStateMessage.AircraftStateMessage aircraftState = 2;</code>
        */
-      public com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemStateMessage.AircraftStateMessage getAircraftStates(int index) {
-        if (aircraftStatesBuilder_ == null) {
-          return aircraftStates_.get(index);
+      public com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemStateMessage.AircraftStateMessage getAircraftState(int index) {
+        if (aircraftStateBuilder_ == null) {
+          return aircraftState_.get(index);
         } else {
-          return aircraftStatesBuilder_.getMessage(index);
+          return aircraftStateBuilder_.getMessage(index);
         }
       }
       /**
-       * <code>repeated .SystemStateMessage.AircraftStateMessage aircraftStates = 2;</code>
+       * <code>repeated .SystemStateMessage.AircraftStateMessage aircraftState = 2;</code>
        */
-      public Builder setAircraftStates(
+      public Builder setAircraftState(
           int index, com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemStateMessage.AircraftStateMessage value) {
-        if (aircraftStatesBuilder_ == null) {
+        if (aircraftStateBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
           }
-          ensureAircraftStatesIsMutable();
-          aircraftStates_.set(index, value);
+          ensureAircraftStateIsMutable();
+          aircraftState_.set(index, value);
           onChanged();
         } else {
-          aircraftStatesBuilder_.setMessage(index, value);
+          aircraftStateBuilder_.setMessage(index, value);
         }
         return this;
       }
       /**
-       * <code>repeated .SystemStateMessage.AircraftStateMessage aircraftStates = 2;</code>
+       * <code>repeated .SystemStateMessage.AircraftStateMessage aircraftState = 2;</code>
        */
-      public Builder setAircraftStates(
+      public Builder setAircraftState(
           int index, com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemStateMessage.AircraftStateMessage.Builder builderForValue) {
-        if (aircraftStatesBuilder_ == null) {
-          ensureAircraftStatesIsMutable();
-          aircraftStates_.set(index, builderForValue.build());
+        if (aircraftStateBuilder_ == null) {
+          ensureAircraftStateIsMutable();
+          aircraftState_.set(index, builderForValue.build());
           onChanged();
         } else {
-          aircraftStatesBuilder_.setMessage(index, builderForValue.build());
+          aircraftStateBuilder_.setMessage(index, builderForValue.build());
         }
         return this;
       }
       /**
-       * <code>repeated .SystemStateMessage.AircraftStateMessage aircraftStates = 2;</code>
+       * <code>repeated .SystemStateMessage.AircraftStateMessage aircraftState = 2;</code>
        */
-      public Builder addAircraftStates(com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemStateMessage.AircraftStateMessage value) {
-        if (aircraftStatesBuilder_ == null) {
+      public Builder addAircraftState(com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemStateMessage.AircraftStateMessage value) {
+        if (aircraftStateBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
           }
-          ensureAircraftStatesIsMutable();
-          aircraftStates_.add(value);
+          ensureAircraftStateIsMutable();
+          aircraftState_.add(value);
           onChanged();
         } else {
-          aircraftStatesBuilder_.addMessage(value);
+          aircraftStateBuilder_.addMessage(value);
         }
         return this;
       }
       /**
-       * <code>repeated .SystemStateMessage.AircraftStateMessage aircraftStates = 2;</code>
+       * <code>repeated .SystemStateMessage.AircraftStateMessage aircraftState = 2;</code>
        */
-      public Builder addAircraftStates(
+      public Builder addAircraftState(
           int index, com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemStateMessage.AircraftStateMessage value) {
-        if (aircraftStatesBuilder_ == null) {
+        if (aircraftStateBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
           }
-          ensureAircraftStatesIsMutable();
-          aircraftStates_.add(index, value);
+          ensureAircraftStateIsMutable();
+          aircraftState_.add(index, value);
           onChanged();
         } else {
-          aircraftStatesBuilder_.addMessage(index, value);
+          aircraftStateBuilder_.addMessage(index, value);
         }
         return this;
       }
       /**
-       * <code>repeated .SystemStateMessage.AircraftStateMessage aircraftStates = 2;</code>
+       * <code>repeated .SystemStateMessage.AircraftStateMessage aircraftState = 2;</code>
        */
-      public Builder addAircraftStates(
+      public Builder addAircraftState(
           com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemStateMessage.AircraftStateMessage.Builder builderForValue) {
-        if (aircraftStatesBuilder_ == null) {
-          ensureAircraftStatesIsMutable();
-          aircraftStates_.add(builderForValue.build());
+        if (aircraftStateBuilder_ == null) {
+          ensureAircraftStateIsMutable();
+          aircraftState_.add(builderForValue.build());
           onChanged();
         } else {
-          aircraftStatesBuilder_.addMessage(builderForValue.build());
+          aircraftStateBuilder_.addMessage(builderForValue.build());
         }
         return this;
       }
       /**
-       * <code>repeated .SystemStateMessage.AircraftStateMessage aircraftStates = 2;</code>
+       * <code>repeated .SystemStateMessage.AircraftStateMessage aircraftState = 2;</code>
        */
-      public Builder addAircraftStates(
+      public Builder addAircraftState(
           int index, com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemStateMessage.AircraftStateMessage.Builder builderForValue) {
-        if (aircraftStatesBuilder_ == null) {
-          ensureAircraftStatesIsMutable();
-          aircraftStates_.add(index, builderForValue.build());
+        if (aircraftStateBuilder_ == null) {
+          ensureAircraftStateIsMutable();
+          aircraftState_.add(index, builderForValue.build());
           onChanged();
         } else {
-          aircraftStatesBuilder_.addMessage(index, builderForValue.build());
+          aircraftStateBuilder_.addMessage(index, builderForValue.build());
         }
         return this;
       }
       /**
-       * <code>repeated .SystemStateMessage.AircraftStateMessage aircraftStates = 2;</code>
+       * <code>repeated .SystemStateMessage.AircraftStateMessage aircraftState = 2;</code>
        */
-      public Builder addAllAircraftStates(
+      public Builder addAllAircraftState(
           java.lang.Iterable<? extends com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemStateMessage.AircraftStateMessage> values) {
-        if (aircraftStatesBuilder_ == null) {
-          ensureAircraftStatesIsMutable();
+        if (aircraftStateBuilder_ == null) {
+          ensureAircraftStateIsMutable();
           com.google.protobuf.AbstractMessageLite.Builder.addAll(
-              values, aircraftStates_);
+              values, aircraftState_);
           onChanged();
         } else {
-          aircraftStatesBuilder_.addAllMessages(values);
+          aircraftStateBuilder_.addAllMessages(values);
         }
         return this;
       }
       /**
-       * <code>repeated .SystemStateMessage.AircraftStateMessage aircraftStates = 2;</code>
+       * <code>repeated .SystemStateMessage.AircraftStateMessage aircraftState = 2;</code>
        */
-      public Builder clearAircraftStates() {
-        if (aircraftStatesBuilder_ == null) {
-          aircraftStates_ = java.util.Collections.emptyList();
+      public Builder clearAircraftState() {
+        if (aircraftStateBuilder_ == null) {
+          aircraftState_ = java.util.Collections.emptyList();
           bitField0_ = (bitField0_ & ~0x00000002);
           onChanged();
         } else {
-          aircraftStatesBuilder_.clear();
+          aircraftStateBuilder_.clear();
         }
         return this;
       }
       /**
-       * <code>repeated .SystemStateMessage.AircraftStateMessage aircraftStates = 2;</code>
+       * <code>repeated .SystemStateMessage.AircraftStateMessage aircraftState = 2;</code>
        */
-      public Builder removeAircraftStates(int index) {
-        if (aircraftStatesBuilder_ == null) {
-          ensureAircraftStatesIsMutable();
-          aircraftStates_.remove(index);
+      public Builder removeAircraftState(int index) {
+        if (aircraftStateBuilder_ == null) {
+          ensureAircraftStateIsMutable();
+          aircraftState_.remove(index);
           onChanged();
         } else {
-          aircraftStatesBuilder_.remove(index);
+          aircraftStateBuilder_.remove(index);
         }
         return this;
       }
       /**
-       * <code>repeated .SystemStateMessage.AircraftStateMessage aircraftStates = 2;</code>
+       * <code>repeated .SystemStateMessage.AircraftStateMessage aircraftState = 2;</code>
        */
-      public com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemStateMessage.AircraftStateMessage.Builder getAircraftStatesBuilder(
+      public com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemStateMessage.AircraftStateMessage.Builder getAircraftStateBuilder(
           int index) {
-        return getAircraftStatesFieldBuilder().getBuilder(index);
+        return getAircraftStateFieldBuilder().getBuilder(index);
       }
       /**
-       * <code>repeated .SystemStateMessage.AircraftStateMessage aircraftStates = 2;</code>
+       * <code>repeated .SystemStateMessage.AircraftStateMessage aircraftState = 2;</code>
        */
-      public com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemStateMessage.AircraftStateMessageOrBuilder getAircraftStatesOrBuilder(
+      public com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemStateMessage.AircraftStateMessageOrBuilder getAircraftStateOrBuilder(
           int index) {
-        if (aircraftStatesBuilder_ == null) {
-          return aircraftStates_.get(index);  } else {
-          return aircraftStatesBuilder_.getMessageOrBuilder(index);
+        if (aircraftStateBuilder_ == null) {
+          return aircraftState_.get(index);  } else {
+          return aircraftStateBuilder_.getMessageOrBuilder(index);
         }
       }
       /**
-       * <code>repeated .SystemStateMessage.AircraftStateMessage aircraftStates = 2;</code>
+       * <code>repeated .SystemStateMessage.AircraftStateMessage aircraftState = 2;</code>
        */
       public java.util.List<? extends com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemStateMessage.AircraftStateMessageOrBuilder> 
-           getAircraftStatesOrBuilderList() {
-        if (aircraftStatesBuilder_ != null) {
-          return aircraftStatesBuilder_.getMessageOrBuilderList();
+           getAircraftStateOrBuilderList() {
+        if (aircraftStateBuilder_ != null) {
+          return aircraftStateBuilder_.getMessageOrBuilderList();
         } else {
-          return java.util.Collections.unmodifiableList(aircraftStates_);
+          return java.util.Collections.unmodifiableList(aircraftState_);
         }
       }
       /**
-       * <code>repeated .SystemStateMessage.AircraftStateMessage aircraftStates = 2;</code>
+       * <code>repeated .SystemStateMessage.AircraftStateMessage aircraftState = 2;</code>
        */
-      public com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemStateMessage.AircraftStateMessage.Builder addAircraftStatesBuilder() {
-        return getAircraftStatesFieldBuilder().addBuilder(
+      public com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemStateMessage.AircraftStateMessage.Builder addAircraftStateBuilder() {
+        return getAircraftStateFieldBuilder().addBuilder(
             com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemStateMessage.AircraftStateMessage.getDefaultInstance());
       }
       /**
-       * <code>repeated .SystemStateMessage.AircraftStateMessage aircraftStates = 2;</code>
+       * <code>repeated .SystemStateMessage.AircraftStateMessage aircraftState = 2;</code>
        */
-      public com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemStateMessage.AircraftStateMessage.Builder addAircraftStatesBuilder(
+      public com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemStateMessage.AircraftStateMessage.Builder addAircraftStateBuilder(
           int index) {
-        return getAircraftStatesFieldBuilder().addBuilder(
+        return getAircraftStateFieldBuilder().addBuilder(
             index, com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemStateMessage.AircraftStateMessage.getDefaultInstance());
       }
       /**
-       * <code>repeated .SystemStateMessage.AircraftStateMessage aircraftStates = 2;</code>
+       * <code>repeated .SystemStateMessage.AircraftStateMessage aircraftState = 2;</code>
        */
       public java.util.List<com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemStateMessage.AircraftStateMessage.Builder> 
-           getAircraftStatesBuilderList() {
-        return getAircraftStatesFieldBuilder().getBuilderList();
+           getAircraftStateBuilderList() {
+        return getAircraftStateFieldBuilder().getBuilderList();
       }
       private com.google.protobuf.RepeatedFieldBuilder<
           com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemStateMessage.AircraftStateMessage, com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemStateMessage.AircraftStateMessage.Builder, com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemStateMessage.AircraftStateMessageOrBuilder> 
-          getAircraftStatesFieldBuilder() {
-        if (aircraftStatesBuilder_ == null) {
-          aircraftStatesBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+          getAircraftStateFieldBuilder() {
+        if (aircraftStateBuilder_ == null) {
+          aircraftStateBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
               com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemStateMessage.AircraftStateMessage, com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemStateMessage.AircraftStateMessage.Builder, com.atc.simulator.DebugDataFeed.DebugDataFeedServe.SystemStateMessage.AircraftStateMessageOrBuilder>(
-                  aircraftStates_,
+                  aircraftState_,
                   ((bitField0_ & 0x00000002) == 0x00000002),
                   getParentForChildren(),
                   isClean());
-          aircraftStates_ = null;
+          aircraftState_ = null;
         }
-        return aircraftStatesBuilder_;
+        return aircraftStateBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:SystemStateMessage)
@@ -3027,21 +3027,21 @@ public final class DebugDataFeedServe {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n#main/proto/DebugDataFeedServe.proto\"\353\003" +
-      "\n\022SystemStateMessage\022\014\n\004time\030\001 \002(\t\022@\n\016ai" +
-      "rcraftStates\030\002 \003(\0132(.SystemStateMessage." +
-      "AircraftStateMessage\032\204\003\n\024AircraftStateMe" +
-      "ssage\022\022\n\naircraftID\030\001 \002(\t\022V\n\010position\030\002 " +
-      "\002(\0132D.SystemStateMessage.AircraftStateMe" +
-      "ssage.GeographicCoordinateMessage\022S\n\010vel" +
-      "ocity\030\003 \002(\0132A.SystemStateMessage.Aircraf" +
-      "tStateMessage.SphericalVelocityMessage\022\017" +
-      "\n\007heading\030\004 \002(\001\032T\n\033GeographicCoordinateM",
-      "essage\022\020\n\010altitude\030\001 \002(\001\022\020\n\010latitude\030\002 \002" +
-      "(\001\022\021\n\tlongitude\030\003 \002(\001\032D\n\030SphericalVeloci" +
-      "tyMessage\022\n\n\002dr\030\001 \002(\001\022\016\n\006dtheta\030\002 \002(\001\022\014\n" +
-      "\004dphi\030\003 \002(\001B5\n\037com.atc.simulator.DebugDa" +
-      "taFeedB\022DebugDataFeedServe"
+      "\n#main/proto/DebugDataFeedServe.proto\"\352\003" +
+      "\n\022SystemStateMessage\022\014\n\004time\030\001 \002(\t\022?\n\rai" +
+      "rcraftState\030\002 \003(\0132(.SystemStateMessage.A" +
+      "ircraftStateMessage\032\204\003\n\024AircraftStateMes" +
+      "sage\022\022\n\naircraftID\030\001 \002(\t\022V\n\010position\030\002 \002" +
+      "(\0132D.SystemStateMessage.AircraftStateMes" +
+      "sage.GeographicCoordinateMessage\022S\n\010velo" +
+      "city\030\003 \002(\0132A.SystemStateMessage.Aircraft" +
+      "StateMessage.SphericalVelocityMessage\022\017\n" +
+      "\007heading\030\004 \002(\001\032T\n\033GeographicCoordinateMe",
+      "ssage\022\020\n\010altitude\030\001 \002(\001\022\020\n\010latitude\030\002 \002(" +
+      "\001\022\021\n\tlongitude\030\003 \002(\001\032D\n\030SphericalVelocit" +
+      "yMessage\022\n\n\002dr\030\001 \002(\001\022\016\n\006dtheta\030\002 \002(\001\022\014\n\004" +
+      "dphi\030\003 \002(\001B5\n\037com.atc.simulator.DebugDat" +
+      "aFeedB\022DebugDataFeedServe"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -3060,7 +3060,7 @@ public final class DebugDataFeedServe {
     internal_static_SystemStateMessage_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_SystemStateMessage_descriptor,
-        new java.lang.String[] { "Time", "AircraftStates", });
+        new java.lang.String[] { "Time", "AircraftState", });
     internal_static_SystemStateMessage_AircraftStateMessage_descriptor =
       internal_static_SystemStateMessage_descriptor.getNestedTypes().get(0);
     internal_static_SystemStateMessage_AircraftStateMessage_fieldAccessorTable = new

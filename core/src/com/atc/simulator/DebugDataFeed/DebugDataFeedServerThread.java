@@ -1,5 +1,6 @@
 package com.atc.simulator.DebugDataFeed;
 import com.atc.simulator.flightdata.SystemState;
+import com.atc.simulator.DebugDataFeed.DebugDataFeedServe.*;
 import com.atc.simulator.vectors.GeographicCoordinate;
 import com.google.protobuf.InvalidProtocolBufferException;
 import java.net.*;
@@ -58,6 +59,8 @@ public class DebugDataFeedServerThread implements Runnable, DataPlaybackListener
      */
     @Override
     public void onSystemUpdate(SystemState systemState) {
+        SystemStateMessage.Builder builder = SystemStateMessage.newBuilder();
+
         //TODO: send message to client when this is called by placing it in the buffer.
     }
 }
