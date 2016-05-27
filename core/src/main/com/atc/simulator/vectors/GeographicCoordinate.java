@@ -187,7 +187,7 @@ public class GeographicCoordinate extends SphericalCoordinate
     }
 
     /**
-     * http://gis.stackexchange.com/questions/29239/calculate-bearing-between-two-decimal-gps-coordinates
+     * <a href="http://gis.stackexchange.com/questions/29239/calculate-bearing-between-two-decimal-gps-coordinates">Reference</a>
      * @param other
      * @return
      */

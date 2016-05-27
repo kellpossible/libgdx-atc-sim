@@ -6,10 +6,22 @@ import pythagoras.d.Vector3;
  * Created by luke on 9/04/16.
  * See: http://mathworld.wolfram.com/SphericalCoordinates.html
  *
+ * The normal range for the variables is as follows:
+ *
+ * r (0 -> infinity)
+ * theta (0 -> 2PI)
+ * phi (0 -> PI)
+ *
  * @author Luke Frisken
  */
 public class SphericalCoordinate extends Vector3 {
     private static final double TWOPI = Math.PI*2.0;
+
+    /**
+     * Get an equivalent SphericalCoordinate from a cartesian coordinate vector.
+     * @param cv cartesian coordinate vector
+     * @return Spherical coordinate
+     */
     public static SphericalCoordinate fromCartesian(Vector3 cv)
     {
         double r = Math.sqrt(cv.x*cv.x + cv.y*cv.y + cv.z*cv.z);
@@ -84,23 +96,19 @@ public class SphericalCoordinate extends Vector3 {
         return this.z;
     }
 
-//    private double rectifyVariable(double var, double min, double max)
-//    {
-//        double range = max - min;
-//        if (var > max) {
-//            return (var + range) % range;
-//        }
-//
-//        if(var < min)
-//        {
-//            while (var < max)
-//            {
-//                var += range;
-//            }
-//        }
-//
-//        return Double.NaN;
-//    }
+
+    /**
+     * Transform this SphericalCoordinate into a new one
+     * which has the equivalent value, but is within the
+     * normal boundary conditions:
+     *
+     * r (0 -> infinity)
+     * theta (0 -> 2PI)
+     * phi (0 -> PI)
+     *
+     *
+     * @return rectified SphericalCoordinate
+     */
     public SphericalCoordinate rectifyBounds()
     {
 //        System.out.println("before rectification" + this);
@@ -232,6 +240,14 @@ public class SphericalCoordinate extends Vector3 {
         return adjustedCoordinate.getCartesianDrawVector();
     }
 
+    /**
+     * UNTESTED
+     *
+     * Arc Distance between two Spherical Coordinates.
+     *
+     * @param other
+     * @return
+     */
     public double arcDistance(SphericalCoordinate other)
     {
         return x * Math.acos(Math.cos(y)*Math.cos(other.y)+Math.sin(y)*Math.sin(other.y)*Math.sin(z - other.z));

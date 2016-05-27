@@ -1,4 +1,4 @@
-//package com.atc.simulator.Config;
+package com.atc.simulator.Config;
 //
 //
 ////import java.util.HashMap;
@@ -11,8 +11,8 @@
 ///**
 // * Created by amiritis on 25/05/2016.
 // */
-//public class JSONConfig
-//{
+public class JSONConfig
+{
 //    HashMap<String, String> PortList = new HashMap<String, String>();
 //    public JSONConfig(String aFileName)
 ////    {
@@ -31,4 +31,4 @@
 ////
 ////
 ////    }
-//}
+}
