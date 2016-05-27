@@ -48,7 +48,7 @@ public class GeographicCoordinate extends SphericalCoordinate
      */
     public GeographicCoordinate(double altitude, double latitude, double longitude)
     {
-        super(altitude+ EARTH_MSL_RADIUS, latitude - Math.PI/2.0, longitude + Math.PI/2.0);
+        super(altitude+ EARTH_MSL_RADIUS, longitude + Math.PI, latitude + Math.PI/2.0);
     }
 
     /**
@@ -67,7 +67,7 @@ public class GeographicCoordinate extends SphericalCoordinate
      */
     public double getLatitude()
     {
-        return this.y + Math.PI/2.0;
+        return this.z - Math.PI/2.0;
     }
 
     /**
@@ -76,7 +76,7 @@ public class GeographicCoordinate extends SphericalCoordinate
      */
     public double getLongitude()
     {
-        return this.z - Math.PI/2.0;
+        return this.y - Math.PI;
     }
 
     /**
@@ -91,7 +91,7 @@ public class GeographicCoordinate extends SphericalCoordinate
     @Override
     public String toString()
     {
-        return "[" + getAltitude() + ", " + Math.toDegrees(getLatitude()) + ", " + Math.toDegrees(getLongitude()) + "]";
+        return "[" + getAltitude() + ", " + Math.toDegrees(getLatitude()) + ", " + Math.toDegrees(getLongitude()) + "] (degrees)";
     }
 
     /**

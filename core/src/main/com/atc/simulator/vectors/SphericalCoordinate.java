@@ -9,12 +9,41 @@ import pythagoras.d.Vector3;
  * @author Luke Frisken
  */
 public class SphericalCoordinate extends Vector3 {
+    private static final double TWOPI = Math.PI*2.0;
     public static SphericalCoordinate fromCartesian(Vector3 cv)
     {
         double r = Math.sqrt(cv.x*cv.x + cv.y*cv.y + cv.z*cv.z);
-        double theta = Math.atan(cv.y/cv.x);
+        double theta = Double.NaN;
+
+        //ensuring the inverse tangent is in the correct quadrant
+        if (cv.x > 0)
+        {
+            theta = Math.atan(cv.y/cv.x);
+        } else if (cv.x < 0) {
+            if (cv.y > 0)
+            {
+                theta = Math.atan(cv.y/cv.x)+Math.PI;
+            } else if (cv.y < 0)
+            {
+                theta = Math.atan(cv.y/cv.x)-Math.PI;
+            } else {
+                theta = Math.PI;
+            }
+        } else if (cv.x == 0)
+        {
+            if (cv.y > 0) {
+                theta = Math.PI;
+            } else if (cv.y < 0)
+            {
+                theta = -Math.PI;
+            } else {
+                theta = Double.NaN;
+            }
+
+        }
+
         double phi = Math.acos(cv.z/r);
-        return new SphericalCoordinate(r,theta,phi);
+        return (new SphericalCoordinate(r,theta,phi)).rectifyBounds();
     }
 
     public SphericalCoordinate(SphericalCoordinate other)
@@ -55,15 +84,104 @@ public class SphericalCoordinate extends Vector3 {
         return this.z;
     }
 
+//    private double rectifyVariable(double var, double min, double max)
+//    {
+//        double range = max - min;
+//        if (var > max) {
+//            return (var + range) % range;
+//        }
+//
+//        if(var < min)
+//        {
+//            while (var < max)
+//            {
+//                var += range;
+//            }
+//        }
+//
+//        return Double.NaN;
+//    }
+    public SphericalCoordinate rectifyBounds()
+    {
+//        System.out.println("before rectification" + this);
+        double x = this.x;
+        double y = this.y;
+        double z = this.z;
+
+        while (z < 0) {
+            z += TWOPI;
+        }
+
+        while (z > TWOPI) {
+            z -= TWOPI;
+        }
+
+        if (z > Math.PI) {
+            z = (TWOPI - z);
+            y += Math.PI;
+        }
+
+        if (x < 0)
+        {
+            x = -x;
+            y += Math.PI;
+            z = Math.PI - z;
+        }
+
+        while (y > TWOPI) {
+            y -= TWOPI;
+        }
+
+        while (y < 0) {
+            y += TWOPI;
+        }
+
+
+
+        return new SphericalCoordinate(x, y, z);
+    }
+
     /**
      * get the equivalent cartesian coordinate vector of this spherical coordinate.
      * @return
      */
     public Vector3 getCartesian() {
+        SphericalCoordinate rectified = this.rectifyBounds();
+        double r = rectified.x;
+        double theta = rectified.y;
+        double phi = rectified.z;
         return new Vector3(
-                (float) (x * Math.sin(y) * Math.cos(z)),
-                (float) (x * Math.sin(y) * Math.sin(z)),
-                (float) (x * Math.cos(y)));
+                (float) (r * Math.cos(theta) * Math.sin(phi)),
+                (float) (r * Math.sin(theta) * Math.sin(phi)),
+                (float) (r * Math.cos(phi)));
+    }
+
+    private boolean almostEqual(double a, double b, double tolerance)
+    {
+        return Math.abs(a-b) < tolerance;
+    }
+
+    public boolean almostEqual(SphericalCoordinate other, double tolerance)
+    {
+
+        Vector3 tc = this.getCartesian();
+        Vector3 oc = other.getCartesian();
+//        System.out.println("this" + this);
+//        System.out.println("other" + other);
+//        System.out.println("tc" + tc);
+//        System.out.println("oc" + oc);
+
+        if (!almostEqual(tc.x, oc.x, tolerance))
+            return false;
+
+        if (!almostEqual(tc.y, oc.y, tolerance))
+            return false;
+
+        if (!almostEqual(tc.z, oc.z, tolerance))
+            return false;
+
+        return true;
+
     }
 
     /**
@@ -73,8 +191,9 @@ public class SphericalCoordinate extends Vector3 {
     public com.badlogic.gdx.math.Vector3 getCartesianDrawVector()
     {
 //        System.out.println("Coords after transform R:"+this.getR()+" Theta:"+this.getTheta()+" Phi:" + this.getPhi());
+//        Vector3 cartesian = new SphericalCoordinate(this.x, this.z, this.y).getCartesian(); //for some reason I need to reverse this!
         Vector3 cartesian = this.getCartesian();
-        return new com.badlogic.gdx.math.Vector3((float) cartesian.x, (float) cartesian.z, (float) cartesian.y);
+        return new com.badlogic.gdx.math.Vector3((float) cartesian.x, (float) -cartesian.z, (float) cartesian.y);
     }
 
     /**

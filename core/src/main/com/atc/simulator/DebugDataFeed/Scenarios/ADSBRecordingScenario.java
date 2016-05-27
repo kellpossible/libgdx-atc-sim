@@ -5,6 +5,7 @@ import com.atc.simulator.flightdata.ISO8601;
 import com.atc.simulator.flightdata.SystemState;
 import com.atc.simulator.flightdata.Track;
 import com.atc.simulator.vectors.GeographicCoordinate;
+import com.atc.simulator.vectors.SphericalCoordinate;
 import com.atc.simulator.vectors.SphericalVelocity;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -119,7 +120,6 @@ public class ADSBRecordingScenario extends Scenario {
                     GeographicCoordinate previousPosition = previousState.getPosition();
                     Calendar previousTime = previousState.getTime();
 
-                    Vector3 dPos = position.subtract(previousPosition);
 
                     //calculate the velocity based on the change in position over time.
                     double dt = (aircraftStateTime.getTimeInMillis()-previousTime.getTimeInMillis())/1000.0;
@@ -128,17 +128,37 @@ public class ADSBRecordingScenario extends Scenario {
                     {
                         continue; //exclude records within 0.1 seconds of each other. (probably duplicates)
                     } else {
-
-//                      velocity = new SphericalVelocity(dPos.mult(dt));
-
+                        Vector3 dPos = position.subtract(previousPosition);
                         double storeX = dPos.x;
-                        dPos.x = 0;
-                        dPos = dPos.normalize();
-                        dPos.x = storeX;
+
+                        Vector3 cartesionPrevPos = previousPosition.getCartesian();
+
+//                        System.out.println("position1geo" + position);
+                        Vector3 cartesionPos = new SphericalCoordinate(position).getCartesian();
+//                        System.out.println("cartesianpos" + cartesionPos);
+                        Vector3 cartesianDPos = cartesionPos.subtract(cartesionPrevPos);
+//                        System.out.println("Cartesion DPos: " + cartesianDPos);
+                        Vector3 cartesianVelocity = cartesianDPos.normalize().mult(speed);
+                        Vector3 cartesianVelocityPos = cartesionPos.add(cartesianVelocity);
+                        SphericalCoordinate sphericalVelocityPos = SphericalCoordinate.fromCartesian(cartesianVelocityPos);
+                        dPos = new SphericalCoordinate(sphericalVelocityPos.subtract(position));
 
 
+
+//                        double speedAngle = speed/position.x;
+//
+//                        System.out.println("SpeedAngle" + speedAngle);
+//                        System.out.println("Speed" + speed);
+//                        System.out.println(dPos);
+////
+//                        dPos.x = 0;
+//                        dPos = dPos.normalize();
+//                        dPos = dPos.mult(speedAngle);
+//                        dPos.x = storeX;
+
+//                        System.out.println("dpos" + dPos);
                         //hack until I can figure out how to calculate the velocity correctly
-                        velocity = new SphericalVelocity(dPos.mult(0.0000005 * speed));
+                        velocity = new SphericalVelocity(dPos);
                     }
                 }
 
