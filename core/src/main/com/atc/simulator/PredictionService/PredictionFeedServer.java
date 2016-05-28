@@ -1,7 +1,7 @@
 package com.atc.simulator.PredictionService;
 
-import com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage;
 import com.atc.simulator.flightdata.AircraftState;
+import com.atc.simulator.flightdata.ISO8601;
 import com.atc.simulator.flightdata.Prediction;
 import com.atc.simulator.vectors.GeographicCoordinate;
 
@@ -37,7 +37,7 @@ import java.util.ArrayList;
 public class PredictionFeedServer implements Runnable{
     static int PORT = 6789;
 
-    private ArrayList<PredictionFeedServe.PredictionMessage> toBeSentBuffer; //Buffer of encoded messages
+    private ArrayList<PredictionFeedServe.AircraftPredictionMessage> toBeSentBuffer; //Buffer of encoded messages
     private Thread serverConnectThread; //Thread to accept connections by clients
     private ServerSocket connectionSocket; //ServerSocket that handles connect requests by clients
     private Socket connectedClient; //The socket that a successful client connection can be sent message through
@@ -50,7 +50,7 @@ public class PredictionFeedServer implements Runnable{
      */
     public PredictionFeedServer()
     {
-        toBeSentBuffer = new ArrayList<PredictionFeedServe.PredictionMessage>();
+        toBeSentBuffer = new ArrayList<PredictionFeedServe.AircraftPredictionMessage>();
         connectedClient = new Socket();
 
         try{
@@ -74,25 +74,29 @@ public class PredictionFeedServer implements Runnable{
     }
 
     /**
-     * Creates a PredictionMessage from the supplied information and adds it to the Server's internal buffer
+     * Creates a new AircraftPredictionMessage. Is given a Prediction, takes the ID and Time, and then loops through
+     * all the positions and builds GeographicCoordinateMessages. Once finished, wraps it all up nicely and places the
+     * new message in the buffer, ready to be sent
      * @param newPrediction : The prediction datatype created by the PredictionEngine
      */
     public synchronized void sendPredictionToServer(Prediction newPrediction)
     {
-        PredictionMessage.Builder MesBuilder = PredictionMessage.newBuilder();
-        PredictionMessage.Position.Builder tempPosBuilder;
-        MesBuilder.setAircraftID(newPrediction.getListOfStates().get(0).getAircraftID());
+        PredictionFeedServe.AircraftPredictionMessage.Builder MessageBuilder = PredictionFeedServe.AircraftPredictionMessage.newBuilder(); //PredictionMessage Builder
 
-        for(AircraftState temp : newPrediction.getListOfStates())
+        MessageBuilder.setAircraftID(newPrediction.getAircraftID()); //Add the AircraftID to the Message
+        MessageBuilder.setTime(ISO8601.fromCalendar(newPrediction.getPredictionTime())); //Set the time
+
+        //Now, loop through all the positions, Build Coordinates and add them to the Message
+        for(GeographicCoordinate temp : newPrediction.getListOfPositions())
         {
-            tempPosBuilder = PredictionMessage.Position.newBuilder(); //New, fresh, builder
-            tempPosBuilder.addPositionData(temp.getPosition().getRadius());   //Add the location data
-            tempPosBuilder.addPositionData(temp.getPosition().getLatitude());
-            tempPosBuilder.addPositionData(temp.getPosition().getLongitude());
-
-            MesBuilder.addPositionFuture(tempPosBuilder);   //Add this new position to the message
+            MessageBuilder.addPosition(
+                    PredictionFeedServe.GeographicCoordinateMessage.newBuilder()
+                            .setAltitude(temp.getAltitude())
+                            .setLatitude(temp.getLatitude())
+                            .setLongitude(temp.getLongitude())
+            );
         }
-        toBeSentBuffer.add(MesBuilder.build()); //Build message and add to buffer
+        toBeSentBuffer.add(MessageBuilder.build()); //Build message and add to buffer
     }
 
     /**

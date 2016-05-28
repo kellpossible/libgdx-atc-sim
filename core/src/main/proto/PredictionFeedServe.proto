@@ -3,10 +3,16 @@ syntax = "proto2";
 option java_package = "com.atc.simulator.PredictionService";
 option java_outer_classname = "PredictionFeedServe";
 
-message PredictionMessage {
-	message Position{repeated double positionData = 1;}
-	
-	required string aircraftID = 1;
-	repeated Position positionFuture = 2;
-	optional double Heading = 4;
+
+message GeographicCoordinateMessage {
+    required double altitude = 1;
+    required double latitude = 2;
+    required double longitude = 3;
+}
+
+message AircraftPredictionMessage
+{
+    required string aircraftID = 1;
+    required string time = 2;
+    repeated GeographicCoordinateMessage position = 3;
 }

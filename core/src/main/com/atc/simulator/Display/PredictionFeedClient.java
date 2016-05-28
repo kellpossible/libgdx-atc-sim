@@ -1,6 +1,5 @@
 package com.atc.simulator.Display;
 import com.atc.simulator.PredictionService.PredictionFeedServe;
-import com.atc.simulator.PredictionService.PredictionFeedServe.PredictionMessage;
 
 import java.net.Socket;
 import java.io.*;
@@ -41,8 +40,8 @@ public class PredictionFeedClient implements Runnable{
         while(continueThread)
         {
             try{
-                PredictionMessage tempMes = PredictionFeedServe.PredictionMessage.parseDelimitedFrom(serversSock.getInputStream());
-                System.out.println("Message Received at Client");
+                PredictionFeedServe.AircraftPredictionMessage tempMes = PredictionFeedServe.AircraftPredictionMessage.parseDelimitedFrom(serversSock.getInputStream());
+                  System.out.println("Message Received at Client");
             }catch(IOException e){System.err.println("PredictionFeedClient Message Parse Failed");System.exit(1);}
         }
         try{serversSock.close();}catch(IOException i){System.out.println("Can't close display socket");}
