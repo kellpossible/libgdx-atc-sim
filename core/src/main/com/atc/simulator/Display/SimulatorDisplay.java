@@ -26,7 +26,7 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.ArrayBlockingQueue;
 
-public class SimulatorDisplay extends ApplicationAdapter implements DataPlaybackListener {
+public class SimulatorDisplay extends ApplicationAdapter implements DataPlaybackListener, PredictionListener {
     private SpriteBatch batch;
 	private PerspectiveCamera cam;
     private Model earthTextureModel;
@@ -39,6 +39,7 @@ public class SimulatorDisplay extends ApplicationAdapter implements DataPlayback
     private ModelInstance tracksModelInstance;
     private Scenario scenario;
     private ArrayBlockingQueue<SystemState> systemStateUpdateQueue;
+    private ArrayBlockingQueue<Prediction> predictionUpdateQueue;
 
     private HashMap<String, Model> aircraftStateModels = null;
     private HashMap<String, ModelInstance> aircraftStateModelInstances = null;
@@ -53,6 +54,7 @@ public class SimulatorDisplay extends ApplicationAdapter implements DataPlayback
     {
         this.scenario = scenario;
         systemStateUpdateQueue = new ArrayBlockingQueue<SystemState>(100);
+        predictionUpdateQueue = new ArrayBlockingQueue<Prediction>(300);
         aircraftStateModels = new HashMap<String, Model>();
         aircraftStateModelInstances = new HashMap<String, ModelInstance>();
         aircraftStateVelocityModels = new HashMap<String, Model>();
@@ -70,6 +72,10 @@ public class SimulatorDisplay extends ApplicationAdapter implements DataPlayback
     @Override
     public void onSystemUpdate(SystemState systemState) {
         systemStateUpdateQueue.add(systemState);
+    }
+    @Override
+    public void onSystemUpdate(Prediction prediction) {
+        predictionUpdateQueue.add(prediction);
     }
 
 

@@ -1,5 +1,6 @@
 package com.atc.simulator.PredictionService;
 
+import com.atc.simulator.RunnableThread;
 import com.atc.simulator.flightdata.AircraftState;
 import com.atc.simulator.flightdata.ISO8601;
 import com.atc.simulator.flightdata.Prediction;
@@ -34,15 +35,19 @@ import java.util.ArrayList;
  * @author    Chris Coleman, 7191375
  */
 
-public class PredictionFeedServer implements Runnable{
-    static int PORT = 6789;
+public class PredictionFeedServer implements RunnableThread{
+
 
     private ArrayList<PredictionFeedServe.AircraftPredictionMessage> toBeSentBuffer; //Buffer of encoded messages
-    private Thread serverConnectThread; //Thread to accept connections by clients
+    //Socket definitions
+    static int PORT = 6789;
     private ServerSocket connectionSocket; //ServerSocket that handles connect requests by clients
     private Socket connectedClient; //The socket that a successful client connection can be sent message through
+    //Thread definitions
     private boolean continueThread = true;  //Simple flag that dictates whether the Server threads will keep looping
-
+    private Thread thread;  //Simple flag that dictates whether the Server threads will keep looping
+    private Thread serverConnectThread; //Thread to accept connections by clients
+    private static String threadName = "PredictionFeedServer";
     /**
      * Constructor, instantiates a new buffer for storing of messages to be sent.
      * Also creates a separate thread that handles external client connection. Currently only accepts a single client
@@ -140,9 +145,20 @@ public class PredictionFeedServer implements Runnable{
     /**
      * Small method called too kill the server's threads when the have run through
      */
-    public void killThread()
+    public void kill()
     {
         continueThread = false;
     }
 
+    /**
+     * Start this thread
+     */
+    public void start()
+    {
+        if (thread == null)
+        {
+            thread = new Thread(this, threadName);
+            thread.start();
+        }
+    }
 }

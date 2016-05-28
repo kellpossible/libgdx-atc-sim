@@ -51,8 +51,8 @@ public class PredictionFeedTest {
             try{while(System.in.read() != 'q'){testServer.sendPredictionToServer(testPrediction);}}catch(IOException i){}
 
             //Close the Threads
-            testServer.killThread();
-            testClient.killThread();
+            testServer.kill();
+            testClient.kill();
        }catch(ParseException p){System.out.println("Clock failed");}
 
        System.out.println("Test Complete");
