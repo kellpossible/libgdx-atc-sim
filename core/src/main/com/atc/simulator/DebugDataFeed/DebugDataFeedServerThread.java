@@ -149,4 +149,8 @@ public class DebugDataFeedServerThread implements Runnable, DataPlaybackListener
 
         //TODO: send message to client when this is called by placing it in the buffer.
     }
+    public void killThread()
+    {
+        continueThread = false;
+    }
 }

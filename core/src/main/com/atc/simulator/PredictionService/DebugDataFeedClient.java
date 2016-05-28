@@ -15,7 +15,7 @@ import java.io.*;
 /**
  * Created by urke on 8/05/2016.
  */
-public class DebugDataFeedClient
+public class DebugDataFeedClient implements Runnable
 {
     private static int PORT = 6989;
     private Socket serversSock;
