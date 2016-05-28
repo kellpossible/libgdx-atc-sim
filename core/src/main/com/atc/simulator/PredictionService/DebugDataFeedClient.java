@@ -20,6 +20,8 @@ public class DebugDataFeedClient implements Runnable
     private static int PORT = 6989;
     private Socket serversSock;
     private boolean continueThread = true;
+    private Thread thread;
+    private static String threadName = "DebugDataFeedClient";
 
     public DebugDataFeedClient()
     {
@@ -61,6 +63,14 @@ public class DebugDataFeedClient implements Runnable
     /**
      * Small method called too kill the server's threads when the have run through
      */
+    public void start()
+    {
+        if (thread == null)
+        {
+            thread = new Thread(this, threadName);
+            thread.start();
+        }
+    }
     public void killThread()
     {
         continueThread = false;
