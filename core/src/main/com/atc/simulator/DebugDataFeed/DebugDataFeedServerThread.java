@@ -16,43 +16,93 @@ import java.io.*;
 public class DebugDataFeedServerThread implements Runnable, DataPlaybackListener
 {
     static int OFFSET = 0;
-    private DatagramSocket serverSocket;
-    private byte[] receiveData;
+    static int PORT = 6989;
+
+    private ArrayList<SystemStateMessage> toBeSentBuffer;
+
+    private Thread serverThread; //Thread to accept connections by clients
+
+    private ServerSocket serverSocket; //ServerSocket that handles connect requests by clients
+    private Socket clientSocket; //The socket that a successful client connection can be sent message through
+    private boolean continueThread = true;
 
     public DebugDataFeedServerThread()
     {
+        toBeSentBuffer = new ArrayList<SystemStateMessage>();
+        clientSocket = new Socket();
         try
         {
-            serverSocket = new DatagramSocket(6969);
-            receiveData = new byte[1024];
-            System.out.println("Test Server Thread");
+            serverSocket = new ServerSocket(PORT);
+            serverThread = new Thread(new Runnable()
+            {
+                @Override
+                public void run()
+                {
+                    try
+                    {
+                        clientSocket = serverSocket.accept();
+                    }
+                    catch(IOException e)
+                    {
+                        System.out.println("PredictionFeed Server accept error");
+                    }
+                    System.out.println("Thread Killed (Connection)");
+                }
+            });
         }
-        catch (IOException e)
+        catch(IOException e)
         {
-            System.out.println(e.getMessage());
+            System.out.println("PredictionFeed Server Creation error");
         }
+        System.out.println("Server/ArrayList created");
     }
 
     public void run()
     {
-        System.out.println("Server Thread Started");
-        while (!Thread.interrupted())
+        serverThread.start();
+        try
         {
-            DatagramPacket receivedPacket = new DatagramPacket(receiveData, receiveData.length);
-            try
+            while (continueThread)
             {
-                serverSocket.receive(receivedPacket);
-                if (Thread.interrupted())
-                    break;
-                String message = (new String( receivedPacket.getData(),OFFSET, receivedPacket.getLength() )).trim();
-            }
-            catch (IOException e)
-            {
-                System.out.println(e.getMessage());
-                e.printStackTrace();
+                if (toBeSentBuffer.size() > 0)
+                {
+                    if (!clientSocket.isConnected()) //If nothing is connected
+                    {
+                        toBeSentBuffer.remove(0); //Delete the data
+                        System.out.println("No client, data deleted");
+                    }
+                    else
+                    {
+                        try
+                        {
+                            toBeSentBuffer.get(0).writeDelimitedTo(clientSocket.getOutputStream()); //Try to send message
+                        }
+                        catch (IOException e)
+                        {
+                            System.out.println("Send to Display failed");
+                        }
+                        toBeSentBuffer.remove(0);
+                        System.out.println("Data sent to Client");
+                    }
+                }
+                try
+                {
+                    Thread.sleep(50);
+                }
+                catch (InterruptedException i)
+                {
+                }
             }
         }
+
+        finally
+        {
+            try{clientSocket.close();}catch(IOException i){System.out.println("Can't close ServerSocket");}
+            try{clientSocket.close();}catch(IOException i){System.out.println("Can't close clientSocket");}
+        }
+        System.out.println("Thread Killed (Server)");
     }
+
 
     /**
      * This method gets called when there is a system update, and gets
@@ -75,17 +125,17 @@ public class DebugDataFeedServerThread implements Runnable, DataPlaybackListener
             GeographicCoordinate position = aircraftState.getPosition();
             aircraftStateMessageBuilder.setPosition(
                     GeographicCoordinateMessage.newBuilder()
-                        .setAltitude(position.getAltitude())
-                        .setLatitude(position.getLatitude())
-                        .setLongitude(position.getLongitude())
+                            .setAltitude(position.getAltitude())
+                            .setLatitude(position.getLatitude())
+                            .setLongitude(position.getLongitude())
             );
 
             SphericalVelocity velocity = aircraftState.getVelocity();
             aircraftStateMessageBuilder.setVelocity(
                     SphericalVelocityMessage.newBuilder()
-                        .setDr(velocity.getDR())
-                        .setDtheta(velocity.getDTheta())
-                        .setDphi(velocity.getDPhi())
+                            .setDr(velocity.getDR())
+                            .setDtheta(velocity.getDTheta())
+                            .setDphi(velocity.getDPhi())
             );
 
             aircraftStateMessageBuilder.setHeading(aircraftState.getHeading());
@@ -95,6 +145,12 @@ public class DebugDataFeedServerThread implements Runnable, DataPlaybackListener
 
         SystemStateMessage systemStateMessage = systemStateMessageBuilder.build(); //yay the final message all built
 
+        toBeSentBuffer.add(systemStateMessage);
+
         //TODO: send message to client when this is called by placing it in the buffer.
+    }
+    public void killThread()
+    {
+        continueThread = false;
     }
 }
