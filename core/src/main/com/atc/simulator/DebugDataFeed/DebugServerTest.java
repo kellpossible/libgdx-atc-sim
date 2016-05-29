@@ -44,13 +44,6 @@ public class DebugServerTest
         //calls system update.
         testServer.onSystemUpdate(testState);
 
-        for (SystemStateMessage n: testServer.getSystemStateMessage())
-        {
-            System.out.println(n);
-            System.out.println("----------------------");
-            System.out.println("SERVER TEST COMPLETE");
-        }
-
         //Close Threads
         testServer.killThread();
         testClient.killThread();
