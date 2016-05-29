@@ -1,4 +1,5 @@
 package com.atc.simulator.DebugDataFeed;
+import com.atc.simulator.RunnableThread;
 import com.atc.simulator.flightdata.AircraftState;
 import com.atc.simulator.flightdata.ISO8601;
 import com.atc.simulator.flightdata.SystemState;
@@ -13,7 +14,7 @@ import java.io.*;
 /**
  * Created by Chris, Uros on 8/05/2016.
  */
-public class DebugDataFeedServerThread implements Runnable, DataPlaybackListener {
+public class DebugDataFeedServerThread implements RunnableThread, DataPlaybackListener {
     static int OFFSET = 0;
     static int PORT = 6989;
 
@@ -139,10 +140,6 @@ public class DebugDataFeedServerThread implements Runnable, DataPlaybackListener
         //TODO: send message to client when this is called by placing it in the buffer.
     }
 
-    public void killThread() {
-        continueThread = false;
-    }
-
     public void start()
     {
         if (thread == null)
@@ -150,6 +147,14 @@ public class DebugDataFeedServerThread implements Runnable, DataPlaybackListener
             thread = new Thread(this, threadName);
             thread.start();
         }
+    }
+
+    /**
+     * Kill this thread.
+     */
+    @Override
+    public void kill() {
+        continueThread = false;
     }
 
     public synchronized ArrayList<SystemStateMessage> getSystemStateMessage()

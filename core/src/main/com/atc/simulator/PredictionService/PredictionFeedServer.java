@@ -21,7 +21,7 @@ import java.util.ArrayList;
  * // Constructors
  *    PredictionFeedServer()
  * // Methods
- *    sendPredictionToServer(String aircraftID, GeographicCoordinate[] predictions)  - Encodes a Prediction and stores in internal buffer
+ *    sendPrediction(String aircraftID, GeographicCoordinate[] predictions)  - Encodes a Prediction and stores in internal buffer
  *    run() - Thread of checking buffer and removing first element
  *    killThread() - flags that the Server has been finished with, and to stop all threads running (clearing of buffer and accepting clients)
  *
@@ -84,7 +84,7 @@ public class PredictionFeedServer implements RunnableThread{
      * new message in the buffer, ready to be sent
      * @param newPrediction : The prediction datatype created by the PredictionEngine
      */
-    public synchronized void sendPredictionToServer(Prediction newPrediction)
+    public synchronized void sendPrediction(Prediction newPrediction)
     {
         PredictionFeedServe.AircraftPredictionMessage.Builder MessageBuilder = PredictionFeedServe.AircraftPredictionMessage.newBuilder(); //PredictionMessage Builder
 
@@ -92,7 +92,7 @@ public class PredictionFeedServer implements RunnableThread{
         MessageBuilder.setTime(ISO8601.fromCalendar(newPrediction.getPredictionTime())); //Set the time
 
         //Now, loop through all the positions, Build Coordinates and add them to the Message
-        for(GeographicCoordinate temp : newPrediction.getListOfPositions())
+        for(GeographicCoordinate temp : newPrediction.getPredictedPositions())
         {
             MessageBuilder.addPosition(
                     PredictionFeedServe.GeographicCoordinateMessage.newBuilder()

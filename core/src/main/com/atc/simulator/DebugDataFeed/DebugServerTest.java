@@ -14,7 +14,10 @@ import com.atc.simulator.DebugDataFeed.DebugDataFeedServe.*;
  */
 public class DebugServerTest
 {
-//Test method for debugDataFeed Server
+    /**
+     * Test method for debugDataFeed Server
+     * @param arg
+     */
     public static void main(String[] arg)
     {
         ArrayList<AircraftState> aircraftStateArray = new ArrayList<AircraftState>();
@@ -31,7 +34,7 @@ public class DebugServerTest
 
         // creates new server/client
         DebugDataFeedServerThread testServer = new DebugDataFeedServerThread();
-        DebugDataFeedClient testClient = new DebugDataFeedClient();
+        DebugDataFeedClient testClient = new DebugDataFeedClient(null);
 
         //Start the threads
         Thread tServer = new Thread(testServer, "ServerThread");
@@ -52,8 +55,8 @@ public class DebugServerTest
         }
 
         //Close Threads
-        testServer.killThread();
-        testClient.killThread();
+        testServer.kill();
+        testClient.kill();
 
         System.out.println("Test Complete");
     }

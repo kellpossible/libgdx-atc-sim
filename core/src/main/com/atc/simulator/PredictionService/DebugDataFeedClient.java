@@ -1,7 +1,9 @@
 package com.atc.simulator.PredictionService;
 import com.atc.simulator.DebugDataFeed.DebugDataFeedServe;
+import com.atc.simulator.RunnableThread;
 import com.atc.simulator.flightdata.AircraftState;
 import com.atc.simulator.flightdata.ISO8601;
+import com.atc.simulator.flightdata.Prediction;
 import com.atc.simulator.flightdata.SystemState;
 import com.atc.simulator.DebugDataFeed.DebugDataFeedServe.*;
 import com.atc.simulator.vectors.GeographicCoordinate;
@@ -14,8 +16,10 @@ import java.io.*;
 
 /**
  * Created by urke on 8/05/2016.
+ *
+ * @author Chris Coleman, Uros, Luke Frisken
  */
-public class DebugDataFeedClient implements Runnable
+public class DebugDataFeedClient implements RunnableThread
 {
     private static int PORT = 6989;
     private Socket serversSock;
@@ -23,11 +27,18 @@ public class DebugDataFeedClient implements Runnable
     private Thread thread;
     private static String threadName = "DebugDataFeedClient";
 
-    public DebugDataFeedClient()
+    private PredictionFeedServer predictionFeedServer; //temporary hack to get a prediction feed server to pass values to upon system update
+
+    /**
+     * Constructor for DebugDataFeedClient
+     * @param predictionFeedServer temporary hack to get a prediction feed server to pass values to upon system update
+     */
+    public DebugDataFeedClient(PredictionFeedServer predictionFeedServer)
     {
         try
         {
             serversSock = new Socket("localhost", PORT);
+            this.predictionFeedServer = predictionFeedServer;
         }
         catch(IOException e)
         {
@@ -43,6 +54,26 @@ public class DebugDataFeedClient implements Runnable
             {
                 SystemStateMessage tempMessage = DebugDataFeedServe.SystemStateMessage.parseDelimitedFrom(serversSock.getInputStream());
                 System.out.println("Message Received at Client");
+                //Uros + Adam, you guys never finished implementing this... far out.
+                //please decode the message and store it in a system state class.
+
+                //this system state class instance will be used as dummy data because the above code was not implemented
+                ArrayList<AircraftState> dummyAircraftStateList = new ArrayList<AircraftState>();
+                AircraftState dummyAircraftState = new AircraftState("dummy_aircraft",
+                        Calendar.getInstance(),
+                        new GeographicCoordinate(0, 0.5, 0.5),
+                        new SphericalVelocity(0, 0.5, 0.5),
+                        10.0);
+                dummyAircraftStateList.add(dummyAircraftState);
+                SystemState dummySystemState = new SystemState(Calendar.getInstance(), dummyAircraftStateList);
+
+                ArrayList<GeographicCoordinate> predictedPositions = new ArrayList<GeographicCoordinate>();
+                AircraftState aircraftState = dummySystemState.getAircraftStates().get(0);
+                predictedPositions.add(aircraftState.getPosition());
+                Prediction prediction = new Prediction(aircraftState.getAircraftID(), Calendar.getInstance(), predictedPositions);
+
+                predictionFeedServer.sendPrediction(prediction);
+
             }
             catch(IOException e)
             {
@@ -62,6 +93,7 @@ public class DebugDataFeedClient implements Runnable
 
     /**
      * Small method called too kill the server's threads when the have run through
+     * TODO: what?? this comment doesn't even make sense
      */
     public void start()
     {
@@ -71,8 +103,13 @@ public class DebugDataFeedClient implements Runnable
             thread.start();
         }
     }
-    public void killThread()
-    {
+
+    /**
+     * Kill this thread.
+     */
+    @Override
+    public void kill() {
         continueThread = false;
     }
+
 }

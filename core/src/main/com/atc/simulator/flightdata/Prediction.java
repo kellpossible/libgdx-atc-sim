@@ -33,10 +33,10 @@ public class Prediction {
     /**
      * Constructor, instantiates a ArrayList of AircraftStates
      */
-    public Prediction(String aID, Calendar time)
+    public Prediction(String aircraftID, Calendar time, ArrayList<GeographicCoordinate> predictedPositions)
     {
-        predictedPositions = new ArrayList<GeographicCoordinate>();
-        aircraftID = aID;
+        this.predictedPositions = predictedPositions;
+        this.aircraftID = aircraftID;
         this.time = time;
     }
 
@@ -53,15 +53,11 @@ public class Prediction {
     public Calendar getPredictionTime(){return time;}
 
     /**
-     * Adds a new position to the prediction list
-     * @param pos : The Position that has been predicted
-     */
-    public void addPosToPrediction(GeographicCoordinate pos){predictedPositions.add(pos);}
-
-    /**
      * Returns all the states in the prediction
      * @return predictedStates : The full list of states that have been predicted
      */
-    public ArrayList<GeographicCoordinate> getListOfPositions(){return predictedPositions;}
+    public ArrayList<GeographicCoordinate> getPredictedPositions() {
+        return predictedPositions;
+    }
 
 }

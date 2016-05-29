@@ -9,6 +9,7 @@ import java.net.Socket;
 import java.io.*;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 /**
  * PredictionFeedClient connects to and receives messages from a PredictionFeedServer, feeding the received messages onto its display
@@ -65,19 +66,23 @@ public class PredictionFeedClient implements RunnableThread {
             try{
                 //Get the PredictionMessage from the Socket
                 PredictionFeedServe.AircraftPredictionMessage tempMes = PredictionFeedServe.AircraftPredictionMessage.parseDelimitedFrom(serversSock.getInputStream());
-                //Made a new Prediction with ID and Time
-                Prediction newPred = new Prediction(tempMes.getAircraftID(), ISO8601.toCalendar(tempMes.getTime()));
+
+                ArrayList<GeographicCoordinate> predictionPositions = new ArrayList<GeographicCoordinate>();
+
                 //For all the positions inside the message, add them to the Prediction
                 for(int i = 0; i < tempMes.getPositionCount(); i++)
                 {
-                    newPred.addPosToPrediction(new GeographicCoordinate(tempMes.getPosition(i).getAltitude(),
-                                                                        tempMes.getPosition(i).getLatitude(),
-                                                                        tempMes.getPosition(i).getLongitude() )
-                                                );
+                    predictionPositions.add(new GeographicCoordinate(tempMes.getPosition(i).getAltitude(),
+                            tempMes.getPosition(i).getLatitude(),
+                            tempMes.getPosition(i).getLongitude() )
+                    );
                 }
+
+                //Made a new Prediction with ID and Time
+                Prediction newPred = new Prediction(tempMes.getAircraftID(), Calendar.getInstance(), predictionPositions);
+
                 notifyAllListeners(newPred);
             }catch(IOException e){System.err.println("PredictionFeedClient Message Parse Failed");System.exit(1);}
-             catch(ParseException e){System.err.println("PredictionFeedClient Time toCalendar Failed");System.exit(1);}
         }
         try{serversSock.close();}catch(IOException i){System.out.println("Can't close display socket");}
     }
@@ -121,6 +126,6 @@ public class PredictionFeedClient implements RunnableThread {
     private void notifyAllListeners(Prediction prediction)
     {
         for(PredictionListener listener : myListeners)
-            listener.onSystemUpdate(prediction);
+            listener.onPredictionUpdate(prediction);
     }
 }

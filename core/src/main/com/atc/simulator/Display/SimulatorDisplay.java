@@ -74,7 +74,7 @@ public class SimulatorDisplay extends ApplicationAdapter implements DataPlayback
         systemStateUpdateQueue.add(systemState);
     }
     @Override
-    public void onSystemUpdate(Prediction prediction) {
+    public void onPredictionUpdate(Prediction prediction) {
         predictionUpdateQueue.add(prediction);
     }
 
@@ -200,15 +200,24 @@ public class SimulatorDisplay extends ApplicationAdapter implements DataPlayback
         Gdx.input.setInputProcessor(camController);
     }
 
+    private void pollPredictionUpdateQueue()
+    {
+        Prediction prediction = predictionUpdateQueue.poll();
+
+        while (prediction != null)
+        {
+
+            prediction = predictionUpdateQueue.poll();
+        }
+    }
+
     //todo: to improve draw performance this should go into the callers thread, and out of the display thread. Only push models into the queue instead.
     private void pollSystemUpdateQueue()
     {
         SystemState systemState = systemStateUpdateQueue.poll();
 
-        if (systemState == null)
+        while (systemState != null)
         {
-            return;
-        } else {
 //            System.out.println("System Update");
             ArrayList<String> aircraftIDs = new ArrayList<String>(aircraftStateModels.keySet());
             for (String aircraftID : aircraftIDs)
@@ -315,6 +324,7 @@ public class SimulatorDisplay extends ApplicationAdapter implements DataPlayback
                 }
             }
 
+            systemState = systemStateUpdateQueue.poll();
         }
     }
 
@@ -330,6 +340,7 @@ public class SimulatorDisplay extends ApplicationAdapter implements DataPlayback
 
 
         pollSystemUpdateQueue();
+        pollPredictionUpdateQueue();
 
         for (ModelInstance instance: aircraftStateModelInstances.values()){
             modelBatch.render(instance);

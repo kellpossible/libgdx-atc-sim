@@ -39,4 +39,22 @@ public class SystemState {
     {
         return this.aircraftStates;
     }
+
+    /**
+     * Get an aircraft state by its ID
+     * @param aircraftID the id of the aircraft to get
+     * @return null if it can't find it.
+     */
+    public AircraftState getAircraftState(String aircraftID) {
+        AircraftState aircraftState = null;
+        for (AircraftState finding : aircraftStates)
+        {
+            if (finding.getAircraftID().equals(aircraftID))
+            {
+                aircraftState = finding;
+            }
+        }
+
+        return aircraftState;
+    }
 }

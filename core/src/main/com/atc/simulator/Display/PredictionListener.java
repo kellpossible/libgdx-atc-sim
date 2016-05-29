@@ -9,7 +9,7 @@ import com.atc.simulator.flightdata.Prediction;
  * @
  * PUBLIC FEATURES:
  * // Methods
- *    onSystemUpdate(Prediction)
+ *    onPredictionUpdate(Prediction)
  * MODIFIED:
  * @version 0.1, CC 28/05/16
  * @author    Chris Coleman, 7191375
@@ -20,5 +20,5 @@ public interface PredictionListener {
      * of a new data
      * @param newPrediction the new prediction information
      */
-    void onSystemUpdate(Prediction newPrediction);
+    void onPredictionUpdate(Prediction newPrediction);
 }

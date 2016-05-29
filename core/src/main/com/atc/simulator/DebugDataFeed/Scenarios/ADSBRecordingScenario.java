@@ -162,6 +162,8 @@ public class ADSBRecordingScenario extends Scenario {
                     }
                 }
 
+                //TODO: callsign might not actually be the best thing to use for aircraft ID, looks like there might be duplicates?
+                //mode_s_code seems to get used more instead.
                 AircraftState aircraftState = new AircraftState(callsign, aircraftStateTime, position, velocity, heading);
                 track.add(aircraftState);
 
