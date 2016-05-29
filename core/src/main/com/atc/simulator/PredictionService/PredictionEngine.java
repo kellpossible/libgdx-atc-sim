@@ -15,7 +15,7 @@ import java.util.ArrayList;
  * @
  * PUBLIC FEATURES:
  * // Constructors
- *    PredictionEngine(PredictionFeedServer)
+ *    PredictionEngine(PredictionFeedServerThread)
  * // Methods
  *    onSystemUpdate() - Listener Override, adds new AircraftStates to the Buffer
  *    run() - Thread of checking buffer and passing messages to server
@@ -29,19 +29,19 @@ import java.util.ArrayList;
  */
 public class PredictionEngine implements RunnableThread, DataPlaybackListener {
     //Internal settings
-    private PredictionFeedServer myServer;
+    private PredictionFeedServerThread myServer;
     private ArrayList<AircraftState> toBePredicted;
     //Thread definitions
     private boolean continueThread = true;  //Simple flag that dictates whether the Server threads will keep looping
     private Thread thread;  //Simple flag that dictates whether the Server threads will keep looping
-    private static String threadName = "PredictionEngineThread";
+    private final String threadName = "PredictionEngineThread";
 
 
     /**
      * Constructor, connect to the server and create a new arrayList
      * @param serv : The server I need to connect to
      */
-    public PredictionEngine(PredictionFeedServer serv)
+    public PredictionEngine(PredictionFeedServerThread serv)
     {
         myServer = serv;
         toBePredicted = new ArrayList<AircraftState>();
@@ -73,7 +73,7 @@ public class PredictionEngine implements RunnableThread, DataPlaybackListener {
     }
 
     /**
-     * Private method that will create a new prediction and send it to the PredictionFeedServer
+     * Private method that will create a new prediction and send it to the PredictionFeedServerThread
      */
     private synchronized void makeNewPrediction(AircraftState state)
     {
@@ -103,7 +103,15 @@ public class PredictionEngine implements RunnableThread, DataPlaybackListener {
         continueThread = false;
     }
 
-    /**
+     /**
+      * Join this thread.
+      */
+     @Override
+     public void join() throws InterruptedException {
+         thread.join();
+     }
+
+     /**
      * Start this thread
      */
     public void start()

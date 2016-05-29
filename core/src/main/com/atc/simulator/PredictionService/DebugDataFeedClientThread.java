@@ -2,14 +2,12 @@ package com.atc.simulator.PredictionService;
 import com.atc.simulator.DebugDataFeed.DebugDataFeedServe;
 import com.atc.simulator.RunnableThread;
 import com.atc.simulator.flightdata.AircraftState;
-import com.atc.simulator.flightdata.ISO8601;
 import com.atc.simulator.flightdata.Prediction;
 import com.atc.simulator.flightdata.SystemState;
 import com.atc.simulator.DebugDataFeed.DebugDataFeedServe.*;
 import com.atc.simulator.vectors.GeographicCoordinate;
 import com.atc.simulator.vectors.SphericalVelocity;
-import com.google.protobuf.InvalidProtocolBufferException;
-import java.text.ParseException;
+
 import java.net.*;
 import java.util.*;
 import java.io.*;
@@ -20,30 +18,30 @@ import java.io.*;
  *
  * @author Chris Coleman, Uros, Luke Frisken
  */
-public class DebugDataFeedClient implements RunnableThread
+public class DebugDataFeedClientThread implements RunnableThread
 {
     private static int PORT = 6989;
     private Socket serversSock;
     private boolean continueThread = true;
     private Thread thread;
-    private static String threadName = "DebugDataFeedClient";
+    private final String threadName = "DebugDataFeedClientThread";
 
-    private PredictionFeedServer predictionFeedServer; //temporary hack to get a prediction feed server to pass values to upon system update
+    private PredictionFeedServerThread predictionFeedServerThread; //temporary hack to get a prediction feed server to pass values to upon system update
 
     /**
-     * Constructor for DebugDataFeedClient
-     * @param predictionFeedServer temporary hack to get a prediction feed server to pass values to upon system update
+     * Constructor for DebugDataFeedClientThread
+     * @param predictionFeedServerThread temporary hack to get a prediction feed server to pass values to upon system update
      */
-    public DebugDataFeedClient(PredictionFeedServer predictionFeedServer)
+    public DebugDataFeedClientThread(PredictionFeedServerThread predictionFeedServerThread)
     {
         try
         {
             serversSock = new Socket("localhost", PORT);
-            this.predictionFeedServer = predictionFeedServer;
+            this.predictionFeedServerThread = predictionFeedServerThread;
         }
         catch(IOException e)
         {
-            System.err.println("DebugDataFeedClient Initialisation Failed");
+            System.err.println("DebugDataFeedClientThread Initialisation Failed");
             System.exit(1);
         }
     }
@@ -51,9 +49,11 @@ public class DebugDataFeedClient implements RunnableThread
     public void run() {
         while (continueThread) {
             try {
-                SystemStateMessage tempMessage = DebugDataFeedServe.SystemStateMessage.parseDelimitedFrom(serversSock.getInputStream());
-                System.out.println("Message Received at Client");
-                System.out.println(tempMessage.getAircraftState(0).getAircraftID());
+                //doesn't this just run continously!?? shouldn't it wait for a message to arrive...?
+                serversSock.getInputStream();
+//                SystemStateMessage tempMessage = DebugDataFeedServe.SystemStateMessage.parseDelimitedFrom(serversSock.getInputStream());
+                System.out.println("Message Received at DebugDataFeedClientThread");
+//                System.out.println(tempMessage.getAircraftState(0).getAircraftID());
                 /*ArrayList<AircraftState> aircraftStateReceived = new ArrayList<AircraftState>();
 
                 for (int i = 0; i < tempMessage.getAircraftStateCount(); i++) {
@@ -95,21 +95,20 @@ public class DebugDataFeedClient implements RunnableThread
                 predictedPositions.add(aircraftState.getPosition());
                 Prediction prediction = new Prediction(aircraftState.getAircraftID(), Calendar.getInstance(), predictedPositions);
 
-                predictionFeedServer.sendPrediction(prediction);
+                predictionFeedServerThread.sendPrediction(prediction);
 
 
 
             } catch (IOException e) {
-                System.err.println("PredictionFeedClient Message Parse Failed");
-                System.exit(1);
-            }/* catch (ParseException e) {
-                System.err.println("PredictionFeedClient Time toCalendar Failed");
-                System.exit(1);
-            }*/
+                System.err.println("PredictionFeedClientThread Message Parse Failed");
+                e.printStackTrace();
+//                System.exit(1);
+                kill();
+            }
             try {
                 serversSock.close();
             } catch (IOException i) {
-                System.out.println("Can't close display socket");
+                System.out.println("DebugDataFeedClientThread Can't close ServerSocket socket");
             }
         }
     }
@@ -133,6 +132,14 @@ public class DebugDataFeedClient implements RunnableThread
     @Override
     public void kill() {
         continueThread = false;
+    }
+
+    /**
+     * Join this thread.
+     */
+    @Override
+    public void join() throws InterruptedException {
+        thread.join();
     }
 
 }

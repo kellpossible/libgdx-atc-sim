@@ -26,7 +26,8 @@ public class DebugDataFeedServerThread implements RunnableThread, DataPlaybackLi
     private Socket clientSocket; //The socket that a successful client connection can be sent message through
     private boolean continueThread = true;
     private Thread thread;
-    private static String threadName = "DebugDataFeedServerThread";
+    private final String threadName = "DebugDataFeedServerThread";
+    private boolean running;
 
     public DebugDataFeedServerThread() {
         toBeSentBuffer = new ArrayList<SystemStateMessage>();
@@ -43,18 +44,21 @@ public class DebugDataFeedServerThread implements RunnableThread, DataPlaybackLi
                     }
                     catch (IOException e)
                     {
-                        System.out.println("DebugDataFeed Server connection error");
+                        System.err.println("DebugDataFeed Server connection error");
                     }
                     System.out.println("Thread Killed (Connection)");
                 }
             });
         } catch (IOException e) {
-            System.out.println("DebugDataFeed Server Creation error");
+            System.err.println("DebugDataFeed Server Creation error");
         }
         System.out.println("Server/ArrayList created");
+
+        running = false;
     }
 
     public void run() {
+        running = true;
         serverThread.start();
         try {
             while (continueThread) {
@@ -66,12 +70,12 @@ public class DebugDataFeedServerThread implements RunnableThread, DataPlaybackLi
                     } else {
                         try {
                             toBeSentBuffer.get(0).writeDelimitedTo(clientSocket.getOutputStream()); //Try to send message
-                            System.out.println("Data sent");
+                            System.out.println("Data sent to DebugDataFeed Client");
                         } catch (IOException e) {
-                            System.out.println("Send to Display failed");
+                            System.err.println("Send to DebugDataFeed Client failed");
+                            e.printStackTrace();
                         }
                         toBeSentBuffer.remove(0);
-                        System.out.println("Data sent to Client");
                     }
                 }
                 try {
@@ -83,15 +87,11 @@ public class DebugDataFeedServerThread implements RunnableThread, DataPlaybackLi
             try {
                 clientSocket.close();
             } catch (IOException i) {
-                System.out.println("Can't close ServerSocket");
-            }
-            try {
-                clientSocket.close();
-            } catch (IOException i) {
-                System.out.println("Can't close clientSocket");
+                System.err.println("DebugDataFeedServerThread Can't close ServerSocket");
             }
         }
         System.out.println("Thread Killed (Server)");
+        running = false;
     }
 
 
@@ -155,6 +155,14 @@ public class DebugDataFeedServerThread implements RunnableThread, DataPlaybackLi
     @Override
     public void kill() {
         continueThread = false;
+    }
+
+    /**
+     * Join this thread.
+     */
+    @Override
+    public void join() throws InterruptedException {
+        thread.join();
     }
 
     public synchronized ArrayList<SystemStateMessage> getSystemStateMessage()

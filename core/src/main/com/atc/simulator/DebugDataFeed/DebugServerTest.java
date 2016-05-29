@@ -1,13 +1,12 @@
 package com.atc.simulator.DebugDataFeed;
-import com.atc.simulator.PredictionService.DebugDataFeedClient;
+import com.atc.simulator.PredictionService.DebugDataFeedClientThread;
 import com.atc.simulator.flightdata.AircraftState;
 import com.atc.simulator.flightdata.SystemState;
 import com.atc.simulator.vectors.GeographicCoordinate;
 import com.atc.simulator.vectors.SphericalVelocity;
-import java.io.IOException;
+
 import java.util.ArrayList;
 import java.util.Calendar;
-import com.atc.simulator.DebugDataFeed.DebugDataFeedServe.*;
 
 /**
  * Created by urke on 28/05/2016.
@@ -34,7 +33,7 @@ public class DebugServerTest
 
         // creates new server/client
         DebugDataFeedServerThread testServer = new DebugDataFeedServerThread();
-        DebugDataFeedClient testClient = new DebugDataFeedClient(null);
+        DebugDataFeedClientThread testClient = new DebugDataFeedClientThread(null);
 
         //Start the threads
         Thread tServer = new Thread(testServer, "ServerThread");

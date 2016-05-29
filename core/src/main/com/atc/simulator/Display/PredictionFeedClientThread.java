@@ -12,13 +12,13 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 /**
- * PredictionFeedClient connects to and receives messages from a PredictionFeedServer, feeding the received messages onto its display
+ * PredictionFeedClientThread connects to and receives messages from a PredictionFeedServerThread, feeding the received messages onto its display
  * These messages are passed as PredictionFeedServe Protocol Buffers
  *
  * @
  * PUBLIC FEATURES:
  * // Constructors
- *    PredictionFeedClient()
+ *    PredictionFeedClientThread()
  * // Methods
  *    run() - Thread of checking buffer and passing messages to server
  *    kill() - Clears the flag that the client thread runs off, letting the thread finish gracefully
@@ -34,26 +34,23 @@ import java.util.Calendar;
  * @version 0.3, CC 29/05/16, Added sleep in Thread run()
  * @author    Chris Coleman, 7191375
  */
-public class PredictionFeedClient implements RunnableThread {
+public class PredictionFeedClientThread implements RunnableThread {
     //Socket Definitions
     private static int PORTNUMBER = 6789;
     private Socket serversSock;
     //Thread Definitions
     private boolean continueThread = true;
     private Thread thread;
-    private static String threadName = "PredictionFeedClient";
+    private final String threadName = "PredictionFeedClientThread";
     //Output Definitions
-    ArrayList<PredictionListener> myListeners;
+    private ArrayList<PredictionListener> myListeners;
 
     /**
-     * Constructor that instantiates a new List of Listeners and attempts to opens a socket to where its Server is
+     * Constructor for PredictionFeedClientThread
      */
-    public PredictionFeedClient()
+    public PredictionFeedClientThread()
     {
         myListeners = new ArrayList<PredictionListener>();
-        try{
-            serversSock = new Socket("localhost", PORTNUMBER);
-        }catch(IOException e){System.err.println("PredictionFeedClient Initialisation Failed");System.exit(1);}
     }
 
     /**
@@ -61,6 +58,13 @@ public class PredictionFeedClient implements RunnableThread {
      * TODO: Will this need to feed a buffer that is then converted for listeners? Does a Java socket have a buffer inbuilt? :/
      */
     public void run(){
+        //instantiates a new List of Listeners and attempts to opens a socket to where its Server is
+        myListeners = new ArrayList<PredictionListener>();
+        try{
+            serversSock = new Socket("localhost", PORTNUMBER);
+        }catch(IOException e){System.err.println("PredictionFeedClientThread Initialisation Failed");System.exit(1);}
+
+
         while(continueThread)
         {
             try{
@@ -82,14 +86,14 @@ public class PredictionFeedClient implements RunnableThread {
                 Prediction newPred = new Prediction(tempMes.getAircraftID(), Calendar.getInstance(), predictionPositions);
 
                 notifyAllListeners(newPred);
-            }catch(IOException e){System.err.println("PredictionFeedClient Message Parse Failed");System.exit(1);}
+            }catch(IOException e){System.err.println("PredictionFeedClientThread Message Parse Failed");}
 
             try {
                 Thread.sleep(50);
             } catch (InterruptedException i) {
             }
         }
-        try{serversSock.close();}catch(IOException i){System.out.println("Can't close display socket");}
+        try{serversSock.close();}catch(IOException i){System.err.println("PredictionFeedClientThread Can't close ServerSocket socket");}
     }
 
     /**
@@ -98,6 +102,14 @@ public class PredictionFeedClient implements RunnableThread {
     public void kill()
     {
         continueThread = false;
+    }
+
+    /**
+     * Join this thread.
+     */
+    @Override
+    public void join() throws InterruptedException {
+        thread.join();
     }
 
     /**

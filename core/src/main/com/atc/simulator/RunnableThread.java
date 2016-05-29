@@ -15,7 +15,12 @@ public interface RunnableThread extends Runnable {
     public void start();
 
     /**
-     * Kill this thread.
+     * Kill this thread asynchronously
      */
     public void kill();
+
+    /**
+     * Join this thread.
+     */
+    public void join() throws InterruptedException;
 }

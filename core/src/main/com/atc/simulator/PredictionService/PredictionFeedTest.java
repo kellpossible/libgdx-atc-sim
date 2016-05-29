@@ -1,9 +1,8 @@
 package com.atc.simulator.PredictionService;
 
-import com.atc.simulator.Display.PredictionFeedClient;
+import com.atc.simulator.Display.PredictionFeedClientThread;
 import com.atc.simulator.flightdata.AircraftState;
 import com.atc.simulator.flightdata.ISO8601;
-import com.atc.simulator.flightdata.Prediction;
 import com.atc.simulator.flightdata.SystemState;
 import com.atc.simulator.vectors.GeographicCoordinate;
 import com.atc.simulator.vectors.SphericalVelocity;
@@ -11,7 +10,6 @@ import com.atc.simulator.vectors.SphericalVelocity;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 /**
  * Created by Chris on 7/05/2016.
@@ -39,8 +37,8 @@ public class PredictionFeedTest {
             SystemState testSystem = new SystemState(ISO8601.toCalendar(ISO8601.now()),testAStates);
 
             //Create Server/Client objects
-            PredictionFeedServer testServer = new PredictionFeedServer();
-            PredictionFeedClient testClient = new PredictionFeedClient();
+            PredictionFeedServerThread testServer = new PredictionFeedServerThread();
+            PredictionFeedClientThread testClient = new PredictionFeedClientThread();
             PredictionEngine testEngine = new PredictionEngine(testServer);
             //Fill up the buffer a little bit
             for(int i = 0; i<10; i++)

@@ -1,7 +1,6 @@
 package com.atc.simulator.PredictionService;
 
 import com.atc.simulator.RunnableThread;
-import com.atc.simulator.flightdata.AircraftState;
 import com.atc.simulator.flightdata.ISO8601;
 import com.atc.simulator.flightdata.Prediction;
 import com.atc.simulator.vectors.GeographicCoordinate;
@@ -12,14 +11,14 @@ import java.net.Socket;
 import java.util.ArrayList;
 
 /**
- * PredictionFeedServer is responsible for the encoding and sending of predictions for display/external systems. Currently able to connect and send
+ * PredictionFeedServerThread is responsible for the encoding and sending of predictions for display/external systems. Currently able to connect and send
  * to a single client, emptying its buffer if no client has connected.
  *
  *
  * @
  * PUBLIC FEATURES:
  * // Constructors
- *    PredictionFeedServer()
+ *    PredictionFeedServerThread()
  * // Methods
  *    sendPrediction(String aircraftID, GeographicCoordinate[] predictions)  - Encodes a Prediction and stores in internal buffer
  *    run() - Thread of checking buffer and removing first element
@@ -35,7 +34,7 @@ import java.util.ArrayList;
  * @author    Chris Coleman, 7191375
  */
 
-public class PredictionFeedServer implements RunnableThread{
+public class PredictionFeedServerThread implements RunnableThread{
 
 
     private ArrayList<PredictionFeedServe.AircraftPredictionMessage> toBeSentBuffer; //Buffer of encoded messages
@@ -46,14 +45,15 @@ public class PredictionFeedServer implements RunnableThread{
     //Thread definitions
     private boolean continueThread = true;  //Simple flag that dictates whether the Server threads will keep looping
     private Thread thread;  //Simple flag that dictates whether the Server threads will keep looping
-    private Thread serverConnectThread; //Thread to accept connections by clients
-    private static String threadName = "PredictionFeedServer";
+    private RunnableThread serverConnectThread; //Thread to accept connections by clients
+    private final String threadName = "PredictionFeedServerThread";
+
     /**
      * Constructor, instantiates a new buffer for storing of messages to be sent.
      * Also creates a separate thread that handles external client connection. Currently only accepts a single client
      * to be connected before not accepting any more.
      */
-    public PredictionFeedServer()
+    public PredictionFeedServerThread()
     {
         toBeSentBuffer = new ArrayList<PredictionFeedServe.AircraftPredictionMessage>();
         connectedClient = new Socket();
@@ -61,17 +61,7 @@ public class PredictionFeedServer implements RunnableThread{
         try{
             connectionSocket = new ServerSocket(PORT);
 
-            serverConnectThread = new Thread(new Runnable()
-            {
-                @Override
-                public void run()
-                {
-                    try {
-                        connectedClient = connectionSocket.accept();
-                    }catch(IOException e){System.out.println("PredictionFeed Server accept error");}
-                    System.out.println("Thread Killed (Connection)");
-                }
-            });
+            serverConnectThread = new PredictionFeedServerConnectThread(connectionSocket, connectedClient);
 
 
         }catch(IOException e){System.out.println("PredictionFeed Server Creation error");}
@@ -139,7 +129,14 @@ public class PredictionFeedServer implements RunnableThread{
             try{connectionSocket.close();}catch(IOException i){System.out.println("Can't close ServerSocket");}
             try{connectedClient.close();}catch(IOException i){System.out.println("Can't close clientSocket");}
         }
+        serverConnectThread.kill();
+        try {
+            serverConnectThread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         System.out.println("Thread Killed (Server)");
+
     }
 
     /**
@@ -148,6 +145,14 @@ public class PredictionFeedServer implements RunnableThread{
     public void kill()
     {
         continueThread = false;
+    }
+
+    /**
+     * Join this thread.
+     */
+    @Override
+    public void join() throws InterruptedException {
+        thread.join();
     }
 
     /**

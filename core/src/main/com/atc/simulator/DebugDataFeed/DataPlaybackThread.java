@@ -17,10 +17,11 @@ public class DataPlaybackThread implements RunnableThread {
     private ArrayList<DataPlaybackListener> listeners;
     private int updateRate;
     private Scenario scenario;
-    private String threadName;
+    private final String threadName = "DataPlayback";
     private Thread thread;
     private Calendar currentTime;
     private boolean continueThread;
+    private boolean running;
 
     /**
      * Constructor for DataPlaybackThread
@@ -32,9 +33,10 @@ public class DataPlaybackThread implements RunnableThread {
         listeners = new ArrayList<DataPlaybackListener>();
         this.updateRate = updateRate;
         this.scenario = scenario;
-        threadName = "DataPlayback";
+
         currentTime = (Calendar) scenario.getStartTime().clone();
         continueThread = true;
+        running = false;
     }
 
     /**
@@ -71,6 +73,7 @@ public class DataPlaybackThread implements RunnableThread {
      */
     @Override
     public void run() {
+        running = true;
         Calendar endTime = scenario.getEndTime();
         while(continueThread)
         {
@@ -101,6 +104,7 @@ public class DataPlaybackThread implements RunnableThread {
 
             triggerOnSystemUpdate(state);
         }
+        running = false;
     }
 
     /**
@@ -121,5 +125,13 @@ public class DataPlaybackThread implements RunnableThread {
     @Override
     public void kill() {
         continueThread = false;
+    }
+
+    /**
+     * Join this thread.
+     */
+    @Override
+    public void join() throws InterruptedException {
+        thread.join();
     }
 }
