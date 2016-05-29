@@ -31,7 +31,7 @@ import java.util.Calendar;
  *    PredictionFeedServe.PredictionMessage
  *
  * MODIFIED:
- * @version 0.2, CC 23/05/16
+ * @version 0.3, CC 29/05/16, Added sleep in Thread run()
  * @author    Chris Coleman, 7191375
  */
 public class PredictionFeedClient implements RunnableThread {
@@ -83,6 +83,11 @@ public class PredictionFeedClient implements RunnableThread {
 
                 notifyAllListeners(newPred);
             }catch(IOException e){System.err.println("PredictionFeedClient Message Parse Failed");System.exit(1);}
+
+            try {
+                Thread.sleep(50);
+            } catch (InterruptedException i) {
+            }
         }
         try{serversSock.close();}catch(IOException i){System.out.println("Can't close display socket");}
     }

@@ -31,7 +31,7 @@ import java.util.ArrayList;
  *    PredictionFeedServe.PredictionMessage
  *
  * MODIFIED:
- * @version 0.2, CC 21/05/16, Merged Encoder and Server
+ * @version 0.2, CC 29/05/16, General Upkeep w/ system changes
  * @author    Chris Coleman, 7191375
  */
 
