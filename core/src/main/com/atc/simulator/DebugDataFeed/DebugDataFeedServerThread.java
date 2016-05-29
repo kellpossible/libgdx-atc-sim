@@ -30,14 +30,18 @@ public class DebugDataFeedServerThread implements Runnable, DataPlaybackListener
     public DebugDataFeedServerThread() {
         toBeSentBuffer = new ArrayList<SystemStateMessage>();
         clientSocket = new Socket();
-        try {
+        try
+        {
             serverSocket = new ServerSocket(PORT);
             serverThread = new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    try {
+                    try
+                    {
                         clientSocket = serverSocket.accept();
-                    } catch (IOException e) {
+                    }
+                    catch (IOException e)
+                    {
                         System.out.println("DebugDataFeed Server connection error");
                     }
                     System.out.println("Thread Killed (Connection)");
