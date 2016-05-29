@@ -94,6 +94,7 @@ public class PredictionFeedClientThread implements RunnableThread {
             }
         }
         try{serversSock.close();}catch(IOException i){System.err.println("PredictionFeedClientThread Can't close ServerSocket socket");}
+        System.out.println(threadName + " killed");
     }
 
     /**

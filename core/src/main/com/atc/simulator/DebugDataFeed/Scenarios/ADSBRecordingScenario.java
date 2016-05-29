@@ -197,8 +197,8 @@ public class ADSBRecordingScenario extends Scenario {
     public SystemState getState(Calendar time) {
         checkStateTimeWithinBoundaries(time);
 
-        System.out.println("getStateTime" + time.getTimeInMillis());
-        System.out.println("startTime" + startTime.getTimeInMillis());
+//        System.out.println("getStateTime" + time.getTimeInMillis());
+//        System.out.println("startTime" + startTime.getTimeInMillis());
 
         Calendar closestTime = null;
         long closestTimeDiff = Long.MAX_VALUE;
@@ -212,7 +212,7 @@ public class ADSBRecordingScenario extends Scenario {
             }
         }
 
-        System.out.println("startTime" + startTime.getTimeInMillis());
+//        System.out.println("startTime" + startTime.getTimeInMillis());
 
         if (closestTime != null)
         {

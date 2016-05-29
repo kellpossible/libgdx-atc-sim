@@ -111,6 +111,8 @@ public class DebugDataFeedClientThread implements RunnableThread
                 System.out.println("DebugDataFeedClientThread Can't close ServerSocket socket");
             }
         }
+
+        System.out.println(threadName + " killed");
     }
 
     /**

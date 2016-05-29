@@ -27,8 +27,8 @@ class PredictionFeedServerConnectThread implements RunnableThread {
     {
         try {
             connectedClient = connectionSocket.accept();
-        }catch(IOException e){System.out.println("PredictionFeed Server accept error");}
-        System.out.println("Thread Killed (Connection)");
+        }catch(IOException e){System.out.println(threadName + " accept error");}
+        System.out.println(threadName + " ended");
     }
 
     /**

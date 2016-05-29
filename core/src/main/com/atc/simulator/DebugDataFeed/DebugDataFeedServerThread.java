@@ -44,15 +44,15 @@ public class DebugDataFeedServerThread implements RunnableThread, DataPlaybackLi
                     }
                     catch (IOException e)
                     {
-                        System.err.println("DebugDataFeed Server connection error");
+                        System.err.println(threadName + " Server connection error");
                     }
-                    System.out.println("Thread Killed (Connection)");
+                    System.out.println(threadName + " serverThread ended");
                 }
             });
         } catch (IOException e) {
-            System.err.println("DebugDataFeed Server Creation error");
+            System.err.println(threadName + "Server Creation error");
         }
-        System.out.println("Server/ArrayList created");
+        System.out.println(threadName + " Server/ArrayList created");
 
         running = false;
     }
@@ -90,7 +90,7 @@ public class DebugDataFeedServerThread implements RunnableThread, DataPlaybackLi
                 System.err.println("DebugDataFeedServerThread Can't close ServerSocket");
             }
         }
-        System.out.println("Thread Killed (Server)");
+        System.out.println(threadName + "killed");
         running = false;
     }
 
