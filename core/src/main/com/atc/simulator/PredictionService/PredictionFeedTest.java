@@ -31,39 +31,38 @@ import java.util.Calendar;
 public class PredictionFeedTest {
     //Test method to be comfortable with using PredictionFeedServe's protocol buffer
     public static void main(String[] arg) {
-try{
-        //Create some Test data
-       ArrayList<GeographicCoordinate> predictedPositions = new ArrayList<GeographicCoordinate>();
-       predictedPositions.add(new GeographicCoordinate(0,0,0));
-       predictedPositions.add(new GeographicCoordinate(1,2,3));
-       Prediction testPrediction = new Prediction("Test123", Calendar.getInstance(), predictedPositions);
-//           testPrediction.addPosToPrediction(new GeographicCoordinate(1,2,3));
+        try{
+            //Create SystemState Test Data:
+            ArrayList<AircraftState> testAStates = new ArrayList<AircraftState>();
+            testAStates.add(new AircraftState("TestPlane1", ISO8601.toCalendar(ISO8601.now()), new GeographicCoordinate(0,0,0), new SphericalVelocity(1,2,3), 0.5));
 
-           //Create SystemState Test Data:
-           ArrayList<AircraftState> testAStates = new ArrayList<AircraftState>();
-           testAStates.add(new AircraftState("TestPlane1", ISO8601.toCalendar(ISO8601.now()), new GeographicCoordinate(0,0,0), new SphericalVelocity(1,2,3), 0.5));
+            SystemState testSystem = new SystemState(ISO8601.toCalendar(ISO8601.now()),testAStates);
 
-           SystemState testSystem = new SystemState(ISO8601.toCalendar(ISO8601.now()),testAStates);
-
-        //Create Server/Client objects
-        PredictionFeedServer testServer = new PredictionFeedServer();
-        PredictionFeedClient testClient = new PredictionFeedClient();
-           PredictionEngine testEngine = new PredictionEngine(testServer);
-        //Fill up the buffer a little bit
-        for(int i = 0; i<10; i++)
-                testEngine.onSystemUpdate(testSystem);
-        //Start the threads
+            //Create Server/Client objects
+            PredictionFeedServer testServer = new PredictionFeedServer();
+            PredictionFeedClient testClient = new PredictionFeedClient();
+            PredictionEngine testEngine = new PredictionEngine(testServer);
+            //Fill up the buffer a little bit
+            for(int i = 0; i<10; i++)
+            testEngine.onSystemUpdate(testSystem);
+            //Start the threads
             testClient.start();
-           testServer.start();
-           testEngine.start();
-        //Send messages on every entered item, loop out on 'q' being sent
-            try{while(System.in.read() != 'q'){testEngine.onSystemUpdate(testSystem);}}catch(IOException i){}
+            testServer.start();
+            testEngine.start();
+            //Send messages on every entered item, loop out on 'q' being sent
+            try{
+                while(System.in.read() != 'q') {
+                    testEngine.onSystemUpdate(testSystem);
+                }
+            }catch(IOException i){}
 
-        //Close the Threads
-           testEngine.kill();
-           testClient.kill();
-           testServer.kill();
-       }catch(ParseException p){System.out.println("Clock failed");}
+            //Close the Threads
+            testEngine.kill();
+            testClient.kill();
+            testServer.kill();
+       }catch(ParseException p){
+            System.out.println("Clock failed");
+        }
 
        System.out.println("Test Complete");
     }

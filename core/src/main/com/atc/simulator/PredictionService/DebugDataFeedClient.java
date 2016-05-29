@@ -79,9 +79,19 @@ public class DebugDataFeedClient implements RunnableThread
                             System.out.println(n.getHeading());
 
                     }*/
-                    
-                    ArrayList<GeographicCoordinate> predictedPositions = new ArrayList<GeographicCoordinate>();
-                AircraftState aircraftState = testState.getAircraftStates().get(0);
+
+                //this system state class instance will be used as dummy data because the above code was not implemented yet
+                ArrayList<AircraftState> dummyAircraftStateList = new ArrayList<AircraftState>();
+                AircraftState dummyAircraftState = new AircraftState("dummy_aircraft",
+                        Calendar.getInstance(),
+                        new GeographicCoordinate(0, 0.5, 0.5),
+                        new SphericalVelocity(0, 0.5, 0.5),
+                        10.0);
+                dummyAircraftStateList.add(dummyAircraftState);
+                SystemState dummySystemState = new SystemState(Calendar.getInstance(), dummyAircraftStateList);
+
+                ArrayList<GeographicCoordinate> predictedPositions = new ArrayList<GeographicCoordinate>();
+                AircraftState aircraftState = dummySystemState.getAircraftStates().get(0);
                 predictedPositions.add(aircraftState.getPosition());
                 Prediction prediction = new Prediction(aircraftState.getAircraftID(), Calendar.getInstance(), predictedPositions);
 

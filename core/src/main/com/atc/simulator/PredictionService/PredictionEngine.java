@@ -77,20 +77,22 @@ public class PredictionEngine implements RunnableThread, DataPlaybackListener {
      */
     private synchronized void makeNewPrediction(AircraftState state)
     {
-        //Add the ID and Time
-        Prediction myPrediction = new Prediction(state.getAircraftID(), state.getTime());
+        ArrayList<GeographicCoordinate> predictionPositions = new ArrayList<GeographicCoordinate>();
         //Add the current position
-        myPrediction.addPosToPrediction(state.getPosition());
+        predictionPositions.add(state.getPosition());
 
         //Make a very simple prediction
         double tempAlt = state.getPosition().getAltitude();
         double tempLat = state.getPosition().getLatitude()+0.5;
         double tempLon = state.getPosition().getLongitude()+0.5;
         //Add it to the prediction
-        myPrediction.addPosToPrediction(new GeographicCoordinate(tempAlt,tempLat,tempLon));
+        predictionPositions.add(new GeographicCoordinate(tempAlt,tempLat,tempLon));
+
+        //Add the ID and Time
+        Prediction myPrediction = new Prediction(state.getAircraftID(), state.getTime(), predictionPositions);
 
         //Send the prediction to the server
-        myServer.sendPredictionToServer(myPrediction);
+        myServer.sendPrediction(myPrediction);
     }
 
     /**
