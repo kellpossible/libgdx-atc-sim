@@ -48,18 +48,15 @@ public class PredictionFeedClientThread implements RunnableThread {
     /**
      * Constructor for PredictionFeedClientThread
      */
-    public PredictionFeedClientThread()
-    {
-        myListeners = new ArrayList<PredictionListener>();
-    }
+    public PredictionFeedClientThread(){myListeners = new ArrayList<PredictionListener>();}
 
     /**
      * Threaded routine, pull new data from socket, turn it into a Prediction type, and notify listeners
      * TODO: Will this need to feed a buffer that is then converted for listeners? Does a Java socket have a buffer inbuilt? :/
      */
     public void run(){
-        //instantiates a new List of Listeners and attempts to opens a socket to where its Server is
-        myListeners = new ArrayList<PredictionListener>();
+
+        //I don't think this should really be here....
         try{
             serversSock = new Socket("localhost", PORTNUMBER);
         }catch(IOException e){System.err.println("PredictionFeedClientThread Initialisation Failed");System.exit(1);}
@@ -84,7 +81,7 @@ public class PredictionFeedClientThread implements RunnableThread {
 
                 //Made a new Prediction with ID and Time
                 Prediction newPred = new Prediction(tempMes.getAircraftID(), Calendar.getInstance(), predictionPositions);
-
+                System.out.println("Client has received Aircraft " + newPred.getAircraftID());
                 notifyAllListeners(newPred);
             }catch(IOException e){System.err.println("PredictionFeedClientThread Message Parse Failed");}
             catch(NullPointerException n){;}

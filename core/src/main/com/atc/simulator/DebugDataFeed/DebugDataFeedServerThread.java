@@ -13,9 +13,10 @@ import java.io.*;
 
 /**
  * Created by Chris, Uros on 8/05/2016.
+ *
+ * Modified 30/05/16, Chris. Added comments for flow
  */
 public class DebugDataFeedServerThread implements RunnableThread, DataPlaybackListener {
-    static int OFFSET = 0;
     static int PORT = 6989;
 
     private ArrayList<SystemStateMessage> toBeSentBuffer;
@@ -27,7 +28,6 @@ public class DebugDataFeedServerThread implements RunnableThread, DataPlaybackLi
     private boolean continueThread = true;
     private Thread thread;
     private final String threadName = "DebugDataFeedServerThread";
-    private boolean running;
 
     public DebugDataFeedServerThread() {
         toBeSentBuffer = new ArrayList<SystemStateMessage>();
@@ -46,19 +46,20 @@ public class DebugDataFeedServerThread implements RunnableThread, DataPlaybackLi
                     {
                         System.err.println(threadName + " Server connection error");
                     }
-                    System.out.println(threadName + " serverThread ended");
+                    System.out.println(threadName + " DebugData client connected + accept thread ended");
                 }
             });
         } catch (IOException e) {
             System.err.println(threadName + "Server Creation error");
         }
         System.out.println(threadName + " Server/ArrayList created");
-
-        running = false;
     }
 
+    /**
+     * Threaded method, checks the buffer, deletes the latest info if there are no clients,
+     * or shoots the message off to the client!
+     */
     public void run() {
-        running = true;
         serverThread.start();
         try {
             while (continueThread) {
@@ -67,12 +68,12 @@ public class DebugDataFeedServerThread implements RunnableThread, DataPlaybackLi
                     {
                         toBeSentBuffer.remove(0); //Delete the data
                         System.out.println("No client, data deleted");
-                    } else {
-                        try {
+                    } else
+                    {
+                        try
+                        {
                             toBeSentBuffer.get(0).writeDelimitedTo(clientSocket.getOutputStream()); //Try to send message
-                            System.out.println("Data sent to DebugDataFeed Client");
-                        } catch (IOException e) {
-                            System.err.println("Send to DebugDataFeed Client failed");
+                        } catch (IOException e) {System.err.println("Send to DebugDataFeed Client failed");
                             e.printStackTrace();
                         }
                         toBeSentBuffer.remove(0);
@@ -91,7 +92,6 @@ public class DebugDataFeedServerThread implements RunnableThread, DataPlaybackLi
             }
         }
         System.out.println(threadName + "killed");
-        running = false;
     }
 
 
@@ -103,15 +103,19 @@ public class DebugDataFeedServerThread implements RunnableThread, DataPlaybackLi
      */
     @Override
     public void onSystemUpdate(SystemState systemState) {
+        //Create a new builder
         SystemStateMessage.Builder systemStateMessageBuilder = SystemStateMessage.newBuilder();
-
+        //Save the time of the SystemState message creation
         systemStateMessageBuilder.setTime(ISO8601.fromCalendar(systemState.getTime()));
 
+        //For every AircraftState received, turn them into messages
         for (AircraftState aircraftState : systemState.getAircraftStates()) {
             AircraftStateMessage.Builder aircraftStateMessageBuilder = AircraftStateMessage.newBuilder();
+            //With ID
             aircraftStateMessageBuilder.setAircraftID(aircraftState.getAircraftID());
+            //TimeStamp
             aircraftStateMessageBuilder.setTime(ISO8601.fromCalendar(aircraftState.getTime()));
-
+            //A current position
             GeographicCoordinate position = aircraftState.getPosition();
             aircraftStateMessageBuilder.setPosition(
                     GeographicCoordinateMessage.newBuilder()
@@ -119,7 +123,7 @@ public class DebugDataFeedServerThread implements RunnableThread, DataPlaybackLi
                             .setLatitude(position.getLatitude())
                             .setLongitude(position.getLongitude())
             );
-
+            //A super complicated velocity
             SphericalVelocity velocity = aircraftState.getVelocity();
             aircraftStateMessageBuilder.setVelocity(
                     SphericalVelocityMessage.newBuilder()
@@ -127,14 +131,14 @@ public class DebugDataFeedServerThread implements RunnableThread, DataPlaybackLi
                             .setDtheta(velocity.getDTheta())
                             .setDphi(velocity.getDPhi())
             );
-
+            //and a cheeky heading for good measure
             aircraftStateMessageBuilder.setHeading(aircraftState.getHeading());
-
+            //Add the new AircraftState message to the big system message
             systemStateMessageBuilder.addAircraftState(aircraftStateMessageBuilder);
         }
-
+        //Once that's done, we wrap up the system message nicely
         SystemStateMessage systemStateMessage = systemStateMessageBuilder.build(); //yay the final message all built
-
+        //And store it ready for sending
         toBeSentBuffer.add(systemStateMessage);
 
         //TODO: send message to client when this is called by placing it in the buffer.
@@ -163,10 +167,5 @@ public class DebugDataFeedServerThread implements RunnableThread, DataPlaybackLi
     @Override
     public void join() throws InterruptedException {
         thread.join();
-    }
-
-    public synchronized ArrayList<SystemStateMessage> getSystemStateMessage()
-    {
-        return toBeSentBuffer;
     }
 }

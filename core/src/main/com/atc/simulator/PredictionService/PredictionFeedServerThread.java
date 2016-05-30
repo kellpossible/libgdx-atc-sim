@@ -37,6 +37,7 @@ public class PredictionFeedServerThread implements RunnableThread{
     //Socket definitions
     static int PORT = 6789;
     private ServerSocket connectionSocket; //ServerSocket that handles connect requests by clients
+    //TODO: Some method of removing clients or handling when they disappear
     private ArrayList<Socket> connectedClients; //List of successfully connected clients that will be sent the new predictions
     //Thread definitions
     private boolean continueThread = true;  //Simple flag that dictates whether the Server threads will keep looping

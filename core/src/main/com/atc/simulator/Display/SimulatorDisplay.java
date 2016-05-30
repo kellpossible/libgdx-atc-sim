@@ -76,6 +76,7 @@ public class SimulatorDisplay extends ApplicationAdapter implements DataPlayback
     @Override
     public void onPredictionUpdate(Prediction prediction) {
         predictionUpdateQueue.add(prediction);
+        System.out.println("Holy shit, the display got data from the PredictionEngine!");
     }
 
 
