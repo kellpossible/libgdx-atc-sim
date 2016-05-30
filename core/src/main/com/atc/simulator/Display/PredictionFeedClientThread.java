@@ -87,6 +87,7 @@ public class PredictionFeedClientThread implements RunnableThread {
 
                 notifyAllListeners(newPred);
             }catch(IOException e){System.err.println("PredictionFeedClientThread Message Parse Failed");}
+            catch(NullPointerException n){;}
 
             try {
                 Thread.sleep(50);

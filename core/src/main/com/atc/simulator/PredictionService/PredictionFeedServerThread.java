@@ -9,11 +9,11 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.concurrent.ArrayBlockingQueue;
 
 /**
  * PredictionFeedServerThread is responsible for the encoding and sending of predictions for display/external systems. Currently able to connect and send
  * to a single client, emptying its buffer if no client has connected.
- *
  *
  * @
  * PUBLIC FEATURES:
@@ -24,47 +24,39 @@ import java.util.ArrayList;
  *    run() - Thread of checking buffer and removing first element
  *    killThread() - flags that the Server has been finished with, and to stop all threads running (clearing of buffer and accepting clients)
  *
- * COLLABORATORS:
- *    java.util.ArrayList
- *    vectors.GeographicCoordinate
- *    PredictionFeedServe.PredictionMessage
  *
  * MODIFIED:
- * @version 0.2, CC 29/05/16, General Upkeep w/ system changes
- * @author    Chris Coleman, 7191375
+ * @version 1.0, CC 30/05/16, Neatened the Connection Thread to be its own class. Added capability for multiple clients
+ * @author    Chris Coleman - 7191375, Luke Frisken
  */
 
 public class PredictionFeedServerThread implements RunnableThread{
 
 
-    private ArrayList<PredictionFeedServe.AircraftPredictionMessage> toBeSentBuffer; //Buffer of encoded messages
+    private ArrayBlockingQueue<PredictionFeedServe.AircraftPredictionMessage> toBeSentBuffer; //Buffer of encoded messages
     //Socket definitions
     static int PORT = 6789;
     private ServerSocket connectionSocket; //ServerSocket that handles connect requests by clients
-    private Socket connectedClient; //The socket that a successful client connection can be sent message through
+    private ArrayList<Socket> connectedClients; //List of successfully connected clients that will be sent the new predictions
     //Thread definitions
     private boolean continueThread = true;  //Simple flag that dictates whether the Server threads will keep looping
     private Thread thread;  //Simple flag that dictates whether the Server threads will keep looping
-    private RunnableThread serverConnectThread; //Thread to accept connections by clients
+    private PredictionFeedServerConnectThread serverConnectThread; //Thread to accept connections by clients
     private final String threadName = "PredictionFeedServerThread";
 
     /**
      * Constructor, instantiates a new buffer for storing of messages to be sent.
-     * Also creates a separate thread that handles external client connection. Currently only accepts a single client
-     * to be connected before not accepting any more.
+     * Also creates a separate thread that handles external client connection.
      */
     public PredictionFeedServerThread()
     {
-        toBeSentBuffer = new ArrayList<PredictionFeedServe.AircraftPredictionMessage>();
-        connectedClient = new Socket();
+        toBeSentBuffer = new ArrayBlockingQueue<PredictionFeedServe.AircraftPredictionMessage>(400);
+        connectedClients = new ArrayList<Socket>();
 
         try{
             connectionSocket = new ServerSocket(PORT);
-
-            serverConnectThread = new PredictionFeedServerConnectThread(connectionSocket, connectedClient);
-
-
-        }catch(IOException e){System.out.println("PredictionFeed Server Creation error");}
+        }catch(IOException e){System.out.println("PredictionFeed Server Socket error");}
+        serverConnectThread = new PredictionFeedServerConnectThread(connectionSocket);
         System.out.println("Server/ArrayList created");
     }
 
@@ -103,19 +95,25 @@ public class PredictionFeedServerThread implements RunnableThread{
         serverConnectThread.start();
         try {
             while (continueThread) {
-                if (toBeSentBuffer.size() > 0) {
-                    if (!connectedClient.isConnected()) //If nothing is connected
+                if (toBeSentBuffer.peek() != null)
+                {
+                    if (connectedClients.size() == 0) //If nothing is connected
                     {
-                        toBeSentBuffer.remove(0); //Delete the data
-                        System.out.println("No client, data deleted");
+                        try{
+                            toBeSentBuffer.take(); //Delete the data
+                            System.out.println("No client, data deleted");
+                        }catch (InterruptedException e){System.out.println("Taking from PredictionFeedBuffer interrupted");}
+
                     }
                     else
                     {
                         try
                         {
-                            toBeSentBuffer.get(0).writeDelimitedTo(connectedClient.getOutputStream()); //Try to send message
-                        } catch (IOException e) {System.out.println("Send to Display failed");}
-                        toBeSentBuffer.remove(0);
+                            PredictionFeedServe.AircraftPredictionMessage tempMes = toBeSentBuffer.take();
+                            for(Socket tempSocket : connectedClients)
+                                tempMes.writeDelimitedTo(tempSocket.getOutputStream()); //Try to send message
+                        }   catch (IOException e) {System.out.println("Send to Display failed");}
+                            catch (InterruptedException e){System.out.println("Taking from PredictionFeedBuffer interrupted");}
                         System.out.println("Data sent to Client");
                     }
                 }
@@ -125,18 +123,17 @@ public class PredictionFeedServerThread implements RunnableThread{
                 }
             }
         }
-        finally{
-            try{connectionSocket.close();}catch(IOException i){System.out.println("Can't close ServerSocket");}
-            try{connectedClient.close();}catch(IOException i){System.out.println("Can't close clientSocket");}
+        finally
+        {
+            serverConnectThread.kill();
+            try{
+                for(Socket temp : connectedClients)
+                {
+                    temp.close();
+                }
+            }catch(IOException i){System.out.println("Can't close clientSocket");}
         }
-        serverConnectThread.kill();
-        try {
-            serverConnectThread.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        System.out.println("Thread Killed (Server)");
-
+        System.out.println(threadName + " killed");
     }
 
     /**
@@ -166,4 +163,75 @@ public class PredictionFeedServerThread implements RunnableThread{
             thread.start();
         }
     }
+
+    /**
+     * Private class that is responsible for handling the connection of sockets with PredictionFeed's Clients
+     * An internal thread will accept connections and inform the server, storing the new clients in an array
+     *
+     * @author Chris Coleman, Luke Frisken
+     */
+    private class PredictionFeedServerConnectThread implements RunnableThread
+    {
+        private ServerSocket connectionSocket; //The socket that will be listening for, and accepting, connections
+        private Socket connectedClient; //Temp holder for any clients that are connected and need to be given to the server
+        private Thread thread;
+        private final String threadName = "PredictionFeedServerConnectThread";
+
+        /**
+         * Constructor for PredictionFeedServerConnectThread
+         * @param connectionSocket : The serverSocket this thread will be listening on
+         */
+        public PredictionFeedServerConnectThread(ServerSocket connectionSocket){this.connectionSocket = connectionSocket;}
+
+        /**
+         * This thread will loop forever, waiting to accept client connection requests.. these clients are added to the list held by the server.
+         * The thread exits via Exceptions, thrown when the connection socket is closed or overarching server is removed
+         */
+        public void run()
+        {
+            try {
+                while(true)
+                {
+                    connectedClient = connectionSocket.accept(); //Wait and accept a connection request
+                    connectedClients.add(connectedClient); //Add the new client to the list of clients
+                }
+            }catch(IOException e){;}
+            catch (NullPointerException n){;}
+            finally{
+                System.out.println(threadName + " killed");
+            }
+
+        }
+
+        /**
+         * Start this thread
+         */
+        @Override
+        public void start() {
+            if (thread == null)
+            {
+                thread = new Thread(this, threadName);
+                thread.start();
+            }
+        }
+
+        /**
+         * Kill this thread.
+         */
+        @Override
+        public void kill(){
+            try{connectionSocket.close();}catch (IOException e){System.out.println("Closing "+ threadName+ "'s Socket has failed");}
+        }
+
+        /**
+         * Join this thread.
+         */
+        @Override
+        public void join() throws InterruptedException {
+            thread.join();
+        }
+
+    }
+
+
 }
