@@ -102,17 +102,6 @@ public class PredictionFeedServerThread implements RunnableThread{
         serverConnectThread.start();
         try {
             while (continueThread) {
-                //TODO: what we really want to do is batch send everything (or a subset) in the toBeSentBuffer.
-                // if we do this, I think the system should? equalise out to the maximum throughput rate,
-                // if the incoming predictions are evenly spaced in time.
-                // Currently, the overhead of the write to socket is large enough that to do it per prediction
-                // in the buffer causes the buffer to fill up as more predictions continue to come in.
-                //
-                // Unfortunately if we do take this approach, (and the current approach) the latency won't be optimal
-                // for an input which sends its updates in batches.
-                //
-                // We can always add later, a hold mechanism which tells this thread to hold on sending
-                // while a batch gets added to the tobesent buffer.
                 try {
                     PredictionFeedServe.AircraftPredictionMessage message = toBeSentBuffer.take();
                     if (connectedClients.size() == 0) //If nothing is connected
