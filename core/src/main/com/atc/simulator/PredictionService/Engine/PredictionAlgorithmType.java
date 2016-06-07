@@ -5,4 +5,8 @@ package com.atc.simulator.PredictionService.Engine;
  * @author Luke Frisken
  */
 public enum PredictionAlgorithmType {
+    PASSTHROUGH,
+    PARALLEL_TEST,
+    LINEAR,
+    CURVILINEAR
 }

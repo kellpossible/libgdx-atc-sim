@@ -17,7 +17,7 @@ public class PredictionEngineTodoQueue extends SortableOrderedQueue<PredictionWo
      * TODO: some gains in performance could be made here by reducing to a single loop
      */
     @Override
-    public void sort() {
+    protected void doSort() {
         Collections.sort(this, SORTER);
         Collections.reverse(this);
     }

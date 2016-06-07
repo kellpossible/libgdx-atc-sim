@@ -85,6 +85,7 @@ public class PredictionFeedServerThread implements RunnableThread{
                             .setLongitude(temp.getLongitude())
             );
         }
+        System.out.println(threadName + " adding to toBeSentBuffer which has a size of " + toBeSentBuffer.size());
         toBeSentBuffer.add(MessageBuilder.build()); //Build message and add to buffer
     }
 
@@ -97,6 +98,10 @@ public class PredictionFeedServerThread implements RunnableThread{
         serverConnectThread.start();
         try {
             while (continueThread) {
+                //TODO: what we really want to do is batch send everything in the toBeSentBuffer.
+                //if we do this, I think the system should? equalise out to the maximum throughput rate.
+                //we can always add later, a hold mechanism which tells this thread to hold on sending
+                //while a batch gets added to the tobesent buffer.
                 if (toBeSentBuffer.peek() != null)
                 {
                     if (connectedClients.size() == 0) //If nothing is connected

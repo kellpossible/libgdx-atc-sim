@@ -7,7 +7,7 @@ import java.util.Calendar;
 import java.util.Comparator;
 
 /**
- * A self contained item of work for a PredictionWorker to work on.
+ * A self contained item of work for a PredictionWorkerThread to work on.
  * @author Luke Frisken
  */
 public class PredictionWorkItem implements Comparator<PredictionWorkItem>{
@@ -19,17 +19,19 @@ public class PredictionWorkItem implements Comparator<PredictionWorkItem>{
     private Calendar timeCompleted;
     private boolean started;
     private boolean completed;
-    private PredictionWorker worker;
+    private PredictionWorkerThread worker;
+    private PredictionAlgorithmType algorithmType;
 
     public PredictionWorkItem()
     {
-        this(null, null);
+        this(null, null, null);
     }
 
-    public PredictionWorkItem(String aircraftID, Track aircraftTrack)
+    public PredictionWorkItem(String aircraftID, Track aircraftTrack, PredictionAlgorithmType algorithmType)
     {
         this.aircraftID = aircraftID;
         this.aircraftTrack = aircraftTrack;
+        this.algorithmType = algorithmType;
         timeCreated = Calendar.getInstance();
         timeStarted = null;
         timeCompleted = null;
@@ -50,9 +52,9 @@ public class PredictionWorkItem implements Comparator<PredictionWorkItem>{
         return i0.getTimeCreated().compareTo(i1.getTimeCreated())*-1;//if it was created earlier then it should be higher
     }
 
-    public void startWorking(PredictionWorker worker)
+    public void startWorking(PredictionWorkerThread worker)
     {
-        if (timeStarted == null && worker == null)
+        if (timeStarted == null && this.worker == null)
         {
             timeStarted = Calendar.getInstance();
             started = true;
@@ -105,7 +107,11 @@ public class PredictionWorkItem implements Comparator<PredictionWorkItem>{
         return completed;
     }
 
-    public PredictionWorker getWorker() {
+    public PredictionWorkerThread getWorker() {
         return worker;
+    }
+
+    public PredictionAlgorithmType getAlgorithmType() {
+        return algorithmType;
     }
 }
