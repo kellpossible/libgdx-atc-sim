@@ -120,9 +120,8 @@ public class PredictionFeedServerThread implements RunnableThread{
                         ApplicationConfig.debugPrint("print-predictionfeedserver",
                                 threadName + " No client connected, data not sent");
                     } else {
-                        PredictionFeedServe.AircraftPredictionMessage tempMes = toBeSentBuffer.take();
-                        for(Socket tempSocket : connectedClients) {
-                            tempMes.writeDelimitedTo(tempSocket.getOutputStream()); //Try to send message
+                        for(Socket clientSocket : connectedClients) {
+                            message.writeDelimitedTo(clientSocket.getOutputStream()); //Try to send message
                         }
 
                         ApplicationConfig.debugPrint("print-predictionfeedserver", threadName + " Data sent to Client");
