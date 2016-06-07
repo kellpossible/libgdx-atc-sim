@@ -13,8 +13,8 @@ import java.util.concurrent.locks.ReentrantLock;
  * TODO: write unit test for this
  */
 public abstract class SortableOrderedQueue<T extends Comparator<T>> extends ArrayList<T>{
-    final Lock lock = new ReentrantLock();
-    final Condition notEmpty = lock.newCondition();
+    private final Lock lock = new ReentrantLock();
+    private final Condition notEmpty = lock.newCondition();
     public SortableOrderedQueue()
     {
         super();

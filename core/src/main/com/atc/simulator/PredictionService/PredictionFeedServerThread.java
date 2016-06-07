@@ -34,8 +34,6 @@ import java.util.concurrent.ArrayBlockingQueue;
  */
 
 public class PredictionFeedServerThread implements RunnableThread{
-
-
     private ArrayBlockingQueue<PredictionFeedServe.AircraftPredictionMessage> toBeSentBuffer; //Buffer of encoded messages
     //Socket definitions
     static int PORT = 6789;
@@ -47,6 +45,8 @@ public class PredictionFeedServerThread implements RunnableThread{
     private Thread thread;  //Simple flag that dictates whether the Server threads will keep looping
     private PredictionFeedServerConnectThread serverConnectThread; //Thread to accept connections by clients
     private final String threadName = "PredictionFeedServerThread";
+
+
 
     /**
      * Constructor, instantiates a new buffer for storing of messages to be sent.

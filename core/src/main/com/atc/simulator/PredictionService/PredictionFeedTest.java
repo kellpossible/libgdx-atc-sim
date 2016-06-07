@@ -38,7 +38,7 @@ public class PredictionFeedTest {
             //Create Server/Client objects
             PredictionFeedServerThread testServer = new PredictionFeedServerThread();
             PredictionFeedClientThread testClient = new PredictionFeedClientThread();
-            PredictionEngineThread testEngine = new PredictionEngineThread(testServer, systemStateDatabase);
+            PredictionEngineThread testEngine = new PredictionEngineThread(testServer, systemStateDatabase, 1);
             systemStateDatabase.addListener(testEngine);
             //Fill up the buffer a little bit
             for (AircraftState testState : testAStates)

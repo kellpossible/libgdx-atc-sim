@@ -43,7 +43,7 @@ public class DebugServerTest
         DebugDataFeedServerThread testDataServer = new DebugDataFeedServerThread(); //Can also chill by itself
 
         PredictionEngineThread testEngine = new PredictionEngineThread(
-                testPredictionServer, systemStateDatabase); //Must be after PredictionFeedServer
+                testPredictionServer, systemStateDatabase, 1); //Must be after PredictionFeedServer
         DebugDataFeedClientThread testDataClient = new DebugDataFeedClientThread(testEngine); //Must be after Engine
         systemStateDatabase.addListener(testEngine);
 

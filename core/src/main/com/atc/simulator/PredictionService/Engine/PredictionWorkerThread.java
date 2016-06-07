@@ -57,10 +57,22 @@ public class PredictionWorkerThread implements RunnableThread{
     }
 
     /**
+     * for inducing a high load on this thread.
+     * credit: http://stackoverflow.com/questions/382113/generate-cpu-load-in-java#answer-382212
+     * @param milliseconds
+     */
+    private static void spin(int milliseconds) {
+        long sleepTime = milliseconds*1000000L; // convert to nanoseconds
+        long startTime = System.nanoTime();
+        while ((System.nanoTime() - startTime) < sleepTime) {}
+    }
+
+    /**
      * Private method that will create a new prediction and send it to the PredictionFeedServerThread
      */
     private void makeNewPrediction(PredictionWorkItem workItem)
     {
+        spin(100);
         Track aircraftTrack = workItem.getTrack();
         AircraftState state = aircraftTrack.getLatest();
         ArrayList<GeographicCoordinate> predictionPositions = new ArrayList<GeographicCoordinate>();

@@ -9,6 +9,9 @@ import com.atc.simulator.RunnableThread;
 import com.atc.simulator.flightdata.Track;
 
 import java.util.ArrayList;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
 * Basic engine, will receive system states, break them into AircraftStates, create predictions and push to the server
@@ -34,6 +37,8 @@ public class PredictionEngineThread implements RunnableThread, SystemStateDataba
     private SystemStateDatabase systemStateDatabase;
     private ArrayList<PredictionWorkerThread> workerPool;
 
+    private final Lock todoQueueLock = new ReentrantLock();
+    private final Condition todoQueueChangedCondition = todoQueueLock.newCondition();
 
     //Internal settings
     private PredictionFeedServerThread predictionFeedServer;
@@ -41,20 +46,28 @@ public class PredictionEngineThread implements RunnableThread, SystemStateDataba
     private boolean continueThread = true;  //Simple flag that dictates whether the Server threads will keep looping
     private Thread thread;
     private final String threadName = "PredictionEngineThread";
+    private int numberOfWorkers;
 
 
     /**
      * Constructor, connect to the server and create a new arrayList
      * @param predictionFeedServer : The server I need to connect to
      */
-    public PredictionEngineThread(PredictionFeedServerThread predictionFeedServer, SystemStateDatabase systemStateDatabase)
+    public PredictionEngineThread(
+            PredictionFeedServerThread predictionFeedServer,
+            SystemStateDatabase systemStateDatabase,
+            int numberOfWorkers)
     {
+        this.numberOfWorkers = numberOfWorkers;
         this.predictionFeedServer = predictionFeedServer;
         todoQueue = new PredictionEngineTodoQueue();
+
+        //populate the worker pool with workers
         workerPool = new ArrayList<PredictionWorkerThread>();
-        workerPool.add(new PredictionWorkerThread(0, this));
-        workerPool.add(new PredictionWorkerThread(1, this));
-//        workerPool.add(new PredictionWorkerThread(2, this));
+        for (int i = 0; i<numberOfWorkers; i++)
+        {
+            workerPool.add(new PredictionWorkerThread(i, this));
+        }
         this.systemStateDatabase = systemStateDatabase;
     }
 
@@ -90,12 +103,24 @@ public class PredictionEngineThread implements RunnableThread, SystemStateDataba
     public void run() {
         while (continueThread)
         {
-            if(todoQueue.peek() != null) {
-//                makeNewPrediction(todoQueue.poll());
+            todoQueueLock.lock();
+            try {
+                todoQueueChangedCondition.await();
+                if (todoQueue.size() > 500)
+                {
+                    //replace this with a proper periodic check on each current work item
+                    //to see if it has exceeded its latency requirements
+                    System.err.println("ERROR: " + threadName + " todoQueue is exceeding maximum allowable size (500)");
+                }
+
+
+
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } finally {
+                todoQueueLock.unlock();
             }
-            try { //Then sleep for a bit
-                Thread.sleep(100);
-            } catch (InterruptedException i){}
+
         }
     }
 
@@ -153,12 +178,21 @@ public class PredictionEngineThread implements RunnableThread, SystemStateDataba
              PredictionWorkItem workItem = new PredictionWorkItem(
                      aircraftID,
                      aircraftTrack,
-                     PredictionAlgorithmType.PASSTHROUGH);
+                     PredictionAlgorithmType.PASSTHROUGH,
+                     false);
              //TODO: make a seperate buffer for this so it doesn't block while todoQueue is being reordered?
              ApplicationConfig.debugPrint(
                      "print-queues",
                      threadName + " Adding to queue which has a current size of " + todoQueue.size());
-             todoQueue.add(workItem); //TODO: make this an addinorder call
+
+             todoQueueLock.lock();
+             try {
+                 todoQueue.add(workItem); //TODO: make this an addinorder call
+                 todoQueueChangedCondition.signalAll();
+             } finally {
+                 todoQueueLock.unlock();
+             }
+
          }
      }
  }

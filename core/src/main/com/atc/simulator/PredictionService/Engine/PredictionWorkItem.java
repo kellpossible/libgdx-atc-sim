@@ -4,7 +4,6 @@ import com.atc.simulator.PredictionService.Engine.Algorithms.PredictionAlgorithm
 import com.atc.simulator.flightdata.Prediction;
 import com.atc.simulator.flightdata.Track;
 
-import java.util.Calendar;
 import java.util.Comparator;
 
 /**
@@ -15,49 +14,78 @@ public class PredictionWorkItem implements Comparator<PredictionWorkItem>{
     private String aircraftID;
     private Track aircraftTrack;
     private Prediction prediction;
-    private Calendar timeCreated;
-    private Calendar timeStarted;
-    private Calendar timeCompleted;
+
+
+    /**
+     * Special note on the time tracking:
+     * These are for debugging purposes.
+     * They need to be removed for production.
+     * Each System.currentTimeMillis() call is about 16ms,
+     * which adds up to 48ms per Work Item. The impact of this can
+     * be reduced by having more workers, but the currentTimeMillis is
+     * likely to be a blocking call, so the more workers, the longer it takes.
+     *
+     * 48ms * 2000 aircraft = 32seconds to process the input from 2000 aircraft.
+     */
+    private boolean trackTime;
+    private long timeCreated;
+    private long timeStarted;
+    private long timeCompleted;
+
+
     private boolean started;
     private boolean completed;
     private PredictionWorkerThread worker;
     private PredictionAlgorithmType algorithmType;
 
+
     public PredictionWorkItem()
     {
-        this(null, null, null);
+        this(null, null, null, false);
     }
 
-    public PredictionWorkItem(String aircraftID, Track aircraftTrack, PredictionAlgorithmType algorithmType)
+    public PredictionWorkItem(
+            String aircraftID,
+            Track aircraftTrack,
+            PredictionAlgorithmType algorithmType,
+            boolean trackTime)
     {
         this.aircraftID = aircraftID;
         this.aircraftTrack = aircraftTrack;
         this.algorithmType = algorithmType;
-        timeCreated = Calendar.getInstance();
-        timeStarted = null;
-        timeCompleted = null;
         started = false;
         completed = false;
         worker = null;
+        this.trackTime = trackTime;
+
+        if (trackTime)
+        {
+            timeCreated = System.currentTimeMillis();
+        }
+
     }
 
     /**
      * Compare the priorities of two PredictionWorkItem s for the use in the
      * PredictionEngineThread priority queue
+     * TODO: implment this!! before sorting the priorities
      * @param i0
      * @param i1
      * @return
      */
     @Override
     public int compare(PredictionWorkItem i0, PredictionWorkItem i1) {
-        return i0.getTimeCreated().compareTo(i1.getTimeCreated())*-1;//if it was created earlier then it should be higher
+        return 0;//if it was created earlier then it should be higher
     }
 
     public void startWorking(PredictionWorkerThread worker)
     {
-        if (timeStarted == null && this.worker == null)
+        if (started == false && this.worker == null)
         {
-            timeStarted = Calendar.getInstance();
+            if (trackTime)
+            {
+                timeStarted = System.currentTimeMillis();
+            }
             started = true;
             this.worker = worker;
         }else {
@@ -72,15 +100,19 @@ public class PredictionWorkItem implements Comparator<PredictionWorkItem>{
     public void complete(Prediction prediction)
     {
         this.prediction = prediction;
-        timeCompleted = Calendar.getInstance();
         completed = true;
+
+        if (trackTime)
+        {
+            timeCompleted = System.currentTimeMillis();
+        }
     }
 
     public String getAircraftID() {
         return aircraftID;
     }
 
-    public Calendar getTimeCreated() {
+    public long getTimeCreated() {
         return timeCreated;
     }
 
@@ -92,11 +124,11 @@ public class PredictionWorkItem implements Comparator<PredictionWorkItem>{
         return prediction;
     }
 
-    public Calendar getTimeStarted() {
+    public long getTimeStarted() {
         return timeStarted;
     }
 
-    public Calendar getTimeCompleted() {
+    public long getTimeCompleted() {
         return timeCompleted;
     }
 
@@ -114,5 +146,9 @@ public class PredictionWorkItem implements Comparator<PredictionWorkItem>{
 
     public PredictionAlgorithmType getAlgorithmType() {
         return algorithmType;
+    }
+
+    public boolean isTrackingTime() {
+        return trackTime;
     }
 }
