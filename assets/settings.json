@@ -6,7 +6,7 @@
     		"print-debugdatafeedserver": false,
     		"print-worker": true,
     		"print-predictionfeedserver": true,
-    		"print-predictionfeedclient": false,
+    		"print-predictionfeedclient": true,
     		"print-display": false
     	}
     }

@@ -8,6 +8,7 @@ import com.atc.simulator.vectors.GeographicCoordinate;
 import java.net.Socket;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 
 /**
@@ -54,7 +55,8 @@ public class PredictionFeedClientThread implements RunnableThread {
      * TODO: Will this need to feed a buffer that is then converted for listeners? Does a Java socket have a buffer inbuilt? :/
      */
     public void run(){
-
+        PredictionFeedServe.AircraftPredictionMessage tempMes = null;
+        InputStream inputStream = null;
         //I don't think this should really be here....
         try{
             serversSock = new Socket("localhost", PORTNUMBER);
@@ -65,32 +67,38 @@ public class PredictionFeedClientThread implements RunnableThread {
         {
             try{
                 //Get the PredictionMessage from the Socket
-                PredictionFeedServe.AircraftPredictionMessage tempMes = PredictionFeedServe.AircraftPredictionMessage.parseDelimitedFrom(serversSock.getInputStream());
+                inputStream = serversSock.getInputStream();
 
-                ArrayList<GeographicCoordinate> predictionPositions = new ArrayList<GeographicCoordinate>();
+                //here this thread will block while waiting for a message to appear in the inputStream.
+                tempMes = PredictionFeedServe.AircraftPredictionMessage.parseDelimitedFrom(inputStream);
 
-                //For all the positions inside the message, add them to the Prediction
-                for(int i = 0; i < tempMes.getPositionCount(); i++)
+                //check to see that stream was not at EOF when the parsing started
+                while(tempMes != null)
                 {
-                    predictionPositions.add(new GeographicCoordinate(tempMes.getPosition(i).getAltitude(),
-                            tempMes.getPosition(i).getLatitude(),
-                            tempMes.getPosition(i).getLongitude() )
-                    );
+                    ArrayList<GeographicCoordinate> predictionPositions = new ArrayList<GeographicCoordinate>();
+
+                    //For all the positions inside the message, add them to the Prediction
+                    for(int i = 0; i < tempMes.getPositionCount(); i++)
+                    {
+                        predictionPositions.add(new GeographicCoordinate(tempMes.getPosition(i).getAltitude(),
+                                tempMes.getPosition(i).getLatitude(),
+                                tempMes.getPosition(i).getLongitude() )
+                        );
+                    }
+
+                    //Made a new Prediction with ID and Time
+                    Prediction newPred = new Prediction(tempMes.getAircraftID(), Calendar.getInstance(), predictionPositions);
+                    ApplicationConfig.debugPrint(
+                            "print-predictionfeedclient",
+                            "PredictionFeedClient has received Aircraft " + newPred.getAircraftID());
+                    notifyAllListeners(newPred);
+
+                    tempMes = PredictionFeedServe.AircraftPredictionMessage.parseDelimitedFrom(inputStream);
                 }
 
-                //Made a new Prediction with ID and Time
-                Prediction newPred = new Prediction(tempMes.getAircraftID(), Calendar.getInstance(), predictionPositions);
-                ApplicationConfig.debugPrint(
-                        "print-predictionfeedclient",
-                        "PredictionFeedClient has received Aircraft " + newPred.getAircraftID());
-                notifyAllListeners(newPred);
-            }catch(IOException e){System.err.println("PredictionFeedClientThread Message Parse Failed");}
-            catch(NullPointerException n){;}
-
-            try {
-                Thread.sleep(50);
-            } catch (InterruptedException i) {
-            }
+                System.err.println(threadName + " possibly an empty input stream causing null value");
+                System.err.println(Arrays.toString(Thread.currentThread().getStackTrace()));
+            }catch(IOException e){System.err.println(threadName + " Message Parse Failed");}
         }
         try{serversSock.close();}catch(IOException i){System.err.println("PredictionFeedClientThread Can't close ServerSocket socket");}
         System.out.println(threadName + " killed");
