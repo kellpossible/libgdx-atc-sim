@@ -25,7 +25,7 @@ public class DesktopLauncher {
 		DebugDataFeedServerThread debugDataFeedServerThread = new DebugDataFeedServerThread();
 		PredictionFeedClientThread predictionFeedClientThread = new PredictionFeedClientThread();
 		PredictionFeedServerThread predictionFeedServerThread = new PredictionFeedServerThread();
-		DebugDataFeedClientThread debugDataFeedClientThread = new DebugDataFeedClientThread(predictionFeedServerThread);
+//		DebugDataFeedClientThread debugDataFeedClientThread = new DebugDataFeedClientThread(predictionFeedServerThread);
 
 		predictionFeedClientThread.addListener(display);
 		dataPlaybackThread.addListener(display);
@@ -34,8 +34,8 @@ public class DesktopLauncher {
 		predictionFeedServerThread.start();
 		predictionFeedClientThread.start();
 
-		debugDataFeedServerThread.start();
-		debugDataFeedClientThread.start();
+//		debugDataFeedServerThread.start();
+//		debugDataFeedClientThread.start();
 
 		dataPlaybackThread.start();
 		new LwjglApplication(display, config);
