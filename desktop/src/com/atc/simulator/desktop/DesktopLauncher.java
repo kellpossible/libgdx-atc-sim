@@ -1,5 +1,6 @@
 package com.atc.simulator.desktop;
 
+import com.atc.simulator.Config.ApplicationConfig;
 import com.atc.simulator.DebugDataFeed.DataPlaybackThread;
 import com.atc.simulator.DebugDataFeed.DebugDataFeedServerThread;
 import com.atc.simulator.DebugDataFeed.Scenarios.ADSBRecordingScenario;
@@ -16,6 +17,8 @@ public class DesktopLauncher {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.height = 768;
 		config.width = 1024;
+
+		System.out.println("Settings print-threading: " + ApplicationConfig.getInstance().getBoolean("settings.debug.print-threading"));
 
 
 //		Scenario scenario = new YMMLtoYSCBScenario();

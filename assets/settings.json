@@ -1,0 +1,7 @@
+{
+    "settings" : {
+    	"debug" : {
+    		"print-threading": true
+    	}
+    }
+}
