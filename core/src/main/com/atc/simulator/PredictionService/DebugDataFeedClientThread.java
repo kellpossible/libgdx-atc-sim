@@ -1,11 +1,12 @@
 package com.atc.simulator.PredictionService;
-import com.atc.simulator.DebugDataFeed.DebugDataFeedServe;
+import com.atc.simulator.Config.ApplicationConfig;
+import com.atc.simulator.ProtocolBuffers.DebugDataFeedServe;
 import com.atc.simulator.PredictionService.Engine.PredictionEngineThread;
 import com.atc.simulator.RunnableThread;
 import com.atc.simulator.flightdata.AircraftState;
 import com.atc.simulator.flightdata.ISO8601;
 import com.atc.simulator.flightdata.SystemState;
-import com.atc.simulator.DebugDataFeed.DebugDataFeedServe.*;
+import com.atc.simulator.ProtocolBuffers.DebugDataFeedServe.*;
 import com.atc.simulator.vectors.GeographicCoordinate;
 import com.atc.simulator.vectors.SphericalVelocity;
 
@@ -78,10 +79,12 @@ public class DebugDataFeedClientThread implements RunnableThread
                 //Send it to the connected Engine!
 //                myEngine.onSystemUpdate(testState); //TODO: fix this
             }catch(IOException e){System.err.println("Prediction-side Debug Message Parse Failed");}//End Catch
-            catch(NullPointerException n){System.out.println("Prediction-side Debug thread finishing");}
+            catch(NullPointerException n){
+                System.err.println("Prediction-side Debug thread finishing");
+            }
         }//End while
         kill();
-        System.out.println(threadName + " killed");
+        ApplicationConfig.debugPrint("print-threading", threadName + " killed");
     } //End run
 
     /**

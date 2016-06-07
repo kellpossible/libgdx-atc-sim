@@ -1,12 +1,13 @@
 package com.atc.simulator.DebugDataFeed;
+import com.atc.simulator.Config.ApplicationConfig;
 import com.atc.simulator.RunnableThread;
 import com.atc.simulator.flightdata.AircraftState;
 import com.atc.simulator.flightdata.ISO8601;
 import com.atc.simulator.flightdata.SystemState;
-import com.atc.simulator.DebugDataFeed.DebugDataFeedServe.*;
+import com.atc.simulator.ProtocolBuffers.DebugDataFeedServe.*;
 import com.atc.simulator.vectors.GeographicCoordinate;
 import com.atc.simulator.vectors.SphericalVelocity;
-import com.google.protobuf.InvalidProtocolBufferException;
+
 import java.net.*;
 import java.util.*;
 import java.io.*;
@@ -46,13 +47,15 @@ public class DebugDataFeedServerThread implements RunnableThread, DataPlaybackLi
                     {
                         System.err.println(threadName + " Server connection error");
                     }
-                    System.out.println(threadName + " DebugData client connected + accept thread ended");
+                    ApplicationConfig.debugPrint(
+                            "print-debugdatafeedserver",
+                            threadName + " DebugData client connected + accept thread ended");
                 }
             });
         } catch (IOException e) {
             System.err.println(threadName + "Server Creation error");
         }
-        System.out.println(threadName + " Server/ArrayList created");
+        ApplicationConfig.debugPrint("print-debugdatafeedserver", threadName + " Server/ArrayList created");
     }
 
     /**
@@ -91,7 +94,7 @@ public class DebugDataFeedServerThread implements RunnableThread, DataPlaybackLi
                 System.err.println("DebugDataFeedServerThread Can't close ServerSocket");
             }
         }
-        System.out.println(threadName + "killed");
+        ApplicationConfig.debugPrint("print-threading", threadName + "killed");
     }
 
 

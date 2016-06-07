@@ -1,5 +1,6 @@
 package com.atc.simulator.PredictionService.Engine;
 
+import com.atc.simulator.Config.ApplicationConfig;
 import com.atc.simulator.RunnableThread;
 import com.atc.simulator.flightdata.AircraftState;
 import com.atc.simulator.flightdata.Prediction;
@@ -76,7 +77,7 @@ public class PredictionWorkerThread implements RunnableThread{
         //Add the ID and Time, mark the work item as complete, tell the prediction engine
         workItem.complete(new Prediction(state.getAircraftID(), state.getTime(), predictionPositions));
         predictionEngine.completeWorkItem(workItem);
-        System.out.println(threadName + " finished a prediction");
+        ApplicationConfig.debugPrint("print-worker", threadName + " finished a prediction");
     }
 
     /**
@@ -95,7 +96,7 @@ public class PredictionWorkerThread implements RunnableThread{
                 makeNewPrediction(todoQueue.poll());
             } else {
                 PredictionWorkItem newWorkItem = predictionEngine.startWorkItem(this);
-                System.out.println(threadName + " starting on a new work item");
+                ApplicationConfig.debugPrint("print-worker", threadName + " starting on a new work item");
                 todoQueue.add(newWorkItem);
             }
         }

@@ -1,5 +1,6 @@
 package com.atc.simulator.PredictionService.Engine;
 
+import com.atc.simulator.Config.ApplicationConfig;
 import com.atc.simulator.PredictionService.PredictionFeedServerThread;
 import com.atc.simulator.PredictionService.SystemStateDatabase;
 import com.atc.simulator.PredictionService.SystemStateDatabaseListener;
@@ -156,7 +157,9 @@ public class PredictionEngineThread implements RunnableThread, SystemStateDataba
                      aircraftTrack,
                      PredictionAlgorithmType.PASSTHROUGH);
              //TODO: make a seperate buffer for this so it doesn't block while todoQueue is being reordered?
-             System.out.println(threadName + " Adding to queue which has a current size of " + todoQueue.size());
+             ApplicationConfig.debugPrint(
+                     "print-queues",
+                     threadName + " Adding to queue which has a current size of " + todoQueue.size());
              todoQueue.add(workItem); //TODO: make this an addinorder call
          }
      }

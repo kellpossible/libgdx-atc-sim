@@ -1,5 +1,6 @@
 package com.atc.simulator.Display;
 
+import com.atc.simulator.Config.ApplicationConfig;
 import com.atc.simulator.DebugDataFeed.DataPlaybackListener;
 import com.atc.simulator.DebugDataFeed.Scenarios.Scenario;
 import com.atc.simulator.flightdata.*;
@@ -76,7 +77,7 @@ public class SimulatorDisplay extends ApplicationAdapter implements DataPlayback
     @Override
     public void onPredictionUpdate(Prediction prediction) {
         predictionUpdateQueue.add(prediction);
-        System.out.println("Holy shit, the display got data from the Engine!");
+        ApplicationConfig.debugPrint("print-display", "Holy shit, the display got data from the Engine!");
     }
 
 

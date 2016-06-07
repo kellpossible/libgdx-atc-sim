@@ -1,5 +1,7 @@
 package com.atc.simulator.PredictionService;
 
+import com.atc.simulator.Config.ApplicationConfig;
+import com.atc.simulator.ProtocolBuffers.PredictionFeedServe;
 import com.atc.simulator.RunnableThread;
 import com.atc.simulator.flightdata.ISO8601;
 import com.atc.simulator.flightdata.Prediction;
@@ -85,7 +87,9 @@ public class PredictionFeedServerThread implements RunnableThread{
                             .setLongitude(temp.getLongitude())
             );
         }
-        System.out.println(threadName + " adding to toBeSentBuffer which has a size of " + toBeSentBuffer.size());
+        ApplicationConfig.debugPrint(
+                "print-queues",
+                threadName + " adding to toBeSentBuffer which has a size of " + toBeSentBuffer.size());
         toBeSentBuffer.add(MessageBuilder.build()); //Build message and add to buffer
     }
 
@@ -116,7 +120,9 @@ public class PredictionFeedServerThread implements RunnableThread{
                         try{
                             toBeSentBuffer.take(); //Delete the data
                             System.out.println("No client, data deleted");
-                        }catch (InterruptedException e){System.out.println("Taking from PredictionFeedBuffer interrupted");}
+                        }catch (InterruptedException e){
+                            System.out.println("Taking from PredictionFeedBuffer interrupted");
+                        }
 
                     }
                     else
@@ -124,11 +130,15 @@ public class PredictionFeedServerThread implements RunnableThread{
                         try
                         {
                             PredictionFeedServe.AircraftPredictionMessage tempMes = toBeSentBuffer.take();
-                            for(Socket tempSocket : connectedClients)
+                            for(Socket tempSocket : connectedClients) {
                                 tempMes.writeDelimitedTo(tempSocket.getOutputStream()); //Try to send message
-                        }   catch (IOException e) {System.out.println("Send to Display failed");}
-                            catch (InterruptedException e){System.out.println("Taking from PredictionFeedBuffer interrupted");}
-                        System.out.println(threadName + " Data sent to Client");
+                            }
+                        } catch (IOException e) {
+                            System.err.println("Send to Display failed");
+                        } catch (InterruptedException e){
+                                System.err.println("Taking from PredictionFeedBuffer interrupted");
+                            }
+                        ApplicationConfig.debugPrint("print-predictionfeedserver", threadName + " Data sent to Client");
                     }
                 }
                 try {
@@ -145,9 +155,9 @@ public class PredictionFeedServerThread implements RunnableThread{
                 {
                     temp.close();
                 }
-            }catch(IOException i){System.out.println("Can't close clientSocket");}
+            }catch(IOException i){System.err.println("Can't close clientSocket");}
         }
-        System.out.println(threadName + " killed");
+        ApplicationConfig.debugPrint("print-threading", threadName + " killed");
     }
 
     /**
@@ -212,7 +222,7 @@ public class PredictionFeedServerThread implements RunnableThread{
             }catch(IOException e){;}
             catch (NullPointerException n){;}
             finally{
-                System.out.println(threadName + " killed");
+                ApplicationConfig.debugPrint("print-threading", threadName + " killed");
             }
 
         }
@@ -234,7 +244,7 @@ public class PredictionFeedServerThread implements RunnableThread{
          */
         @Override
         public void kill(){
-            try{connectionSocket.close();}catch (IOException e){System.out.println("Closing "+ threadName+ "'s Socket has failed");}
+            try{connectionSocket.close();}catch (IOException e){System.err.println("Closing "+ threadName+ "'s Socket has failed");}
         }
 
         /**

@@ -1,13 +1,12 @@
 package com.atc.simulator.Display;
-import com.atc.simulator.PredictionService.PredictionFeedServe;
+import com.atc.simulator.Config.ApplicationConfig;
+import com.atc.simulator.ProtocolBuffers.PredictionFeedServe;
 import com.atc.simulator.RunnableThread;
-import com.atc.simulator.flightdata.ISO8601;
 import com.atc.simulator.flightdata.Prediction;
 import com.atc.simulator.vectors.GeographicCoordinate;
 
 import java.net.Socket;
 import java.io.*;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -81,7 +80,9 @@ public class PredictionFeedClientThread implements RunnableThread {
 
                 //Made a new Prediction with ID and Time
                 Prediction newPred = new Prediction(tempMes.getAircraftID(), Calendar.getInstance(), predictionPositions);
-                System.out.println("PredictionFeedClient has received Aircraft " + newPred.getAircraftID());
+                ApplicationConfig.debugPrint(
+                        "print-predictionfeedclient",
+                        "PredictionFeedClient has received Aircraft " + newPred.getAircraftID());
                 notifyAllListeners(newPred);
             }catch(IOException e){System.err.println("PredictionFeedClientThread Message Parse Failed");}
             catch(NullPointerException n){;}
