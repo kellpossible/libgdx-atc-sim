@@ -1,14 +1,12 @@
 package com.atc.simulator.PredictionService.Engine;
 
 import com.atc.simulator.Config.ApplicationConfig;
+import com.atc.simulator.PredictionService.Engine.Algorithms.PredictionAlgorithmType;
 import com.atc.simulator.PredictionService.PredictionFeedServerThread;
 import com.atc.simulator.PredictionService.SystemStateDatabase;
 import com.atc.simulator.PredictionService.SystemStateDatabaseListener;
 import com.atc.simulator.RunnableThread;
-import com.atc.simulator.flightdata.AircraftState;
-import com.atc.simulator.flightdata.Prediction;
 import com.atc.simulator.flightdata.Track;
-import com.atc.simulator.vectors.GeographicCoordinate;
 
 import java.util.ArrayList;
 
