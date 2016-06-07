@@ -1,9 +1,9 @@
 package com.atc.simulator.PredictionService;
 import com.atc.simulator.DebugDataFeed.DebugDataFeedServe;
+import com.atc.simulator.PredictionService.Engine.PredictionEngine;
 import com.atc.simulator.RunnableThread;
 import com.atc.simulator.flightdata.AircraftState;
 import com.atc.simulator.flightdata.ISO8601;
-import com.atc.simulator.flightdata.Prediction;
 import com.atc.simulator.flightdata.SystemState;
 import com.atc.simulator.DebugDataFeed.DebugDataFeedServe.*;
 import com.atc.simulator.vectors.GeographicCoordinate;

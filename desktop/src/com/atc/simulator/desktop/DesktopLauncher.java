@@ -1,11 +1,10 @@
 package com.atc.simulator.desktop;
 
 import com.atc.simulator.DebugDataFeed.DataPlaybackThread;
-import com.atc.simulator.DebugDataFeed.DebugDataFeedServerThread;
 import com.atc.simulator.DebugDataFeed.Scenarios.ADSBRecordingScenario;
 import com.atc.simulator.DebugDataFeed.Scenarios.Scenario;
 import com.atc.simulator.Display.PredictionFeedClientThread;
-import com.atc.simulator.PredictionService.DebugDataFeedClientThread;
+import com.atc.simulator.PredictionService.Engine.PredictionEngine;
 import com.atc.simulator.PredictionService.PredictionFeedServerThread;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
@@ -22,20 +21,22 @@ public class DesktopLauncher {
 		Scenario scenario = new ADSBRecordingScenario("assets/flight_data/YMML_26_05_2016/database.json");
 		DataPlaybackThread dataPlaybackThread = new DataPlaybackThread(scenario, scenario.getRecommendedUpdateRate());
 		SimulatorDisplay display =  new SimulatorDisplay(scenario);
-		DebugDataFeedServerThread debugDataFeedServerThread = new DebugDataFeedServerThread();
+//		DebugDataFeedServerThread debugDataFeedServerThread = new DebugDataFeedServerThread();
 		PredictionFeedClientThread predictionFeedClientThread = new PredictionFeedClientThread();
 		PredictionFeedServerThread predictionFeedServerThread = new PredictionFeedServerThread();
-		DebugDataFeedClientThread debugDataFeedClientThread = new DebugDataFeedClientThread(predictionFeedServerThread);
+		PredictionEngine predictionEngine = new PredictionEngine(predictionFeedServerThread);
+//		DebugDataFeedClientThread debugDataFeedClientThread = new DebugDataFeedClientThread(predictionEngine);
 
 		predictionFeedClientThread.addListener(display);
 		dataPlaybackThread.addListener(display);
-		dataPlaybackThread.addListener(debugDataFeedServerThread);
+//		dataPlaybackThread.addListener(debugDataFeedServerThread);
+		dataPlaybackThread.addListener(predictionEngine);
 
 		predictionFeedServerThread.start();
 		predictionFeedClientThread.start();
 
-		debugDataFeedServerThread.start();
-		debugDataFeedClientThread.start();
+//		debugDataFeedServerThread.start();
+//		debugDataFeedClientThread.start();
 
 		dataPlaybackThread.start();
 		new LwjglApplication(display, config);

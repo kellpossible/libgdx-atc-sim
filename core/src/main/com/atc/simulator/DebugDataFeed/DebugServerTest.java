@@ -1,7 +1,7 @@
 package com.atc.simulator.DebugDataFeed;
 import com.atc.simulator.Display.PredictionFeedClientThread;
 import com.atc.simulator.PredictionService.DebugDataFeedClientThread;
-import com.atc.simulator.PredictionService.PredictionEngine;
+import com.atc.simulator.PredictionService.Engine.PredictionEngine;
 import com.atc.simulator.PredictionService.PredictionFeedServerThread;
 import com.atc.simulator.flightdata.AircraftState;
 import com.atc.simulator.flightdata.SystemState;
