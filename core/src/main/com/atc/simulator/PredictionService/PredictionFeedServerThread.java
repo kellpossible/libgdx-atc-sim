@@ -61,7 +61,7 @@ public class PredictionFeedServerThread implements RunnableThread{
             connectionSocket = new ServerSocket(PORT);
         }catch(IOException e){System.out.println("PredictionFeed Server Socket error");}
         serverConnectThread = new PredictionFeedServerConnectThread(connectionSocket);
-        System.out.println("Server/ArrayList created");
+        ApplicationConfig.debugPrint("print-predictionfeedserver", "Server/ArrayList created");
     }
 
     /**
