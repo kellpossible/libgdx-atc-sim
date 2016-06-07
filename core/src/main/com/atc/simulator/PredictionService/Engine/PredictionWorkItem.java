@@ -11,15 +11,20 @@ import java.util.Comparator;
  * @author Luke Frisken
  */
 public class PredictionWorkItem implements Comparator<PredictionWorkItem>{
-    protected String aircraftID;
-    protected Track aircraftTrack;
-    protected Prediction prediction;
-    protected Calendar timeCreated;
-    protected Calendar timeStarted;
-    protected Calendar timeCompleted;
-    protected boolean started;
-    protected boolean completed;
-    protected PredictionWorker worker;
+    private String aircraftID;
+    private Track aircraftTrack;
+    private Prediction prediction;
+    private Calendar timeCreated;
+    private Calendar timeStarted;
+    private Calendar timeCompleted;
+    private boolean started;
+    private boolean completed;
+    private PredictionWorker worker;
+
+    public PredictionWorkItem()
+    {
+        this(null, null);
+    }
 
     public PredictionWorkItem(String aircraftID, Track aircraftTrack)
     {
@@ -35,13 +40,72 @@ public class PredictionWorkItem implements Comparator<PredictionWorkItem>{
 
     /**
      * Compare the priorities of two PredictionWorkItem s for the use in the
-     * PredictionEngine priority queue
+     * PredictionEngineThread priority queue
      * @param i0
      * @param i1
      * @return
      */
     @Override
     public int compare(PredictionWorkItem i0, PredictionWorkItem i1) {
-        return i0.timeCreated.compareTo(i1.timeCreated)*-1;//if it was created earlier then it should be higher
+        return i0.getTimeCreated().compareTo(i1.getTimeCreated())*-1;//if it was created earlier then it should be higher
+    }
+
+    public void startWorking(PredictionWorker worker)
+    {
+        if (timeStarted == null && worker == null)
+        {
+            timeStarted = Calendar.getInstance();
+            started = true;
+            this.worker = worker;
+        }else {
+            System.err.println("ERROR: Cannot start working on an item which is already being worked");
+        }
+    }
+
+    /**
+     * Complete the work item by providing a prediction
+     * @param prediction
+     */
+    public void complete(Prediction prediction)
+    {
+        this.prediction = prediction;
+        timeCompleted = Calendar.getInstance();
+        completed = true;
+    }
+
+    public String getAircraftID() {
+        return aircraftID;
+    }
+
+    public Calendar getTimeCreated() {
+        return timeCreated;
+    }
+
+    public Track getTrack() {
+        return aircraftTrack;
+    }
+
+    public Prediction getPrediction() {
+        return prediction;
+    }
+
+    public Calendar getTimeStarted() {
+        return timeStarted;
+    }
+
+    public Calendar getTimeCompleted() {
+        return timeCompleted;
+    }
+
+    public boolean isStarted() {
+        return started;
+    }
+
+    public boolean isCompleted() {
+        return completed;
+    }
+
+    public PredictionWorker getWorker() {
+        return worker;
     }
 }

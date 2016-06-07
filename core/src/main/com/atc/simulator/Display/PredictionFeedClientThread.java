@@ -81,7 +81,7 @@ public class PredictionFeedClientThread implements RunnableThread {
 
                 //Made a new Prediction with ID and Time
                 Prediction newPred = new Prediction(tempMes.getAircraftID(), Calendar.getInstance(), predictionPositions);
-                System.out.println("Client has received Aircraft " + newPred.getAircraftID());
+                System.out.println("PredictionFeedClient has received Aircraft " + newPred.getAircraftID());
                 notifyAllListeners(newPred);
             }catch(IOException e){System.err.println("PredictionFeedClientThread Message Parse Failed");}
             catch(NullPointerException n){;}

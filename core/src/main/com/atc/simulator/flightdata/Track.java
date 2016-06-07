@@ -23,6 +23,15 @@ public class Track extends ArrayList<AircraftState> {
     private Calendar startTime = null;
     private Calendar endTime = null;
 
+    /**
+     * Get the last/latest item in this track
+     * @return
+     */
+    public AircraftState getLatest()
+    {
+        return this.get(this.size()-1);
+    }
+
     public boolean add(AircraftState element)
     {
         if (startTime != null && endTime != null)

@@ -144,7 +144,12 @@ public abstract class SortableOrderedQueue<T extends Comparator<T>> extends Arra
      * @return
      */
     public T peek() {
-        int i = this.size() - 1;
+        int size = this.size();
+        if (size == 0)
+        {
+            return null;
+        }
+        int i = size - 1;
         return this.get(i);
     }
 

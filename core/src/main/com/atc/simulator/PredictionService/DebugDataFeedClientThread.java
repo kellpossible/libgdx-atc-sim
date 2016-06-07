@@ -1,6 +1,6 @@
 package com.atc.simulator.PredictionService;
 import com.atc.simulator.DebugDataFeed.DebugDataFeedServe;
-import com.atc.simulator.PredictionService.Engine.PredictionEngine;
+import com.atc.simulator.PredictionService.Engine.PredictionEngineThread;
 import com.atc.simulator.RunnableThread;
 import com.atc.simulator.flightdata.AircraftState;
 import com.atc.simulator.flightdata.ISO8601;
@@ -22,7 +22,7 @@ import java.io.*;
  */
 public class DebugDataFeedClientThread implements RunnableThread
 {
-    private PredictionEngine myEngine;
+    private PredictionEngineThread myEngine;
     private static int PORT = 6989;
     private Socket serversSock;
     private boolean continueThread = true;
@@ -33,7 +33,7 @@ public class DebugDataFeedClientThread implements RunnableThread
      * Constructor for DebugDataFeedClientThread
      * @param myEngine : The Engine this client has been connected and will send updates to
      */
-    public DebugDataFeedClientThread(PredictionEngine myEngine)
+    public DebugDataFeedClientThread(PredictionEngineThread myEngine)
     {
         this.myEngine = myEngine;
         try
@@ -76,7 +76,7 @@ public class DebugDataFeedClientThread implements RunnableThread
                 //Make a new System State
                 SystemState testState = new SystemState(Calendar.getInstance(), aircraftStatesReceived);
                 //Send it to the connected Engine!
-                myEngine.onSystemUpdate(testState);
+//                myEngine.onSystemUpdate(testState); //TODO: fix this
             }catch(IOException e){System.err.println("Prediction-side Debug Message Parse Failed");}//End Catch
             catch(NullPointerException n){System.out.println("Prediction-side Debug thread finishing");}
         }//End while

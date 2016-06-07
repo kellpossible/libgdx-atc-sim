@@ -4,8 +4,9 @@ import com.atc.simulator.DebugDataFeed.DataPlaybackThread;
 import com.atc.simulator.DebugDataFeed.Scenarios.ADSBRecordingScenario;
 import com.atc.simulator.DebugDataFeed.Scenarios.Scenario;
 import com.atc.simulator.Display.PredictionFeedClientThread;
-import com.atc.simulator.PredictionService.Engine.PredictionEngine;
+import com.atc.simulator.PredictionService.Engine.PredictionEngineThread;
 import com.atc.simulator.PredictionService.PredictionFeedServerThread;
+import com.atc.simulator.PredictionService.SystemStateDatabase;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.atc.simulator.Display.SimulatorDisplay;
@@ -22,18 +23,28 @@ public class DesktopLauncher {
 		DataPlaybackThread dataPlaybackThread = new DataPlaybackThread(scenario, scenario.getRecommendedUpdateRate());
 		SimulatorDisplay display =  new SimulatorDisplay(scenario);
 //		DebugDataFeedServerThread debugDataFeedServerThread = new DebugDataFeedServerThread();
+
+		SystemStateDatabase systemStateDatabase = new SystemStateDatabase();
+
+
 		PredictionFeedClientThread predictionFeedClientThread = new PredictionFeedClientThread();
 		PredictionFeedServerThread predictionFeedServerThread = new PredictionFeedServerThread();
-		PredictionEngine predictionEngine = new PredictionEngine(predictionFeedServerThread);
+
+		PredictionEngineThread predictionEngine = new PredictionEngineThread(
+				predictionFeedServerThread,
+				systemStateDatabase);
+
 //		DebugDataFeedClientThread debugDataFeedClientThread = new DebugDataFeedClientThread(predictionEngine);
 
 		predictionFeedClientThread.addListener(display);
 		dataPlaybackThread.addListener(display);
 //		dataPlaybackThread.addListener(debugDataFeedServerThread);
-		dataPlaybackThread.addListener(predictionEngine);
+		dataPlaybackThread.addListener(systemStateDatabase);
+		systemStateDatabase.addListener(predictionEngine);
 
 		predictionFeedServerThread.start();
 		predictionFeedClientThread.start();
+		predictionEngine.start();
 
 //		debugDataFeedServerThread.start();
 //		debugDataFeedClientThread.start();

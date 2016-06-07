@@ -1,10 +1,12 @@
-package com.atc.simulator.PredictionService;
+package com.atc.simulator.PredictionService.Engine;
 
-import com.atc.simulator.DebugDataFeed.DataPlaybackListener;
+import com.atc.simulator.PredictionService.PredictionFeedServerThread;
+import com.atc.simulator.PredictionService.SystemStateDatabase;
+import com.atc.simulator.PredictionService.SystemStateDatabaseListener;
 import com.atc.simulator.RunnableThread;
 import com.atc.simulator.flightdata.AircraftState;
 import com.atc.simulator.flightdata.Prediction;
-import com.atc.simulator.flightdata.SystemState;
+import com.atc.simulator.flightdata.Track;
 import com.atc.simulator.vectors.GeographicCoordinate;
 
 import java.util.ArrayList;
@@ -25,12 +27,15 @@ import java.util.ArrayList;
  *
  * MODIFIED:
  * @version 0.1, CC 29/05/16, Initial creation/beginning of a general framework
- * @author    Chris Coleman, 7191375, Luke Frisken
+ * @author    Chris Coleman, 7191375
+  * TODO: implement the PredictionEngineListener functionality
  */
-public class PredictionEngine implements RunnableThread, SystemStateDatabaseListener {
+public class PredictionEngineThread implements RunnableThread, SystemStateDatabaseListener{
+    private PredictionEngineTodoQueue todoQueue; //TODO: make this threadsafe and possibly use a seperate buffer
+    private SystemStateDatabase systemStateDatabase;
+
     //Internal settings
-    private PredictionFeedServerThread myServer;
-    private ArrayList<AircraftState> toBePredicted;
+    private PredictionFeedServerThread predictionFeedServer;
     //Thread definitions
     private boolean continueThread = true;  //Simple flag that dictates whether the Server threads will keep looping
     private Thread thread;  //Simple flag that dictates whether the Server threads will keep looping
@@ -39,22 +44,13 @@ public class PredictionEngine implements RunnableThread, SystemStateDatabaseList
 
     /**
      * Constructor, connect to the server and create a new arrayList
-     * @param serv : The server I need to connect to
+     * @param predictionFeedServer : The server I need to connect to
      */
-    public PredictionEngine(PredictionFeedServerThread serv)
+    public PredictionEngineThread(PredictionFeedServerThread predictionFeedServer, SystemStateDatabase systemStateDatabase)
     {
-        myServer = serv;
-        toBePredicted = new ArrayList<AircraftState>();
-    }
-
-    /**
-     * When the Data Client receives new data, it will call this. Putting all the new AircraftStates into the prediction buffer
-     * @param systemState : The new state of the System
-     */
-    public synchronized void onSystemUpdate(SystemState systemState)
-    {
-        for(AircraftState aState : systemState.getAircraftStates())
-            toBePredicted.add(aState);
+        this.predictionFeedServer = predictionFeedServer;
+        todoQueue = new PredictionEngineTodoQueue();
+        this.systemStateDatabase = systemStateDatabase;
     }
 
     /**
@@ -63,11 +59,11 @@ public class PredictionEngine implements RunnableThread, SystemStateDatabaseList
     public void run() {
         while (continueThread)
         {
-            if(toBePredicted.size() > 0)
-                makeNewPrediction(toBePredicted.remove(0));
-
+            if(todoQueue.peek() != null) {
+                makeNewPrediction(todoQueue.poll());
+            }
             try { //Then sleep for a bit
-                Thread.sleep(50);
+                Thread.sleep(10);
             } catch (InterruptedException i){}
         }
     }
@@ -75,8 +71,10 @@ public class PredictionEngine implements RunnableThread, SystemStateDatabaseList
     /**
      * Private method that will create a new prediction and send it to the PredictionFeedServerThread
      */
-    private synchronized void makeNewPrediction(AircraftState state)
+    private synchronized void makeNewPrediction(PredictionWorkItem workItem)
     {
+        Track aircraftTrack = workItem.getTrack();
+        AircraftState state = aircraftTrack.getLatest();
         ArrayList<GeographicCoordinate> predictionPositions = new ArrayList<GeographicCoordinate>();
         //Add the current position
         predictionPositions.add(state.getPosition());
@@ -92,7 +90,7 @@ public class PredictionEngine implements RunnableThread, SystemStateDatabaseList
         Prediction myPrediction = new Prediction(state.getAircraftID(), state.getTime(), predictionPositions);
 
         //Send the prediction to the server
-        myServer.sendPrediction(myPrediction);
+        predictionFeedServer.sendPrediction(myPrediction);
     }
 
     /**
@@ -123,8 +121,19 @@ public class PredictionEngine implements RunnableThread, SystemStateDatabaseList
         }
     }
 
+     /**
+      * Interface implementation for SystemStateDatabaseListener
+      * gets called whenever the SystemStateDatabase receives an update.
+      * @param aircraftIDs
+      */
      @Override
-     public void systemStateUpdated(String[] aircraftIDs) {
-
+     public void onSystemStateUpdate(ArrayList<String> aircraftIDs) {
+         for (String aircraftID: aircraftIDs)
+         {
+             Track aircraftTrack = systemStateDatabase.getTrack(aircraftID);
+             PredictionWorkItem workItem = new PredictionWorkItem(aircraftID, aircraftTrack);
+             //TODO: make a seperate buffer for this so it doesn't block while todoQueue is being reordered?
+             todoQueue.add(workItem); //TODO: make this an addinorder call
+         }
      }
  }

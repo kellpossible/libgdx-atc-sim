@@ -1,7 +1,7 @@
 package com.atc.simulator.PredictionService;
 
 import com.atc.simulator.Display.PredictionFeedClientThread;
-import com.atc.simulator.PredictionService.Engine.PredictionEngine;
+import com.atc.simulator.PredictionService.Engine.PredictionEngineThread;
 import com.atc.simulator.flightdata.AircraftState;
 import com.atc.simulator.flightdata.ISO8601;
 import com.atc.simulator.flightdata.SystemState;
@@ -34,16 +34,17 @@ public class PredictionFeedTest {
             //Create SystemState Test Data:
             ArrayList<AircraftState> testAStates = new ArrayList<AircraftState>();
             testAStates.add(new AircraftState("TestPlane1", ISO8601.toCalendar(ISO8601.now()), new GeographicCoordinate(0,0,0), new SphericalVelocity(1,2,3), 0.5));
-
-            SystemState testSystem = new SystemState(ISO8601.toCalendar(ISO8601.now()),testAStates);
-
+            SystemStateDatabase systemStateDatabase = new SystemStateDatabase();
             //Create Server/Client objects
             PredictionFeedServerThread testServer = new PredictionFeedServerThread();
             PredictionFeedClientThread testClient = new PredictionFeedClientThread();
-            PredictionEngine testEngine = new PredictionEngine(testServer);
+            PredictionEngineThread testEngine = new PredictionEngineThread(testServer, systemStateDatabase);
+            systemStateDatabase.addListener(testEngine);
             //Fill up the buffer a little bit
-            for(int i = 0; i<10; i++)
-            testEngine.onSystemUpdate(testSystem);
+            for (AircraftState testState : testAStates)
+            {
+                systemStateDatabase.update(testState);
+            }
             //Start the threads
             testClient.start();
             testServer.start();
@@ -51,7 +52,10 @@ public class PredictionFeedTest {
             //Send messages on every entered item, loop out on 'q' being sent
             try{
                 while(System.in.read() != 'q') {
-                    testEngine.onSystemUpdate(testSystem);
+                    for (AircraftState testState : testAStates)
+                    {
+                        systemStateDatabase.update(testState);
+                    }
                 }
             }catch(IOException i){}
 

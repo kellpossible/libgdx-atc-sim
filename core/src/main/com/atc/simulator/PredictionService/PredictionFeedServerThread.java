@@ -28,6 +28,7 @@ import java.util.concurrent.ArrayBlockingQueue;
  * MODIFIED:
  * @version 1.0, CC 30/05/16, Neatened the Connection Thread to be its own class. Added capability for multiple clients
  * @author    Chris Coleman - 7191375, Luke Frisken
+ * TODO: implement the PredictionEngineListener functionality
  */
 
 public class PredictionFeedServerThread implements RunnableThread{
@@ -115,7 +116,7 @@ public class PredictionFeedServerThread implements RunnableThread{
                                 tempMes.writeDelimitedTo(tempSocket.getOutputStream()); //Try to send message
                         }   catch (IOException e) {System.out.println("Send to Display failed");}
                             catch (InterruptedException e){System.out.println("Taking from PredictionFeedBuffer interrupted");}
-                        System.out.println("Data sent to Client");
+                        System.out.println(threadName + " Data sent to Client");
                     }
                 }
                 try {

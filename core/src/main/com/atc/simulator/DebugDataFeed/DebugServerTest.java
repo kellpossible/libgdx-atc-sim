@@ -1,8 +1,9 @@
 package com.atc.simulator.DebugDataFeed;
 import com.atc.simulator.Display.PredictionFeedClientThread;
 import com.atc.simulator.PredictionService.DebugDataFeedClientThread;
-import com.atc.simulator.PredictionService.Engine.PredictionEngine;
+import com.atc.simulator.PredictionService.Engine.PredictionEngineThread;
 import com.atc.simulator.PredictionService.PredictionFeedServerThread;
+import com.atc.simulator.PredictionService.SystemStateDatabase;
 import com.atc.simulator.flightdata.AircraftState;
 import com.atc.simulator.flightdata.SystemState;
 import com.atc.simulator.vectors.GeographicCoordinate;
@@ -34,15 +35,17 @@ public class DebugServerTest
         }
         //Make a new SystemState with the above Aircraft States array
         SystemState testState = new SystemState(Calendar.getInstance(),aircraftStateArray);
+        SystemStateDatabase systemStateDatabase = new SystemStateDatabase();
 
         // creates new servers/clients
         PredictionFeedClientThread testPredictionClient = new PredictionFeedClientThread(); //Goes first, can chill by itself
         PredictionFeedServerThread testPredictionServer = new PredictionFeedServerThread(); //Goes second, can also chill by itself
         DebugDataFeedServerThread testDataServer = new DebugDataFeedServerThread(); //Can also chill by itself
 
-        PredictionEngine testEngine = new PredictionEngine(testPredictionServer); //Must be after PredictionFeedServer
+        PredictionEngineThread testEngine = new PredictionEngineThread(
+                testPredictionServer, systemStateDatabase); //Must be after PredictionFeedServer
         DebugDataFeedClientThread testDataClient = new DebugDataFeedClientThread(testEngine); //Must be after Engine
-
+        systemStateDatabase.addListener(testEngine);
 
         //Start the threads
         testDataServer.start();
