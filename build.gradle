@@ -30,6 +30,7 @@ allprojects {
         gsonVersion = '2.6.2'
         protobufVersion = '2.6.1'
         pythagorasVersion = '1.4.1'
+        typesafeConfigVersion = '1.2.1'
     }
 
     repositories {
@@ -76,6 +77,7 @@ project(":core") {
         compile "com.samskivert:pythagoras:$pythagorasVersion"
         compile "com.google.protobuf:protobuf-java:$protobufVersion"
         compile "com.google.code.gson:gson:$gsonVersion"
+        compile "com.typesafe:config:$typesafeConfigVersion"
         testCompile "junit:junit:+"
         //compile "net.mikera:vectorz:0.61.0"
 
