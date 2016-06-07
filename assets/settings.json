@@ -5,7 +5,7 @@
     		"print-queues": true,
     		"print-debugdatafeedserver": false,
     		"print-worker": true,
-    		"print-predictionfeedserver": false,
+    		"print-predictionfeedserver": true,
     		"print-predictionfeedclient": false,
     		"print-display": false
     	}

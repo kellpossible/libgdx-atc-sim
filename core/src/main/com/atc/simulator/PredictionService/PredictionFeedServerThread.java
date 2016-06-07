@@ -113,37 +113,28 @@ public class PredictionFeedServerThread implements RunnableThread{
                 //
                 // We can always add later, a hold mechanism which tells this thread to hold on sending
                 // while a batch gets added to the tobesent buffer.
-                if (toBeSentBuffer.peek() != null)
-                {
+                try {
+                    PredictionFeedServe.AircraftPredictionMessage message = toBeSentBuffer.take();
                     if (connectedClients.size() == 0) //If nothing is connected
                     {
-                        try{
-                            toBeSentBuffer.take(); //Delete the data
-                            System.out.println("No client, data deleted");
-                        }catch (InterruptedException e){
-                            System.out.println("Taking from PredictionFeedBuffer interrupted");
+                        ApplicationConfig.debugPrint("print-predictionfeedserver",
+                                threadName + " No client connected, data not sent");
+                    } else {
+                        PredictionFeedServe.AircraftPredictionMessage tempMes = toBeSentBuffer.take();
+                        for(Socket tempSocket : connectedClients) {
+                            tempMes.writeDelimitedTo(tempSocket.getOutputStream()); //Try to send message
                         }
 
-                    }
-                    else
-                    {
-                        try
-                        {
-                            PredictionFeedServe.AircraftPredictionMessage tempMes = toBeSentBuffer.take();
-                            for(Socket tempSocket : connectedClients) {
-                                tempMes.writeDelimitedTo(tempSocket.getOutputStream()); //Try to send message
-                            }
-                        } catch (IOException e) {
-                            System.err.println("Send to Display failed");
-                        } catch (InterruptedException e){
-                                System.err.println("Taking from PredictionFeedBuffer interrupted");
-                            }
                         ApplicationConfig.debugPrint("print-predictionfeedserver", threadName + " Data sent to Client");
                     }
-                }
-                try {
-                    Thread.sleep(50);
-                } catch (InterruptedException i) {
+
+                    ApplicationConfig.debugPrint("print-queues",
+                            threadName + " toBeSentBuffer size now " + toBeSentBuffer.size());
+
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    System.err.println("Send to Display failed");
                 }
             }
         }
