@@ -34,6 +34,13 @@ import java.util.concurrent.ArrayBlockingQueue;
  */
 
 public class PredictionFeedServerThread implements RunnableThread{
+    private static final boolean enableTimer = ApplicationConfig.getInstance().getBoolean("settings.debug.worker-timer");
+    private static final boolean enableDebugPrint = ApplicationConfig.getInstance().getBoolean("settings.debug.print-predictionfeedserver");
+    private static final boolean enableDebugPrintQueues = ApplicationConfig.getInstance().getBoolean("settings.debug.print-queues");
+    private static final boolean enableDebugPrintThreading = ApplicationConfig.getInstance().getBoolean("settings.debug.print-threading");
+
+
+
     private ArrayBlockingQueue<PredictionFeedServe.AircraftPredictionMessage> toBeSentBuffer; //Buffer of encoded messages
     //Socket definitions
     static int PORT = 6789;
@@ -61,7 +68,11 @@ public class PredictionFeedServerThread implements RunnableThread{
             connectionSocket = new ServerSocket(PORT);
         }catch(IOException e){System.out.println("PredictionFeed Server Socket error");}
         serverConnectThread = new PredictionFeedServerConnectThread(connectionSocket);
-        ApplicationConfig.debugPrint("print-predictionfeedserver", "Server/ArrayList created");
+
+        if(enableDebugPrint)
+        {
+            System.out.println("Server/ArrayList created");
+        }
     }
 
     /**
@@ -72,6 +83,14 @@ public class PredictionFeedServerThread implements RunnableThread{
      */
     public synchronized void sendPrediction(Prediction newPrediction)
     {
+        long start1=0, start2=0;
+        if(enableTimer)
+        {
+            start1 = System.nanoTime();
+            // maybe add here a call to a return to remove call up time, too.
+            // Avoid optimization
+            start2 = System.nanoTime();
+        }
         PredictionFeedServe.AircraftPredictionMessage.Builder MessageBuilder = PredictionFeedServe.AircraftPredictionMessage.newBuilder(); //PredictionMessage Builder
 
         MessageBuilder.setAircraftID(newPrediction.getAircraftID()); //Add the AircraftID to the Message
@@ -87,10 +106,19 @@ public class PredictionFeedServerThread implements RunnableThread{
                             .setLongitude(temp.getLongitude())
             );
         }
-        ApplicationConfig.debugPrint(
-                "print-queues",
-                threadName + " adding to toBeSentBuffer which has a size of " + toBeSentBuffer.size());
+
+        if (enableDebugPrint)
+        {
+            System.out.println(threadName + " adding to toBeSentBuffer which has a size of " + toBeSentBuffer.size());
+        }
+
         toBeSentBuffer.add(MessageBuilder.build()); //Build message and add to buffer
+        if(enableTimer)
+        {
+            long stop = System.nanoTime();
+            long diff = stop - 2*start2 + start1;
+            System.out.println(threadName + " getTrack " + (((double) diff)/1000000.0) + " ms");
+        }
     }
 
     /**
@@ -106,18 +134,17 @@ public class PredictionFeedServerThread implements RunnableThread{
                     PredictionFeedServe.AircraftPredictionMessage message = toBeSentBuffer.take();
                     if (connectedClients.size() == 0) //If nothing is connected
                     {
-                        ApplicationConfig.debugPrint("print-predictionfeedserver",
-                                threadName + " No client connected, data not sent");
+                        if(enableDebugPrint){ System.out.println(threadName + " No client connected, data not sent"); }
+
                     } else {
                         for(Socket clientSocket : connectedClients) {
                             message.writeDelimitedTo(clientSocket.getOutputStream()); //Try to send message
                         }
 
-                        ApplicationConfig.debugPrint("print-predictionfeedserver", threadName + " Data sent to Client");
+                        if(enableDebugPrint){ System.out.println(threadName + " Data sent to Client"); }
                     }
 
-                    ApplicationConfig.debugPrint("print-queues",
-                            threadName + " toBeSentBuffer size now " + toBeSentBuffer.size());
+                    if(enableDebugPrintQueues){ System.out.println(threadName + " toBeSentBuffer size now " + toBeSentBuffer.size()); }
 
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -136,7 +163,8 @@ public class PredictionFeedServerThread implements RunnableThread{
                 }
             }catch(IOException i){System.err.println("Can't close clientSocket");}
         }
-        ApplicationConfig.debugPrint("print-threading", threadName + " killed");
+
+        if(enableDebugPrintThreading){ System.out.println(threadName + " killed"); }
     }
 
     /**
@@ -201,7 +229,7 @@ public class PredictionFeedServerThread implements RunnableThread{
             }catch(IOException e){;}
             catch (NullPointerException n){;}
             finally{
-                ApplicationConfig.debugPrint("print-threading", threadName + " killed");
+                if(enableDebugPrintThreading){ System.out.println(threadName + " killed"); }
             }
 
         }

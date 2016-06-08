@@ -84,7 +84,6 @@ public class DebugDataFeedClientThread implements RunnableThread
             }
         }//End while
         kill();
-        ApplicationConfig.debugPrint("print-threading", threadName + " killed");
     } //End run
 
     /**

@@ -1,13 +1,18 @@
 {
     "settings" : {
     	"debug" : {
-    		"print-threading": true,
-    		"print-queues": true,
+    		"print-threading": false,
+    		"print-queues": false,
     		"print-debugdatafeedserver": false,
-    		"print-worker": true,
-    		"print-predictionfeedserver": true,
-    		"print-predictionfeedclient": true,
-    		"print-display": false
+    		"print-worker": false,
+    		"print-predictionfeedserver": false,
+    		"print-predictionfeedclient": false,
+    		"print-display": false,
+        "print-algorithm": false,
+        "algorithm-timer": false,
+        "worker-timer": false,
+        "engine-timer": false,
+        "predictionfeedserver-timer": true
     	}
     }
 }

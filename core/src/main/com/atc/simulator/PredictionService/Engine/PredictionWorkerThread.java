@@ -20,6 +20,9 @@ import java.util.concurrent.ArrayBlockingQueue;
  * @author Luke Frisken
  */
 public class PredictionWorkerThread implements RunnableThread{
+    private static final boolean enableTimer = ApplicationConfig.getInstance().getBoolean("settings.debug.worker-timer");
+    private static final boolean enableDebugPrint = ApplicationConfig.getInstance().getBoolean("settings.debug.print-worker");
+
     private PredictionEngineThread predictionEngine;
     private ArrayBlockingQueue<PredictionWorkItem> todoQueue;
     private Thread thread;
@@ -58,27 +61,87 @@ public class PredictionWorkerThread implements RunnableThread{
     }
 
     /**
-     * for inducing a high load on this thread.
-     * credit: http://stackoverflow.com/questions/382113/generate-cpu-load-in-java#answer-382212
-     * @param milliseconds
-     */
-    private static void spin(int milliseconds) {
-        long sleepTime = milliseconds*1000000L; // convert to nanoseconds
-        long startTime = System.nanoTime();
-        while ((System.nanoTime() - startTime) < sleepTime) {}
-    }
-
-    /**
      * Private method that will create a new prediction and send it to the PredictionFeedServerThread
      */
     private void makeNewPrediction(PredictionWorkItem workItem)
     {
-//        spin(50);
+        long start1=0, start2=0;
+        if(enableTimer)
+        {
+            start1 = System.nanoTime();
+            // maybe add here a call to a return to remove call up time, too.
+            // Avoid optimization
+            start2 = System.nanoTime();
+        }
         Track aircraftTrack = workItem.getTrack();
+        if(enableTimer)
+        {
+            long stop = System.nanoTime();
+            long diff = stop - 2*start2 + start1;
+            System.out.println(threadName + " getTrack " + (((double) diff)/1000000.0) + " ms");
+        }
+
+
+        if(enableTimer)
+        {
+            start1 = System.nanoTime();
+            // maybe add here a call to a return to remove call up time, too.
+            // Avoid optimization
+            start2 = System.nanoTime();
+        }
         PredictionAlgorithm algorithm = PredictionAlgorithm.getInstance(workItem.getAlgorithmType());
+        if(enableTimer)
+        {
+            long stop = System.nanoTime();
+            long diff = stop - 2*start2 + start1;
+            System.out.println(threadName + " getAlgorithmInstance " + (((double) diff)/1000000.0) + " ms");
+        }
+
+
+        if(enableTimer)
+        {
+            start1 = System.nanoTime();
+            // maybe add here a call to a return to remove call up time, too.
+            // Avoid optimization
+            start2 = System.nanoTime();
+        }
         Prediction prediction = algorithm.makePrediction(aircraftTrack);
+        if(enableTimer)
+        {
+            long stop = System.nanoTime();
+            long diff = stop - 2*start2 + start1;
+            System.out.println(threadName + " makePrediction " + (((double) diff)/1000000.0) + " ms");
+        }
+
+        if(enableTimer)
+        {
+            start1 = System.nanoTime();
+            // maybe add here a call to a return to remove call up time, too.
+            // Avoid optimization
+            start2 = System.nanoTime();
+        }
         workItem.complete(prediction);
+        if(enableTimer)
+        {
+            long stop = System.nanoTime();
+            long diff = stop - 2*start2 + start1;
+            System.out.println(threadName + " workItemComplete " + (((double) diff)/1000000.0) + " ms");
+        }
+
+        if(enableTimer)
+        {
+            start1 = System.nanoTime();
+            // maybe add here a call to a return to remove call up time, too.
+            // Avoid optimization
+            start2 = System.nanoTime();
+        }
         predictionEngine.completeWorkItem(workItem);
+        if(enableTimer)
+        {
+            long stop = System.nanoTime();
+            long diff = stop - 2*start2 + start1;
+            System.out.println(threadName + " completeWorkItem " + (((double) diff)/1000000.0) + " ms");
+        }
     }
 
     /**
@@ -94,18 +157,13 @@ public class PredictionWorkerThread implements RunnableThread{
         while (continueThread)
         {
             if(!todoQueue.isEmpty()) {
-                long start1 = System.nanoTime();
-                // maybe add here a call to a return to remove call up time, too.
-                // Avoid optimization
-                long start2 = System.nanoTime();
+
                 makeNewPrediction(todoQueue.poll());
-                long stop = System.nanoTime();
-                long diff = stop - 2*start2 + start1;
-                ApplicationConfig.debugPrint("print-worker", threadName + " work time: " + (((double) diff)/1000000.0) + " ms");
-                ApplicationConfig.debugPrint("print-worker", threadName + " finished a prediction");
+
+                if(enableDebugPrint){ System.out.println(threadName + " finished a prediction"); }
             } else {
                 PredictionWorkItem newWorkItem = predictionEngine.startWorkItem(this);
-                ApplicationConfig.debugPrint("print-worker", threadName + " starting on a new work item");
+                if(enableDebugPrint){ System.out.println(threadName + " starting on a new work item"); }
                 todoQueue.add(newWorkItem);
             }
         }

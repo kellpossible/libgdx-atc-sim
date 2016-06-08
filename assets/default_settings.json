@@ -7,7 +7,12 @@
     		"print-worker": false,
     		"print-predictionfeedserver": false,
     		"print-predictionfeedclient": false,
-    		"print-display": false
+    		"print-display": false,
+        "print-algorithm": false,
+        "algorithm-timer": false,
+        "worker-timer": false,
+        "engine-timer": false,
+        "predictionfeedserver-timer": false
     	}
     }
 }

@@ -6,6 +6,7 @@ import com.atc.simulator.PredictionService.PredictionFeedServerThread;
 import com.atc.simulator.PredictionService.SystemStateDatabase;
 import com.atc.simulator.PredictionService.SystemStateDatabaseListener;
 import com.atc.simulator.RunnableThread;
+import com.atc.simulator.flightdata.Prediction;
 import com.atc.simulator.flightdata.Track;
 
 import java.util.ArrayList;
@@ -33,6 +34,9 @@ import java.util.concurrent.locks.ReentrantLock;
 * TODO: implement the PredictionEngineListener functionality
 */
 public class PredictionEngineThread implements RunnableThread, SystemStateDatabaseListener{
+    private static final boolean enableTimer = ApplicationConfig.getInstance().getBoolean("settings.debug.engine-timer");
+    private static final boolean enableDebugPrintQueues = ApplicationConfig.getInstance().getBoolean("settings.debug.print-queues");
+
     private PredictionEngineTodoQueue todoQueue; //TODO: make this threadsafe and possibly use a seperate buffer
     private SystemStateDatabase systemStateDatabase;
     private ArrayList<PredictionWorkerThread> workerPool;
@@ -100,8 +104,37 @@ public class PredictionEngineThread implements RunnableThread, SystemStateDataba
      */
     public void completeWorkItem(PredictionWorkItem workItem)
     {
-        predictionFeedServer.sendPrediction(workItem.getPrediction());
+        Prediction prediction = workItem.getPrediction();
+        long start1=0, start2=0;
+        if(enableTimer)
+        {
+            start1 = System.nanoTime();
+            // maybe add here a call to a return to remove call up time, too.
+            // Avoid optimization
+            start2 = System.nanoTime();
+        }
+        predictionFeedServer.sendPrediction(prediction);
+        if(enableTimer)
+        {
+            long stop = System.nanoTime();
+            long diff = stop - 2*start2 + start1;
+            System.out.println(threadName + " sendPrediction " + (((double) diff)/1000000.0) + " ms");
+        }
+
+        if(enableTimer)
+        {
+            start1 = System.nanoTime();
+            // maybe add here a call to a return to remove call up time, too.
+            // Avoid optimization
+            start2 = System.nanoTime();
+        }
         todoList.remove(workItem);
+        if(enableTimer)
+        {
+            long stop = System.nanoTime();
+            long diff = stop - 2*start2 + start1;
+            System.out.println(threadName + " removeWorkItemtodoList " + (((double) diff)/1000000.0) + " ms");
+        }
     }
 
     /**
@@ -209,9 +242,7 @@ public class PredictionEngineThread implements RunnableThread, SystemStateDataba
                      aircraftTrack,
                      PredictionAlgorithmType.PASSTHROUGH);
              //TODO: make a seperate buffer for this so it doesn't block while todoQueue is being reordered?
-             ApplicationConfig.debugPrint(
-                     "print-queues",
-                     threadName + " Adding to queue which has a current size of " + todoQueue.size());
+             if(enableDebugPrintQueues){System.out.println(threadName + " Adding to queue which has a current size of " + todoQueue.size());}
 
              todoQueueLock.lock();
              try {

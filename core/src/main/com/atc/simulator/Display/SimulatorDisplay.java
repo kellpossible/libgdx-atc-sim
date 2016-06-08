@@ -28,6 +28,7 @@ import java.util.Set;
 import java.util.concurrent.ArrayBlockingQueue;
 
 public class SimulatorDisplay extends ApplicationAdapter implements DataPlaybackListener, PredictionListener {
+    private static final boolean enableDebugPrint = ApplicationConfig.getInstance().getBoolean("settings.debug.print-display");
     private SpriteBatch batch;
 	private PerspectiveCamera cam;
     private Model earthTextureModel;
@@ -77,7 +78,6 @@ public class SimulatorDisplay extends ApplicationAdapter implements DataPlayback
     @Override
     public void onPredictionUpdate(Prediction prediction) {
         predictionUpdateQueue.add(prediction);
-        ApplicationConfig.debugPrint("print-display", "Holy shit, the display got data from the Engine!");
     }
 
 

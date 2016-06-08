@@ -34,16 +34,4 @@ public class ApplicationConfig {
      * can't instantiate it
      */
     private ApplicationConfig() { }
-
-    /**
-     * Print the string if the config value is set to true
-     * in settings.debug.*
-     */
-    public static void debugPrint(String property, String printString)
-    {
-        if(ApplicationConfig.getInstance().getBoolean("settings.debug."+property))
-        {
-            System.out.println(printString);
-        }
-    }
 }

@@ -35,6 +35,8 @@ import java.util.Calendar;
  * @author    Chris Coleman, 7191375
  */
 public class PredictionFeedClientThread implements RunnableThread {
+    private static final boolean enableDebugPrint = ApplicationConfig.getInstance().getBoolean("settings.debug.print-predictionfeedclient");
+
     //Socket Definitions
     private static int PORTNUMBER = 6789;
     private Socket serversSock;
@@ -88,14 +90,13 @@ public class PredictionFeedClientThread implements RunnableThread {
 
                     //Made a new Prediction with ID and Time
                     Prediction newPred = new Prediction(tempMes.getAircraftID(), Calendar.getInstance(), predictionPositions);
-                    ApplicationConfig.debugPrint(
-                            "print-predictionfeedclient",
-                            "PredictionFeedClient has received Aircraft " + newPred.getAircraftID());
+
+                    if(enableDebugPrint){ System.out.println("PredictionFeedClient has received Aircraft " + newPred.getAircraftID()); }
+
                     notifyAllListeners(newPred);
 
                     tempMes = PredictionFeedServe.AircraftPredictionMessage.parseDelimitedFrom(inputStream);
                 }
-
                 System.err.println(threadName + " possibly an empty input stream causing null value");
                 System.err.println(Arrays.toString(Thread.currentThread().getStackTrace()));
             }catch(IOException e){System.err.println(threadName + " Message Parse Failed");}

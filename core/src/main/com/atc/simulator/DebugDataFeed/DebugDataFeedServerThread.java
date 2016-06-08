@@ -18,6 +18,10 @@ import java.io.*;
  * Modified 30/05/16, Chris. Added comments for flow
  */
 public class DebugDataFeedServerThread implements RunnableThread, DataPlaybackListener {
+    private static final boolean enableDebugPrint = ApplicationConfig.getInstance().getBoolean("settings.debug.print-debugdatafeedserver");
+    private static final boolean enableDebugPrintQueues = ApplicationConfig.getInstance().getBoolean("settings.debug.print-queues");
+    private static final boolean enableDebugPrintThreading = ApplicationConfig.getInstance().getBoolean("settings.debug.print-threading");
+
     static int PORT = 6989;
 
     private ArrayList<SystemStateMessage> toBeSentBuffer;
@@ -47,15 +51,14 @@ public class DebugDataFeedServerThread implements RunnableThread, DataPlaybackLi
                     {
                         System.err.println(threadName + " Server connection error");
                     }
-                    ApplicationConfig.debugPrint(
-                            "print-debugdatafeedserver",
-                            threadName + " DebugData client connected + accept thread ended");
+
+                    if(enableDebugPrint){ System.out.println(threadName + " DebugData client connected + accept thread ended"); }
                 }
             });
         } catch (IOException e) {
             System.err.println(threadName + "Server Creation error");
         }
-        ApplicationConfig.debugPrint("print-debugdatafeedserver", threadName + " Server/ArrayList created");
+//        ApplicationConfig.debugPrint("print-debugdatafeedserver", threadName + " Server/ArrayList created");
     }
 
     /**
@@ -94,7 +97,7 @@ public class DebugDataFeedServerThread implements RunnableThread, DataPlaybackLi
                 System.err.println("DebugDataFeedServerThread Can't close ServerSocket");
             }
         }
-        ApplicationConfig.debugPrint("print-threading", threadName + "killed");
+        if(enableDebugPrintThreading){ System.out.println(threadName + " killed"); }
     }
 
 
