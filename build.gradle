@@ -11,13 +11,21 @@ task enforceVersion << {
 buildscript {
     repositories {
         mavenCentral()
+        jcenter()
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
     }
+
+    dependencies {
+        classpath "me.champeau.gradle:jmh-gradle-plugin:0.2.0"
+    }
 }
+
+
 
 allprojects {
     apply plugin: "eclipse"
     apply plugin: "idea"
+    apply plugin: "me.champeau.gradle.jmh"
 
     version = '1.0'
     ext {
@@ -31,12 +39,14 @@ allprojects {
         protobufVersion = '2.6.1'
         pythagorasVersion = '1.4.1'
         typesafeConfigVersion = '1.2.1'
+        jmhVersion = '1.12'
     }
 
     repositories {
         mavenCentral()
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
         maven { url "https://oss.sonatype.org/content/repositories/releases/" }
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
     }
 
 
@@ -78,6 +88,8 @@ project(":core") {
         compile "com.google.protobuf:protobuf-java:$protobufVersion"
         compile "com.google.code.gson:gson:$gsonVersion"
         compile "com.typesafe:config:$typesafeConfigVersion"
+        compile "org.openjdk.jmh:jmh-core:$jmhVersion"
+        compile "org.openjdk.jmh:jmh-generator-annprocess:$jmhVersion"
         testCompile "junit:junit:+"
         //compile "net.mikera:vectorz:0.61.0"
 

@@ -11,6 +11,7 @@ import com.badlogic.gdx.math.Vector3;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 /**
  * Created by luke on 7/04/16.
@@ -22,6 +23,16 @@ import java.util.Calendar;
 public class Track extends ArrayList<AircraftState> {
     private Calendar startTime = null;
     private Calendar endTime = null;
+
+    public Track()
+    {
+        super();
+    }
+
+    public Track(List<AircraftState> aircraftStates)
+    {
+        super(aircraftStates);
+    }
 
     /**
      * Get the last/latest item in this track

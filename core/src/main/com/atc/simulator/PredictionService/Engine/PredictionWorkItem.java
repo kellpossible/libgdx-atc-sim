@@ -14,25 +14,6 @@ public class PredictionWorkItem implements Comparator<PredictionWorkItem>{
     private String aircraftID;
     private Track aircraftTrack;
     private Prediction prediction;
-
-
-    /**
-     * Special note on the time tracking:
-     * These are for debugging purposes.
-     * They need to be removed for production.
-     * Each System.currentTimeMillis() call is about 16ms,
-     * which adds up to 48ms per Work Item. The impact of this can
-     * be reduced by having more workers, but the currentTimeMillis is
-     * likely to be a blocking call, so the more workers, the longer it takes.
-     *
-     * 48ms * 2000 aircraft = 32seconds to process the input from 2000 aircraft.
-     */
-    private boolean trackTime;
-    private long timeCreated;
-    private long timeStarted;
-    private long timeCompleted;
-
-
     private boolean started;
     private boolean completed;
     private PredictionWorkerThread worker;
@@ -41,14 +22,13 @@ public class PredictionWorkItem implements Comparator<PredictionWorkItem>{
 
     public PredictionWorkItem()
     {
-        this(null, null, null, false);
+        this(null, null, null);
     }
 
     public PredictionWorkItem(
             String aircraftID,
             Track aircraftTrack,
-            PredictionAlgorithmType algorithmType,
-            boolean trackTime)
+            PredictionAlgorithmType algorithmType)
     {
         this.aircraftID = aircraftID;
         this.aircraftTrack = aircraftTrack;
@@ -56,12 +36,6 @@ public class PredictionWorkItem implements Comparator<PredictionWorkItem>{
         started = false;
         completed = false;
         worker = null;
-        this.trackTime = trackTime;
-
-        if (trackTime)
-        {
-            timeCreated = System.currentTimeMillis();
-        }
 
     }
 
@@ -82,10 +56,6 @@ public class PredictionWorkItem implements Comparator<PredictionWorkItem>{
     {
         if (started == false && this.worker == null)
         {
-            if (trackTime)
-            {
-                timeStarted = System.currentTimeMillis();
-            }
             started = true;
             this.worker = worker;
         }else {
@@ -102,19 +72,12 @@ public class PredictionWorkItem implements Comparator<PredictionWorkItem>{
         this.prediction = prediction;
         completed = true;
 
-        if (trackTime)
-        {
-            timeCompleted = System.currentTimeMillis();
-        }
     }
 
     public String getAircraftID() {
         return aircraftID;
     }
 
-    public long getTimeCreated() {
-        return timeCreated;
-    }
 
     public Track getTrack() {
         return aircraftTrack;
@@ -124,13 +87,6 @@ public class PredictionWorkItem implements Comparator<PredictionWorkItem>{
         return prediction;
     }
 
-    public long getTimeStarted() {
-        return timeStarted;
-    }
-
-    public long getTimeCompleted() {
-        return timeCompleted;
-    }
 
     public boolean isStarted() {
         return started;
@@ -146,9 +102,5 @@ public class PredictionWorkItem implements Comparator<PredictionWorkItem>{
 
     public PredictionAlgorithmType getAlgorithmType() {
         return algorithmType;
-    }
-
-    public boolean isTrackingTime() {
-        return trackTime;
     }
 }

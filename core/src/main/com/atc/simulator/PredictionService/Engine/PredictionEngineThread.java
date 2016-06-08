@@ -36,6 +36,8 @@ public class PredictionEngineThread implements RunnableThread, SystemStateDataba
     private PredictionEngineTodoQueue todoQueue; //TODO: make this threadsafe and possibly use a seperate buffer
     private SystemStateDatabase systemStateDatabase;
     private ArrayList<PredictionWorkerThread> workerPool;
+    private ArrayList<PredictionWorkItem> todoList;
+    private ArrayList<PredictionWorkItem> previousTodoList;
 
     private final Lock todoQueueLock = new ReentrantLock();
     private final Condition todoQueueChangedCondition = todoQueueLock.newCondition();
@@ -47,6 +49,8 @@ public class PredictionEngineThread implements RunnableThread, SystemStateDataba
     private Thread thread;
     private final String threadName = "PredictionEngineThread";
     private int numberOfWorkers;
+    private final int todoQueueMaxSize = 500;
+    private final long maxLatency = 400;
 
 
     /**
@@ -69,6 +73,9 @@ public class PredictionEngineThread implements RunnableThread, SystemStateDataba
             workerPool.add(new PredictionWorkerThread(i, this));
         }
         this.systemStateDatabase = systemStateDatabase;
+
+        todoList = new ArrayList<PredictionWorkItem>();
+        previousTodoList = new ArrayList<PredictionWorkItem>();
     }
 
     /**
@@ -94,6 +101,7 @@ public class PredictionEngineThread implements RunnableThread, SystemStateDataba
     public void completeWorkItem(PredictionWorkItem workItem)
     {
         predictionFeedServer.sendPrediction(workItem.getPrediction());
+        todoList.remove(workItem);
     }
 
     /**
@@ -101,25 +109,46 @@ public class PredictionEngineThread implements RunnableThread, SystemStateDataba
      * to reprioritize items in the queue.
      */
     public void run() {
+        long lastTime = System.currentTimeMillis();
+        long currentTime = 0;
         while (continueThread)
         {
-            todoQueueLock.lock();
             try {
-                todoQueueChangedCondition.await();
-                if (todoQueue.size() > 500)
+                currentTime = System.currentTimeMillis();
+                if ((currentTime - lastTime) > (maxLatency-5))
                 {
-                    //replace this with a proper periodic check on each current work item
-                    //to see if it has exceeded its latency requirements
-                    System.err.println("ERROR: " + threadName + " todoQueue is exceeding maximum allowable size (500)");
+                    for (PredictionWorkItem item : todoList)
+                    {
+                        if (previousTodoList.contains(item))
+                        {
+                            System.err.println("ERROR: "
+                                    + threadName
+                                    + " item "
+                                    + item
+                                    + " is taking too long to complete (>"
+                                    + (currentTime-lastTime)
+                                    + "ms)and is exceeding latency constraints");
+                        }
+
+                        previousTodoList.clear();
+                        previousTodoList.addAll(todoList);
+                    }
                 }
 
-
-
+                if (todoQueue.size() > todoQueueMaxSize)
+                {
+                    System.err.println("ERROR: "
+                            + threadName
+                            + " todoQueue is exceeding maximum allowable size ("
+                            + todoQueueMaxSize
+                            + ")");
+                }
+                Thread.sleep(maxLatency);
             } catch (InterruptedException e) {
+                System.err.println("ERROR: Timer interrupted, ignore latency warnings");
                 e.printStackTrace();
-            } finally {
-                todoQueueLock.unlock();
             }
+            lastTime = currentTime;
 
         }
     }
@@ -178,8 +207,7 @@ public class PredictionEngineThread implements RunnableThread, SystemStateDataba
              PredictionWorkItem workItem = new PredictionWorkItem(
                      aircraftID,
                      aircraftTrack,
-                     PredictionAlgorithmType.PASSTHROUGH,
-                     false);
+                     PredictionAlgorithmType.PASSTHROUGH);
              //TODO: make a seperate buffer for this so it doesn't block while todoQueue is being reordered?
              ApplicationConfig.debugPrint(
                      "print-queues",
@@ -192,6 +220,8 @@ public class PredictionEngineThread implements RunnableThread, SystemStateDataba
              } finally {
                  todoQueueLock.unlock();
              }
+
+             todoList.add(workItem);
 
          }
      }
