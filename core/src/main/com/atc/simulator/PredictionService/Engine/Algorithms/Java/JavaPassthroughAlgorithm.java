@@ -1,4 +1,4 @@
-package com.atc.simulator.PredictionService.Engine.Algorithms;
+package com.atc.simulator.PredictionService.Engine.Algorithms.Java;
 
 import com.atc.simulator.Config.ApplicationConfig;
 import com.atc.simulator.flightdata.AircraftState;
@@ -11,7 +11,7 @@ import java.util.ArrayList;
 /**
  * Created by luke on 8/06/16.
  */
-public class PassthroughPredictionAlgorithm extends PredictionAlgorithm {
+public class JavaPassthroughAlgorithm extends JavaPredictionAlgorithm {
     private static final boolean enableTimer = ApplicationConfig.getInstance().getBoolean("settings.debug.algorithm-timer");
 
     @Override
@@ -41,7 +41,7 @@ public class PassthroughPredictionAlgorithm extends PredictionAlgorithm {
         {
             long stop = System.nanoTime();
             long diff = stop - 2*start2 + start1;
-            System.out.println("PassthroughPredictionAlgorithm work time: " + (((double) diff)/1000000.0) + " ms");
+            System.out.println("JavaPassthroughAlgorithm work time: " + (((double) diff)/1000000.0) + " ms");
         }
         return prediction;
     }

@@ -7,6 +7,10 @@ sourceSets.main.java.srcDirs = [ "src/main/" ]
 sourceSets.test.java.srcDirs = ["src/test/"]
 sourceSets.jmh.java.srcDirs = ["src/jmh/"]
 
+test {
+    workingDir = new File("../")
+}
+
 
 
 

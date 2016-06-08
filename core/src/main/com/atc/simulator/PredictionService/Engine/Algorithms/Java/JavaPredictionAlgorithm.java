@@ -1,5 +1,6 @@
-package com.atc.simulator.PredictionService.Engine.Algorithms;
+package com.atc.simulator.PredictionService.Engine.Algorithms.Java;
 
+import com.atc.simulator.PredictionService.Engine.Algorithms.PredictionAlgorithmType;
 import com.atc.simulator.flightdata.Prediction;
 import com.atc.simulator.flightdata.Track;
 
@@ -9,8 +10,8 @@ import java.util.HashMap;
  * Created by luke on 7/06/16.
  * @author Luke Frisken
  */
-public abstract class PredictionAlgorithm {
-    private static HashMap<PredictionAlgorithmType, PredictionAlgorithm> algorithmHashMap;
+public abstract class JavaPredictionAlgorithm {
+    private static HashMap<PredictionAlgorithmType, JavaPredictionAlgorithm> algorithmHashMap;
 
     /**
      * for inducing a high load on this thread.
@@ -24,11 +25,11 @@ public abstract class PredictionAlgorithm {
     }
 
     static {
-        algorithmHashMap = new HashMap<PredictionAlgorithmType, PredictionAlgorithm>();
-        algorithmHashMap.put(PredictionAlgorithmType.PASSTHROUGH, new PassthroughPredictionAlgorithm());
+        algorithmHashMap = new HashMap<PredictionAlgorithmType, JavaPredictionAlgorithm>();
+        algorithmHashMap.put(PredictionAlgorithmType.PASSTHROUGH, new JavaPassthroughAlgorithm());
     }
 
-    public static PredictionAlgorithm getInstance(PredictionAlgorithmType type)
+    public static JavaPredictionAlgorithm getInstance(PredictionAlgorithmType type)
     {
         return algorithmHashMap.get(type);
     }
