@@ -1,6 +1,7 @@
 package com.atc.simulator.PredictionService.Engine.Algorithms;
 
 import com.atc.simulator.PredictionService.Engine.Algorithms.OpenCL.OpenCLPredictionAlgorithm;
+import com.atc.simulator.PredictionService.Engine.Algorithms.OpenCL.OpenCLUtils;
 import org.junit.Test;
 import org.junit.Before;
 import org.junit.After;
@@ -25,6 +26,12 @@ public class TestOpenCL {
 
     @After
     public void after() throws Exception {
+    }
+
+    @Test
+    public void printPlatformInfoTest()
+    {
+        OpenCLUtils.printPlatformInfo();
     }
 
 
