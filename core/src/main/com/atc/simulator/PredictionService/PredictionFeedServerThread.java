@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.concurrent.ArrayBlockingQueue;
 
 /**
@@ -34,7 +35,7 @@ import java.util.concurrent.ArrayBlockingQueue;
  */
 
 public class PredictionFeedServerThread implements RunnableThread{
-    private static final boolean enableTimer = ApplicationConfig.getInstance().getBoolean("settings.debug.worker-timer");
+    private static final boolean enableTimer = ApplicationConfig.getInstance().getBoolean("settings.debug.predictionfeedserver-timer");
     private static final boolean enableDebugPrint = ApplicationConfig.getInstance().getBoolean("settings.debug.print-predictionfeedserver");
     private static final boolean enableDebugPrintQueues = ApplicationConfig.getInstance().getBoolean("settings.debug.print-queues");
     private static final boolean enableDebugPrintThreading = ApplicationConfig.getInstance().getBoolean("settings.debug.print-threading");
@@ -84,6 +85,10 @@ public class PredictionFeedServerThread implements RunnableThread{
     public synchronized void sendPrediction(Prediction newPrediction)
     {
         long start1=0, start2=0;
+        PredictionFeedServe.AircraftPredictionMessage.Builder MessageBuilder = PredictionFeedServe.AircraftPredictionMessage.newBuilder(); //PredictionMessage Builder
+
+        MessageBuilder.setAircraftID(newPrediction.getAircraftID()); //Add the AircraftID to the Message
+
         if(enableTimer)
         {
             start1 = System.nanoTime();
@@ -91,10 +96,28 @@ public class PredictionFeedServerThread implements RunnableThread{
             // Avoid optimization
             start2 = System.nanoTime();
         }
-        PredictionFeedServe.AircraftPredictionMessage.Builder MessageBuilder = PredictionFeedServe.AircraftPredictionMessage.newBuilder(); //PredictionMessage Builder
+        String time = ISO8601.fromCalendar(newPrediction.getPredictionTime());
+        if(enableTimer)
+        {
+            long stop = System.nanoTime();
+            long diff = stop - 2*start2 + start1;
+            System.out.println(threadName + " ISO8601 from calendar " + (((double) diff)/1000000.0) + " ms");
+        }
 
-        MessageBuilder.setAircraftID(newPrediction.getAircraftID()); //Add the AircraftID to the Message
-        MessageBuilder.setTime(ISO8601.fromCalendar(newPrediction.getPredictionTime())); //Set the time
+        if(enableTimer)
+        {
+            start1 = System.nanoTime();
+            // maybe add here a call to a return to remove call up time, too.
+            // Avoid optimization
+            start2 = System.nanoTime();
+        }
+        MessageBuilder.setTime(time); //Set the time
+        if(enableTimer)
+        {
+            long stop = System.nanoTime();
+            long diff = stop - 2*start2 + start1;
+            System.out.println(threadName + " message builder setTime " + (((double) diff)/1000000.0) + " ms");
+        }
 
         //Now, loop through all the positions, Build Coordinates and add them to the Message
         for(GeographicCoordinate temp : newPrediction.getPredictedPositions())
@@ -107,17 +130,40 @@ public class PredictionFeedServerThread implements RunnableThread{
             );
         }
 
+        if(enableTimer)
+        {
+            start1 = System.nanoTime();
+            // maybe add here a call to a return to remove call up time, too.
+            // Avoid optimization
+            start2 = System.nanoTime();
+        }
+        com.atc.simulator.ProtocolBuffers.PredictionFeedServe.AircraftPredictionMessage message = MessageBuilder.build();
+        if(enableTimer)
+        {
+            long stop = System.nanoTime();
+            long diff = stop - 2*start2 + start1;
+            System.out.println(threadName + " build message " + (((double) diff)/1000000.0) + " ms");
+        }
+
         if (enableDebugPrint)
         {
             System.out.println(threadName + " adding to toBeSentBuffer which has a size of " + toBeSentBuffer.size());
         }
 
-        toBeSentBuffer.add(MessageBuilder.build()); //Build message and add to buffer
+
+        if(enableTimer)
+        {
+            start1 = System.nanoTime();
+            // maybe add here a call to a return to remove call up time, too.
+            // Avoid optimization
+            start2 = System.nanoTime();
+        }
+        toBeSentBuffer.add(message); //Build message and add to buffer
         if(enableTimer)
         {
             long stop = System.nanoTime();
             long diff = stop - 2*start2 + start1;
-            System.out.println(threadName + " getTrack " + (((double) diff)/1000000.0) + " ms");
+            System.out.println(threadName + " add to toBeSentBuffer " + (((double) diff)/1000000.0) + " ms");
         }
     }
 
