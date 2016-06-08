@@ -1,7 +1,9 @@
-package com.atc.simulator.PredictionService.Engine;
+package com.atc.simulator.PredictionService.Engine.Workers;
 
 import com.atc.simulator.Config.ApplicationConfig;
 import com.atc.simulator.PredictionService.Engine.Algorithms.PredictionAlgorithm;
+import com.atc.simulator.PredictionService.Engine.PredictionEngineThread;
+import com.atc.simulator.PredictionService.Engine.PredictionWorkItem;
 import com.atc.simulator.RunnableThread;
 import com.atc.simulator.flightdata.AircraftState;
 import com.atc.simulator.flightdata.Prediction;
