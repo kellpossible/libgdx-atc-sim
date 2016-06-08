@@ -120,14 +120,14 @@ public final class PredictionFeedServe {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return PredictionFeedServe.internal_static_GeographicCoordinateMessage_descriptor;
+      return com.atc.simulator.ProtocolBuffers.PredictionFeedServe.internal_static_GeographicCoordinateMessage_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return PredictionFeedServe.internal_static_GeographicCoordinateMessage_fieldAccessorTable
+      return com.atc.simulator.ProtocolBuffers.PredictionFeedServe.internal_static_GeographicCoordinateMessage_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              PredictionFeedServe.GeographicCoordinateMessage.class, PredictionFeedServe.GeographicCoordinateMessage.Builder.class);
+              com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessage.class, com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessage.Builder.class);
     }
 
     public static com.google.protobuf.Parser<GeographicCoordinateMessage> PARSER =
@@ -263,53 +263,53 @@ public final class PredictionFeedServe {
       return super.writeReplace();
     }
 
-    public static PredictionFeedServe.GeographicCoordinateMessage parseFrom(
+    public static com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessage parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static PredictionFeedServe.GeographicCoordinateMessage parseFrom(
+    public static com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessage parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static PredictionFeedServe.GeographicCoordinateMessage parseFrom(byte[] data)
+    public static com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessage parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static PredictionFeedServe.GeographicCoordinateMessage parseFrom(
+    public static com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessage parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static PredictionFeedServe.GeographicCoordinateMessage parseFrom(java.io.InputStream input)
+    public static com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessage parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return PARSER.parseFrom(input);
     }
-    public static PredictionFeedServe.GeographicCoordinateMessage parseFrom(
+    public static com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessage parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return PARSER.parseFrom(input, extensionRegistry);
     }
-    public static PredictionFeedServe.GeographicCoordinateMessage parseDelimitedFrom(java.io.InputStream input)
+    public static com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessage parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return PARSER.parseDelimitedFrom(input);
     }
-    public static PredictionFeedServe.GeographicCoordinateMessage parseDelimitedFrom(
+    public static com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessage parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return PARSER.parseDelimitedFrom(input, extensionRegistry);
     }
-    public static PredictionFeedServe.GeographicCoordinateMessage parseFrom(
+    public static com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessage parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return PARSER.parseFrom(input);
     }
-    public static PredictionFeedServe.GeographicCoordinateMessage parseFrom(
+    public static com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessage parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -318,7 +318,7 @@ public final class PredictionFeedServe {
 
     public static Builder newBuilder() { return Builder.create(); }
     public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(PredictionFeedServe.GeographicCoordinateMessage prototype) {
+    public static Builder newBuilder(com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessage prototype) {
       return newBuilder().mergeFrom(prototype);
     }
     public Builder toBuilder() { return newBuilder(this); }
@@ -335,17 +335,17 @@ public final class PredictionFeedServe {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder> implements
         // @@protoc_insertion_point(builder_implements:GeographicCoordinateMessage)
-        PredictionFeedServe.GeographicCoordinateMessageOrBuilder {
+        com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessageOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return PredictionFeedServe.internal_static_GeographicCoordinateMessage_descriptor;
+        return com.atc.simulator.ProtocolBuffers.PredictionFeedServe.internal_static_GeographicCoordinateMessage_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return PredictionFeedServe.internal_static_GeographicCoordinateMessage_fieldAccessorTable
+        return com.atc.simulator.ProtocolBuffers.PredictionFeedServe.internal_static_GeographicCoordinateMessage_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                PredictionFeedServe.GeographicCoordinateMessage.class, PredictionFeedServe.GeographicCoordinateMessage.Builder.class);
+                com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessage.class, com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessage.Builder.class);
       }
 
       // Construct using com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessage.newBuilder()
@@ -383,23 +383,23 @@ public final class PredictionFeedServe {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return PredictionFeedServe.internal_static_GeographicCoordinateMessage_descriptor;
+        return com.atc.simulator.ProtocolBuffers.PredictionFeedServe.internal_static_GeographicCoordinateMessage_descriptor;
       }
 
-      public PredictionFeedServe.GeographicCoordinateMessage getDefaultInstanceForType() {
-        return PredictionFeedServe.GeographicCoordinateMessage.getDefaultInstance();
+      public com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessage getDefaultInstanceForType() {
+        return com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessage.getDefaultInstance();
       }
 
-      public PredictionFeedServe.GeographicCoordinateMessage build() {
-        PredictionFeedServe.GeographicCoordinateMessage result = buildPartial();
+      public com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessage build() {
+        com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessage result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public PredictionFeedServe.GeographicCoordinateMessage buildPartial() {
-        PredictionFeedServe.GeographicCoordinateMessage result = new PredictionFeedServe.GeographicCoordinateMessage(this);
+      public com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessage buildPartial() {
+        com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessage result = new com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessage(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
@@ -420,16 +420,16 @@ public final class PredictionFeedServe {
       }
 
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof PredictionFeedServe.GeographicCoordinateMessage) {
-          return mergeFrom((PredictionFeedServe.GeographicCoordinateMessage)other);
+        if (other instanceof com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessage) {
+          return mergeFrom((com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessage)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(PredictionFeedServe.GeographicCoordinateMessage other) {
-        if (other == PredictionFeedServe.GeographicCoordinateMessage.getDefaultInstance()) return this;
+      public Builder mergeFrom(com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessage other) {
+        if (other == com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessage.getDefaultInstance()) return this;
         if (other.hasAltitude()) {
           setAltitude(other.getAltitude());
         }
@@ -463,11 +463,11 @@ public final class PredictionFeedServe {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        PredictionFeedServe.GeographicCoordinateMessage parsedMessage = null;
+        com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessage parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (PredictionFeedServe.GeographicCoordinateMessage) e.getUnfinishedMessage();
+          parsedMessage = (com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessage) e.getUnfinishedMessage();
           throw e;
         } finally {
           if (parsedMessage != null) {
@@ -620,12 +620,12 @@ public final class PredictionFeedServe {
     /**
      * <code>repeated .GeographicCoordinateMessage position = 3;</code>
      */
-    java.util.List<PredictionFeedServe.GeographicCoordinateMessage>
+    java.util.List<com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessage> 
         getPositionList();
     /**
      * <code>repeated .GeographicCoordinateMessage position = 3;</code>
      */
-    PredictionFeedServe.GeographicCoordinateMessage getPosition(int index);
+    com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessage getPosition(int index);
     /**
      * <code>repeated .GeographicCoordinateMessage position = 3;</code>
      */
@@ -633,12 +633,12 @@ public final class PredictionFeedServe {
     /**
      * <code>repeated .GeographicCoordinateMessage position = 3;</code>
      */
-    java.util.List<? extends PredictionFeedServe.GeographicCoordinateMessageOrBuilder>
+    java.util.List<? extends com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessageOrBuilder> 
         getPositionOrBuilderList();
     /**
      * <code>repeated .GeographicCoordinateMessage position = 3;</code>
      */
-    PredictionFeedServe.GeographicCoordinateMessageOrBuilder getPositionOrBuilder(
+    com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessageOrBuilder getPositionOrBuilder(
         int index);
   }
   /**
@@ -707,10 +707,10 @@ public final class PredictionFeedServe {
             }
             case 26: {
               if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
-                position_ = new java.util.ArrayList<PredictionFeedServe.GeographicCoordinateMessage>();
+                position_ = new java.util.ArrayList<com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessage>();
                 mutable_bitField0_ |= 0x00000004;
               }
-              position_.add(input.readMessage(PredictionFeedServe.GeographicCoordinateMessage.PARSER, extensionRegistry));
+              position_.add(input.readMessage(com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessage.PARSER, extensionRegistry));
               break;
             }
           }
@@ -730,14 +730,14 @@ public final class PredictionFeedServe {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return PredictionFeedServe.internal_static_AircraftPredictionMessage_descriptor;
+      return com.atc.simulator.ProtocolBuffers.PredictionFeedServe.internal_static_AircraftPredictionMessage_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return PredictionFeedServe.internal_static_AircraftPredictionMessage_fieldAccessorTable
+      return com.atc.simulator.ProtocolBuffers.PredictionFeedServe.internal_static_AircraftPredictionMessage_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              PredictionFeedServe.AircraftPredictionMessage.class, PredictionFeedServe.AircraftPredictionMessage.Builder.class);
+              com.atc.simulator.ProtocolBuffers.PredictionFeedServe.AircraftPredictionMessage.class, com.atc.simulator.ProtocolBuffers.PredictionFeedServe.AircraftPredictionMessage.Builder.class);
     }
 
     public static com.google.protobuf.Parser<AircraftPredictionMessage> PARSER =
@@ -841,17 +841,17 @@ public final class PredictionFeedServe {
     }
 
     public static final int POSITION_FIELD_NUMBER = 3;
-    private java.util.List<PredictionFeedServe.GeographicCoordinateMessage> position_;
+    private java.util.List<com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessage> position_;
     /**
      * <code>repeated .GeographicCoordinateMessage position = 3;</code>
      */
-    public java.util.List<PredictionFeedServe.GeographicCoordinateMessage> getPositionList() {
+    public java.util.List<com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessage> getPositionList() {
       return position_;
     }
     /**
      * <code>repeated .GeographicCoordinateMessage position = 3;</code>
      */
-    public java.util.List<? extends PredictionFeedServe.GeographicCoordinateMessageOrBuilder>
+    public java.util.List<? extends com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessageOrBuilder> 
         getPositionOrBuilderList() {
       return position_;
     }
@@ -864,13 +864,13 @@ public final class PredictionFeedServe {
     /**
      * <code>repeated .GeographicCoordinateMessage position = 3;</code>
      */
-    public PredictionFeedServe.GeographicCoordinateMessage getPosition(int index) {
+    public com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessage getPosition(int index) {
       return position_.get(index);
     }
     /**
      * <code>repeated .GeographicCoordinateMessage position = 3;</code>
      */
-    public PredictionFeedServe.GeographicCoordinateMessageOrBuilder getPositionOrBuilder(
+    public com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessageOrBuilder getPositionOrBuilder(
         int index) {
       return position_.get(index);
     }
@@ -949,53 +949,53 @@ public final class PredictionFeedServe {
       return super.writeReplace();
     }
 
-    public static PredictionFeedServe.AircraftPredictionMessage parseFrom(
+    public static com.atc.simulator.ProtocolBuffers.PredictionFeedServe.AircraftPredictionMessage parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static PredictionFeedServe.AircraftPredictionMessage parseFrom(
+    public static com.atc.simulator.ProtocolBuffers.PredictionFeedServe.AircraftPredictionMessage parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static PredictionFeedServe.AircraftPredictionMessage parseFrom(byte[] data)
+    public static com.atc.simulator.ProtocolBuffers.PredictionFeedServe.AircraftPredictionMessage parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static PredictionFeedServe.AircraftPredictionMessage parseFrom(
+    public static com.atc.simulator.ProtocolBuffers.PredictionFeedServe.AircraftPredictionMessage parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static PredictionFeedServe.AircraftPredictionMessage parseFrom(java.io.InputStream input)
+    public static com.atc.simulator.ProtocolBuffers.PredictionFeedServe.AircraftPredictionMessage parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return PARSER.parseFrom(input);
     }
-    public static PredictionFeedServe.AircraftPredictionMessage parseFrom(
+    public static com.atc.simulator.ProtocolBuffers.PredictionFeedServe.AircraftPredictionMessage parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return PARSER.parseFrom(input, extensionRegistry);
     }
-    public static PredictionFeedServe.AircraftPredictionMessage parseDelimitedFrom(java.io.InputStream input)
+    public static com.atc.simulator.ProtocolBuffers.PredictionFeedServe.AircraftPredictionMessage parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return PARSER.parseDelimitedFrom(input);
     }
-    public static PredictionFeedServe.AircraftPredictionMessage parseDelimitedFrom(
+    public static com.atc.simulator.ProtocolBuffers.PredictionFeedServe.AircraftPredictionMessage parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return PARSER.parseDelimitedFrom(input, extensionRegistry);
     }
-    public static PredictionFeedServe.AircraftPredictionMessage parseFrom(
+    public static com.atc.simulator.ProtocolBuffers.PredictionFeedServe.AircraftPredictionMessage parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return PARSER.parseFrom(input);
     }
-    public static PredictionFeedServe.AircraftPredictionMessage parseFrom(
+    public static com.atc.simulator.ProtocolBuffers.PredictionFeedServe.AircraftPredictionMessage parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -1004,7 +1004,7 @@ public final class PredictionFeedServe {
 
     public static Builder newBuilder() { return Builder.create(); }
     public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(PredictionFeedServe.AircraftPredictionMessage prototype) {
+    public static Builder newBuilder(com.atc.simulator.ProtocolBuffers.PredictionFeedServe.AircraftPredictionMessage prototype) {
       return newBuilder().mergeFrom(prototype);
     }
     public Builder toBuilder() { return newBuilder(this); }
@@ -1021,17 +1021,17 @@ public final class PredictionFeedServe {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder> implements
         // @@protoc_insertion_point(builder_implements:AircraftPredictionMessage)
-        PredictionFeedServe.AircraftPredictionMessageOrBuilder {
+        com.atc.simulator.ProtocolBuffers.PredictionFeedServe.AircraftPredictionMessageOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return PredictionFeedServe.internal_static_AircraftPredictionMessage_descriptor;
+        return com.atc.simulator.ProtocolBuffers.PredictionFeedServe.internal_static_AircraftPredictionMessage_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return PredictionFeedServe.internal_static_AircraftPredictionMessage_fieldAccessorTable
+        return com.atc.simulator.ProtocolBuffers.PredictionFeedServe.internal_static_AircraftPredictionMessage_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                PredictionFeedServe.AircraftPredictionMessage.class, PredictionFeedServe.AircraftPredictionMessage.Builder.class);
+                com.atc.simulator.ProtocolBuffers.PredictionFeedServe.AircraftPredictionMessage.class, com.atc.simulator.ProtocolBuffers.PredictionFeedServe.AircraftPredictionMessage.Builder.class);
       }
 
       // Construct using com.atc.simulator.ProtocolBuffers.PredictionFeedServe.AircraftPredictionMessage.newBuilder()
@@ -1074,23 +1074,23 @@ public final class PredictionFeedServe {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return PredictionFeedServe.internal_static_AircraftPredictionMessage_descriptor;
+        return com.atc.simulator.ProtocolBuffers.PredictionFeedServe.internal_static_AircraftPredictionMessage_descriptor;
       }
 
-      public PredictionFeedServe.AircraftPredictionMessage getDefaultInstanceForType() {
-        return PredictionFeedServe.AircraftPredictionMessage.getDefaultInstance();
+      public com.atc.simulator.ProtocolBuffers.PredictionFeedServe.AircraftPredictionMessage getDefaultInstanceForType() {
+        return com.atc.simulator.ProtocolBuffers.PredictionFeedServe.AircraftPredictionMessage.getDefaultInstance();
       }
 
-      public PredictionFeedServe.AircraftPredictionMessage build() {
-        PredictionFeedServe.AircraftPredictionMessage result = buildPartial();
+      public com.atc.simulator.ProtocolBuffers.PredictionFeedServe.AircraftPredictionMessage build() {
+        com.atc.simulator.ProtocolBuffers.PredictionFeedServe.AircraftPredictionMessage result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public PredictionFeedServe.AircraftPredictionMessage buildPartial() {
-        PredictionFeedServe.AircraftPredictionMessage result = new PredictionFeedServe.AircraftPredictionMessage(this);
+      public com.atc.simulator.ProtocolBuffers.PredictionFeedServe.AircraftPredictionMessage buildPartial() {
+        com.atc.simulator.ProtocolBuffers.PredictionFeedServe.AircraftPredictionMessage result = new com.atc.simulator.ProtocolBuffers.PredictionFeedServe.AircraftPredictionMessage(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
@@ -1116,16 +1116,16 @@ public final class PredictionFeedServe {
       }
 
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof PredictionFeedServe.AircraftPredictionMessage) {
-          return mergeFrom((PredictionFeedServe.AircraftPredictionMessage)other);
+        if (other instanceof com.atc.simulator.ProtocolBuffers.PredictionFeedServe.AircraftPredictionMessage) {
+          return mergeFrom((com.atc.simulator.ProtocolBuffers.PredictionFeedServe.AircraftPredictionMessage)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(PredictionFeedServe.AircraftPredictionMessage other) {
-        if (other == PredictionFeedServe.AircraftPredictionMessage.getDefaultInstance()) return this;
+      public Builder mergeFrom(com.atc.simulator.ProtocolBuffers.PredictionFeedServe.AircraftPredictionMessage other) {
+        if (other == com.atc.simulator.ProtocolBuffers.PredictionFeedServe.AircraftPredictionMessage.getDefaultInstance()) return this;
         if (other.hasAircraftID()) {
           bitField0_ |= 0x00000001;
           aircraftID_ = other.aircraftID_;
@@ -1188,11 +1188,11 @@ public final class PredictionFeedServe {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        PredictionFeedServe.AircraftPredictionMessage parsedMessage = null;
+        com.atc.simulator.ProtocolBuffers.PredictionFeedServe.AircraftPredictionMessage parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (PredictionFeedServe.AircraftPredictionMessage) e.getUnfinishedMessage();
+          parsedMessage = (com.atc.simulator.ProtocolBuffers.PredictionFeedServe.AircraftPredictionMessage) e.getUnfinishedMessage();
           throw e;
         } finally {
           if (parsedMessage != null) {
@@ -1355,22 +1355,22 @@ public final class PredictionFeedServe {
         return this;
       }
 
-      private java.util.List<PredictionFeedServe.GeographicCoordinateMessage> position_ =
+      private java.util.List<com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessage> position_ =
         java.util.Collections.emptyList();
       private void ensurePositionIsMutable() {
         if (!((bitField0_ & 0x00000004) == 0x00000004)) {
-          position_ = new java.util.ArrayList<PredictionFeedServe.GeographicCoordinateMessage>(position_);
+          position_ = new java.util.ArrayList<com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessage>(position_);
           bitField0_ |= 0x00000004;
          }
       }
 
       private com.google.protobuf.RepeatedFieldBuilder<
-          PredictionFeedServe.GeographicCoordinateMessage, PredictionFeedServe.GeographicCoordinateMessage.Builder, PredictionFeedServe.GeographicCoordinateMessageOrBuilder> positionBuilder_;
+          com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessage, com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessage.Builder, com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessageOrBuilder> positionBuilder_;
 
       /**
        * <code>repeated .GeographicCoordinateMessage position = 3;</code>
        */
-      public java.util.List<PredictionFeedServe.GeographicCoordinateMessage> getPositionList() {
+      public java.util.List<com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessage> getPositionList() {
         if (positionBuilder_ == null) {
           return java.util.Collections.unmodifiableList(position_);
         } else {
@@ -1390,7 +1390,7 @@ public final class PredictionFeedServe {
       /**
        * <code>repeated .GeographicCoordinateMessage position = 3;</code>
        */
-      public PredictionFeedServe.GeographicCoordinateMessage getPosition(int index) {
+      public com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessage getPosition(int index) {
         if (positionBuilder_ == null) {
           return position_.get(index);
         } else {
@@ -1401,7 +1401,7 @@ public final class PredictionFeedServe {
        * <code>repeated .GeographicCoordinateMessage position = 3;</code>
        */
       public Builder setPosition(
-          int index, PredictionFeedServe.GeographicCoordinateMessage value) {
+          int index, com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessage value) {
         if (positionBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -1418,7 +1418,7 @@ public final class PredictionFeedServe {
        * <code>repeated .GeographicCoordinateMessage position = 3;</code>
        */
       public Builder setPosition(
-          int index, PredictionFeedServe.GeographicCoordinateMessage.Builder builderForValue) {
+          int index, com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessage.Builder builderForValue) {
         if (positionBuilder_ == null) {
           ensurePositionIsMutable();
           position_.set(index, builderForValue.build());
@@ -1431,7 +1431,7 @@ public final class PredictionFeedServe {
       /**
        * <code>repeated .GeographicCoordinateMessage position = 3;</code>
        */
-      public Builder addPosition(PredictionFeedServe.GeographicCoordinateMessage value) {
+      public Builder addPosition(com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessage value) {
         if (positionBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -1448,7 +1448,7 @@ public final class PredictionFeedServe {
        * <code>repeated .GeographicCoordinateMessage position = 3;</code>
        */
       public Builder addPosition(
-          int index, PredictionFeedServe.GeographicCoordinateMessage value) {
+          int index, com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessage value) {
         if (positionBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -1465,7 +1465,7 @@ public final class PredictionFeedServe {
        * <code>repeated .GeographicCoordinateMessage position = 3;</code>
        */
       public Builder addPosition(
-          PredictionFeedServe.GeographicCoordinateMessage.Builder builderForValue) {
+          com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessage.Builder builderForValue) {
         if (positionBuilder_ == null) {
           ensurePositionIsMutable();
           position_.add(builderForValue.build());
@@ -1479,7 +1479,7 @@ public final class PredictionFeedServe {
        * <code>repeated .GeographicCoordinateMessage position = 3;</code>
        */
       public Builder addPosition(
-          int index, PredictionFeedServe.GeographicCoordinateMessage.Builder builderForValue) {
+          int index, com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessage.Builder builderForValue) {
         if (positionBuilder_ == null) {
           ensurePositionIsMutable();
           position_.add(index, builderForValue.build());
@@ -1493,7 +1493,7 @@ public final class PredictionFeedServe {
        * <code>repeated .GeographicCoordinateMessage position = 3;</code>
        */
       public Builder addAllPosition(
-          java.lang.Iterable<? extends PredictionFeedServe.GeographicCoordinateMessage> values) {
+          java.lang.Iterable<? extends com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessage> values) {
         if (positionBuilder_ == null) {
           ensurePositionIsMutable();
           com.google.protobuf.AbstractMessageLite.Builder.addAll(
@@ -1533,14 +1533,14 @@ public final class PredictionFeedServe {
       /**
        * <code>repeated .GeographicCoordinateMessage position = 3;</code>
        */
-      public PredictionFeedServe.GeographicCoordinateMessage.Builder getPositionBuilder(
+      public com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessage.Builder getPositionBuilder(
           int index) {
         return getPositionFieldBuilder().getBuilder(index);
       }
       /**
        * <code>repeated .GeographicCoordinateMessage position = 3;</code>
        */
-      public PredictionFeedServe.GeographicCoordinateMessageOrBuilder getPositionOrBuilder(
+      public com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessageOrBuilder getPositionOrBuilder(
           int index) {
         if (positionBuilder_ == null) {
           return position_.get(index);  } else {
@@ -1550,7 +1550,7 @@ public final class PredictionFeedServe {
       /**
        * <code>repeated .GeographicCoordinateMessage position = 3;</code>
        */
-      public java.util.List<? extends PredictionFeedServe.GeographicCoordinateMessageOrBuilder>
+      public java.util.List<? extends com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessageOrBuilder> 
            getPositionOrBuilderList() {
         if (positionBuilder_ != null) {
           return positionBuilder_.getMessageOrBuilderList();
@@ -1561,31 +1561,31 @@ public final class PredictionFeedServe {
       /**
        * <code>repeated .GeographicCoordinateMessage position = 3;</code>
        */
-      public PredictionFeedServe.GeographicCoordinateMessage.Builder addPositionBuilder() {
+      public com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessage.Builder addPositionBuilder() {
         return getPositionFieldBuilder().addBuilder(
-            PredictionFeedServe.GeographicCoordinateMessage.getDefaultInstance());
+            com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessage.getDefaultInstance());
       }
       /**
        * <code>repeated .GeographicCoordinateMessage position = 3;</code>
        */
-      public PredictionFeedServe.GeographicCoordinateMessage.Builder addPositionBuilder(
+      public com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessage.Builder addPositionBuilder(
           int index) {
         return getPositionFieldBuilder().addBuilder(
-            index, PredictionFeedServe.GeographicCoordinateMessage.getDefaultInstance());
+            index, com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessage.getDefaultInstance());
       }
       /**
        * <code>repeated .GeographicCoordinateMessage position = 3;</code>
        */
-      public java.util.List<PredictionFeedServe.GeographicCoordinateMessage.Builder>
+      public java.util.List<com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessage.Builder> 
            getPositionBuilderList() {
         return getPositionFieldBuilder().getBuilderList();
       }
       private com.google.protobuf.RepeatedFieldBuilder<
-          PredictionFeedServe.GeographicCoordinateMessage, PredictionFeedServe.GeographicCoordinateMessage.Builder, PredictionFeedServe.GeographicCoordinateMessageOrBuilder>
+          com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessage, com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessage.Builder, com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessageOrBuilder> 
           getPositionFieldBuilder() {
         if (positionBuilder_ == null) {
           positionBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
-              PredictionFeedServe.GeographicCoordinateMessage, PredictionFeedServe.GeographicCoordinateMessage.Builder, PredictionFeedServe.GeographicCoordinateMessageOrBuilder>(
+              com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessage, com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessage.Builder, com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessageOrBuilder>(
                   position_,
                   ((bitField0_ & 0x00000004) == 0x00000004),
                   getParentForChildren(),
@@ -1630,9 +1630,9 @@ public final class PredictionFeedServe {
       "e\030\001 \002(\001\022\020\n\010latitude\030\002 \002(\001\022\021\n\tlongitude\030\003" +
       " \002(\001\"m\n\031AircraftPredictionMessage\022\022\n\nair" +
       "craftID\030\001 \002(\t\022\014\n\004time\030\002 \002(\t\022.\n\010position\030" +
-      "\003 \003(\0132\034.GeographicCoordinateMessageB:\n#c" +
-      "om.atc.simulator.PredictionServiceB\023Pred" +
-      "ictionFeedServe"
+      "\003 \003(\0132\034.GeographicCoordinateMessageB8\n!c" +
+      "om.atc.simulator.ProtocolBuffersB\023Predic" +
+      "tionFeedServe"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
