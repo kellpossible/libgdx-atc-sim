@@ -1,11 +1,17 @@
 package com.atc.simulator.PredictionService.Engine.Algorithms.OpenCL;
 
+import com.atc.simulator.PredictionService.Engine.PredictionWorkItem;
+import com.atc.simulator.flightdata.AircraftState;
+import com.atc.simulator.flightdata.Track;
 import org.jocl.*;
+import pythagoras.d.Vector3;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Calendar;
+import java.util.List;
 
 import static org.jocl.CL.*;
 import static org.jocl.CL.clReleaseProgram;
@@ -20,16 +26,29 @@ public class OpenCLPredictionAlgorithm {
     private cl_command_queue commandQueue;
     private cl_mem memObjects[]; //memory objects for the input- and output data
 
-    //position + velocity
-    private static final int SRC_ITEM_FLOATS = 1;
-    //time + itemID
-    private static final int SRC_ITEM_INTS = 1;
+    private static final int N_TRACK = 20;
+    private static final int N_PREDICTIONS = 20;
 
-    //position
-    private static final int DST_ITEM_FLOATS = 1;
+    //(position + velocity) * N_TRACK
+    private static final int SRC_ITEM_FLOATS_SIZE = (3 + 3);
+    private static final int SRC_ITEM_FLOATS = SRC_ITEM_FLOATS_SIZE * N_TRACK;
 
-    //time
-    private static final int DST_ITEM_INTS = 1;
+    //itemID
+    private static final int SRC_ITEM_INTS_SIZE = 1;
+    private static final int SRC_ITEM_INTS = SRC_ITEM_INTS_SIZE;
+
+    //(time*N_TRACK)
+    private static final int SRC_ITEM_LONGS_SIZE = 1;
+    private static final int SRC_ITEM_LONGS = SRC_ITEM_LONGS_SIZE * N_TRACK;
+
+    //position * N_PREDICTIONS
+    private static final int DST_ITEM_FLOATS_SIZE = 3;
+    private static final int DST_ITEM_FLOATS = DST_ITEM_FLOATS_SIZE * N_PREDICTIONS;
+
+    //time * N_PREDICTIONS
+    private static final int DST_ITEM_LONGS_SIZE = 1;
+    private static final int DST_ITEM_LONGS = DST_ITEM_LONGS_SIZE * N_PREDICTIONS;
+
 
     /**
      * The source code of the OpenCL program to execute
@@ -46,50 +65,73 @@ public class OpenCLPredictionAlgorithm {
         built = false;
         contextCreated = false;
         argumentsSet = false;
-        memObjects = new cl_mem[4];
+        memObjects = new cl_mem[5];
     }
 
-    public void run()
+    public void run(List<PredictionWorkItem> workItemList)
     {
         // Create input- and output data
-        int n = 10;
+        int n = workItemList.size();
+
         float[] srcFloats = new float[n*SRC_ITEM_FLOATS];
         int[] srcInts = new int[n*SRC_ITEM_INTS];
+        long[] srcLongs = new long[n*SRC_ITEM_LONGS];
         float[] dstFloats = new float[n*DST_ITEM_FLOATS];
-        int[] dstInts = new int[n*DST_ITEM_INTS];
+        long[] dstLongs = new long[n*DST_ITEM_LONGS];
 
-        for (int i=0; i<n; i++)
+
+        for(int k = 0; k < n; k++)
         {
-            srcFloats[i] = i;
-            srcInts[i] = i;
+            PredictionWorkItem workItem = workItemList.get(k);
+            Track track = workItem.getTrack();
+            int trackLength = track.size();
+            int subTrackLength = Math.min(trackLength, N_TRACK);
+
+            srcInts[k*SRC_ITEM_INTS] = workItem.getAircraftID().hashCode();
+
+            int j = 0;
+            for (int i=trackLength-subTrackLength; i<trackLength; i++)
+            {
+                AircraftState state = track.get(i);
+                srcLongs[(k*SRC_ITEM_LONGS) + j*SRC_ITEM_INTS_SIZE] = state.getTime().getTimeInMillis();
+
+                int floatsIndex = (k*SRC_ITEM_FLOATS) + j*SRC_ITEM_FLOATS_SIZE;
+                Vector3 position = state.getPosition();
+                Vector3 velocity = state.getVelocity();
+                srcFloats[floatsIndex + 0] = (float)position.x;
+                srcFloats[floatsIndex + 1] = (float)position.y;
+                srcFloats[floatsIndex + 2] = (float)position.z;
+                srcFloats[floatsIndex + 3] = (float)velocity.x;
+                srcFloats[floatsIndex + 4] = (float)velocity.y;
+                srcFloats[floatsIndex + 5] = (float)velocity.z;
+
+                j++;
+            }
+            k++;
         }
-        
+
         createContext(0, CL_DEVICE_TYPE_ALL, 0);
         buildKernel();
-        setKernelArguments(n, srcFloats, srcInts);
-        executeKernel(n, dstFloats, dstInts);
+        setKernelArguments(n, srcFloats, srcInts, srcLongs);
+        executeKernel(n, dstFloats, dstLongs);
 
 
-
-        // Verify the result
-        boolean passed = true;
-        final float epsilon = 1e-7f;
-        for (int i=0; i<n; i++)
+        for(int k=0; k<n; k++)
         {
-            float x = dstFloats[i];
-            float y = srcFloats[i] * srcInts[i];
-            boolean epsilonEqual = Math.abs(x - y) <= epsilon * Math.abs(x);
-            if (!epsilonEqual)
+            System.out.println("Prediction: " + k);
+            int dstItemLongsItemIndex = k * DST_ITEM_LONGS;
+            int dstItemFloatsItemIndex = k * DST_ITEM_FLOATS;
+            for(int i=0; i<N_PREDICTIONS; i++)
             {
-                passed = false;
-                break;
+                long time = dstLongs[dstItemLongsItemIndex + i];
+                int floatsIndex = dstItemFloatsItemIndex + (i * DST_ITEM_FLOATS_SIZE);
+                Vector3 position = new Vector3(
+                        (double)dstFloats[floatsIndex+0],
+                        (double)dstFloats[floatsIndex+1],
+                        (double)dstFloats[floatsIndex+2]
+                        );
+                System.out.println("time: " + time + " position: " + position);
             }
-        }
-
-        System.out.println("Test "+(passed?"PASSED":"FAILED"));
-        if (n <= 10)
-        {
-            System.out.println("Result: "+java.util.Arrays.toString(dstFloats));
         }
 
         release();
@@ -174,11 +216,12 @@ public class OpenCLPredictionAlgorithm {
 
     }
 
-    private void setKernelArguments(int n, float[] srcFloats, int[] srcInts)
+    private void setKernelArguments(int n, float[] srcFloats, int[] srcInts, long[] srcLongs)
     {
         if(contextCreated && built) {
             Pointer srcFloatsPtr = Pointer.to(srcFloats);
             Pointer srcIntsPtr = Pointer.to(srcInts);
+            Pointer srcLongsPtr = Pointer.to(srcLongs);
 
             // Allocate the memory objects for the input- and output data
             memObjects[0] = clCreateBuffer(context,
@@ -188,11 +231,14 @@ public class OpenCLPredictionAlgorithm {
                     CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR,
                     Sizeof.cl_int * SRC_ITEM_INTS * n, srcIntsPtr, null);
             memObjects[2] = clCreateBuffer(context,
-                    CL_MEM_READ_WRITE,
-                    Sizeof.cl_float * DST_ITEM_FLOATS * n, null, null);
+                    CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR,
+                    Sizeof.cl_long * SRC_ITEM_LONGS * n, srcLongsPtr, null);
             memObjects[3] = clCreateBuffer(context,
                     CL_MEM_READ_WRITE,
-                    Sizeof.cl_int * DST_ITEM_FLOATS * n, null, null);
+                    Sizeof.cl_float * DST_ITEM_FLOATS * n, null, null);
+            memObjects[4] = clCreateBuffer(context,
+                    CL_MEM_READ_WRITE,
+                    Sizeof.cl_long * DST_ITEM_LONGS * n, null, null);
 
 
             // Set the arguments for the kernel
@@ -204,6 +250,8 @@ public class OpenCLPredictionAlgorithm {
                     Sizeof.cl_mem, Pointer.to(memObjects[2]));
             clSetKernelArg(kernel, 3,
                     Sizeof.cl_mem, Pointer.to(memObjects[3]));
+            clSetKernelArg(kernel, 4,
+                    Sizeof.cl_mem, Pointer.to(memObjects[4]));
 
             argumentsSet = true;
         } else {
@@ -213,12 +261,12 @@ public class OpenCLPredictionAlgorithm {
         }
     }
 
-    private void executeKernel(int n, float[] dstFloats, int[] dstInts)
+    private void executeKernel(int n, float[] dstFloats, long[] dstLongs)
     {
         if (argumentsSet && contextCreated && built)
         {
             Pointer dstFloatsPtr = Pointer.to(dstFloats);
-            Pointer dstIntsPtr = Pointer.to(dstInts);
+            Pointer dstIntsPtr = Pointer.to(dstLongs);
 
             // Set the work-item dimensions
             long global_work_size[] = new long[]{n};
@@ -230,10 +278,10 @@ public class OpenCLPredictionAlgorithm {
 
             // Read the output data
             //TODO: figure out whether these are executing in parallel and if not, whether that would be better
-            clEnqueueReadBuffer(commandQueue, memObjects[2], CL_TRUE, 0,
-                    Sizeof.cl_float * DST_ITEM_FLOATS * n, dstFloatsPtr, 0, null, null);
             clEnqueueReadBuffer(commandQueue, memObjects[3], CL_TRUE, 0,
-                    Sizeof.cl_int * DST_ITEM_INTS * n, dstIntsPtr, 0, null, null);
+                    Sizeof.cl_float * DST_ITEM_FLOATS * n, dstFloatsPtr, 0, null, null);
+            clEnqueueReadBuffer(commandQueue, memObjects[4], CL_TRUE, 0,
+                    Sizeof.cl_int * DST_ITEM_LONGS * n, dstIntsPtr, 0, null, null);
 
 
         } else {
