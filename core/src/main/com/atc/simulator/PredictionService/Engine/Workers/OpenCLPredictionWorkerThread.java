@@ -12,7 +12,7 @@ public class OpenCLPredictionWorkerThread extends PredictionWorkerThread{
         threadName = "OpenCLPredictionWorkerThread " + workerID;
     }
 
-    private void makeNewPrediction(PredictionWorkItem workItme)
+    private void makeNewPrediction(PredictionWorkItem workItem)
     {
 
     }

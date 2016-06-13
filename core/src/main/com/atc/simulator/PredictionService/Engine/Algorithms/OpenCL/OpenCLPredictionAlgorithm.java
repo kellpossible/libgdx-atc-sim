@@ -19,6 +19,18 @@ public class OpenCLPredictionAlgorithm {
     private cl_context context;
     private cl_command_queue commandQueue;
     private cl_mem memObjects[]; //memory objects for the input- and output data
+
+    //position + velocity
+    private static final int SRC_ITEM_FLOATS = 1;
+    //time + itemID
+    private static final int SRC_ITEM_INTS = 1;
+
+    //position
+    private static final int DST_ITEM_FLOATS = 1;
+
+    //time
+    private static final int DST_ITEM_INTS = 1;
+
     /**
      * The source code of the OpenCL program to execute
      */
@@ -34,27 +46,28 @@ public class OpenCLPredictionAlgorithm {
         built = false;
         contextCreated = false;
         argumentsSet = false;
-        memObjects = new cl_mem[3];
+        memObjects = new cl_mem[4];
     }
 
     public void run()
     {
         // Create input- and output data
         int n = 10;
-        float srcArrayA[] = new float[n];
-        float srcArrayB[] = new float[n];
-        float dstArray[] = new float[n];
+        float[] srcFloats = new float[n*SRC_ITEM_FLOATS];
+        int[] srcInts = new int[n*SRC_ITEM_INTS];
+        float[] dstFloats = new float[n*DST_ITEM_FLOATS];
+        int[] dstInts = new int[n*DST_ITEM_INTS];
 
         for (int i=0; i<n; i++)
         {
-            srcArrayA[i] = i;
-            srcArrayB[i] = i;
+            srcFloats[i] = i;
+            srcInts[i] = i;
         }
         
         createContext(0, CL_DEVICE_TYPE_ALL, 0);
         buildKernel();
-        setKernelArguments(n, srcArrayA, srcArrayB);
-        executeKernel(n, dstArray);
+        setKernelArguments(n, srcFloats, srcInts);
+        executeKernel(n, dstFloats, dstInts);
 
 
 
@@ -63,8 +76,8 @@ public class OpenCLPredictionAlgorithm {
         final float epsilon = 1e-7f;
         for (int i=0; i<n; i++)
         {
-            float x = dstArray[i];
-            float y = srcArrayA[i] * srcArrayB[i];
+            float x = dstFloats[i];
+            float y = srcFloats[i] * srcInts[i];
             boolean epsilonEqual = Math.abs(x - y) <= epsilon * Math.abs(x);
             if (!epsilonEqual)
             {
@@ -76,7 +89,7 @@ public class OpenCLPredictionAlgorithm {
         System.out.println("Test "+(passed?"PASSED":"FAILED"));
         if (n <= 10)
         {
-            System.out.println("Result: "+java.util.Arrays.toString(dstArray));
+            System.out.println("Result: "+java.util.Arrays.toString(dstFloats));
         }
 
         release();
@@ -161,22 +174,26 @@ public class OpenCLPredictionAlgorithm {
 
     }
 
-    private void setKernelArguments(int n, float[] srcArrayA, float[] srcArrayB)
+    private void setKernelArguments(int n, float[] srcFloats, int[] srcInts)
     {
         if(contextCreated && built) {
-            Pointer srcA = Pointer.to(srcArrayA);
-            Pointer srcB = Pointer.to(srcArrayB);
+            Pointer srcFloatsPtr = Pointer.to(srcFloats);
+            Pointer srcIntsPtr = Pointer.to(srcInts);
 
             // Allocate the memory objects for the input- and output data
             memObjects[0] = clCreateBuffer(context,
                     CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR,
-                    Sizeof.cl_float * n, srcA, null);
+                    Sizeof.cl_float * SRC_ITEM_FLOATS * n, srcFloatsPtr, null);
             memObjects[1] = clCreateBuffer(context,
                     CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR,
-                    Sizeof.cl_float * n, srcB, null);
+                    Sizeof.cl_int * SRC_ITEM_INTS * n, srcIntsPtr, null);
             memObjects[2] = clCreateBuffer(context,
                     CL_MEM_READ_WRITE,
-                    Sizeof.cl_float * n, null, null);
+                    Sizeof.cl_float * DST_ITEM_FLOATS * n, null, null);
+            memObjects[3] = clCreateBuffer(context,
+                    CL_MEM_READ_WRITE,
+                    Sizeof.cl_int * DST_ITEM_FLOATS * n, null, null);
+
 
             // Set the arguments for the kernel
             clSetKernelArg(kernel, 0,
@@ -185,6 +202,8 @@ public class OpenCLPredictionAlgorithm {
                     Sizeof.cl_mem, Pointer.to(memObjects[1]));
             clSetKernelArg(kernel, 2,
                     Sizeof.cl_mem, Pointer.to(memObjects[2]));
+            clSetKernelArg(kernel, 3,
+                    Sizeof.cl_mem, Pointer.to(memObjects[3]));
 
             argumentsSet = true;
         } else {
@@ -194,11 +213,12 @@ public class OpenCLPredictionAlgorithm {
         }
     }
 
-    private void executeKernel(int n, float[] dstArray)
+    private void executeKernel(int n, float[] dstFloats, int[] dstInts)
     {
         if (argumentsSet && contextCreated && built)
         {
-            Pointer dst = Pointer.to(dstArray);
+            Pointer dstFloatsPtr = Pointer.to(dstFloats);
+            Pointer dstIntsPtr = Pointer.to(dstInts);
 
             // Set the work-item dimensions
             long global_work_size[] = new long[]{n};
@@ -209,8 +229,13 @@ public class OpenCLPredictionAlgorithm {
                     global_work_size, local_work_size, 0, null, null);
 
             // Read the output data
+            //TODO: figure out whether these are executing in parallel and if not, whether that would be better
             clEnqueueReadBuffer(commandQueue, memObjects[2], CL_TRUE, 0,
-                    n * Sizeof.cl_float, dst, 0, null, null);
+                    Sizeof.cl_float * DST_ITEM_FLOATS * n, dstFloatsPtr, 0, null, null);
+            clEnqueueReadBuffer(commandQueue, memObjects[3], CL_TRUE, 0,
+                    Sizeof.cl_int * DST_ITEM_INTS * n, dstIntsPtr, 0, null, null);
+
+
         } else {
             System.err.println(
                     "You need to create the context, build the " +
