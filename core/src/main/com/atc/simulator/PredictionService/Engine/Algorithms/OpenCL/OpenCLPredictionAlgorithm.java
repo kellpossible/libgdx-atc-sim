@@ -1,5 +1,6 @@
 package com.atc.simulator.PredictionService.Engine.Algorithms.OpenCL;
 
+import com.atc.simulator.Config.ApplicationConfig;
 import com.atc.simulator.PredictionService.Engine.PredictionWorkItem;
 import com.atc.simulator.flightdata.AircraftState;
 import com.atc.simulator.flightdata.Track;
@@ -20,6 +21,7 @@ import static org.jocl.CL.clReleaseProgram;
  * @author Luke Frisken
  */
 public class OpenCLPredictionAlgorithm {
+    private static final boolean enableTimer = ApplicationConfig.getInstance().getBoolean("settings.debug.algorithm-timer");
     private cl_kernel kernel;
     private cl_program program;
     private cl_context context;
@@ -70,6 +72,7 @@ public class OpenCLPredictionAlgorithm {
 
     public void run(List<PredictionWorkItem> workItemList)
     {
+        long start1=0, start2=0;
         // Create input- and output data
         int n = workItemList.size();
 
@@ -110,11 +113,93 @@ public class OpenCLPredictionAlgorithm {
             k++;
         }
 
+        if(enableTimer)
+        {
+            start1 = System.nanoTime();
+            // maybe add here a call to a return to remove call up time, too.
+            // Avoid optimization
+            start2 = System.nanoTime();
+        }
         createContext(0, CL_DEVICE_TYPE_ALL, 0);
         buildKernel();
-        setKernelArguments(n, srcFloats, srcInts, srcLongs);
-        executeKernel(n, dstFloats, dstLongs);
+        if(enableTimer)
+        {
+            long stop = System.nanoTime();
+            long diff = stop - 2*start2 + start1;
+            System.out.println("OpenCLPredictionAlgorithm setup time: " + (((double) diff)/1000000.0) + " ms");
+        }
 
+        if(enableTimer)
+        {
+            start1 = System.nanoTime();
+            // maybe add here a call to a return to remove call up time, too.
+            // Avoid optimization
+            start2 = System.nanoTime();
+        }
+        setKernelArguments(n, srcFloats, srcInts, srcLongs);
+        if(enableTimer)
+        {
+            long stop = System.nanoTime();
+            long diff = stop - 2*start2 + start1;
+            System.out.println("OpenCLPredictionAlgorithm MemCopy time: " + (((double) diff)/1000000.0) + " ms");
+        }
+
+        if(enableTimer)
+        {
+            start1 = System.nanoTime();
+            // maybe add here a call to a return to remove call up time, too.
+            // Avoid optimization
+            start2 = System.nanoTime();
+        }
+        executeKernel(n, dstFloats, dstLongs);
+        if(enableTimer)
+        {
+            long stop = System.nanoTime();
+            long diff = stop - 2*start2 + start1;
+            System.out.println("OpenCLPredictionAlgorithm executeKernel 1 time: " + (((double) diff)/1000000.0) + " ms");
+        }
+        if(enableTimer)
+        {
+            start1 = System.nanoTime();
+            // maybe add here a call to a return to remove call up time, too.
+            // Avoid optimization
+            start2 = System.nanoTime();
+        }
+        executeKernel(n, dstFloats, dstLongs);
+        if(enableTimer)
+        {
+            long stop = System.nanoTime();
+            long diff = stop - 2*start2 + start1;
+            System.out.println("OpenCLPredictionAlgorithm executeKernel 2 time: " + (((double) diff)/1000000.0) + " ms");
+        }
+        if(enableTimer)
+        {
+            start1 = System.nanoTime();
+            // maybe add here a call to a return to remove call up time, too.
+            // Avoid optimization
+            start2 = System.nanoTime();
+        }
+        executeKernel(n, dstFloats, dstLongs);
+        if(enableTimer)
+        {
+            long stop = System.nanoTime();
+            long diff = stop - 2*start2 + start1;
+            System.out.println("OpenCLPredictionAlgorithm executeKernel 3 time: " + (((double) diff)/1000000.0) + " ms");
+        }
+        if(enableTimer)
+        {
+            start1 = System.nanoTime();
+            // maybe add here a call to a return to remove call up time, too.
+            // Avoid optimization
+            start2 = System.nanoTime();
+        }
+        executeKernel(n, dstFloats, dstLongs);
+        if(enableTimer)
+        {
+            long stop = System.nanoTime();
+            long diff = stop - 2*start2 + start1;
+            System.out.println("OpenCLPredictionAlgorithm executeKernel 4 time: " + (((double) diff)/1000000.0) + " ms");
+        }
 
         for(int k=0; k<n; k++)
         {

@@ -9,7 +9,7 @@
     		"print-predictionfeedclient": false,
     		"print-display": false,
         "print-algorithm": false,
-        "algorithm-timer": false,
+        "algorithm-timer": true,
         "worker-timer": false,
         "engine-timer": false,
         "predictionfeedserver-timer": true

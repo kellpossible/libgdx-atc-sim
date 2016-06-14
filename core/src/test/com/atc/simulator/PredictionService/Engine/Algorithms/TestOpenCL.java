@@ -49,39 +49,46 @@ public class TestOpenCL {
     {
         OpenCLPredictionAlgorithm oclA = new OpenCLPredictionAlgorithm();
 
-        Track track = new Track();
-        track.add(new AircraftState(
-                "test",
-                Calendar.getInstance(),
-                new GeographicCoordinate(new Vector3(1.11, 1.12, 1.13)),
-                new SphericalVelocity(new Vector3(1.21, 1.22, 1.23)),
-                1.31
-                ));
-        track.add(new AircraftState(
-                "test",
-                Calendar.getInstance(),
-                new GeographicCoordinate(new Vector3(2.11, 2.12, 2.13)),
-                new SphericalVelocity(new Vector3(2.21, 2.22, 2.23)),
-                2.31
-        ));
-        track.add(new AircraftState(
-                "test",
-                Calendar.getInstance(),
-                new GeographicCoordinate(new Vector3(3.11, 3.12, 3.13)),
-                new SphericalVelocity(new Vector3(3.21, 3.22, 3.23)),
-                3.31
-        ));
-        track.add(new AircraftState(
-                "test",
-                Calendar.getInstance(),
-                new GeographicCoordinate(new Vector3(4.11, 4.12, 4.13)),
-                new SphericalVelocity(new Vector3(4.21, 4.22, 4.23)),
-                4.31
-        ));
-
-        PredictionWorkItem workItem = new PredictionWorkItem("test", track, PredictionAlgorithmType.PASSTHROUGH);
         ArrayList<PredictionWorkItem> work = new ArrayList<PredictionWorkItem>();
-        work.add(workItem);
+
+        Calendar cal = Calendar.getInstance();
+        for (int i=0; i < 1; i++)
+        {
+            Track track = new Track();
+            track.add(new AircraftState(
+                    "test",
+                    cal,
+                    new GeographicCoordinate(new Vector3(1.11, 1.12, 1.13)),
+                    new SphericalVelocity(new Vector3(1.21, 1.22, 1.23)),
+                    1.31
+            ));
+            track.add(new AircraftState(
+                    "test",
+                    cal,
+                    new GeographicCoordinate(new Vector3(2.11, 2.12, 2.13)),
+                    new SphericalVelocity(new Vector3(2.21, 2.22, 2.23)),
+                    2.31
+            ));
+            track.add(new AircraftState(
+                    "test",
+                    cal,
+                    new GeographicCoordinate(new Vector3(3.11, 3.12, 3.13)),
+                    new SphericalVelocity(new Vector3(3.21, 3.22, 3.23)),
+                    3.31
+            ));
+            track.add(new AircraftState(
+                    "test",
+                    cal,
+                    new GeographicCoordinate(new Vector3(4.11, 4.12, 4.13)),
+                    new SphericalVelocity(new Vector3(4.21, 4.22, 4.23)),
+                    4.31
+            ));
+
+            PredictionWorkItem workItem = new PredictionWorkItem("test", track, PredictionAlgorithmType.PASSTHROUGH);
+
+            work.add(workItem);
+
+        }
 
         oclA.run(work);
 //        oclA.release();
