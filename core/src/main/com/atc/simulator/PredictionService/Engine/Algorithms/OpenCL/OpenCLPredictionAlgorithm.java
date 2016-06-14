@@ -110,7 +110,6 @@ public class OpenCLPredictionAlgorithm {
 
                 j++;
             }
-            k++;
         }
 
         if(enableTimer)
