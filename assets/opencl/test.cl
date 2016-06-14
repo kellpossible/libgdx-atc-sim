@@ -35,11 +35,12 @@ typedef struct {float x, y, z} Vec;
 #define vxcross(v, a, b) vinit(v, (a).y * (b).z - (a).z * (b).y, (a).z * (b).x - (a).x * (b).z, (a).x * (b).y - (a).y * (b).x)
 #define vfilter(v) ((v).x > (v).y && (v).x > (v).z ? (v).x : (v).y > (v).z ? (v).y : (v).z)
 #define viszero(v) (((v).x == 0.f) && ((v).x == 0.f) && ((v).z == 0.f))
+#define vlength(v) sqrt(v.x*v.x + v.y*v.y + v.z*v.z)
 //end vector type
 
 
 // #define PASSTHROUGH
-// #define CLEANUP
+#define CLEANUP
 
 
 __kernel void sampleKernel(__global const float *srcItemFloats,
@@ -98,10 +99,19 @@ __kernel void sampleKernel(__global const float *srcItemFloats,
   #ifndef PASSTHROUGH
 
     //a dummy computation
-    for (int i=0; i<n_tracks; i++)
+    for(int j=0; j<10000; j++)
     {
-
+      for (int i=0; i<n_tracks; i++)
+      {
+        predictionTimes[i] = exp10((float)srcTrackTimes[i]);
+        float vector_length = vlength(srcTrackPositions[i]);
+        predictionPositions[i].x = vector_length+j%2;
+        predictionPositions[i].y = vector_length;
+        predictionPositions[i].z = vector_length;
+      }
     }
+
+
 
     //transfer the data back to the host
     {
@@ -113,10 +123,10 @@ __kernel void sampleKernel(__global const float *srcItemFloats,
         int dstFloatsIndex = dstItemFloatsItemIndex + (i * DST_ITEM_FLOATS_SIZE);
         int dstLongsIndex = dstItemLongsItemIndex + i;
 
-        dstItemLongs[dstLongsIndex] = srcTrackTimes[i];
-        dstItemFloats[dstFloatsIndex+0] = srcTrackPositions[i].x;
-        dstItemFloats[dstFloatsIndex+1] = srcTrackPositions[i].y;
-        dstItemFloats[dstFloatsIndex+2] = srcTrackPositions[i].z;
+        dstItemLongs[dstLongsIndex] = predictionTimes[i];
+        dstItemFloats[dstFloatsIndex+0] = predictionPositions[i].x;
+        dstItemFloats[dstFloatsIndex+1] = predictionPositions[i].y;
+        dstItemFloats[dstFloatsIndex+2] = predictionPositions[i].z;
       }
 
       #ifdef CLEANUP
