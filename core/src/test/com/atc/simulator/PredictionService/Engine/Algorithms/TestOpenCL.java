@@ -52,7 +52,7 @@ public class TestOpenCL {
         ArrayList<PredictionWorkItem> work = new ArrayList<PredictionWorkItem>();
 
         Calendar cal = Calendar.getInstance();
-        for (int i=0; i < 2; i++)
+        for (int i=0; i < 2000; i++)
         {
             Track track = new Track();
             track.add(new AircraftState(

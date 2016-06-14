@@ -160,9 +160,54 @@ public class OpenCLPredictionAlgorithm {
             System.out.println("OpenCLPredictionAlgorithm executeKernel 1 time: " + (((double) diff)/1000000.0) + " ms");
         }
 
+        if(enableTimer)
+        {
+            start1 = System.nanoTime();
+            // maybe add here a call to a return to remove call up time, too.
+            // Avoid optimization
+            start2 = System.nanoTime();
+        }
+        executeKernel(n, dstFloats, dstLongs);
+        if(enableTimer)
+        {
+            long stop = System.nanoTime();
+            long diff = stop - 2*start2 + start1;
+            System.out.println("OpenCLPredictionAlgorithm executeKernel 2 time: " + (((double) diff)/1000000.0) + " ms");
+        }
+
+        if(enableTimer)
+        {
+            start1 = System.nanoTime();
+            // maybe add here a call to a return to remove call up time, too.
+            // Avoid optimization
+            start2 = System.nanoTime();
+        }
+        executeKernel(n, dstFloats, dstLongs);
+        if(enableTimer)
+        {
+            long stop = System.nanoTime();
+            long diff = stop - 2*start2 + start1;
+            System.out.println("OpenCLPredictionAlgorithm executeKernel 3 time: " + (((double) diff)/1000000.0) + " ms");
+        }
+
+        if(enableTimer)
+        {
+            start1 = System.nanoTime();
+            // maybe add here a call to a return to remove call up time, too.
+            // Avoid optimization
+            start2 = System.nanoTime();
+        }
+        executeKernel(n, dstFloats, dstLongs);
+        if(enableTimer)
+        {
+            long stop = System.nanoTime();
+            long diff = stop - 2*start2 + start1;
+            System.out.println("OpenCLPredictionAlgorithm executeKernel 4 time: " + (((double) diff)/1000000.0) + " ms");
+        }
+
         for(int k=0; k<n; k++)
         {
-            System.out.println("Prediction: " + k);
+//            System.out.println("Prediction: " + k);
             int dstItemLongsItemIndex = k * DST_ITEM_LONGS;
             int dstItemFloatsItemIndex = k * DST_ITEM_FLOATS;
             for(int i=0; i<N_PREDICTIONS; i++)
@@ -174,7 +219,7 @@ public class OpenCLPredictionAlgorithm {
                         (double)dstFloats[floatsIndex+1],
                         (double)dstFloats[floatsIndex+2]
                         );
-                System.out.println("time: " + time + " position: " + position);
+//                System.out.println("time: " + time + " position: " + position);
             }
         }
 
@@ -314,7 +359,7 @@ public class OpenCLPredictionAlgorithm {
 
             // Set the work-item dimensions
             long global_work_size[] = new long[]{n};
-            long local_work_size[] = new long[]{1};
+            long local_work_size[] = new long[]{10};
 
             // Execute the kernel
             clEnqueueNDRangeKernel(commandQueue, kernel, 1, null,

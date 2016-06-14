@@ -37,7 +37,9 @@ typedef struct {float x, y, z} Vec;
 #define viszero(v) (((v).x == 0.f) && ((v).x == 0.f) && ((v).z == 0.f))
 //end vector type
 
-#define PASSTHROUGH
+
+// #define PASSTHROUGH
+// #define CLEANUP
 
 
 __kernel void sampleKernel(__global const float *srcItemFloats,
@@ -50,9 +52,11 @@ __kernel void sampleKernel(__global const float *srcItemFloats,
   __local Vec srcTrackPositions[N_TRACK_LOCAL];
   __local long srcTrackTimes[N_TRACK_LOCAL];
   __local Vec predictionPositions[N_PREDICTIONS_LOCAL];
+  __local long predictionTimes[N_PREDICTIONS_LOCAL];
 
   int n_tracks = 0;
 
+  //get the data from the host
   {
     int srcItemIntsItemIndex = gid * SRC_ITEM_INTS;
     int itemID = srcItemInts[srcItemIntsItemIndex];
@@ -63,49 +67,72 @@ __kernel void sampleKernel(__global const float *srcItemFloats,
     int srcItemFloatsItemIndex = gid * SRC_ITEM_FLOATS;
 
     #ifdef PASSTHROUGH
-    int dstItemFloatsItemIndex = gid * DST_ITEM_FLOATS;
-    int dstItemLongsItemIndex = gid * DST_ITEM_LONGS;
+      int dstItemFloatsItemIndex = gid * DST_ITEM_FLOATS;
+      int dstItemLongsItemIndex = gid * DST_ITEM_LONGS;
 
-    for(int i=0; i<n_tracks; i++)
-    {
-      int dstFloatsIndex = dstItemFloatsItemIndex + (i * DST_ITEM_FLOATS_SIZE);
-      int dstLongsIndex = dstItemLongsItemIndex + (i * DST_ITEM_LONGS_SIZE);
-      int srcLongsIndex = srcItemLongsItemIndex + (i * SRC_ITEM_LONGS_SIZE);
-      int srcFloatsIndex = srcItemFloatsItemIndex + (i * SRC_ITEM_FLOATS_SIZE);
+      for(int i=0; i<n_tracks; i++)
+      {
+        int dstFloatsIndex = dstItemFloatsItemIndex + (i * DST_ITEM_FLOATS_SIZE);
+        int dstLongsIndex = dstItemLongsItemIndex + (i * DST_ITEM_LONGS_SIZE);
+        int srcLongsIndex = srcItemLongsItemIndex + (i * SRC_ITEM_LONGS_SIZE);
+        int srcFloatsIndex = srcItemFloatsItemIndex + (i * SRC_ITEM_FLOATS_SIZE);
 
-      dstItemLongs[dstLongsIndex] = srcItemLongs[srcLongsIndex];
-      dstItemFloats[dstFloatsIndex+0] = srcItemFloats[srcFloatsIndex+0];
-      dstItemFloats[dstFloatsIndex+1] = srcItemFloats[srcFloatsIndex+0];
-      dstItemFloats[dstFloatsIndex+2] = srcItemFloats[srcFloatsIndex+2];
-    }
+        dstItemLongs[dstLongsIndex] = srcItemLongs[srcLongsIndex];
+        dstItemFloats[dstFloatsIndex+0] = srcItemFloats[srcFloatsIndex+0];
+        dstItemFloats[dstFloatsIndex+1] = srcItemFloats[srcFloatsIndex+0];
+        dstItemFloats[dstFloatsIndex+2] = srcItemFloats[srcFloatsIndex+2];
+      }
     #else
-    for(int i = 0; i<n_tracks; i++)
-    {
-      int srcLongsIndex = srcItemLongsItemIndex + i;
-      int srcFloatsIndex = srcItemFloatsItemIndex + (i * SRC_ITEM_FLOATS_SIZE);
+      for(int i = 0; i<n_tracks; i++)
+      {
+        int srcLongsIndex = srcItemLongsItemIndex + i;
+        int srcFloatsIndex = srcItemFloatsItemIndex + (i * SRC_ITEM_FLOATS_SIZE);
 
-      // srcTrackTimes[i] = srcItemLongs[srcLongsIndex];
-      srcTrackPositions[i].x = srcItemFloats[srcFloatsIndex+0];
-      srcTrackPositions[i].y = srcItemFloats[srcFloatsIndex+1];
-      srcTrackPositions[i].z = srcItemFloats[srcFloatsIndex+2];
-    }
-    #endif
+        srcTrackTimes[i] = srcItemLongs[srcLongsIndex];
+        srcTrackPositions[i].x = srcItemFloats[srcFloatsIndex+0];
+        srcTrackPositions[i].y = srcItemFloats[srcFloatsIndex+1];
+        srcTrackPositions[i].z = srcItemFloats[srcFloatsIndex+2];
+      }
+    #endif //ifdef PASSTHROUGH
   }
-  {
-    int dstItemFloatsItemIndex = gid * DST_ITEM_FLOATS;
-    int dstItemLongsItemIndex = gid * DST_ITEM_LONGS;
+  #ifndef PASSTHROUGH
 
-    //set the unused bits to 0 (helpful for debugging, uses a bit of extra
-    //performance though)
-    for (int i=n_tracks; i<N_PREDICTIONS_LOCAL; i++)
+    //a dummy computation
+    for (int i=0; i<n_tracks; i++)
     {
-      int dstFloatsIndex = dstItemFloatsItemIndex + (i * DST_ITEM_FLOATS_SIZE);
-      int dstLongsIndex = dstItemLongsItemIndex + i;
 
-      dstItemLongs[dstLongsIndex] = 0;
-      dstItemFloats[dstFloatsIndex+0] = 0.0f;
-      dstItemFloats[dstFloatsIndex+1] = 0.0f;
-      dstItemFloats[dstFloatsIndex+2] = 0.0f;
     }
-  }
+
+    //transfer the data back to the host
+    {
+      int dstItemFloatsItemIndex = gid * DST_ITEM_FLOATS;
+      int dstItemLongsItemIndex = gid * DST_ITEM_LONGS;
+
+      for(int i=0; i<n_tracks; i++)
+      {
+        int dstFloatsIndex = dstItemFloatsItemIndex + (i * DST_ITEM_FLOATS_SIZE);
+        int dstLongsIndex = dstItemLongsItemIndex + i;
+
+        dstItemLongs[dstLongsIndex] = srcTrackTimes[i];
+        dstItemFloats[dstFloatsIndex+0] = srcTrackPositions[i].x;
+        dstItemFloats[dstFloatsIndex+1] = srcTrackPositions[i].y;
+        dstItemFloats[dstFloatsIndex+2] = srcTrackPositions[i].z;
+      }
+
+      #ifdef CLEANUP
+        //set the unused bits to 0 (helpful for debugging, uses a bit of extra
+        //performance though)
+        for (int i=n_tracks; i<N_PREDICTIONS_LOCAL; i++)
+        {
+          int dstFloatsIndex = dstItemFloatsItemIndex + (i * DST_ITEM_FLOATS_SIZE);
+          int dstLongsIndex = dstItemLongsItemIndex + i;
+
+          dstItemLongs[dstLongsIndex] = 0;
+          dstItemFloats[dstFloatsIndex+0] = 0.0f;
+          dstItemFloats[dstFloatsIndex+1] = 0.0f;
+          dstItemFloats[dstFloatsIndex+2] = 0.0f;
+        }
+      #endif //ifdef CLEANUP
+    }
+  #endif //ifndef PASSTHROUGH
 };
