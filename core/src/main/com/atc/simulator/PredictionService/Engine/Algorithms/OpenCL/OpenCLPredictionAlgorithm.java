@@ -35,8 +35,9 @@ public class OpenCLPredictionAlgorithm {
     private static final int SRC_ITEM_FLOATS_SIZE = (3 + 3);
     private static final int SRC_ITEM_FLOATS = SRC_ITEM_FLOATS_SIZE * N_TRACK;
 
-    //itemID
-    private static final int SRC_ITEM_INTS_SIZE = 1;
+    //currently this is just one SRC_ITEM_INTS per work item
+    //itemID + n_tracks
+    private static final int SRC_ITEM_INTS_SIZE = 2;
     private static final int SRC_ITEM_INTS = SRC_ITEM_INTS_SIZE;
 
     //(time*N_TRACK)
@@ -91,12 +92,13 @@ public class OpenCLPredictionAlgorithm {
             int subTrackLength = Math.min(trackLength, N_TRACK);
 
             srcInts[k*SRC_ITEM_INTS] = workItem.getAircraftID().hashCode();
+            srcInts[k*SRC_ITEM_INTS+1] = trackLength;
 
             int j = 0;
             for (int i=trackLength-subTrackLength; i<trackLength; i++)
             {
                 AircraftState state = track.get(i);
-                srcLongs[(k*SRC_ITEM_LONGS) + j*SRC_ITEM_INTS_SIZE] = state.getTime().getTimeInMillis();
+                srcLongs[(k*SRC_ITEM_LONGS) + j*SRC_ITEM_LONGS_SIZE] = k*100+j;
 
                 int floatsIndex = (k*SRC_ITEM_FLOATS) + j*SRC_ITEM_FLOATS_SIZE;
                 Vector3 position = state.getPosition();
@@ -157,48 +159,6 @@ public class OpenCLPredictionAlgorithm {
             long diff = stop - 2*start2 + start1;
             System.out.println("OpenCLPredictionAlgorithm executeKernel 1 time: " + (((double) diff)/1000000.0) + " ms");
         }
-        if(enableTimer)
-        {
-            start1 = System.nanoTime();
-            // maybe add here a call to a return to remove call up time, too.
-            // Avoid optimization
-            start2 = System.nanoTime();
-        }
-        executeKernel(n, dstFloats, dstLongs);
-        if(enableTimer)
-        {
-            long stop = System.nanoTime();
-            long diff = stop - 2*start2 + start1;
-            System.out.println("OpenCLPredictionAlgorithm executeKernel 2 time: " + (((double) diff)/1000000.0) + " ms");
-        }
-        if(enableTimer)
-        {
-            start1 = System.nanoTime();
-            // maybe add here a call to a return to remove call up time, too.
-            // Avoid optimization
-            start2 = System.nanoTime();
-        }
-        executeKernel(n, dstFloats, dstLongs);
-        if(enableTimer)
-        {
-            long stop = System.nanoTime();
-            long diff = stop - 2*start2 + start1;
-            System.out.println("OpenCLPredictionAlgorithm executeKernel 3 time: " + (((double) diff)/1000000.0) + " ms");
-        }
-        if(enableTimer)
-        {
-            start1 = System.nanoTime();
-            // maybe add here a call to a return to remove call up time, too.
-            // Avoid optimization
-            start2 = System.nanoTime();
-        }
-        executeKernel(n, dstFloats, dstLongs);
-        if(enableTimer)
-        {
-            long stop = System.nanoTime();
-            long diff = stop - 2*start2 + start1;
-            System.out.println("OpenCLPredictionAlgorithm executeKernel 4 time: " + (((double) diff)/1000000.0) + " ms");
-        }
 
         for(int k=0; k<n; k++)
         {
@@ -207,7 +167,7 @@ public class OpenCLPredictionAlgorithm {
             int dstItemFloatsItemIndex = k * DST_ITEM_FLOATS;
             for(int i=0; i<N_PREDICTIONS; i++)
             {
-                long time = dstLongs[dstItemLongsItemIndex + i];
+                long time = dstLongs[dstItemLongsItemIndex + (i * DST_ITEM_LONGS_SIZE)];
                 int floatsIndex = dstItemFloatsItemIndex + (i * DST_ITEM_FLOATS_SIZE);
                 Vector3 position = new Vector3(
                         (double)dstFloats[floatsIndex+0],
@@ -365,7 +325,7 @@ public class OpenCLPredictionAlgorithm {
             clEnqueueReadBuffer(commandQueue, memObjects[3], CL_TRUE, 0,
                     Sizeof.cl_float * DST_ITEM_FLOATS * n, dstFloatsPtr, 0, null, null);
             clEnqueueReadBuffer(commandQueue, memObjects[4], CL_TRUE, 0,
-                    Sizeof.cl_int * DST_ITEM_LONGS * n, dstIntsPtr, 0, null, null);
+                    Sizeof.cl_long * DST_ITEM_LONGS * n, dstIntsPtr, 0, null, null);
 
 
         } else {
