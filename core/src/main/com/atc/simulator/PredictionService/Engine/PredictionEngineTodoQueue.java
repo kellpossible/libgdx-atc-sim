@@ -6,6 +6,9 @@ import java.util.Collections;
 
 /**
  * Created by luke on 7/06/16.
+ *
+ * An orderable/sortable and threadsafe queue for prediction work items to be used in the PredictionEngine.
+ *
  * @author Luke Frisken
  */
 public class PredictionEngineTodoQueue extends SortableOrderedQueue<PredictionWorkItem> {
@@ -18,6 +21,7 @@ public class PredictionEngineTodoQueue extends SortableOrderedQueue<PredictionWo
      */
     @Override
     protected void sort() {
+        //TODO: check to make sure this is threadsafe, and whether it needs to get the lock
         Collections.sort(this, SORTER);
         Collections.reverse(this);
     }

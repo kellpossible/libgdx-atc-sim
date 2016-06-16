@@ -91,6 +91,7 @@ public class PredictionWorkerThread implements RunnableThread{
             // Avoid optimization
             start2 = System.nanoTime();
         }
+        //get the algorithm type
         PredictionAlgorithm algorithm = PredictionAlgorithm.getInstance(workItem.getAlgorithmType());
         if(enableTimer)
         {
@@ -107,6 +108,7 @@ public class PredictionWorkerThread implements RunnableThread{
             // Avoid optimization
             start2 = System.nanoTime();
         }
+        //Make a prediction using the algorithm
         Prediction prediction = algorithm.makePrediction(aircraftTrack);
         if(enableTimer)
         {
@@ -122,6 +124,8 @@ public class PredictionWorkerThread implements RunnableThread{
             // Avoid optimization
             start2 = System.nanoTime();
         }
+        //tell the PredictionEngine that this work item is complete.
+        //TODO: I have a feeling the class design could be improved a lot here...
         workItem.complete(prediction);
         if(enableTimer)
         {
@@ -160,6 +164,7 @@ public class PredictionWorkerThread implements RunnableThread{
         {
             if(!todoQueue.isEmpty()) {
 
+                //make a new prediction every time there is an item in the todoQueue
                 makeNewPrediction(todoQueue.poll());
 
                 if(enableDebugPrint){ System.out.println(threadName + " finished a prediction"); }

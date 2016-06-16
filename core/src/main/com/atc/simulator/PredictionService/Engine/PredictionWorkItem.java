@@ -26,6 +26,12 @@ public class PredictionWorkItem implements Comparator<PredictionWorkItem>{
         this(null, null, null);
     }
 
+    /**
+     *
+     * @param aircraftID
+     * @param aircraftTrack
+     * @param algorithmType the type of algorithm to be used to perform this work
+     */
     public PredictionWorkItem(
             String aircraftID,
             Track aircraftTrack,

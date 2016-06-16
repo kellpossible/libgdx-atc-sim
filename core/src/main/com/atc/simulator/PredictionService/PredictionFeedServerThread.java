@@ -18,18 +18,6 @@ import java.util.concurrent.ArrayBlockingQueue;
  * PredictionFeedServerThread is responsible for the encoding and sending of predictions for display/external systems. Currently able to connect and send
  * to a single client, emptying its buffer if no client has connected.
  *
- * @
- * PUBLIC FEATURES:
- * // Constructors
- *    PredictionFeedServerThread()
- * // Methods
- *    sendPrediction(String aircraftID, GeographicCoordinate[] predictions)  - Encodes a Prediction and stores in internal buffer
- *    run() - Thread of checking buffer and removing first element
- *    killThread() - flags that the Server has been finished with, and to stop all threads running (clearing of buffer and accepting clients)
- *
- *
- * MODIFIED:
- * @version 1.0, CC 30/05/16, Neatened the Connection Thread to be its own class. Added capability for multiple clients
  * @author    Chris Coleman - 7191375, Luke Frisken
  * TODO: implement the PredictionEngineListener functionality
  */

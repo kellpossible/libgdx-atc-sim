@@ -17,28 +17,15 @@ import java.util.concurrent.locks.ReentrantLock;
 
 /**
 * Basic engine, will receive system states, break them into AircraftStates, create predictions and push to the server
-*
-* @
-* PUBLIC FEATURES:
-* // Constructors
-*    Engine(PredictionFeedServerThread)
-* // Methods
-*    onSystemUpdate() - Listener Override, adds new AircraftStates to the Buffer
-*    run() - Thread of checking buffer and passing messages to server
-*    kill() - Clears the flag that the client thread runs off, letting the thread finish gracefully
-*    start() - Start new Thread
-*    makeNewPrediction(AircraftState) - Create a new prediction for the AircraftState given
-*
-* MODIFIED:
-* @version 0.1, CC 29/05/16, Initial creation/beginning of a general framework
-* @author    Chris Coleman, 7191375
+
+* @author    Chris Coleman, 7191375, Luke Frisken
 * TODO: implement the PredictionEngineListener functionality
 */
 public class PredictionEngineThread implements RunnableThread, SystemStateDatabaseListener{
     private static final boolean enableTimer = ApplicationConfig.getInstance().getBoolean("settings.debug.engine-timer");
     private static final boolean enableDebugPrintQueues = ApplicationConfig.getInstance().getBoolean("settings.debug.print-queues");
 
-    private PredictionEngineTodoQueue todoQueue; //TODO: make this threadsafe and possibly use a seperate buffer
+    private PredictionEngineTodoQueue todoQueue;
     private SystemStateDatabase systemStateDatabase;
     private ArrayList<PredictionWorkerThread> workerPool;
     private ArrayList<PredictionWorkItem> todoList;
@@ -106,7 +93,7 @@ public class PredictionEngineThread implements RunnableThread, SystemStateDataba
     public void completeWorkItem(PredictionWorkItem workItem)
     {
         Prediction prediction = workItem.getPrediction();
-        long start1=0, start2=0;
+        long start1=0, start2=0; //required for timer
         if(enableTimer)
         {
             start1 = System.nanoTime();
@@ -114,7 +101,7 @@ public class PredictionEngineThread implements RunnableThread, SystemStateDataba
             // Avoid optimization
             start2 = System.nanoTime();
         }
-        predictionFeedServer.sendPrediction(prediction);
+        predictionFeedServer.sendPrediction(prediction); //send prediction to the display using the server
         if(enableTimer)
         {
             long stop = System.nanoTime();
@@ -129,7 +116,7 @@ public class PredictionEngineThread implements RunnableThread, SystemStateDataba
             // Avoid optimization
             start2 = System.nanoTime();
         }
-        todoList.remove(workItem);
+        todoList.remove(workItem); //remove this workItem from the todoList
         if(enableTimer)
         {
             long stop = System.nanoTime();
@@ -148,6 +135,11 @@ public class PredictionEngineThread implements RunnableThread, SystemStateDataba
         while (continueThread)
         {
             try {
+                /*
+                Check to see whether items are staying on the todo list,
+                indicating that they have been around longer than maxLatency,
+                the maximum allowable latency for this work item.
+                 */
                 currentTime = System.currentTimeMillis();
                 if ((currentTime - lastTime) > (maxLatency-5))
                 {
@@ -177,7 +169,7 @@ public class PredictionEngineThread implements RunnableThread, SystemStateDataba
                             + todoQueueMaxSize
                             + ")");
                 }
-                Thread.sleep(maxLatency);
+                Thread.sleep(maxLatency); //sleep for maxLatency between checks of the todoList
             } catch (InterruptedException e) {
                 System.err.println("ERROR: Timer interrupted, ignore latency warnings");
                 e.printStackTrace();
@@ -229,9 +221,10 @@ public class PredictionEngineThread implements RunnableThread, SystemStateDataba
     }
 
      /**
-      * Interface implementation for SystemStateDatabaseListener
-      * gets called whenever the SystemStateDatabase receives an update.
-      * @param aircraftIDs
+      * This method is called by the SystemStateDataBase on its listeners
+      * whenever the SystemStateDatabase receives updated information.
+      *
+      * @param aircraftIDs of type ArrayList<String>
       */
      @Override
      public void onSystemStateUpdate(ArrayList<String> aircraftIDs) {

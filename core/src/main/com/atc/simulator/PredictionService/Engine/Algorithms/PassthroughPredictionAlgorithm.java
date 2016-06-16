@@ -10,13 +10,17 @@ import java.util.ArrayList;
 
 /**
  * Created by luke on 8/06/16.
+ *
+ * A dummy prediction algorithm which just takes the input positions/times,
+ * and passes them back out as a prediction.
+ *
  */
 public class PassthroughPredictionAlgorithm extends PredictionAlgorithm {
     private static final boolean enableTimer = ApplicationConfig.getInstance().getBoolean("settings.debug.algorithm-timer");
 
     @Override
     public Prediction makePrediction(Track aircraftTrack) {
-        long start1=0, start2=0;
+        long start1=0, start2=0; //needed for the timer
         if(enableTimer)
         {
             start1 = System.nanoTime();

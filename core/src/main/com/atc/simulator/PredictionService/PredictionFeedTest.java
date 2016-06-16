@@ -16,15 +16,7 @@ import java.util.ArrayList;
  * Created by Chris on 7/05/2016.
  *
  *  This is a test/familiarisation class for PredictionFeedServe's protocol buffer
- *  The buffer is called a PredictionMessage and contains: (valid 09/05/16)
- *      - String : AircraftID
- *      - Position[] : positionFuture (contains all the predicted future positions w/ (0)current, (1)first prediction, etc)
- *      -other optional data that can be altered later
- *
- *      The Position datatype contains three doubles, similar to the DebugDataFeedServe's protocol
- *
- * MODIFIED:
- * @version 0.5, CC 29/05/16, Modified to accept SystemState and run updates from the Engine
+ *  
  * @author    Chris Coleman, 7191375
  */
 public class PredictionFeedTest {

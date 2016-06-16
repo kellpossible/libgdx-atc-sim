@@ -9,7 +9,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * Created by luke on 7/06/16.
+ * This is a very simple placeholder SystemStateDatabase, which just keeps track of all items it receives,
+ * and notifies its listeners whenever it receives an update.
+ *
+ * In the future it will probably want its own thread to cull items which have been sitting in the database
+ * for too long without getting used. (e.g. aircraft that have moved to other sectors)
+ *
  * @author Luke Frisken
  */
 public class SystemStateDatabase implements DataPlaybackListener {
