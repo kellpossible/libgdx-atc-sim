@@ -1,7 +1,6 @@
 package com.atc.simulator.PredictionService.Engine;
-import com.atc.simulator.PredictionService.Engine.Algorithms.PredictionAlgorithm;
+import com.atc.simulator.PredictionService.Engine.Algorithms.Java.JavaPredictionAlgorithm;
 import com.atc.simulator.PredictionService.Engine.Algorithms.PredictionAlgorithmType;
-import com.atc.simulator.flightdata.AircraftState;
 import com.atc.simulator.flightdata.SimulatorTrackLoader;
 import com.atc.simulator.flightdata.Track;
 import com.atc.simulator.flightdata.TrackLoader;
@@ -18,7 +17,7 @@ public class AlgorithmPerformanceTest {
     private static Track largeTrack;
     private static Track smallTrack;
     private static Track mediumTrack;
-    private static PredictionAlgorithm passThroughAlgorithm;
+    private static JavaPredictionAlgorithm passThroughAlgorithm;
 
     static {
         TrackLoader loader = new SimulatorTrackLoader("assets/flight_data/YMMLtoYSCB/YMML2YSCB_track.csv");
@@ -31,7 +30,7 @@ public class AlgorithmPerformanceTest {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        passThroughAlgorithm = PredictionAlgorithm.getInstance(PredictionAlgorithmType.PASSTHROUGH);
+        passThroughAlgorithm = JavaPredictionAlgorithm.getInstance(PredictionAlgorithmType.PASSTHROUGH);
 
     }
 

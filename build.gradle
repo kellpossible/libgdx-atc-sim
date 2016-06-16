@@ -40,6 +40,7 @@ allprojects {
         pythagorasVersion = '1.4.1'
         typesafeConfigVersion = '1.2.1'
         jmhVersion = '1.12'
+        joclVersion = '2.0.0'
     }
 
     repositories {
@@ -90,6 +91,7 @@ project(":core") {
         compile "com.typesafe:config:$typesafeConfigVersion"
         compile "org.openjdk.jmh:jmh-core:$jmhVersion"
         compile "org.openjdk.jmh:jmh-generator-annprocess:$jmhVersion"
+        compile "org.jocl:jocl:$joclVersion"
         testCompile "junit:junit:+"
         //compile "net.mikera:vectorz:0.61.0"
 

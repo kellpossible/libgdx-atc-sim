@@ -2,6 +2,7 @@ package com.atc.simulator.PredictionService.Engine;
 
 import com.atc.simulator.Config.ApplicationConfig;
 import com.atc.simulator.PredictionService.Engine.Algorithms.PredictionAlgorithmType;
+import com.atc.simulator.PredictionService.Engine.Workers.JavaPredictionWorkerThread;
 import com.atc.simulator.PredictionService.Engine.Workers.PredictionWorkerThread;
 import com.atc.simulator.PredictionService.PredictionFeedServerThread;
 import com.atc.simulator.PredictionService.SystemStateDatabase;
@@ -62,7 +63,7 @@ public class PredictionEngineThread implements RunnableThread, SystemStateDataba
         workerPool = new ArrayList<PredictionWorkerThread>();
         for (int i = 0; i<numberOfWorkers; i++)
         {
-            workerPool.add(new PredictionWorkerThread(i, this));
+            workerPool.add(new JavaPredictionWorkerThread(i, this));
         }
         this.systemStateDatabase = systemStateDatabase;
 
