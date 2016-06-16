@@ -7,7 +7,7 @@ import com.typesafe.config.ConfigFactory;
 import java.io.File;
 
 /**
- * Created by luke on 7/06/16.
+ * A singleton class representing the configuration of this application.
  * @author Luke Frisken
  */
 public class ApplicationConfig {
@@ -24,6 +24,11 @@ public class ApplicationConfig {
         Config mergedConfig = myConfig.withFallback(defaultConfig);
         singleton = ConfigFactory.load(mergedConfig);
     }
+
+    /**
+     * Get the instance of this singleton ApplicationConfig class
+     * @return
+     */
     public static Config getInstance()
     {
         return singleton;
