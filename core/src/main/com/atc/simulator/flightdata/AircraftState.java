@@ -12,7 +12,7 @@ import java.util.Calendar;
  */
 public class AircraftState {
     private String aircraftID;
-    private Calendar time;
+    private long time;
     private GeographicCoordinate position;
     private SphericalVelocity velocity;
     private double heading;
@@ -26,13 +26,13 @@ public class AircraftState {
      * @param heading the heading of the aircraft with respect to true north
      */
     public AircraftState(String aircraftID,
-                         Calendar time,
+                         long time,
                          GeographicCoordinate position,
                          SphericalVelocity velocity,
                          double heading)
     {
         this.aircraftID = aircraftID;
-        this.setTime(time);
+        this.time = time;
         this.position = position;
         this.velocity = velocity;
         this.heading = heading;
@@ -43,9 +43,7 @@ public class AircraftState {
         GeographicCoordinate newPosition = new GeographicCoordinate(this.getPosition().lerp(other.getPosition(), t));
         SphericalVelocity newVelocity = new SphericalVelocity(this.getVelocity().lerp(other.getVelocity(), t));
 
-        long newTimeMillis = (long)(((double) (other.getTime().getTimeInMillis() - this.getTime().getTimeInMillis())) * t);
-        Calendar newTime = (Calendar) this.time.clone();
-        newTime.setTimeInMillis(newTimeMillis);
+        long newTime = (long)(((double) (other.getTime() - this.getTime())) * t);
 
         double headingDiff = other.getHeading() - this.heading;
         double newHeading = this.heading + headingDiff * t;
@@ -125,7 +123,7 @@ public class AircraftState {
      * Method getTime returns the time that this AircraftState represents
      * @return the time (type Calendar) of this AircraftState object.
      */
-    public Calendar getTime() {
+    public long getTime() {
         return time;
     }
 
@@ -134,7 +132,7 @@ public class AircraftState {
      * @param time the time of this AircraftState object.
      *
      */
-    public void setTime(Calendar time) {
+    public void setTime(long time) {
         this.time = time;
     }
 }

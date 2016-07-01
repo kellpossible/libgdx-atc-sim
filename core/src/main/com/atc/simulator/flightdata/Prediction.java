@@ -28,12 +28,12 @@ import java.util.Calendar;
 public class Prediction {
     private ArrayList<GeographicCoordinate> predictedPositions; //Array List of positional predictions
     private String aircraftID;
-    private Calendar time;
+    private long time;
 
     /**
      * Constructor, instantiates a ArrayList of AircraftStates
      */
-    public Prediction(String aircraftID, Calendar time, ArrayList<GeographicCoordinate> predictedPositions)
+    public Prediction(String aircraftID, long time, ArrayList<GeographicCoordinate> predictedPositions)
     {
         this.predictedPositions = predictedPositions;
         this.aircraftID = aircraftID;
@@ -50,7 +50,7 @@ public class Prediction {
      * Gets the timestamp for when the aircraft information was sent
      * @return time : The ID of the aircraft
      */
-    public Calendar getPredictionTime(){return time;}
+    public long getPredictionTime(){return time;}
 
     /**
      * Returns all the states in the prediction

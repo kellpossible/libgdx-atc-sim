@@ -21,8 +21,8 @@ import java.util.List;
  * @author Luke Frisken
  */
 public class Track extends ArrayList<AircraftState> {
-    private Calendar startTime = null;
-    private Calendar endTime = null;
+    private long startTime = Long.MAX_VALUE;
+    private long endTime = Long.MIN_VALUE;
 
     public Track()
     {
@@ -45,20 +45,15 @@ public class Track extends ArrayList<AircraftState> {
 
     public boolean add(AircraftState element)
     {
-        if (startTime != null && endTime != null)
+        long elementTime = element.getTime();
+        if (elementTime < startTime)
         {
-            Calendar elementTime = element.getTime();
-            if (elementTime.compareTo(startTime) < 0)
-            {
-                startTime = elementTime;
-            } else if (elementTime.compareTo(endTime)  > 0)
-            {
-                endTime = elementTime;
-            }
-        } else {
-            startTime = element.getTime();
-            endTime = element.getTime();
+            startTime = elementTime;
+        } else if (elementTime > endTime)
+        {
+            endTime = elementTime;
         }
+
         return super.add(element);
     }
 
@@ -101,15 +96,15 @@ public class Track extends ArrayList<AircraftState> {
      * @param time
      * @return
      */
-    public AircraftState lerp(Calendar time)
+    public AircraftState lerp(long time)
     {
-        long timeMillis = time.getTimeInMillis();
+        long timeMillis = time;
         for(int i = 0; i < this.size()-1; i++)
         {
             AircraftState i1aircraftState = this.get(i);
             AircraftState i2aircraftState = this.get(i+1);
-            long i1aircraftStateTimeMillis = i1aircraftState.getTime().getTimeInMillis();
-            long i2aircraftStateTimeMillis = i2aircraftState.getTime().getTimeInMillis();
+            long i1aircraftStateTimeMillis = i1aircraftState.getTime();
+            long i2aircraftStateTimeMillis = i2aircraftState.getTime();
 
             //if this time is between two.
             if (timeMillis >= i1aircraftStateTimeMillis && timeMillis < i2aircraftStateTimeMillis)
@@ -133,15 +128,15 @@ public class Track extends ArrayList<AircraftState> {
      * @param time
      * @return
      */
-    public AircraftState closest(Calendar time)
+    public AircraftState closest(long time)
     {
-        long timeMillis = time.getTimeInMillis();
+        long timeMillis = time;
         for(int i = 0; i < this.size()-1; i++)
         {
             AircraftState i1aircraftState = this.get(i);
             AircraftState i2aircraftState = this.get(i+1);
-            long i1aircraftStateTimeMillis = i1aircraftState.getTime().getTimeInMillis();
-            long i2aircraftStateTimeMillis = i2aircraftState.getTime().getTimeInMillis();
+            long i1aircraftStateTimeMillis = i1aircraftState.getTime();
+            long i2aircraftStateTimeMillis = i2aircraftState.getTime();
 
             //if this time is between two.
             if (timeMillis >= i1aircraftStateTimeMillis && timeMillis <= i2aircraftStateTimeMillis)
@@ -153,18 +148,18 @@ public class Track extends ArrayList<AircraftState> {
         return this.get(0); //todo: implement this properly
     }
 
-    public Calendar getStartTime() {
+    public long getStartTime() {
         return startTime;
     }
 
-    public Calendar getEndTime() {
+    public long getEndTime() {
         return endTime;
     }
 
-    public boolean timeWithinBounds(Calendar time)
+    public boolean timeWithinBounds(long time)
     {
-        if (time.compareTo(startTime) >= 0) {
-            if (time.compareTo(endTime) <= 0) {
+        if (time >= startTime) {
+            if (time <= endTime) {
                 return true;
             }
         }
