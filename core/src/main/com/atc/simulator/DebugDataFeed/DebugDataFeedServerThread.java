@@ -112,7 +112,7 @@ public class DebugDataFeedServerThread implements RunnableThread, DataPlaybackLi
         //Create a new builder
         SystemStateMessage.Builder systemStateMessageBuilder = SystemStateMessage.newBuilder();
         //Save the time of the SystemState message creation
-        systemStateMessageBuilder.setTime(ISO8601.fromCalendar(systemState.getTime()));
+        systemStateMessageBuilder.setTime(systemState.getTime());
 
         //For every AircraftState received, turn them into messages
         for (AircraftState aircraftState : systemState.getAircraftStates()) {
@@ -120,7 +120,7 @@ public class DebugDataFeedServerThread implements RunnableThread, DataPlaybackLi
             //With ID
             aircraftStateMessageBuilder.setAircraftID(aircraftState.getAircraftID());
             //TimeStamp
-            aircraftStateMessageBuilder.setTime(ISO8601.fromCalendar(aircraftState.getTime()));
+            aircraftStateMessageBuilder.setTime(aircraftState.getTime());
             //A current position
             GeographicCoordinate position = aircraftState.getPosition();
             aircraftStateMessageBuilder.setPosition(

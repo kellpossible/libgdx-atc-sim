@@ -19,10 +19,10 @@ public abstract class Scenario {
      * Get the SystemState at a given time as represented by the Scenario.
      * Assumes that the time provided is within the startTime and endTime boundary
      *
-     * @param time time of system state
+     * @param time time of system state (in milliseconds since epoch)
      * @return system state
      */
-    public abstract SystemState getState(Calendar time);
+    public abstract SystemState getState(long time);
 
 
     /**
@@ -35,17 +35,17 @@ public abstract class Scenario {
     /**
      * Get the start time of the Scenario
      *
-     * @return start time
+     * @return start time (in milliseconds since epoch)
      */
-    public abstract Calendar getStartTime();
+    public abstract long getStartTime();
 
 
     /**
      * Get the end time of the scenario
      *
-     * @return end time
+     * @return end time (in milliseconds since epoch)
      */
-    public abstract Calendar getEndTime();
+    public abstract long getEndTime();
 
     /**
      * The scenario's recommended update rate, in milliseconds, in order
@@ -59,15 +59,15 @@ public abstract class Scenario {
      * Throw an error if the supplied time is outside the
      * boundary of the start time and the end time
      *
-     * @param time time to check whether it is within the boundary
+     * @param time time (in milliseconds since epoch) to check whether it is within the boundary
      */
-    protected void checkStateTimeWithinBoundaries(Calendar time)
+    protected void checkStateTimeWithinBoundaries(long time)
     {
-        if (time.compareTo(getStartTime()) < 0)
+        if (time < getStartTime())
         {
             throw new IndexOutOfBoundsException("time is before start time");
         }
-        if (time.compareTo(getEndTime()) > 0)
+        if (time > getEndTime())
         {
             throw new IndexOutOfBoundsException("time is after end time");
         }

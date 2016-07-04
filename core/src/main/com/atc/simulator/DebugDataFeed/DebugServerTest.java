@@ -30,11 +30,11 @@ public class DebugServerTest
         for (int i = 1; i <= 5; i++)
         {
             String lName = "TestState " + i;
-            AircraftState testAircraftState = new AircraftState(lName, Calendar.getInstance(), new GeographicCoordinate(i,i,i), new SphericalVelocity(i,i,i), i);
+            AircraftState testAircraftState = new AircraftState(lName, System.currentTimeMillis(), new GeographicCoordinate(i,i,i), new SphericalVelocity(i,i,i), i);
             aircraftStateArray.add(testAircraftState);
         }
         //Make a new SystemState with the above Aircraft States array
-        SystemState testState = new SystemState(Calendar.getInstance(),aircraftStateArray);
+        SystemState testState = new SystemState(System.currentTimeMillis(),aircraftStateArray);
         SystemStateDatabase systemStateDatabase = new SystemStateDatabase();
 
         // creates new servers/clients

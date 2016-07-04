@@ -77,21 +77,7 @@ public class PredictionFeedServerThread implements RunnableThread{
 
         MessageBuilder.setAircraftID(newPrediction.getAircraftID()); //Add the AircraftID to the Message
 
-        if(enableTimer)
-        {
-            start1 = System.nanoTime();
-            // maybe add here a call to a return to remove call up time, too.
-            // Avoid optimization
-            start2 = System.nanoTime();
-        }
-        String time = ISO8601.fromCalendar(newPrediction.getPredictionTime());
-        if(enableTimer)
-        {
-            long stop = System.nanoTime();
-            long diff = stop - 2*start2 + start1;
-            System.out.println(threadName + " ISO8601 from calendar " + (((double) diff)/1000000.0) + " ms");
-        }
-
+        long time = newPrediction.getPredictionTime();
         if(enableTimer)
         {
             start1 = System.nanoTime();

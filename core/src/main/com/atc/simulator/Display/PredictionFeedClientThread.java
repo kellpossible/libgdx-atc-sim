@@ -89,7 +89,7 @@ public class PredictionFeedClientThread implements RunnableThread {
                     }
 
                     //Made a new Prediction with ID and Time
-                    Prediction newPred = new Prediction(tempMes.getAircraftID(), Calendar.getInstance(), predictionPositions);
+                    Prediction newPred = new Prediction(tempMes.getAircraftID(), System.currentTimeMillis(), predictionPositions);
 
                     if(enableDebugPrint){ System.out.println("PredictionFeedClient has received Aircraft " + newPred.getAircraftID()); }
 

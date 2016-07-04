@@ -19,7 +19,7 @@ public class DataPlaybackThread implements RunnableThread {
     private Scenario scenario;
     private final String threadName = "DataPlayback";
     private Thread thread;
-    private Calendar currentTime;
+    private long currentTime;
     private boolean continueThread;
     private boolean running;
 
@@ -34,7 +34,7 @@ public class DataPlaybackThread implements RunnableThread {
         this.updateRate = updateRate;
         this.scenario = scenario;
 
-        currentTime = (Calendar) scenario.getStartTime().clone();
+        currentTime = scenario.getStartTime();
         continueThread = true;
         running = false;
     }
@@ -74,7 +74,7 @@ public class DataPlaybackThread implements RunnableThread {
     @Override
     public void run() {
         running = true;
-        Calendar endTime = scenario.getEndTime();
+        long endTime = scenario.getEndTime();
         while(continueThread)
         {
             try {
@@ -87,11 +87,11 @@ public class DataPlaybackThread implements RunnableThread {
                 e.printStackTrace();
             }
 
-            currentTime.add(Calendar.MILLISECOND, updateRate); //20 times speedup TODO: remove
+            currentTime += updateRate; //20 times speedup TODO: remove
 
 
             //finish if we have passed the end time
-            if (currentTime.compareTo(endTime) > 0)
+            if (currentTime > endTime)
             {
                 return;
             }

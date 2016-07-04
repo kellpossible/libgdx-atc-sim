@@ -16,8 +16,8 @@ import java.util.Calendar;
  */
 public class YMMLtoYSCBScenario extends Scenario {
     private Track track;
-    private Calendar startTime;
-    private Calendar endTime;
+    private long startTime;
+    private long endTime;
 
     /**
      * Field lastStateIndex
@@ -57,11 +57,12 @@ public class YMMLtoYSCBScenario extends Scenario {
     /**
      * Get the SystemState at a given time as represented by the Scenario.
      * Assumes that the time provided is within the startTime and endTime boundary
-     * @param time time of system state
+     *
+     * @param time time of system state (in milliseconds since epoch)
      * @return system state
      */
     @Override
-    public SystemState getState(Calendar time) {
+    public SystemState getState(long time) {
         checkStateTimeWithinBoundaries(time);
 
         /* loop through track entries,
@@ -69,17 +70,17 @@ public class YMMLtoYSCBScenario extends Scenario {
          */
 
         AircraftState prevState = track.get(lastStateIndex);
-        Calendar prevStateTime = prevState.getTime();
+        long prevStateTime = prevState.getTime();
         for(int i = lastStateIndex; i<track.size();i++)
         {
             AircraftState state = track.get(i);
-            Calendar stateTime = state.getTime();
+            long stateTime = state.getTime();
 
             /* compare the entry time with the time this method is aiming to get
             if the time of this entry is now after the desired time, this track entry
             is recognised as the closest to the desired time, and so it is returned.
              */
-            if (time.compareTo(stateTime) < 0)
+            if (time < stateTime)
             {
                 lastStateIndex = i-1; //update the index with this track entry index.
                 ArrayList<AircraftState> aircraftStates = new ArrayList<AircraftState>();
@@ -96,6 +97,7 @@ public class YMMLtoYSCBScenario extends Scenario {
 
     /**
      * Get the tracks that this scenario is based on.
+     *
      * @return tracks this scenario is based on
      */
     @Override
@@ -107,19 +109,21 @@ public class YMMLtoYSCBScenario extends Scenario {
 
     /**
      * Get the start time of the Scenario
-     * @return start time
+     *
+     * @return start time (in milliseconds since epoch)
      */
     @Override
-    public Calendar getStartTime() {
+    public long getStartTime() {
         return startTime;
     }
 
     /**
      * Get the end time of the scenario
-     * @return end time
+     *
+     * @return end time (in milliseconds since epoch)
      */
     @Override
-    public Calendar getEndTime() {
+    public long getEndTime() {
         return endTime;
     }
 

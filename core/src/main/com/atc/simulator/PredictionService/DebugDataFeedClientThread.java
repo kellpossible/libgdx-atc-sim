@@ -60,22 +60,20 @@ public class DebugDataFeedClientThread implements RunnableThread
                 //Make an Array of all the AircraftStates that were sent:
                 ArrayList<AircraftState> aircraftStatesReceived = new ArrayList<AircraftState>();
                 for (int i = 0; i < tempMessage.getAircraftStateCount(); i++) {
-                    try
-                    {
-                        aircraftStatesReceived.add(new AircraftState(
-                                tempMessage.getAircraftState(i).getAircraftID(),
-                                ISO8601.toCalendar(tempMessage.getAircraftState(i).getTime()),
-                                new GeographicCoordinate(tempMessage.getAircraftState(i).getPosition().getAltitude(),
-                                        tempMessage.getAircraftState(i).getPosition().getLatitude(),
-                                        tempMessage.getAircraftState(i).getPosition().getLongitude()),
-                                new SphericalVelocity(tempMessage.getAircraftState(i).getVelocity().getDr(),
-                                        tempMessage.getAircraftState(i).getVelocity().getDtheta(),
-                                        tempMessage.getAircraftState(i).getVelocity().getDphi()),
-                                tempMessage.getAircraftState(i).getHeading()));
-                    }catch(ParseException p){System.err.println("DebugClient parsing Time failed");}
+
+                    aircraftStatesReceived.add(new AircraftState(
+                            tempMessage.getAircraftState(i).getAircraftID(),
+                            tempMessage.getAircraftState(i).getTime(),
+                            new GeographicCoordinate(tempMessage.getAircraftState(i).getPosition().getAltitude(),
+                                    tempMessage.getAircraftState(i).getPosition().getLatitude(),
+                                    tempMessage.getAircraftState(i).getPosition().getLongitude()),
+                            new SphericalVelocity(tempMessage.getAircraftState(i).getVelocity().getDr(),
+                                    tempMessage.getAircraftState(i).getVelocity().getDtheta(),
+                                    tempMessage.getAircraftState(i).getVelocity().getDphi()),
+                            tempMessage.getAircraftState(i).getHeading()));
                 }//End loop for all aircraft
                 //Make a new System State
-                SystemState testState = new SystemState(Calendar.getInstance(), aircraftStatesReceived);
+                SystemState testState = new SystemState(System.currentTimeMillis(), aircraftStatesReceived);
                 //Send it to the connected Engine!
 //                myEngine.onSystemUpdate(testState); //TODO: fix this
             }catch(IOException e){System.err.println("Prediction-side Debug Message Parse Failed");}//End Catch

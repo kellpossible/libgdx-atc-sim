@@ -47,20 +47,20 @@ public class SimulatorTrackLoader extends TrackLoader {
         double latitude;
         double longitude;
         double altitude;
-        Calendar time;
+        long time;
 
         String csvString = new String(encoded, java.nio.charset.StandardCharsets.UTF_8);
         String[] lines = csvString.split(System.getProperty("line.separator"));
 
         GeographicCoordinate previousPosition = null;
-        Calendar previousTime = null;
+        long previousTime = 0;
 
         for (String line : lines)
         {
 
             List<String> line_values = Arrays.asList(line.split(","));
             try {
-                time = ISO8601.toCalendar(line_values.get(0));
+                time = ISO8601.toCalendar(line_values.get(0)).getTimeInMillis();
 
                 //Funnily enough, the latitude and longitude are in the oposite order
                 //to what you usually find.
@@ -72,13 +72,13 @@ public class SimulatorTrackLoader extends TrackLoader {
                 double heading = Double.NaN;
                 SphericalVelocity velocity;
 
-                if (previousPosition != null && previousTime != null)
+                if (previousPosition != null && previousTime != 0)
                 {
                     heading = previousPosition.bearingTo(position); //TODO: pretty sure this is broken although who knows what x-plane's heading is putting out (true or magnetic?)
                     Vector3 dPos = position.subtract(previousPosition);
 
                     //calculate the velocity based on the change in position over time.
-                    double dt = (time.getTimeInMillis()-previousTime.getTimeInMillis())/1000.0;
+                    double dt = (time-previousTime)/1000.0;
                     velocity = new SphericalVelocity(dPos.mult(dt)); //TODO: fails hard due to precision error, need to average
                 } else {
                     velocity = new SphericalVelocity(0,0,0);

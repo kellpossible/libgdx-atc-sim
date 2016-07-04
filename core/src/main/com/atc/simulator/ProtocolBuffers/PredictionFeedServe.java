@@ -604,18 +604,21 @@ public final class PredictionFeedServe {
         getAircraftIDBytes();
 
     /**
-     * <code>required string time = 2;</code>
+     * <code>required int64 time = 2;</code>
+     *
+     * <pre>
+     *milliseconds since epoch
+     * </pre>
      */
     boolean hasTime();
     /**
-     * <code>required string time = 2;</code>
+     * <code>required int64 time = 2;</code>
+     *
+     * <pre>
+     *milliseconds since epoch
+     * </pre>
      */
-    java.lang.String getTime();
-    /**
-     * <code>required string time = 2;</code>
-     */
-    com.google.protobuf.ByteString
-        getTimeBytes();
+    long getTime();
 
     /**
      * <code>repeated .GeographicCoordinateMessage position = 3;</code>
@@ -699,10 +702,9 @@ public final class PredictionFeedServe {
               aircraftID_ = bs;
               break;
             }
-            case 18: {
-              com.google.protobuf.ByteString bs = input.readBytes();
+            case 16: {
               bitField0_ |= 0x00000002;
-              time_ = bs;
+              time_ = input.readInt64();
               break;
             }
             case 26: {
@@ -799,45 +801,26 @@ public final class PredictionFeedServe {
     }
 
     public static final int TIME_FIELD_NUMBER = 2;
-    private java.lang.Object time_;
+    private long time_;
     /**
-     * <code>required string time = 2;</code>
+     * <code>required int64 time = 2;</code>
+     *
+     * <pre>
+     *milliseconds since epoch
+     * </pre>
      */
     public boolean hasTime() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
-     * <code>required string time = 2;</code>
+     * <code>required int64 time = 2;</code>
+     *
+     * <pre>
+     *milliseconds since epoch
+     * </pre>
      */
-    public java.lang.String getTime() {
-      java.lang.Object ref = time_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        if (bs.isValidUtf8()) {
-          time_ = s;
-        }
-        return s;
-      }
-    }
-    /**
-     * <code>required string time = 2;</code>
-     */
-    public com.google.protobuf.ByteString
-        getTimeBytes() {
-      java.lang.Object ref = time_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        time_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
+    public long getTime() {
+      return time_;
     }
 
     public static final int POSITION_FIELD_NUMBER = 3;
@@ -877,7 +860,7 @@ public final class PredictionFeedServe {
 
     private void initFields() {
       aircraftID_ = "";
-      time_ = "";
+      time_ = 0L;
       position_ = java.util.Collections.emptyList();
     }
     private byte memoizedIsInitialized = -1;
@@ -911,7 +894,7 @@ public final class PredictionFeedServe {
         output.writeBytes(1, getAircraftIDBytes());
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeBytes(2, getTimeBytes());
+        output.writeInt64(2, time_);
       }
       for (int i = 0; i < position_.size(); i++) {
         output.writeMessage(3, position_.get(i));
@@ -931,7 +914,7 @@ public final class PredictionFeedServe {
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(2, getTimeBytes());
+          .computeInt64Size(2, time_);
       }
       for (int i = 0; i < position_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
@@ -1057,7 +1040,7 @@ public final class PredictionFeedServe {
         super.clear();
         aircraftID_ = "";
         bitField0_ = (bitField0_ & ~0x00000001);
-        time_ = "";
+        time_ = 0L;
         bitField0_ = (bitField0_ & ~0x00000002);
         if (positionBuilder_ == null) {
           position_ = java.util.Collections.emptyList();
@@ -1132,9 +1115,7 @@ public final class PredictionFeedServe {
           onChanged();
         }
         if (other.hasTime()) {
-          bitField0_ |= 0x00000002;
-          time_ = other.time_;
-          onChanged();
+          setTime(other.getTime());
         }
         if (positionBuilder_ == null) {
           if (!other.position_.isEmpty()) {
@@ -1279,78 +1260,50 @@ public final class PredictionFeedServe {
         return this;
       }
 
-      private java.lang.Object time_ = "";
+      private long time_ ;
       /**
-       * <code>required string time = 2;</code>
+       * <code>required int64 time = 2;</code>
+       *
+       * <pre>
+       *milliseconds since epoch
+       * </pre>
        */
       public boolean hasTime() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
-       * <code>required string time = 2;</code>
+       * <code>required int64 time = 2;</code>
+       *
+       * <pre>
+       *milliseconds since epoch
+       * </pre>
        */
-      public java.lang.String getTime() {
-        java.lang.Object ref = time_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          if (bs.isValidUtf8()) {
-            time_ = s;
-          }
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
+      public long getTime() {
+        return time_;
       }
       /**
-       * <code>required string time = 2;</code>
+       * <code>required int64 time = 2;</code>
+       *
+       * <pre>
+       *milliseconds since epoch
+       * </pre>
        */
-      public com.google.protobuf.ByteString
-          getTimeBytes() {
-        java.lang.Object ref = time_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          time_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>required string time = 2;</code>
-       */
-      public Builder setTime(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000002;
+      public Builder setTime(long value) {
+        bitField0_ |= 0x00000002;
         time_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required string time = 2;</code>
+       * <code>required int64 time = 2;</code>
+       *
+       * <pre>
+       *milliseconds since epoch
+       * </pre>
        */
       public Builder clearTime() {
         bitField0_ = (bitField0_ & ~0x00000002);
-        time_ = getDefaultInstance().getTime();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required string time = 2;</code>
-       */
-      public Builder setTimeBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000002;
-        time_ = value;
+        time_ = 0L;
         onChanged();
         return this;
       }
@@ -1629,7 +1582,7 @@ public final class PredictionFeedServe {
       "\n\033GeographicCoordinateMessage\022\020\n\010altitud" +
       "e\030\001 \002(\001\022\020\n\010latitude\030\002 \002(\001\022\021\n\tlongitude\030\003" +
       " \002(\001\"m\n\031AircraftPredictionMessage\022\022\n\nair" +
-      "craftID\030\001 \002(\t\022\014\n\004time\030\002 \002(\t\022.\n\010position\030" +
+      "craftID\030\001 \002(\t\022\014\n\004time\030\002 \002(\003\022.\n\010position\030" +
       "\003 \003(\0132\034.GeographicCoordinateMessageB8\n!c" +
       "om.atc.simulator.ProtocolBuffersB\023Predic" +
       "tionFeedServe"

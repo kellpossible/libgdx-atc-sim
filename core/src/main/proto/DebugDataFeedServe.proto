@@ -18,7 +18,7 @@ message GeographicCoordinateMessage {
 message AircraftStateMessage
 {
     required string aircraftID = 1;
-    required string time = 2;
+    required int64 time = 2; //milliseconds since epoch
     required GeographicCoordinateMessage position = 3;
     required SphericalVelocityMessage velocity = 4;
     required double heading = 5;
@@ -26,6 +26,6 @@ message AircraftStateMessage
 
 message SystemStateMessage
 {
-    required string time = 1;
+    required int64 time = 1;
     repeated AircraftStateMessage aircraftState = 2;
 }

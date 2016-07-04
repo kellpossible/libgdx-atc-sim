@@ -1181,18 +1181,21 @@ public final class DebugDataFeedServe {
         getAircraftIDBytes();
 
     /**
-     * <code>required string time = 2;</code>
+     * <code>required int64 time = 2;</code>
+     *
+     * <pre>
+     *milliseconds since epoch
+     * </pre>
      */
     boolean hasTime();
     /**
-     * <code>required string time = 2;</code>
+     * <code>required int64 time = 2;</code>
+     *
+     * <pre>
+     *milliseconds since epoch
+     * </pre>
      */
-    java.lang.String getTime();
-    /**
-     * <code>required string time = 2;</code>
-     */
-    com.google.protobuf.ByteString
-        getTimeBytes();
+    long getTime();
 
     /**
      * <code>required .GeographicCoordinateMessage position = 3;</code>
@@ -1287,10 +1290,9 @@ public final class DebugDataFeedServe {
               aircraftID_ = bs;
               break;
             }
-            case 18: {
-              com.google.protobuf.ByteString bs = input.readBytes();
+            case 16: {
               bitField0_ |= 0x00000002;
-              time_ = bs;
+              time_ = input.readInt64();
               break;
             }
             case 26: {
@@ -1407,45 +1409,26 @@ public final class DebugDataFeedServe {
     }
 
     public static final int TIME_FIELD_NUMBER = 2;
-    private java.lang.Object time_;
+    private long time_;
     /**
-     * <code>required string time = 2;</code>
+     * <code>required int64 time = 2;</code>
+     *
+     * <pre>
+     *milliseconds since epoch
+     * </pre>
      */
     public boolean hasTime() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
-     * <code>required string time = 2;</code>
+     * <code>required int64 time = 2;</code>
+     *
+     * <pre>
+     *milliseconds since epoch
+     * </pre>
      */
-    public java.lang.String getTime() {
-      java.lang.Object ref = time_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        if (bs.isValidUtf8()) {
-          time_ = s;
-        }
-        return s;
-      }
-    }
-    /**
-     * <code>required string time = 2;</code>
-     */
-    public com.google.protobuf.ByteString
-        getTimeBytes() {
-      java.lang.Object ref = time_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        time_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
+    public long getTime() {
+      return time_;
     }
 
     public static final int POSITION_FIELD_NUMBER = 3;
@@ -1507,7 +1490,7 @@ public final class DebugDataFeedServe {
 
     private void initFields() {
       aircraftID_ = "";
-      time_ = "";
+      time_ = 0L;
       position_ = com.atc.simulator.ProtocolBuffers.DebugDataFeedServe.GeographicCoordinateMessage.getDefaultInstance();
       velocity_ = com.atc.simulator.ProtocolBuffers.DebugDataFeedServe.SphericalVelocityMessage.getDefaultInstance();
       heading_ = 0D;
@@ -1557,7 +1540,7 @@ public final class DebugDataFeedServe {
         output.writeBytes(1, getAircraftIDBytes());
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeBytes(2, getTimeBytes());
+        output.writeInt64(2, time_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeMessage(3, position_);
@@ -1583,7 +1566,7 @@ public final class DebugDataFeedServe {
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(2, getTimeBytes());
+          .computeInt64Size(2, time_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
@@ -1718,7 +1701,7 @@ public final class DebugDataFeedServe {
         super.clear();
         aircraftID_ = "";
         bitField0_ = (bitField0_ & ~0x00000001);
-        time_ = "";
+        time_ = 0L;
         bitField0_ = (bitField0_ & ~0x00000002);
         if (positionBuilder_ == null) {
           position_ = com.atc.simulator.ProtocolBuffers.DebugDataFeedServe.GeographicCoordinateMessage.getDefaultInstance();
@@ -1812,9 +1795,7 @@ public final class DebugDataFeedServe {
           onChanged();
         }
         if (other.hasTime()) {
-          bitField0_ |= 0x00000002;
-          time_ = other.time_;
-          onChanged();
+          setTime(other.getTime());
         }
         if (other.hasPosition()) {
           mergePosition(other.getPosition());
@@ -1956,78 +1937,50 @@ public final class DebugDataFeedServe {
         return this;
       }
 
-      private java.lang.Object time_ = "";
+      private long time_ ;
       /**
-       * <code>required string time = 2;</code>
+       * <code>required int64 time = 2;</code>
+       *
+       * <pre>
+       *milliseconds since epoch
+       * </pre>
        */
       public boolean hasTime() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
-       * <code>required string time = 2;</code>
+       * <code>required int64 time = 2;</code>
+       *
+       * <pre>
+       *milliseconds since epoch
+       * </pre>
        */
-      public java.lang.String getTime() {
-        java.lang.Object ref = time_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          if (bs.isValidUtf8()) {
-            time_ = s;
-          }
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
+      public long getTime() {
+        return time_;
       }
       /**
-       * <code>required string time = 2;</code>
+       * <code>required int64 time = 2;</code>
+       *
+       * <pre>
+       *milliseconds since epoch
+       * </pre>
        */
-      public com.google.protobuf.ByteString
-          getTimeBytes() {
-        java.lang.Object ref = time_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          time_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>required string time = 2;</code>
-       */
-      public Builder setTime(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000002;
+      public Builder setTime(long value) {
+        bitField0_ |= 0x00000002;
         time_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required string time = 2;</code>
+       * <code>required int64 time = 2;</code>
+       *
+       * <pre>
+       *milliseconds since epoch
+       * </pre>
        */
       public Builder clearTime() {
         bitField0_ = (bitField0_ & ~0x00000002);
-        time_ = getDefaultInstance().getTime();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required string time = 2;</code>
-       */
-      public Builder setTimeBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000002;
-        time_ = value;
+        time_ = 0L;
         onChanged();
         return this;
       }
@@ -2312,18 +2265,13 @@ public final class DebugDataFeedServe {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>required string time = 1;</code>
+     * <code>required int64 time = 1;</code>
      */
     boolean hasTime();
     /**
-     * <code>required string time = 1;</code>
+     * <code>required int64 time = 1;</code>
      */
-    java.lang.String getTime();
-    /**
-     * <code>required string time = 1;</code>
-     */
-    com.google.protobuf.ByteString
-        getTimeBytes();
+    long getTime();
 
     /**
      * <code>repeated .AircraftStateMessage aircraftState = 2;</code>
@@ -2401,10 +2349,9 @@ public final class DebugDataFeedServe {
               }
               break;
             }
-            case 10: {
-              com.google.protobuf.ByteString bs = input.readBytes();
+            case 8: {
               bitField0_ |= 0x00000001;
-              time_ = bs;
+              time_ = input.readInt64();
               break;
             }
             case 18: {
@@ -2459,45 +2406,18 @@ public final class DebugDataFeedServe {
 
     private int bitField0_;
     public static final int TIME_FIELD_NUMBER = 1;
-    private java.lang.Object time_;
+    private long time_;
     /**
-     * <code>required string time = 1;</code>
+     * <code>required int64 time = 1;</code>
      */
     public boolean hasTime() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>required string time = 1;</code>
+     * <code>required int64 time = 1;</code>
      */
-    public java.lang.String getTime() {
-      java.lang.Object ref = time_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        if (bs.isValidUtf8()) {
-          time_ = s;
-        }
-        return s;
-      }
-    }
-    /**
-     * <code>required string time = 1;</code>
-     */
-    public com.google.protobuf.ByteString
-        getTimeBytes() {
-      java.lang.Object ref = time_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        time_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
+    public long getTime() {
+      return time_;
     }
 
     public static final int AIRCRAFTSTATE_FIELD_NUMBER = 2;
@@ -2536,7 +2456,7 @@ public final class DebugDataFeedServe {
     }
 
     private void initFields() {
-      time_ = "";
+      time_ = 0L;
       aircraftState_ = java.util.Collections.emptyList();
     }
     private byte memoizedIsInitialized = -1;
@@ -2563,7 +2483,7 @@ public final class DebugDataFeedServe {
                         throws java.io.IOException {
       getSerializedSize();
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeBytes(1, getTimeBytes());
+        output.writeInt64(1, time_);
       }
       for (int i = 0; i < aircraftState_.size(); i++) {
         output.writeMessage(2, aircraftState_.get(i));
@@ -2579,7 +2499,7 @@ public final class DebugDataFeedServe {
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(1, getTimeBytes());
+          .computeInt64Size(1, time_);
       }
       for (int i = 0; i < aircraftState_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
@@ -2703,7 +2623,7 @@ public final class DebugDataFeedServe {
 
       public Builder clear() {
         super.clear();
-        time_ = "";
+        time_ = 0L;
         bitField0_ = (bitField0_ & ~0x00000001);
         if (aircraftStateBuilder_ == null) {
           aircraftState_ = java.util.Collections.emptyList();
@@ -2769,9 +2689,7 @@ public final class DebugDataFeedServe {
       public Builder mergeFrom(com.atc.simulator.ProtocolBuffers.DebugDataFeedServe.SystemStateMessage other) {
         if (other == com.atc.simulator.ProtocolBuffers.DebugDataFeedServe.SystemStateMessage.getDefaultInstance()) return this;
         if (other.hasTime()) {
-          bitField0_ |= 0x00000001;
-          time_ = other.time_;
-          onChanged();
+          setTime(other.getTime());
         }
         if (aircraftStateBuilder_ == null) {
           if (!other.aircraftState_.isEmpty()) {
@@ -2836,78 +2754,34 @@ public final class DebugDataFeedServe {
       }
       private int bitField0_;
 
-      private java.lang.Object time_ = "";
+      private long time_ ;
       /**
-       * <code>required string time = 1;</code>
+       * <code>required int64 time = 1;</code>
        */
       public boolean hasTime() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>required string time = 1;</code>
+       * <code>required int64 time = 1;</code>
        */
-      public java.lang.String getTime() {
-        java.lang.Object ref = time_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          if (bs.isValidUtf8()) {
-            time_ = s;
-          }
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
+      public long getTime() {
+        return time_;
       }
       /**
-       * <code>required string time = 1;</code>
+       * <code>required int64 time = 1;</code>
        */
-      public com.google.protobuf.ByteString
-          getTimeBytes() {
-        java.lang.Object ref = time_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          time_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>required string time = 1;</code>
-       */
-      public Builder setTime(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000001;
+      public Builder setTime(long value) {
+        bitField0_ |= 0x00000001;
         time_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required string time = 1;</code>
+       * <code>required int64 time = 1;</code>
        */
       public Builder clearTime() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        time_ = getDefaultInstance().getTime();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required string time = 1;</code>
-       */
-      public Builder setTimeBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000001;
-        time_ = value;
+        time_ = 0L;
         onChanged();
         return this;
       }
@@ -3198,10 +3072,10 @@ public final class DebugDataFeedServe {
       "cCoordinateMessage\022\020\n\010altitude\030\001 \002(\001\022\020\n\010" +
       "latitude\030\002 \002(\001\022\021\n\tlongitude\030\003 \002(\001\"\246\001\n\024Ai" +
       "rcraftStateMessage\022\022\n\naircraftID\030\001 \002(\t\022\014" +
-      "\n\004time\030\002 \002(\t\022.\n\010position\030\003 \002(\0132\034.Geograp" +
+      "\n\004time\030\002 \002(\003\022.\n\010position\030\003 \002(\0132\034.Geograp" +
       "hicCoordinateMessage\022+\n\010velocity\030\004 \002(\0132\031" +
       ".SphericalVelocityMessage\022\017\n\007heading\030\005 \002" +
-      "(\001\"P\n\022SystemStateMessage\022\014\n\004time\030\001 \002(\t\022,",
+      "(\001\"P\n\022SystemStateMessage\022\014\n\004time\030\001 \002(\003\022,",
       "\n\raircraftState\030\002 \003(\0132\025.AircraftStateMes" +
       "sageB7\n!com.atc.simulator.ProtocolBuffer" +
       "sB\022DebugDataFeedServe"

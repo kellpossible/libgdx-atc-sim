@@ -8,7 +8,7 @@ import java.util.Calendar;
  * @author Luke Frisken
  */
 public class SystemState {
-    private Calendar time;
+    private long time;
     private ArrayList<AircraftState> aircraftStates;
 
     /**
@@ -16,7 +16,7 @@ public class SystemState {
      * @param time
      * @param aircraftStates
      */
-    public SystemState(Calendar time, ArrayList<AircraftState> aircraftStates)
+    public SystemState(long time, ArrayList<AircraftState> aircraftStates)
     {
         this.aircraftStates = aircraftStates;
         this.time = time;
@@ -25,9 +25,9 @@ public class SystemState {
 
     /**
      * Get the time for this state
-     * @return time
+     * @return time (in milliseconds sinch epoch)
      */
-    public Calendar getTime() {
+    public long getTime() {
         return time;
     }
 

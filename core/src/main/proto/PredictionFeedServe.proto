@@ -13,6 +13,6 @@ message GeographicCoordinateMessage {
 message AircraftPredictionMessage
 {
     required string aircraftID = 1;
-    required string time = 2;
+    required int64 time = 2; //milliseconds since epoch
     repeated GeographicCoordinateMessage position = 3;
 }

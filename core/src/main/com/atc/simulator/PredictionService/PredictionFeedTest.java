@@ -11,6 +11,7 @@ import com.atc.simulator.vectors.SphericalVelocity;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 /**
  * Created by Chris on 7/05/2016.
@@ -22,42 +23,38 @@ import java.util.ArrayList;
 public class PredictionFeedTest {
     //Test method to be comfortable with using PredictionFeedServe's protocol buffer
     public static void main(String[] arg) {
-        try{
-            //Create SystemState Test Data:
-            ArrayList<AircraftState> testAStates = new ArrayList<AircraftState>();
-            testAStates.add(new AircraftState("TestPlane1", ISO8601.toCalendar(ISO8601.now()), new GeographicCoordinate(0,0,0), new SphericalVelocity(1,2,3), 0.5));
-            SystemStateDatabase systemStateDatabase = new SystemStateDatabase();
-            //Create Server/Client objects
-            PredictionFeedServerThread testServer = new PredictionFeedServerThread();
-            PredictionFeedClientThread testClient = new PredictionFeedClientThread();
-            PredictionEngineThread testEngine = new PredictionEngineThread(testServer, systemStateDatabase, 1);
-            systemStateDatabase.addListener(testEngine);
-            //Fill up the buffer a little bit
-            for (AircraftState testState : testAStates)
-            {
-                systemStateDatabase.update(testState);
-            }
-            //Start the threads
-            testClient.start();
-            testServer.start();
-            testEngine.start();
-            //Send messages on every entered item, loop out on 'q' being sent
-            try{
-                while(System.in.read() != 'q') {
-                    for (AircraftState testState : testAStates)
-                    {
-                        systemStateDatabase.update(testState);
-                    }
-                }
-            }catch(IOException i){}
-
-            //Close the Threads
-            testEngine.kill();
-            testClient.kill();
-            testServer.kill();
-       }catch(ParseException p){
-            System.out.println("Clock failed");
+        //Create SystemState Test Data:
+        ArrayList<AircraftState> testAStates = new ArrayList<AircraftState>();
+        testAStates.add(new AircraftState("TestPlane1", System.currentTimeMillis(), new GeographicCoordinate(0,0,0), new SphericalVelocity(1,2,3), 0.5));
+        SystemStateDatabase systemStateDatabase = new SystemStateDatabase();
+        //Create Server/Client objects
+        PredictionFeedServerThread testServer = new PredictionFeedServerThread();
+        PredictionFeedClientThread testClient = new PredictionFeedClientThread();
+        PredictionEngineThread testEngine = new PredictionEngineThread(testServer, systemStateDatabase, 1);
+        systemStateDatabase.addListener(testEngine);
+        //Fill up the buffer a little bit
+        for (AircraftState testState : testAStates)
+        {
+            systemStateDatabase.update(testState);
         }
+        //Start the threads
+        testClient.start();
+        testServer.start();
+        testEngine.start();
+        //Send messages on every entered item, loop out on 'q' being sent
+        try{
+            while(System.in.read() != 'q') {
+                for (AircraftState testState : testAStates)
+                {
+                    systemStateDatabase.update(testState);
+                }
+            }
+        }catch(IOException i){}
+
+        //Close the Threads
+        testEngine.kill();
+        testClient.kill();
+        testServer.kill();
 
        System.out.println("Test Complete");
     }

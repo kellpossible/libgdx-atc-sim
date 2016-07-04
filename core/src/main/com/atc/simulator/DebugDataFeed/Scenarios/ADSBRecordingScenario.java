@@ -27,9 +27,9 @@ import java.util.*;
 public class ADSBRecordingScenario extends Scenario {
     private HashMap<String, Track> tracksDictionary; //map a track to the aircraft id
     private ArrayList<Track> tracks;
-    private LinkedHashMap<Calendar, SystemState> systemStates;
+    private LinkedHashMap<Long, SystemState> systemStates;
     private int recommendedUpdateRate;
-    private Calendar startTime = null, endTime = null;
+    private long startTime = 0, endTime = 0;
 
     /**
      * Constructor ADSBRecordingScenario creates a new ADSBRecordingScenario instance.
@@ -37,7 +37,7 @@ public class ADSBRecordingScenario extends Scenario {
     public ADSBRecordingScenario(String filePath)
     {
         tracksDictionary = new HashMap<String, Track>();
-        systemStates = new LinkedHashMap<Calendar, SystemState>();
+        systemStates = new LinkedHashMap<Long, SystemState>();
         try {
             readFromJsonFile(filePath);
         } catch (IOException e) {
@@ -57,13 +57,13 @@ public class ADSBRecordingScenario extends Scenario {
 
         JsonArray systemStatesJS = object.get("system_states").getAsJsonArray();
 
-        long startTimeMillis = Long.MAX_VALUE;
-        long endTimeMillis = Long.MIN_VALUE;
+        startTime = Long.MAX_VALUE;
+        endTime = Long.MIN_VALUE;
 
         for (JsonElement systemStateElement: systemStatesJS) {
             JsonObject systemStateJS = systemStateElement.getAsJsonObject();
 
-            Calendar systemStateTime = ISO8601.toCalendar(systemStateJS.get("time").getAsString());
+            long systemStateTime = ISO8601.toCalendar(systemStateJS.get("time").getAsString()).getTimeInMillis();
 
             JsonArray aircraftStatesJS = systemStateJS.get("aircraft_states").getAsJsonArray();
 
@@ -78,17 +78,16 @@ public class ADSBRecordingScenario extends Scenario {
 //                    continue;
 //                }
 
-                Calendar aircraftStateTime = ISO8601.toCalendar(aircraftStateJS.get("time").getAsString());
-                long aircraftStateTimeMillis = aircraftStateTime.getTimeInMillis();
+                long aircraftStateTime = ISO8601.toCalendar(aircraftStateJS.get("time").getAsString()).getTimeInMillis();
 
-                if (aircraftStateTimeMillis > endTimeMillis)
+                if (aircraftStateTime > endTime)
                 {
-                    endTimeMillis = aircraftStateTimeMillis;
+                    endTime = aircraftStateTime;
                 }
 
-                if (aircraftStateTimeMillis < startTimeMillis)
+                if (aircraftStateTime < startTime)
                 {
-                    startTimeMillis = aircraftStateTimeMillis;
+                    startTime = aircraftStateTime;
                 }
 
 
@@ -118,11 +117,11 @@ public class ADSBRecordingScenario extends Scenario {
                 } else {
                     AircraftState previousState = track.get(track.size() - 1);
                     GeographicCoordinate previousPosition = previousState.getPosition();
-                    Calendar previousTime = previousState.getTime();
+                    long previousTime = previousState.getTime();
 
 
                     //calculate the velocity based on the change in position over time.
-                    double dt = (aircraftStateTime.getTimeInMillis()-previousTime.getTimeInMillis())/1000.0;
+                    double dt = (aircraftStateTime-previousTime)/1000.0;
 
                     if (dt < 0.1)
                     {
@@ -178,33 +177,27 @@ public class ADSBRecordingScenario extends Scenario {
 
         tracks = new ArrayList<Track>(tracksDictionary.values());
 
-        startTime = Calendar.getInstance();
-        startTime.setTimeInMillis(startTimeMillis);
-
-        endTime = Calendar.getInstance();
-        endTime.setTimeInMillis(endTimeMillis);
-
     }
 
     /**
      * Get the SystemState at a given time as represented by the Scenario.
      * Assumes that the time provided is within the startTime and endTime boundary
      *
-     * @param time time of system state
+     * @param time time of system state (in milliseconds since epoch)
      * @return system state
      */
     @Override
-    public SystemState getState(Calendar time) {
+    public SystemState getState(long time) {
         checkStateTimeWithinBoundaries(time);
 
 //        System.out.println("getStateTime" + time.getTimeInMillis());
 //        System.out.println("startTime" + startTime.getTimeInMillis());
 
-        Calendar closestTime = null;
+        long closestTime = 0;
         long closestTimeDiff = Long.MAX_VALUE;
-        for (Calendar comparisonTime: systemStates.keySet())
+        for (long comparisonTime: systemStates.keySet())
         {
-            long timeDiff = Math.abs(comparisonTime.getTimeInMillis() - time.getTimeInMillis());
+            long timeDiff = Math.abs(comparisonTime - time);
             if (timeDiff < closestTimeDiff)
             {
                 closestTimeDiff = timeDiff;
@@ -214,7 +207,7 @@ public class ADSBRecordingScenario extends Scenario {
 
 //        System.out.println("startTime" + startTime.getTimeInMillis());
 
-        if (closestTime != null)
+        if (closestTime != 0)
         {
 //            SystemState tempSystemState = systemStates.get(closestTime);
 
@@ -254,20 +247,20 @@ public class ADSBRecordingScenario extends Scenario {
     /**
      * Get the start time of the Scenario
      *
-     * @return start time
+     * @return start time (in milliseconds since epoch)
      */
     @Override
-    public Calendar getStartTime() {
+    public long getStartTime() {
         return startTime;
     }
 
     /**
      * Get the end time of the scenario
      *
-     * @return end time
+     * @return end time (in milliseconds since epoch)
      */
     @Override
-    public Calendar getEndTime() {
+    public long getEndTime() {
         return endTime;
     }
 
