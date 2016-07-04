@@ -10,7 +10,7 @@ import static org.junit.Assert.*;
  * Created by Chris on 2/07/2016.
  */
 public class GeographicCoordinateTest {
-    GeographicCoordinate constGeoCoord1, constGeoCoord2, constGeoCoord3, constGeoCoord4;
+    GeographicCoordinate constGeoCoord1, constGeoCoord2, constGeoCoord3, constGeoCoord4, constGeoCoord5, constGeoCoord6;
     GeographicCoordinate testGeoCoord;
     Vector3 cartesianCoord;
 
@@ -20,6 +20,8 @@ public class GeographicCoordinateTest {
         constGeoCoord2 = new GeographicCoordinate(31, -0.65990899, 2.53002928);
         constGeoCoord3 = new GeographicCoordinate(0, 0.682422201638, -1.65075357738);
         constGeoCoord4 = new GeographicCoordinate(0, 0.674169883509, -1.57429052831);
+        constGeoCoord5 = new GeographicCoordinate(0, 0.762398441406, -1.22959660552);
+        constGeoCoord6 = new GeographicCoordinate(0, 0.762398109793, -1.22959787961);
     }
 
     //Test whether converting to and from cartesian keeps the coordinate information as the original
@@ -48,24 +50,32 @@ public class GeographicCoordinateTest {
     public void bearingTo1() throws Exception {
         assertEquals("http://www.igismap.com/formula-to-find-bearing-or-heading-angle-between-two-points-latitude-longitude/",
                 1.68441726, constGeoCoord3.bearingTo(constGeoCoord4), 0.01);
+        assertEquals("http://gis.stackexchange.com/questions/29239/calculate-bearing-between-two-decimal-gps-coordinates",
+                4.36332, constGeoCoord5.bearingTo(constGeoCoord6), 0.01);
     }
 
     @Test
     public void bearingTo() throws Exception {
         assertEquals("http://www.igismap.com/formula-to-find-bearing-or-heading-angle-between-two-points-latitude-longitude/",
                 1.68441726, constGeoCoord3.bearingTo(constGeoCoord4), 0.01);
+        assertEquals("http://gis.stackexchange.com/questions/29239/calculate-bearing-between-two-decimal-gps-coordinates",
+                4.36332, constGeoCoord5.bearingTo(constGeoCoord6), 0.01);
     }
 
     @Test
     public void bearingTo3() throws Exception {
         assertEquals("http://www.igismap.com/formula-to-find-bearing-or-heading-angle-between-two-points-latitude-longitude/",
                 1.68441726, constGeoCoord3.bearingTo(constGeoCoord4), 0.01);
+        assertEquals("http://gis.stackexchange.com/questions/29239/calculate-bearing-between-two-decimal-gps-coordinates",
+                4.36332, constGeoCoord5.bearingTo(constGeoCoord6), 0.01);
     }
 
     @Test
     public void bearingTo4() throws Exception {
         assertEquals("http://www.igismap.com/formula-to-find-bearing-or-heading-angle-between-two-points-latitude-longitude/",
                 1.68441726, constGeoCoord3.bearingTo(constGeoCoord4), 0.01);
+        assertEquals("http://gis.stackexchange.com/questions/29239/calculate-bearing-between-two-decimal-gps-coordinates",
+                4.36332, constGeoCoord5.bearingTo(constGeoCoord6), 0.01);
     }
 
 }
