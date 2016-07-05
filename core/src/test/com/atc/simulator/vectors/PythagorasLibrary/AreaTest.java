@@ -16,6 +16,67 @@ public class AreaTest
         areaWithPath();
     }
 
+    @Test public void add(){
+        Vector3 v1 = new Vector3(0,0,0);
+        Vector3 v2 = new Vector3(1,1,1);
+
+        Assert.assertEquals(v2, v1.add(v2)); //<(0+1),(0+1),(0+1)> = <1,1,1>
+        Assert.assertEquals(v1, v2.add(new Vector3(-1,-1,-1))); //<(1-1),(1-1),(1-1)> = <0,0,0>
+        Assert.assertEquals(new Vector3(2,2,2), v2.add(v2)); //<(1+1),(1+1),(1+1)> = <2,2,2>
+    }
+
+    @Test public void subtract(){
+        Vector3 v1 = new Vector3(0,0,0);
+        Vector3 v2 = new Vector3(1,1,1);
+        Vector3 v3 = new Vector3(-1,-1,-1);
+
+        Assert.assertEquals(v2, v2.subtract(v1)); //<(1-0),(1-0),(1-0)> = <1,1,1>
+        Assert.assertEquals(v1, v2.subtract(v2)); //<(1-1),(1-1),(1-1)> = <0,0,0>
+        Assert.assertEquals(v1, v3.subtract(new Vector3(-1,-1,-1))); //<(-1--1),(-1--1),(-1--1)> = <0,0,0>
+    }
+
+    @Test public void normalize(){
+        Vector3 v1 = new Vector3(3,1,2);
+        Vector3 v1Norm = new Vector3(0.8017837257372732,0.2672612419124244,0.5345224838248488);
+        Vector3 v2 = new Vector3(5,5,5);
+        Vector3 v2Norm = new Vector3(0.5773502691896257, 0.5773502691896257, 0.5773502691896257);
+
+        Assert.assertEquals("http://www.fundza.com/vectors/normalize/",v1Norm,v1.normalize());
+        Assert.assertEquals("http://snipd.net/2d-and-3d-vector-normalization-and-angle-calculation-in-c",v2Norm,v2.normalize());
+    }
+
+    @Test public void negative(){
+        Vector3 v1 = new Vector3(3,1,2);
+        Vector3 v1Norm = new Vector3(-3,-1,-2);
+        Vector3 v2 = new Vector3(5,5,5);
+        Vector3 v2Norm = new Vector3(-5,-5,-5);
+
+        Assert.assertEquals(v1Norm,v1.negate());
+        Assert.assertEquals(v2Norm,v2.negate());
+    }
+
+    @Test public void multiply(){
+        Vector3 v1 = new Vector3(1,1,1);
+        Vector3 v1Scalar = new Vector3(-3,-3,-3);
+        Vector3 v2 = new Vector3(5,5,5);
+        Vector3 v3 = new Vector3(6.2,5,0.1);
+        Vector3 v23 = new Vector3(31,25,0.5);
+
+        Assert.assertEquals(v1Scalar,v1.mult(-3));
+        Assert.assertEquals(v23,v2.mult(v3));
+    }
+
+    @Test public void linearInterpolate(){
+        Vector3 v1 = new Vector3(0,0,0);
+        Vector3 v2 = new Vector3(10,0,0);
+        Vector3 v3 = new Vector3(0,10,0);
+        Vector3 v4 = new Vector3(0,0,10);
+
+        Assert.assertEquals(new Vector3(5,0,0),v1.lerp(v2, 0.5));
+        Assert.assertEquals(new Vector3(0,5,0),v1.lerp(v3, 0.5));
+        Assert.assertEquals(new Vector3(0,0,5),v1.lerp(v4, 0.5));
+        Assert.assertEquals(new Vector3(2.5,0,7.5),v2.lerp(v4, 0.75));
+    }
 
     @Test public void areaWithPath() {
         Path path = new Path();
