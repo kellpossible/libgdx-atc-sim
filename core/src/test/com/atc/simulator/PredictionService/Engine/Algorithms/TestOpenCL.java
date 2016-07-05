@@ -51,34 +51,34 @@ public class TestOpenCL {
 
         ArrayList<PredictionWorkItem> work = new ArrayList<PredictionWorkItem>();
 
-        Calendar cal = Calendar.getInstance();
+        long time = System.currentTimeMillis();
         for (int i=0; i < 2000; i++)
         {
             Track track = new Track();
             track.add(new AircraftState(
                     "test",
-                    cal,
+                    time,
                     new GeographicCoordinate(new Vector3(1.11+i, 1.12+i, 1.13+i)),
                     new SphericalVelocity(new Vector3(1.21+i, 1.22+i, 1.23+i)),
                     1.31+i
             ));
             track.add(new AircraftState(
                     "test",
-                    cal,
+                    time,
                     new GeographicCoordinate(new Vector3(2.11+i, 2.12+i, 2.13+i)),
                     new SphericalVelocity(new Vector3(2.21+i, 2.22+i, 2.23+i)),
                     2.31+i
             ));
             track.add(new AircraftState(
                     "test",
-                    cal,
+                    time,
                     new GeographicCoordinate(new Vector3(3.11+i, 3.12+i, 3.13+i)),
                     new SphericalVelocity(new Vector3(3.21+i, 3.22+i, 3.23+i)),
                     3.31+i
             ));
             track.add(new AircraftState(
                     "test",
-                    cal,
+                    time,
                     new GeographicCoordinate(new Vector3(4.11+i, 4.12+i, 4.13+i)),
                     new SphericalVelocity(new Vector3(4.21+i, 4.22+i, 4.23+i)),
                     4.31+i
