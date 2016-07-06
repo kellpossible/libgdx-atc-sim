@@ -34,8 +34,11 @@ public class JavaLinearAlgorithm extends JavaPredictionAlgorithm {
         {
             totalDT += dt;
             GeographicCoordinate predictedPosition = new GeographicCoordinate(
-                    positionV.add(velocityV.mult(totalDT))
+                    position.add(velocity.mult(totalDT/1000))
             );
+
+//            GeographicCoordinate predictedPosition = new GeographicCoordinate(
+//                    positionV.add(addVector));
 
             AircraftState predictedState = new AircraftState(
                     state.getAircraftID(),
