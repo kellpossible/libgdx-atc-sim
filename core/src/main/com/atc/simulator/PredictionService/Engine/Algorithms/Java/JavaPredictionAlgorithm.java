@@ -27,6 +27,7 @@ public abstract class JavaPredictionAlgorithm {
     static {
         algorithmHashMap = new HashMap<PredictionAlgorithmType, JavaPredictionAlgorithm>();
         algorithmHashMap.put(PredictionAlgorithmType.PASSTHROUGH, new JavaPassthroughAlgorithm());
+        algorithmHashMap.put(PredictionAlgorithmType.LINEAR, new JavaLinearAlgorithm());
     }
 
     public static JavaPredictionAlgorithm getInstance(PredictionAlgorithmType type)
