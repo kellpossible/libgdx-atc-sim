@@ -33,5 +33,11 @@ public abstract class JavaPredictionAlgorithm {
     {
         return algorithmHashMap.get(type);
     }
+    /**
+     * Method makePrediction ...
+     *
+     * @param aircraftTrack of type Track
+     * @return Prediction
+     */
     public abstract Prediction makePrediction(Track aircraftTrack);
 }
