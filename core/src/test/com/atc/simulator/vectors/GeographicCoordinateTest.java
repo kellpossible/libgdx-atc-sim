@@ -23,9 +23,7 @@ public class GeographicCoordinateTest {
         constGeoCoord4 = new GeographicCoordinate(0, 0.674169883509, -1.57429052831);
         constGeoCoord5 = new GeographicCoordinate(0, 0.762398441406, -1.22959660552);
         constGeoCoord6 = new GeographicCoordinate(0, 0.762398109793, -1.22959787961);
-        northPole = new GeographicCoordinate(0, 0, PI/2);
-        southPole = new GeographicCoordinate(0, 0, -PI/2);
-    }
+       }
 
     //Test whether converting to and from cartesian keeps the coordinate information as the original
     @Test
@@ -52,9 +50,9 @@ public class GeographicCoordinateTest {
     @Test
     public void bearingTo1() throws Exception {
         assertEquals("Same coordinate",
-                0, constGeoCoord1.bearingTo(constGeoCoord1), 0.01);
-        assertEquals("Opposite side of globe",
-                0, northPole.bearingTo(southPole), 0.01);
+                PI/2, constGeoCoord1.bearingTo(constGeoCoord1), 0.01);
+        assertEquals("Horizontally opposite side of globe",
+                0, new GeographicCoordinate(0, 0, 0).bearingTo(new GeographicCoordinate(0, 0, PI)), 0.01);
         assertEquals("http://www.igismap.com/formula-to-find-bearing-or-heading-angle-between-two-points-latitude-longitude/",
                 1.68441726, constGeoCoord3.bearingTo(constGeoCoord4), 0.01);
         assertEquals("http://gis.stackexchange.com/questions/29239/calculate-bearing-between-two-decimal-gps-coordinates",
@@ -64,7 +62,9 @@ public class GeographicCoordinateTest {
     @Test
     public void bearingTo() throws Exception {
         assertEquals("Same coordinate",
-                0, constGeoCoord1.bearingTo(constGeoCoord1), 0.01);
+                PI/2, constGeoCoord1.bearingTo(constGeoCoord1), 0.01);
+        assertEquals("Horizontally opposite side of globe",
+                0, new GeographicCoordinate(0, 0, 0).bearingTo(new GeographicCoordinate(0, 0, PI)), 0.01);
         assertEquals("http://www.igismap.com/formula-to-find-bearing-or-heading-angle-between-two-points-latitude-longitude/",
                 1.68441726, constGeoCoord3.bearingTo(constGeoCoord4), 0.01);
         assertEquals("http://gis.stackexchange.com/questions/29239/calculate-bearing-between-two-decimal-gps-coordinates",
@@ -74,7 +74,9 @@ public class GeographicCoordinateTest {
     @Test
     public void bearingTo3() throws Exception {
         assertEquals("Same coordinate",
-                0, constGeoCoord1.bearingTo(constGeoCoord1), 0.01);
+                PI/2, constGeoCoord1.bearingTo(constGeoCoord1), 0.01);
+        assertEquals("Horizontally opposite side of globe",
+                0, new GeographicCoordinate(0, 0, 0).bearingTo(new GeographicCoordinate(0, 0, PI)), 0.01);
         assertEquals("http://www.igismap.com/formula-to-find-bearing-or-heading-angle-between-two-points-latitude-longitude/",
                 1.68441726, constGeoCoord3.bearingTo(constGeoCoord4), 0.01);
         assertEquals("http://gis.stackexchange.com/questions/29239/calculate-bearing-between-two-decimal-gps-coordinates",
@@ -84,7 +86,9 @@ public class GeographicCoordinateTest {
     @Test
     public void bearingTo4() throws Exception {
         assertEquals("Same coordinate",
-                0, constGeoCoord1.bearingTo(constGeoCoord1), 0.01);
+                PI/2, constGeoCoord1.bearingTo(constGeoCoord1), 0.01);
+        assertEquals("Horizontally opposite side of globe",
+                0, new GeographicCoordinate(0, 0, 0).bearingTo(new GeographicCoordinate(0, 0, PI)), 0.01);
         assertEquals("http://www.igismap.com/formula-to-find-bearing-or-heading-angle-between-two-points-latitude-longitude/",
                 1.68441726, constGeoCoord3.bearingTo(constGeoCoord4), 0.01);
         assertEquals("http://gis.stackexchange.com/questions/29239/calculate-bearing-between-two-decimal-gps-coordinates",

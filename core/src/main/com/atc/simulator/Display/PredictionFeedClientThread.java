@@ -80,13 +80,13 @@ public class PredictionFeedClientThread implements RunnableThread {
                     ArrayList<GeographicCoordinate> predictionPositions = new ArrayList<GeographicCoordinate>();
 
                     //For all the positions inside the message, add them to the Prediction
-                    for(int i = 0; i < tempMes.getPositionCount(); i++)
-                    {
-                        predictionPositions.add(new GeographicCoordinate(tempMes.getPosition(i).getAltitude(),
-                                tempMes.getPosition(i).getLatitude(),
-                                tempMes.getPosition(i).getLongitude() )
-                        );
-                    }
+//                    for(int i = 0; i < tempMes.getPositionCount(); i++)
+//                    {
+//                        predictionPositions.add(new GeographicCoordinate(tempMes.getPosition(i).getAltitude(),
+//                                tempMes.getPosition(i).getLatitude(),
+//                                tempMes.getPosition(i).getLongitude() )
+//                        );
+//                    }
 
                     //Made a new Prediction with ID and Time
                     Prediction newPred = new Prediction(tempMes.getAircraftID(), System.currentTimeMillis(), predictionPositions);

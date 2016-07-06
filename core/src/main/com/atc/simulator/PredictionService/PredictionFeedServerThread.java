@@ -96,12 +96,14 @@ public class PredictionFeedServerThread implements RunnableThread{
         //Now, loop through all the positions, Build Coordinates and add them to the Message
         for(GeographicCoordinate temp : newPrediction.getPredictedPositions())
         {
-            MessageBuilder.addPosition(
-                    PredictionFeedServe.GeographicCoordinateMessage.newBuilder()
-                            .setAltitude(temp.getAltitude())
-                            .setLatitude(temp.getLatitude())
-                            .setLongitude(temp.getLongitude())
-            );
+//            MessageBuilder.addAircraftState()
+//
+//            (
+//                    PredictionFeedServe.GeographicCoordinateMessage.newBuilder()
+//                            .setAltitude(temp.getAltitude())
+//                            .setLatitude(temp.getLatitude())
+//                            .setLongitude(temp.getLongitude())
+//            );
         }
 
         if(enableTimer)

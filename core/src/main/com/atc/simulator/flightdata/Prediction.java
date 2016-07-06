@@ -13,7 +13,6 @@ public class Prediction {
     private ArrayList<GeographicCoordinate> predictedPositions; //Array List of positional predictions
     private String aircraftID;
     private long time;
-    private int dt;
 
     /**
      * Constructor Prediction creates a new Prediction instance.
@@ -21,14 +20,12 @@ public class Prediction {
      * @param aircraftID of type String
      * @param time of type long. The time (in milliseconds since epoch) for the first predicted position.
      * @param predictedPositions of type ArrayList<GeographicCoordinate>
-     * @param dt of type int. The change in time between predicted positions
      */
-    public Prediction(String aircraftID, long time, ArrayList<GeographicCoordinate> predictedPositions, int dt)
+    public Prediction(String aircraftID, long time, ArrayList<GeographicCoordinate> predictedPositions)
     {
         this.predictedPositions = predictedPositions;
         this.aircraftID = aircraftID;
         this.time = time;
-        this.dt = dt;
     }
 
     /**
@@ -51,11 +48,4 @@ public class Prediction {
         return predictedPositions;
     }
 
-    /**
-     * Returns delta t, the change in time between predicted positions.
-     * @return the dt (type int) of this Prediction object.
-     */
-    public int getDt() {
-        return dt;
-    }
 }
