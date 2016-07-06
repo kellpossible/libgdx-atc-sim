@@ -43,7 +43,7 @@ public class AircraftState {
         GeographicCoordinate newPosition = new GeographicCoordinate(this.getPosition().lerp(other.getPosition(), t));
         SphericalVelocity newVelocity = new SphericalVelocity(this.getVelocity().lerp(other.getVelocity(), t));
 
-        long newTime = (long)(((double) (other.getTime() - this.getTime())) * t);
+        long newTime = this.getTime() + (long)(((double) (other.getTime() - this.getTime())) * t);
 
         double headingDiff = other.getHeading() - this.heading;
         double newHeading = this.heading + headingDiff * t;

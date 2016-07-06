@@ -1,17 +1,18 @@
 package com.atc.simulator.PredictionService;
 
 import com.atc.simulator.Config.ApplicationConfig;
+import com.atc.simulator.ProtocolBuffers.DebugDataFeedServe;
 import com.atc.simulator.ProtocolBuffers.PredictionFeedServe;
 import com.atc.simulator.RunnableThread;
-import com.atc.simulator.flightdata.ISO8601;
+import com.atc.simulator.flightdata.AircraftState;
 import com.atc.simulator.flightdata.Prediction;
 import com.atc.simulator.vectors.GeographicCoordinate;
+import com.atc.simulator.vectors.SphericalVelocity;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.concurrent.ArrayBlockingQueue;
 
 /**
@@ -73,9 +74,10 @@ public class PredictionFeedServerThread implements RunnableThread{
     public synchronized void sendPrediction(Prediction newPrediction)
     {
         long start1=0, start2=0;
-        PredictionFeedServe.AircraftPredictionMessage.Builder MessageBuilder = PredictionFeedServe.AircraftPredictionMessage.newBuilder(); //PredictionMessage Builder
+        PredictionFeedServe.AircraftPredictionMessage.Builder predictionMessageBuilder =
+                PredictionFeedServe.AircraftPredictionMessage.newBuilder(); //PredictionMessage Builder
 
-        MessageBuilder.setAircraftID(newPrediction.getAircraftID()); //Add the AircraftID to the Message
+        predictionMessageBuilder.setAircraftID(newPrediction.getAircraftID()); //Add the AircraftID to the Message
 
         long time = newPrediction.getPredictionTime();
         if(enableTimer)
@@ -85,7 +87,7 @@ public class PredictionFeedServerThread implements RunnableThread{
             // Avoid optimization
             start2 = System.nanoTime();
         }
-        MessageBuilder.setTime(time); //Set the time
+        predictionMessageBuilder.setTime(time); //Set the time
         if(enableTimer)
         {
             long stop = System.nanoTime();
@@ -94,16 +96,30 @@ public class PredictionFeedServerThread implements RunnableThread{
         }
 
         //Now, loop through all the positions, Build Coordinates and add them to the Message
-        for(GeographicCoordinate temp : newPrediction.getPredictedPositions())
-        {
-//            MessageBuilder.addAircraftState()
-//
-//            (
-//                    PredictionFeedServe.GeographicCoordinateMessage.newBuilder()
-//                            .setAltitude(temp.getAltitude())
-//                            .setLatitude(temp.getLatitude())
-//                            .setLongitude(temp.getLongitude())
-//            );
+        for (AircraftState aircraftState : newPrediction.getAircraftStates()) {
+            PredictionFeedServe.PredictionAircraftStateMessage.Builder aircraftStateMessageBuilder =
+                    PredictionFeedServe.PredictionAircraftStateMessage.newBuilder();
+
+            //TimeStamp
+            aircraftStateMessageBuilder.setTime(aircraftState.getTime());
+            //A current position
+            GeographicCoordinate position = aircraftState.getPosition();
+            aircraftStateMessageBuilder.setPosition(
+                    PredictionFeedServe.GeographicCoordinateMessage.newBuilder()
+                            .setAltitude(position.getAltitude())
+                            .setLatitude(position.getLatitude())
+                            .setLongitude(position.getLongitude())
+            );
+            //A super complicated velocity
+            SphericalVelocity velocity = aircraftState.getVelocity();
+            aircraftStateMessageBuilder.setVelocity(
+                    PredictionFeedServe.SphericalVelocityMessage.newBuilder()
+                            .setDr(velocity.getDR())
+                            .setDtheta(velocity.getDTheta())
+                            .setDphi(velocity.getDPhi())
+            );
+            //Add the new AircraftState message to the big system message
+            predictionMessageBuilder.addAircraftState(aircraftStateMessageBuilder);
         }
 
         if(enableTimer)
@@ -113,7 +129,7 @@ public class PredictionFeedServerThread implements RunnableThread{
             // Avoid optimization
             start2 = System.nanoTime();
         }
-        com.atc.simulator.ProtocolBuffers.PredictionFeedServe.AircraftPredictionMessage message = MessageBuilder.build();
+        com.atc.simulator.ProtocolBuffers.PredictionFeedServe.AircraftPredictionMessage message = predictionMessageBuilder.build();
         if(enableTimer)
         {
             long stop = System.nanoTime();

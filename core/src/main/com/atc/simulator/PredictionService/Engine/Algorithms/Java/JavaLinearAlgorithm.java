@@ -20,7 +20,7 @@ public class JavaLinearAlgorithm extends JavaPredictionAlgorithm {
         long startTime = state.getTime();
         GeographicCoordinate position = state.getPosition();
         SphericalVelocity velocity = state.getVelocity();
-        ArrayList<GeographicCoordinate> predictedPositions = new ArrayList<GeographicCoordinate>();
+        ArrayList<AircraftState> predictedStates = new ArrayList<AircraftState>();
 
         Vector3 directionV = velocity.normalize();
         Vector3 velocityV = new Vector3(velocity);
@@ -36,11 +36,18 @@ public class JavaLinearAlgorithm extends JavaPredictionAlgorithm {
             GeographicCoordinate predictedPosition = new GeographicCoordinate(
                     positionV.add(velocityV.mult(totalDT))
             );
-            predictedPositions.add(predictedPosition);
+
+            AircraftState predictedState = new AircraftState(
+                    state.getAircraftID(),
+                    startTime+totalDT,
+                    predictedPosition,
+                    velocity,
+                    0);
+            predictedStates.add(predictedState);
 
         }
 
-        Prediction prediction = new Prediction(state.getAircraftID(), startTime, predictedPositions);
+        Prediction prediction = new Prediction(state.getAircraftID(), startTime, predictedStates);
         return prediction;
     }
 }

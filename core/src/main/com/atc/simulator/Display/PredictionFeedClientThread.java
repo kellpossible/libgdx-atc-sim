@@ -2,8 +2,10 @@ package com.atc.simulator.Display;
 import com.atc.simulator.Config.ApplicationConfig;
 import com.atc.simulator.ProtocolBuffers.PredictionFeedServe;
 import com.atc.simulator.RunnableThread;
+import com.atc.simulator.flightdata.AircraftState;
 import com.atc.simulator.flightdata.Prediction;
 import com.atc.simulator.vectors.GeographicCoordinate;
+import com.atc.simulator.vectors.SphericalVelocity;
 
 import java.net.Socket;
 import java.io.*;
@@ -57,7 +59,7 @@ public class PredictionFeedClientThread implements RunnableThread {
      * TODO: Will this need to feed a buffer that is then converted for listeners? Does a Java socket have a buffer inbuilt? :/
      */
     public void run(){
-        PredictionFeedServe.AircraftPredictionMessage tempMes = null;
+        PredictionFeedServe.AircraftPredictionMessage predictionMessage = null;
         InputStream inputStream = null;
         //I don't think this should really be here....
         try{
@@ -72,30 +74,50 @@ public class PredictionFeedClientThread implements RunnableThread {
                 inputStream = serversSock.getInputStream();
 
                 //here this thread will block while waiting for a message to appear in the inputStream.
-                tempMes = PredictionFeedServe.AircraftPredictionMessage.parseDelimitedFrom(inputStream);
+                predictionMessage = PredictionFeedServe.AircraftPredictionMessage.parseDelimitedFrom(inputStream);
 
                 //check to see that stream was not at EOF when the parsing started
-                while(tempMes != null)
+                while(predictionMessage != null)
                 {
-                    ArrayList<GeographicCoordinate> predictionPositions = new ArrayList<GeographicCoordinate>();
+                    ArrayList<AircraftState> aircraftStates = new ArrayList<AircraftState>();
 
                     //For all the positions inside the message, add them to the Prediction
-//                    for(int i = 0; i < tempMes.getPositionCount(); i++)
-//                    {
-//                        predictionPositions.add(new GeographicCoordinate(tempMes.getPosition(i).getAltitude(),
-//                                tempMes.getPosition(i).getLatitude(),
-//                                tempMes.getPosition(i).getLongitude() )
-//                        );
-//                    }
+                    for(int i = 0; i < predictionMessage.getAircraftStateCount(); i++)
+                    {
+                        PredictionFeedServe.PredictionAircraftStateMessage aircraftStateMessage =
+                                predictionMessage.getAircraftState(i);
+
+                        PredictionFeedServe.GeographicCoordinateMessage positionMessage =
+                                aircraftStateMessage.getPosition();
+
+                        PredictionFeedServe.SphericalVelocityMessage velocityMessage =
+                                aircraftStateMessage.getVelocity();
+
+                        aircraftStates.add(new AircraftState(
+                                predictionMessage.getAircraftID(),
+                                aircraftStateMessage.getTime(),
+                                new GeographicCoordinate(
+                                        positionMessage.getAltitude(),
+                                        positionMessage.getLatitude(),
+                                        positionMessage.getLongitude()
+                                        ),
+                                new SphericalVelocity(
+                                        velocityMessage.getDr(),
+                                        velocityMessage.getDtheta(),
+                                        velocityMessage.getDphi()
+                                ),
+                                0.0
+                                ));
+                    }
 
                     //Made a new Prediction with ID and Time
-                    Prediction newPred = new Prediction(tempMes.getAircraftID(), System.currentTimeMillis(), predictionPositions);
+                    Prediction newPred = new Prediction(predictionMessage.getAircraftID(), System.currentTimeMillis(), aircraftStates);
 
                     if(enableDebugPrint){ System.out.println("PredictionFeedClient has received Aircraft " + newPred.getAircraftID()); }
 
                     notifyAllListeners(newPred);
 
-                    tempMes = PredictionFeedServe.AircraftPredictionMessage.parseDelimitedFrom(inputStream);
+                    predictionMessage = PredictionFeedServe.AircraftPredictionMessage.parseDelimitedFrom(inputStream);
                 }
                 System.err.println(threadName + " possibly an empty input stream causing null value");
                 System.err.println(Arrays.toString(Thread.currentThread().getStackTrace()));

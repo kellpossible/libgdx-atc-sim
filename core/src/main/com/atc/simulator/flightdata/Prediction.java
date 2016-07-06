@@ -10,7 +10,7 @@ import java.util.Calendar;
  * @author    Chris Coleman, Luke Frisken
  */
 public class Prediction {
-    private ArrayList<GeographicCoordinate> predictedPositions; //Array List of positional predictions
+    private ArrayList<AircraftState> predictedStates; //Array List of positional predictions
     private String aircraftID;
     private long time;
 
@@ -19,11 +19,11 @@ public class Prediction {
      *
      * @param aircraftID of type String
      * @param time of type long. The time (in milliseconds since epoch) for the first predicted position.
-     * @param predictedPositions of type ArrayList<GeographicCoordinate>
+     * @param aircraftStates of type ArrayList<AircraftState>
      */
-    public Prediction(String aircraftID, long time, ArrayList<GeographicCoordinate> predictedPositions)
+    public Prediction(String aircraftID, long time, ArrayList<AircraftState> aircraftStates)
     {
-        this.predictedPositions = predictedPositions;
+        this.predictedStates = aircraftStates;
         this.aircraftID = aircraftID;
         this.time = time;
     }
@@ -44,8 +44,8 @@ public class Prediction {
      * Returns all the states in the prediction
      * @return predictedStates : The full list of states that have been predicted
      */
-    public ArrayList<GeographicCoordinate> getPredictedPositions() {
-        return predictedPositions;
+    public ArrayList<AircraftState> getAircraftStates() {
+        return predictedStates;
     }
 
 }
