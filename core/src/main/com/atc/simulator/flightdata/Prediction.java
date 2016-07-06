@@ -7,37 +7,28 @@ import java.util.Calendar;
 /**
  * Prediction is a simple data type, storing a list of AircraftStates that form a future prediction made by the Prediction Engine
  *
- * @
- * PUBLIC FEATURES:
- * // Constructors
- *    Prediction(String, Calendar) - Creates a new prediction with ID, time and empty position array
- * // Methods
- *    String getAircraftID() - Returns the ID of the aircraft of which this prediction is for
- *    Calendar getPredictionTime() - Returns the time that the data was sent by the aircraft of which this prediction is for
- *    void addPosToPrediction(GeographicCoordinate) - Adds a new Position to the end of the array
- *    ArrayList<GeographicCoordinate> getListOfPositions() - Returns the whole array of positions
- *
- * COLLABORATORS:
- *    java.util.ArrayList
- *    java.util.Calendar;
- *
- * MODIFIED:
- * @version 1.0, CC 28/05/16
- * @author    Chris Coleman, 7191375
+ * @author    Chris Coleman, Luke Frisken
  */
 public class Prediction {
     private ArrayList<GeographicCoordinate> predictedPositions; //Array List of positional predictions
     private String aircraftID;
     private long time;
+    private int dt;
 
     /**
-     * Constructor, instantiates a ArrayList of AircraftStates
+     * Constructor Prediction creates a new Prediction instance.
+     *
+     * @param aircraftID of type String
+     * @param time of type long. The time (in milliseconds since epoch) for the first predicted position.
+     * @param predictedPositions of type ArrayList<GeographicCoordinate>
+     * @param dt of type int. The change in time between predicted positions
      */
-    public Prediction(String aircraftID, long time, ArrayList<GeographicCoordinate> predictedPositions)
+    public Prediction(String aircraftID, long time, ArrayList<GeographicCoordinate> predictedPositions, int dt)
     {
         this.predictedPositions = predictedPositions;
         this.aircraftID = aircraftID;
         this.time = time;
+        this.dt = dt;
     }
 
     /**
@@ -60,4 +51,11 @@ public class Prediction {
         return predictedPositions;
     }
 
+    /**
+     * Returns delta t, the change in time between predicted positions.
+     * @return the dt (type int) of this Prediction object.
+     */
+    public int getDt() {
+        return dt;
+    }
 }
