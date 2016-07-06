@@ -3,6 +3,11 @@ syntax = "proto2";
 option java_package = "com.atc.simulator.ProtocolBuffers";
 option java_outer_classname = "PredictionFeedServe";
 
+message SphericalVelocityMessage {
+    required double dr = 1;
+    required double dtheta = 2;
+    required double dphi = 3;
+}
 
 message GeographicCoordinateMessage {
     required double altitude = 1;
@@ -10,9 +15,16 @@ message GeographicCoordinateMessage {
     required double longitude = 3;
 }
 
+message PredictionAircraftStateMessage
+{
+    required int64 time = 1; //milliseconds since epoch
+    required GeographicCoordinateMessage position = 2;
+    required SphericalVelocityMessage velocity = 3;
+}
+
 message AircraftPredictionMessage
 {
     required string aircraftID = 1;
     required int64 time = 2; //milliseconds since epoch
-    repeated GeographicCoordinateMessage position = 3;
+    repeated PredictionAircraftStateMessage aircraftState = 3;
 }
