@@ -22,10 +22,6 @@ public class JavaLinearAlgorithm extends JavaPredictionAlgorithm {
         SphericalVelocity velocity = state.getVelocity();
         ArrayList<AircraftState> predictedStates = new ArrayList<AircraftState>();
 
-        Vector3 directionV = velocity.normalize();
-        Vector3 velocityV = new Vector3(velocity);
-        Vector3 positionV = new Vector3(position);
-
         int dt = 5000;
         int totalDT = 0;
         int n = 24;
@@ -33,12 +29,11 @@ public class JavaLinearAlgorithm extends JavaPredictionAlgorithm {
         for (int i = 0; i < n; i++)
         {
             totalDT += dt;
+
+            //make a linear prediction based on the current velocity
             GeographicCoordinate predictedPosition = new GeographicCoordinate(
                     position.add(velocity.mult(totalDT/1000))
             );
-
-//            GeographicCoordinate predictedPosition = new GeographicCoordinate(
-//                    positionV.add(addVector));
 
             AircraftState predictedState = new AircraftState(
                     state.getAircraftID(),
