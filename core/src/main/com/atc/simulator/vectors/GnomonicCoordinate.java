@@ -7,7 +7,7 @@ import pythagoras.d.Vector3;
  *
  * Represents a coordinate in the gnomonic projection
  * https://en.wikipedia.org/wiki/Gnomonic_projection
- *  *
+ *
  * @author Luke Frisken
  */
 public class GnomonicCoordinate extends Vector3 {
