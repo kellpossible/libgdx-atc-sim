@@ -65,7 +65,7 @@ public class Sphere {
 
     /**
      * Calculate the intersection point between a ray and this sphere
-     * Borrowed this from my ray tracer code
+     * Borrowed this from my ray tracer code, it should be pretty fast.
      * @param ray
      * @return the intersection point (or null if no intersection)
      */

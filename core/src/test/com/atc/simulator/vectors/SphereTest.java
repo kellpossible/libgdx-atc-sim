@@ -15,7 +15,9 @@ import pythagoras.d.Vector3;
 public class SphereTest {
     Sphere sphere1;
     Sphere sphere2;
-    
+
+    static double EPSILON = 0.0001;
+
     @Before
     public void before() throws Exception {
         sphere1 = new Sphere(1.0, Vector3.ZERO);
@@ -45,7 +47,7 @@ public class SphereTest {
     @Test
     public void testSetRadius() throws Exception {
         sphere1.setRadius(0.8);
-        Assert.assertTrue(sphere1.getRadius() == 0.8);
+        Assert.assertEquals(0.8, sphere1.getRadius(), EPSILON);
     }
 
     /**
@@ -56,7 +58,7 @@ public class SphereTest {
     @Test
     public void testGetPosition() throws Exception {
         Assert.assertEquals(sphere1.getPosition(), Vector3.ZERO);
-        Assert.assertEquals(sphere2.getPosition(), new Vector3(0, 0, 1));
+        Assert.assertEquals(new Vector3(0, 0, 1), sphere2.getPosition());
     }
 
     /**
@@ -78,7 +80,7 @@ public class SphereTest {
     @Test
     public void testIntersect1() throws Exception {
         Ray3 ray = new Ray3(new Vector3(0, 0, 0), new Vector3(0, 0, 1));
-        Assert.assertEquals(sphere1.intersect(ray), new Vector3(0, 0, 1));
+        Assert.assertEquals(new Vector3(0, 0, 1), sphere1.intersect(ray));
     }
 
     /**
@@ -89,7 +91,7 @@ public class SphereTest {
     @Test
     public void testIntersect2() throws Exception {
         Ray3 ray = new Ray3(new Vector3(0.5, 0, 0), new Vector3(0, 0, 1));
-        Assert.assertNotEquals(sphere1.intersect(ray), new Vector3(0, 0, 1));
+        Assert.assertNotEquals(new Vector3(0, 0, 1), sphere1.intersect(ray));
     }
 
     /**
@@ -111,7 +113,7 @@ public class SphereTest {
     @Test
     public void testIntersect4() throws Exception {
         Ray3 ray = new Ray3(new Vector3(0, 0, 0), new Vector3(0, 1, 0));
-        Assert.assertEquals(sphere1.intersect(ray), new Vector3(0, 1, 0));
+        Assert.assertEquals(new Vector3(0, 1, 0), sphere1.intersect(ray));
     }
 
     /**
@@ -122,7 +124,20 @@ public class SphereTest {
     @Test
     public void testIntersect5() throws Exception {
         Ray3 ray = new Ray3(new Vector3(0, 0, 0), new Vector3(0, 0, 1));
-        Assert.assertEquals(sphere2.intersect(ray), new Vector3(0, 0, 0.9));
+        Assert.assertEquals(new Vector3(0, 0, 0.9), sphere2.intersect(ray));
+    }
+
+    /**
+     *
+     * Method: intersect(Ray3 ray)
+     *
+     */
+    @Test
+    public void testIntersect6() throws Exception {
+        Ray3 ray = new Ray3(new Vector3(1, 0, 1), new Vector3(-1, 0, 0));
+        Assert.assertEquals(0.1, sphere2.intersect(ray).x, EPSILON);
+        Assert.assertEquals(0.0, sphere2.intersect(ray).y, EPSILON);
+        Assert.assertEquals(1.0, sphere2.intersect(ray).z, EPSILON);
     }
 
 
