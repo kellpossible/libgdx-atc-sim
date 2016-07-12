@@ -25,7 +25,7 @@ public class GnomonicCoordinate extends Vector3 {
     public GnomonicCoordinate(GeographicCoordinate geographicCoordinate, GeographicCoordinate projectionReference)
     {
         this.projectionReference = projectionReference;
-        this.z = geographicCoordinate.getAltitude();
+
 
         Vector3 projectionNormal = projectionReference.getCartesian().normalize();
         Vector3 projectionNorthNormal = projectionReference.add(0, 0, 0.001);
@@ -35,6 +35,8 @@ public class GnomonicCoordinate extends Vector3 {
         Ray3 projectionNormalRay = new Ray3(zeroVector, projectionNormal);
 
         double projectionD = GeographicCoordinate.EARTH_MSL_RADIUS;
+
+        Vector3 projectionOrigin = projectionNormal.mult(projectionD);
 
         Plane projectionPlane = new Plane(projectionNormal, projectionD);
 
@@ -49,7 +51,21 @@ public class GnomonicCoordinate extends Vector3 {
         //not sure if this is east or west (depends on cross product direction)
         Vector3 eastNormal = northNormal.cross(projectionNormal);
 
+        Vector3 coordinateNormal = geographicCoordinate.getCartesian().normalize();
+        Ray3 coordinateRay = new Ray3(zeroVector, coordinateNormal);
 
+        //everthing before this could probably be moved into a "projection" class
+        //because it only really needs to get executed once per projection.
+
+        Vector3 cartesianCoordinateProjection = new Vector3();
+        projectionPlane.intersection(coordinateRay, cartesianCoordinateProjection);
+
+        Vector3 gnomonicVector = cartesianCoordinateProjection.subtract(projectionOrigin);
+
+        //vector projection to get the coordinates
+        this.x = gnomonicVector.dot(eastNormal);
+        this.y = gnomonicVector.dot(northNormal);
+        this.z = geographicCoordinate.getAltitude();
     }
 
     /**
