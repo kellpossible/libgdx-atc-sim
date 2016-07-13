@@ -10,7 +10,7 @@ import pythagoras.d.Vector3;
 /**
  * Created by luke on 13/07/16.
  */
-public class TestGnomonicProjection {
+public class TestGraphGnomonicProjection {
     public static void main(String[] arg)
     {
         Scenario scenario = new ADSBRecordingScenario("assets/flight_data/YMML_26_05_2016/database.json");
