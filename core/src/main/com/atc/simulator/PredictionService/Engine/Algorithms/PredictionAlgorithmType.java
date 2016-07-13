@@ -8,5 +8,6 @@ public enum PredictionAlgorithmType {
     PASSTHROUGH,
     PARALLEL_TEST,
     LINEAR,
+    LINEAR2D,
     CURVILINEAR
 }

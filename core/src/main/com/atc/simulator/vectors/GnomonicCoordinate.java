@@ -26,9 +26,9 @@ public class GnomonicCoordinate extends Vector3 {
     {
         this.projectionReference = projectionReference;
 
-
-        Vector3 projectionNormal = projectionReference.getCartesian().normalize();
-        Vector3 projectionNorthNormal = projectionReference.add(0, 0, 0.001);
+        Vector3 projectionPlanePosition =projectionReference.getCartesian();
+        Vector3 projectionNormal = projectionPlanePosition.normalize();
+        Vector3 projectionNorthNormal = new SphericalCoordinate(projectionReference.add(0, 0, 0.001)).getCartesian().normalize();
         Vector3 zeroVector = new Vector3(0,0,0);
 
         Ray3 projectionNorthNormalRay = new Ray3(zeroVector, projectionNorthNormal);
@@ -38,13 +38,13 @@ public class GnomonicCoordinate extends Vector3 {
 
         Vector3 projectionOrigin = projectionNormal.mult(projectionD);
 
-        Plane projectionPlane = new Plane(projectionNormal, projectionD);
+        Plane projectionPlane = new Plane().fromPointNormal(projectionPlanePosition, projectionNormal.negate());
 
-        Vector3 cartesianPlaneOrigin = new Vector3();
-        projectionPlane.intersection(projectionNormalRay, cartesianPlaneOrigin);
+        Vector3 cartesianPlaneOrigin = new Vector3(); //this isn't required, we already have this in projectionPlanePosition
+        boolean found = projectionPlane.intersection(projectionNormalRay, cartesianPlaneOrigin);
 
         Vector3 cartesianPlaneNorth = new Vector3();
-        projectionPlane.intersection(projectionNorthNormalRay, cartesianPlaneNorth);
+        found = projectionPlane.intersection(projectionNorthNormalRay, cartesianPlaneNorth);
 
         Vector3 northNormal = cartesianPlaneOrigin.subtract(cartesianPlaneNorth).normalize();
 
@@ -58,13 +58,14 @@ public class GnomonicCoordinate extends Vector3 {
         //because it only really needs to get executed once per projection.
 
         Vector3 cartesianCoordinateProjection = new Vector3();
-        projectionPlane.intersection(coordinateRay, cartesianCoordinateProjection);
+        found = projectionPlane.intersection(coordinateRay, cartesianCoordinateProjection);
 
-        Vector3 gnomonicVector = cartesianCoordinateProjection.subtract(projectionOrigin);
+        //the projection of the coordinate on the plane of projection.
+        Vector3 gnomonicVector = cartesianCoordinateProjection.subtract(projectionOrigin); //don't use projection origin, just use the plane position
 
         //vector projection to get the coordinates
         this.x = gnomonicVector.dot(eastNormal);
-        this.y = gnomonicVector.dot(northNormal);
+        this.y = -gnomonicVector.dot(northNormal);
         this.z = geographicCoordinate.getAltitude();
     }
 
