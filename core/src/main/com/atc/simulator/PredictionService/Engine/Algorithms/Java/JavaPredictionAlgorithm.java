@@ -4,8 +4,6 @@ import com.atc.simulator.PredictionService.Engine.Algorithms.PredictionAlgorithm
 import com.atc.simulator.flightdata.Prediction;
 import com.atc.simulator.flightdata.Track;
 
-import java.util.HashMap;
-
 /**
  * Created by luke on 7/06/16.
  * @author Luke Frisken
@@ -33,6 +31,9 @@ public abstract class JavaPredictionAlgorithm {
                 return new JavaLinearAlgorithm();
             case LINEAR2D:
                 return new JavaLinear2dAlgorithm();
+            case CURVILINEAR2D:
+                return new JavaCurvilinear2dAlgorithm();
+
         }
         return null;
     }

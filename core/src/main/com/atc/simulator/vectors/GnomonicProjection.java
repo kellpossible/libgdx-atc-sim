@@ -34,7 +34,7 @@ public class GnomonicProjection extends Projection {
 
         //create a coordinate which is just a tiny bit north of the reference
         GeographicCoordinate projectionNorthAdjust = new GeographicCoordinate(projectionReference);
-        projectionNorthAdjust.setLatitude(projectionReference.getLatitude()+0.001);
+        projectionNorthAdjust.setLatitude(projectionReference.getLatitude()+0.001); //TODO: this may need alternate behaviour close to the poles
         //get the normal of the projection of this adjusted north position.
         Vector3 projectionNorthNormal = new SphericalCoordinate(projectionNorthAdjust).getCartesian().normalize();
 
