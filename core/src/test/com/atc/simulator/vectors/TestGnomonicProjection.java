@@ -8,11 +8,12 @@ import org.knowm.xchart.*;
 import org.knowm.xchart.internal.chartpart.Chart;
 import org.knowm.xchart.style.Styler;
 import org.knowm.xchart.style.markers.SeriesMarkers;
+import pythagoras.d.Vector3;
 
 /**
  * Created by luke on 13/07/16.
  */
-public class TestGnomonicCoordinate {
+public class TestGnomonicProjection {
     public static void main(String[] arg)
     {
         Scenario scenario = new ADSBRecordingScenario("assets/flight_data/YMML_26_05_2016/database.json");
@@ -21,25 +22,20 @@ public class TestGnomonicCoordinate {
         double[] xData = new double[track.size()];
         double[] yData = new double[track.size()];
 
+        GnomonicProjection projection = new GnomonicProjection(track.get(0).getPosition());
+
 
         for (int i = 0; i<track.size();i++)
         {
             AircraftState state = track.get(i);
             GeographicCoordinate position = state.getPosition();
-            xData[i] = state.getPosition().getLongitude();
-            yData[i] = state.getPosition().getLatitude();
 
-
-            GnomonicCoordinate position2D = new GnomonicCoordinate(position,
-                    track.get(0).getPosition());
+            Vector3 position2D = projection.transformTo(position);
             xData[i] = position2D.x;
             yData[i] = position2D.y;
 
             System.out.println(state.getPosition());
         }
-
-        System.out.println("Hello World");
-
 
         // Create Chart
         XYChart chart = QuickChart.getChart("Sample Chart", "X", "Y", "y(x)", xData, yData);

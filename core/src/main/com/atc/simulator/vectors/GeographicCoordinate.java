@@ -71,12 +71,28 @@ public class GeographicCoordinate extends SphericalCoordinate
     }
 
     /**
+     * Set the Latitude
+     * @param latitude
+     */
+    public void setLatitude(double latitude) {
+        this.z = latitude + Math.PI/2.0;
+    }
+
+    /**
      * Get the Longitude.
      * @return
      */
     public double getLongitude()
     {
         return this.y - Math.PI;
+    }
+
+    /**
+     * Set the Longitude
+     * @param longitude
+     */
+    public void setLongitude(double longitude) {
+        this.y = longitude + Math.PI;
     }
 
     /**
