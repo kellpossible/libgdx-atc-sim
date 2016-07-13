@@ -4,7 +4,6 @@ import com.atc.simulator.flightdata.AircraftState;
 import com.atc.simulator.flightdata.Prediction;
 import com.atc.simulator.flightdata.Track;
 import com.atc.simulator.vectors.GeographicCoordinate;
-import com.atc.simulator.vectors.GnomonicCoordinate;
 import com.atc.simulator.vectors.SphericalVelocity;
 
 import java.util.ArrayList;
@@ -24,9 +23,6 @@ public class JavaLinear2dAlgorithm extends JavaPredictionAlgorithm {
         AircraftState state = aircraftTrack.getLatest();
         long startTime = state.getTime();
         GeographicCoordinate position = state.getPosition();
-
-        GnomonicCoordinate position2D = new GnomonicCoordinate(position,
-                new GeographicCoordinate(0, Math.toRadians(-37.8108105), Math.toRadians(144.952804)));
 
         SphericalVelocity velocity = state.getVelocity();
         ArrayList<AircraftState> predictedStates = new ArrayList<AircraftState>();

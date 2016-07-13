@@ -104,6 +104,15 @@ public class GeographicCoordinate extends SphericalCoordinate
         return this.x - EARTH_MSL_RADIUS;
     }
 
+    /**
+     * Set the altitude
+     * @param altitude
+     */
+    public void setAltitude(double altitude)
+    {
+        this.x = EARTH_MSL_RADIUS + altitude;
+    }
+
     @Override
     public String toString()
     {

@@ -34,7 +34,10 @@ public class TestGnomonicProjection {
             xData[i] = position2D.x;
             yData[i] = position2D.y;
 
-            System.out.println(state.getPosition());
+            GeographicCoordinate newPosition = projection.transformFrom(position2D);
+
+            System.out.println("position" + position);
+            System.out.println("newPosition" + newPosition);
         }
 
         // Create Chart

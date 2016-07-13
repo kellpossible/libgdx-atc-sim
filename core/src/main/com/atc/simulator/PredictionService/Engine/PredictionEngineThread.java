@@ -235,7 +235,7 @@ public class PredictionEngineThread implements RunnableThread, SystemStateDataba
              PredictionWorkItem workItem = new PredictionWorkItem(
                      aircraftID,
                      aircraftTrack,
-                     PredictionAlgorithmType.LINEAR);
+                     PredictionAlgorithmType.LINEAR2D);
              //TODO: make a seperate buffer for this so it doesn't block while todoQueue is being reordered?
              if(enableDebugPrintQueues){System.out.println(threadName + " Adding to queue which has a current size of " + todoQueue.size());}
 
