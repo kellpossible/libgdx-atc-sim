@@ -30,6 +30,7 @@ public class ADSBRecordingScenario extends Scenario {
     private LinkedHashMap<Long, SystemState> systemStates;
     private int recommendedUpdateRate;
     private long startTime = 0, endTime = 0;
+    private GeographicCoordinate projectionReference;
 
     /**
      * Constructor ADSBRecordingScenario creates a new ADSBRecordingScenario instance.
@@ -54,6 +55,15 @@ public class ADSBRecordingScenario extends Scenario {
         JsonParser parser = new JsonParser();
         JsonObject object = parser.parse(jsonString).getAsJsonObject();
         recommendedUpdateRate = (int) (object.get("update_rate").getAsDouble() * 1000);
+
+        JsonArray projectionReferenceJS = object.get("projection_reference").getAsJsonArray();
+        double projectionReferenceLatitude = projectionReferenceJS.get(0).getAsDouble();
+        double projectionReferenceLongitude = projectionReferenceJS.get(1).getAsDouble();
+
+        projectionReference = new GeographicCoordinate(
+                0,
+                Math.toRadians(projectionReferenceLatitude),
+                Math.toRadians(projectionReferenceLongitude));
 
         JsonArray systemStatesJS = object.get("system_states").getAsJsonArray();
 
@@ -273,5 +283,15 @@ public class ADSBRecordingScenario extends Scenario {
     @Override
     public int getRecommendedUpdateRate() {
         return recommendedUpdateRate;
+    }
+
+    /**
+     * Get the projection reference position of the scenario
+     *
+     * @return
+     */
+    @Override
+    public GeographicCoordinate getProjectionReference() {
+        return projectionReference;
     }
 }

@@ -11,7 +11,6 @@ import java.util.HashMap;
  * @author Luke Frisken
  */
 public abstract class JavaPredictionAlgorithm {
-    private static HashMap<PredictionAlgorithmType, JavaPredictionAlgorithm> algorithmHashMap;
 
     /**
      * for inducing a high load on this thread.
@@ -24,16 +23,18 @@ public abstract class JavaPredictionAlgorithm {
         while ((System.nanoTime() - startTime) < sleepTime) {}
     }
 
-    static {
-        algorithmHashMap = new HashMap<PredictionAlgorithmType, JavaPredictionAlgorithm>();
-        algorithmHashMap.put(PredictionAlgorithmType.PASSTHROUGH, new JavaPassthroughAlgorithm());
-        algorithmHashMap.put(PredictionAlgorithmType.LINEAR, new JavaLinearAlgorithm());
-        algorithmHashMap.put(PredictionAlgorithmType.LINEAR2D, new JavaLinear2dAlgorithm());
-    }
-
     public static JavaPredictionAlgorithm getInstance(PredictionAlgorithmType type)
     {
-        return algorithmHashMap.get(type);
+        switch(type)
+        {
+            case PASSTHROUGH:
+                return new JavaPassthroughAlgorithm();
+            case LINEAR:
+                return new JavaLinearAlgorithm();
+            case LINEAR2D:
+                return new JavaLinear2dAlgorithm();
+        }
+        return null;
     }
     /**
      * Method makePrediction ...

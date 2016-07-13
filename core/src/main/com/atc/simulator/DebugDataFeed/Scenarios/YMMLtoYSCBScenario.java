@@ -1,6 +1,7 @@
 package com.atc.simulator.DebugDataFeed.Scenarios;
 
 import com.atc.simulator.flightdata.*;
+import com.atc.simulator.vectors.GeographicCoordinate;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -136,5 +137,15 @@ public class YMMLtoYSCBScenario extends Scenario {
     @Override
     public int getRecommendedUpdateRate() {
         return 3000;
+    }
+
+    /**
+     * Get the projection reference position of the scenario
+     *
+     * @return
+     */
+    @Override
+    public GeographicCoordinate getProjectionReference() {
+        return new GeographicCoordinate(0, Math.toRadians(-36.2900005),Math.toRadians(147.1387819));
     }
 }

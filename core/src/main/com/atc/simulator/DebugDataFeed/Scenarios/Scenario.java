@@ -2,6 +2,7 @@ package com.atc.simulator.DebugDataFeed.Scenarios;
 
 import com.atc.simulator.flightdata.SystemState;
 import com.atc.simulator.flightdata.Track;
+import com.atc.simulator.vectors.GeographicCoordinate;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ import java.util.Calendar;
  * @author Luke Frisken
  */
 public abstract class Scenario {
+    private static Scenario currentScenario = null;
 
     /**
      * Get the SystemState at a given time as represented by the Scenario.
@@ -71,6 +73,32 @@ public abstract class Scenario {
         {
             throw new IndexOutOfBoundsException("time is after end time");
         }
+    }
+
+    /**
+     * Get the projection reference position of the scenario
+     * @return
+     */
+    public abstract GeographicCoordinate getProjectionReference();
+
+
+    /**
+     * Get the current scenario instance
+     * @return
+     */
+    public static Scenario getCurrentScenario()
+    {
+        return currentScenario;
+    }
+
+    /**
+     * Set the current scenario instance
+     * @param currentScenario
+     * @return
+     */
+    public static void setCurrentScenario(Scenario currentScenario)
+    {
+        Scenario.currentScenario = currentScenario;
     }
 
 }

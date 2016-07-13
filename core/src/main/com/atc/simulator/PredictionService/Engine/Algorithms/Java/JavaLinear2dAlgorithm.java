@@ -1,10 +1,13 @@
 package com.atc.simulator.PredictionService.Engine.Algorithms.Java;
 
+import com.atc.simulator.DebugDataFeed.Scenarios.Scenario;
 import com.atc.simulator.flightdata.AircraftState;
 import com.atc.simulator.flightdata.Prediction;
 import com.atc.simulator.flightdata.Track;
 import com.atc.simulator.vectors.GeographicCoordinate;
+import com.atc.simulator.vectors.GnomonicProjection;
 import com.atc.simulator.vectors.SphericalVelocity;
+import pythagoras.d.Vector3;
 
 import java.util.ArrayList;
 
@@ -12,6 +15,8 @@ import java.util.ArrayList;
  * Created by luke on 13/07/16.
  */
 public class JavaLinear2dAlgorithm extends JavaPredictionAlgorithm {
+    GnomonicProjection projection = null;
+
     /**
      * Method makePrediction ...
      *
@@ -20,11 +25,24 @@ public class JavaLinear2dAlgorithm extends JavaPredictionAlgorithm {
      */
     @Override
     public Prediction makePrediction(Track aircraftTrack) {
+        if (projection == null)
+        {
+            GeographicCoordinate projectionReference = Scenario.getCurrentScenario().getProjectionReference();
+            projection = new GnomonicProjection(projectionReference);
+
+        }
+
         AircraftState state = aircraftTrack.getLatest();
         long startTime = state.getTime();
-        GeographicCoordinate position = state.getPosition();
+        GeographicCoordinate geographicPosition = state.getPosition();
+        Vector3 position = projection.transformPositionTo(geographicPosition);
 
-        SphericalVelocity velocity = state.getVelocity();
+        SphericalVelocity sphericalVelocity = state.getVelocity();
+
+        Vector3 velocity = projection.tranformVelocityTo(sphericalVelocity, geographicPosition, position);
+
+
+
         ArrayList<AircraftState> predictedStates = new ArrayList<AircraftState>();
 
         int dt = 5000;
@@ -36,15 +54,14 @@ public class JavaLinear2dAlgorithm extends JavaPredictionAlgorithm {
             totalDT += dt;
 
             //make a linear prediction based on the current velocity
-            GeographicCoordinate predictedPosition = new GeographicCoordinate(
-                    position.add(velocity.mult(totalDT/1000))
-            );
+            Vector3 predictedPosition = position.add(velocity.mult(totalDT/1000));
+            GeographicCoordinate predictedGeographicPosition = projection.transformPositionFrom(predictedPosition);
 
             AircraftState predictedState = new AircraftState(
                     state.getAircraftID(),
                     startTime+totalDT,
-                    predictedPosition,
-                    velocity,
+                    predictedGeographicPosition,
+                    sphericalVelocity,
                     0);
             predictedStates.add(predictedState);
 

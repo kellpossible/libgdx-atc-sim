@@ -5,9 +5,6 @@ import com.atc.simulator.DebugDataFeed.Scenarios.Scenario;
 import com.atc.simulator.flightdata.AircraftState;
 import com.atc.simulator.flightdata.Track;
 import org.knowm.xchart.*;
-import org.knowm.xchart.internal.chartpart.Chart;
-import org.knowm.xchart.style.Styler;
-import org.knowm.xchart.style.markers.SeriesMarkers;
 import pythagoras.d.Vector3;
 
 /**
@@ -30,11 +27,11 @@ public class TestGnomonicProjection {
             AircraftState state = track.get(i);
             GeographicCoordinate position = state.getPosition();
 
-            Vector3 position2D = projection.transformTo(position);
+            Vector3 position2D = projection.transformPositionTo(position);
             xData[i] = position2D.x;
             yData[i] = position2D.y;
 
-            GeographicCoordinate newPosition = projection.transformFrom(position2D);
+            GeographicCoordinate newPosition = projection.transformPositionFrom(position2D);
 
             System.out.println("position" + position);
             System.out.println("newPosition" + newPosition);

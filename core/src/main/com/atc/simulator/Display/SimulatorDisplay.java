@@ -132,17 +132,8 @@ public class SimulatorDisplay extends ApplicationAdapter implements DataPlayback
                 new Material());
         builder.setColor(Color.RED);
 
-        int j = -1;
         for (Track track : tracks)
         {
-            j++;
-            if(j != 2)
-            {
-                continue;
-            }
-
-
-
             //jump, just in case we want to skip some elements (it was having trouble drawing the entire track)
             //for performance reasons.
             int jump = 1;

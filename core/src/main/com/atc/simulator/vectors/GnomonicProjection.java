@@ -58,13 +58,13 @@ public class GnomonicProjection extends Projection {
     }
 
     /**
-     * Transforms a coordinate from GeographicCoordinate (spherical) to
+     * Transforms a position coordinate from GeographicCoordinate (spherical) to
      * a cartesian Gnomonic coordinate space using this projection.
      * @param geographicCoordinate
      * @return
      */
     @Override
-    public Vector3 transformTo(GeographicCoordinate geographicCoordinate) {
+    public Vector3 transformPositionTo(GeographicCoordinate geographicCoordinate) {
         Vector3 coordinateNormal = geographicCoordinate.getCartesian().normalize();
         Ray3 coordinateRay = new Ray3(zeroVector, coordinateNormal);
 
@@ -85,13 +85,13 @@ public class GnomonicProjection extends Projection {
     }
 
     /**
-     * Transforms a cartesian Gnomonic coordinate that was created using this projection
+     * Transforms a cartesian Gnomonic position coordinate that was created using this projection
      * into a Geographic (spherical) coordinate using this projection.
      * @param projectionCoordinate
      * @return
      */
     @Override
-    public GeographicCoordinate transformFrom(Vector3 projectionCoordinate) {
+    public GeographicCoordinate transformPositionFrom(Vector3 projectionCoordinate) {
         Vector3 relativeToPlane = northNormal.mult(projectionCoordinate.y).add(eastNormal.mult(projectionCoordinate.x));
         Vector3 cartesianPosition = projectionPlanePosition.add(relativeToPlane);
 
@@ -99,5 +99,41 @@ public class GnomonicProjection extends Projection {
         position.setAltitude(projectionCoordinate.z);
 
         return position;
+    }
+
+    /**
+     *
+     * @param velocity velocity in the Spherical coordinate system
+     * @param referencePosition reference position in Geographic coordinate system
+     * @param referencePositionCartesian reference position in this projection's cartesian coordiant system
+     * @return
+     */
+    @Override
+    public Vector3 tranformVelocityTo(
+            SphericalVelocity velocity,
+            GeographicCoordinate referencePosition,
+            Vector3 referencePositionCartesian) {
+
+        GeographicCoordinate velocityPlusReference = new GeographicCoordinate(referencePosition.add(velocity));
+        Vector3 velocityPlusReferenceCartesian = transformPositionTo(velocityPlusReference);
+        return velocityPlusReferenceCartesian.subtract(referencePositionCartesian);
+    }
+
+    /**
+     *
+     * @param velocity velocity in this projection's cartesian coordinate system
+     * @param referencePosition reference position in Geographic coordinate system
+     * @param referencePositionCartesian reference position in this projection's cartesian coordiant system
+     * @return
+     */
+    @Override
+    public SphericalVelocity transformVelocityFrom(
+            Vector3 velocity,
+            GeographicCoordinate referencePosition,
+            Vector3 referencePositionCartesian) {
+
+        Vector3 velocityPlusReferenceCartesian = referencePositionCartesian.add(velocity);
+        GeographicCoordinate velocityPlusReference = transformPositionFrom(velocityPlusReferenceCartesian);
+        return new SphericalVelocity(velocityPlusReference.subtract(referencePosition));
     }
 }
