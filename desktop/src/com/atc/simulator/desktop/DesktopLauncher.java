@@ -35,7 +35,7 @@ public class DesktopLauncher {
 		PredictionEngineThread predictionEngine = new PredictionEngineThread(
 				predictionFeedServerThread,
 				systemStateDatabase,
-				4);
+				1);
 
 //		DebugDataFeedClientThread debugDataFeedClientThread = new DebugDataFeedClientThread(predictionEngine);
 

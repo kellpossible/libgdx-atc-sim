@@ -9,10 +9,10 @@
     		"print-predictionfeedclient": false,
     		"print-display": false,
         "print-algorithm": false,
-        "algorithm-timer": true,
+        "algorithm-timer": false,
         "worker-timer": false,
         "engine-timer": false,
-        "predictionfeedserver-timer": true
+        "predictionfeedserver-timer": false
     	}
     }
 }

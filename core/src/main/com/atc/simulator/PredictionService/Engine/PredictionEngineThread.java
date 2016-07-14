@@ -231,7 +231,7 @@ public class PredictionEngineThread implements RunnableThread, SystemStateDataba
      public void onSystemStateUpdate(ArrayList<String> aircraftIDs) {
          for (String aircraftID: aircraftIDs)
          {
-             Track aircraftTrack = systemStateDatabase.getTrack(aircraftID); //TODO: make this a deep copy
+             Track aircraftTrack = systemStateDatabase.copyTrack(aircraftID);
              PredictionWorkItem workItem = new PredictionWorkItem(
                      aircraftID,
                      aircraftTrack,

@@ -69,6 +69,19 @@ public class SystemStateDatabase implements DataPlaybackListener {
         return tracks.get(aircraftID);
     }
 
+    /**
+     * Get a copy of the track
+     * @param aircraftID
+     * @return
+     */
+    public Track copyTrack(String aircraftID)
+    {
+        Track track = tracks.get(aircraftID);
+        Track newTrack = new Track();
+        newTrack.addAll(track);
+        return newTrack;
+    }
+
 
     /**
      * TODO: remove this and implement the debugdatafeedclient listener interface
