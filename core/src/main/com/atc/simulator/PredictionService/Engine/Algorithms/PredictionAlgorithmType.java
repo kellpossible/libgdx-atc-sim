@@ -9,5 +9,6 @@ public enum PredictionAlgorithmType {
     PARALLEL_TEST,
     LINEAR,
     LINEAR2D,
-    CURVILINEAR2D
+    CURVILINEAR2D,
+    CHRIS
 }
