@@ -6,6 +6,7 @@ import com.atc.simulator.flightdata.Prediction;
 import com.atc.simulator.flightdata.Track;
 import com.atc.simulator.vectors.GeographicCoordinate;
 import com.atc.simulator.vectors.GnomonicProjection;
+import com.atc.simulator.vectors.SphericalCoordinate;
 import com.atc.simulator.vectors.SphericalVelocity;
 import pythagoras.d.Vector3;
 
@@ -37,11 +38,9 @@ public class JavaChrisAlgorithm1 extends JavaPredictionAlgorithm {
 
         AircraftState state = aircraftTrack.getLatest();
         long startTime = state.getTime();
-        GeographicCoordinate position = state.getPosition();
-        SphericalVelocity velocity = state.getVelocity();
+        GeographicCoordinate currentPosition = state.getPosition();
+        SphericalVelocity currentVelocity = state.getVelocity();
         ArrayList<AircraftState> predictedStates = new ArrayList<AircraftState>(); //an array to store the predicted states
-        int predictionPeriod = 5000; //milliseconds - time period each prediction will cover
-        int totalPredictions = 24; //24= (2min * 60sec * 1000ms)  /  period covered in prediction
 
         if(aircraftTrack.size() < 3) //If there's only 1 or 2 states, we can't find acceleration
         {//So we will steal Luke's JavaLinearAlgorithm algorithm
@@ -51,20 +50,20 @@ public class JavaChrisAlgorithm1 extends JavaPredictionAlgorithm {
             int totalDT = 0;
 
 
-            for (int i = 0; i < totalPredictions; i++)
+            for (int i = 0; i < 24; i++)
             {
-                totalDT += predictionPeriod;
+                totalDT += 5000;
 
                 //make a linear prediction based on the current velocity
                 GeographicCoordinate predictedPosition = new GeographicCoordinate(
-                        position.add(velocity.mult(totalDT/1000))
+                        currentPosition.add(currentVelocity.mult(totalDT/1000))
                 );
 
                 AircraftState predictedState = new AircraftState(
                         state.getAircraftID(),
                         startTime+totalDT,
                         predictedPosition,
-                        velocity,
+                        currentVelocity,
                         0);
                 predictedStates.add(predictedState);
 
@@ -77,48 +76,29 @@ public class JavaChrisAlgorithm1 extends JavaPredictionAlgorithm {
         {
             //This will be acceleration in radians / second^2 I guess?
                         //and it can be made into a lot less lines... just neater this way for now x
-            //Get the three latest positions
-            AircraftState newestState = state;
-            AircraftState previousState = aircraftTrack.get(aircraftTrack.size() - 2);
-            AircraftState oldestState = aircraftTrack.get(aircraftTrack.size() - 3);
-            //Find the changes in Time
-            double deltaTimeNew = (newestState.getTime() - previousState.getTime())/1000;
-            double deltaTimeOld = (previousState.getTime() - oldestState.getTime())/1000;
-            //Find the changes in positions (~distance)
-            double deltaLatNew = newestState.getPosition().getLatitude() - previousState.getPosition().getLatitude();
-            double deltaLatOld = previousState.getPosition().getLatitude() - oldestState.getPosition().getLatitude();
-            double deltaLongNew = newestState.getPosition().getLongitude() - previousState.getPosition().getLongitude();
-            double deltaLongOld = previousState.getPosition().getLongitude() - oldestState.getPosition().getLongitude();
-            //double deltaAltNew = newestState.getPosition().getAltitude() - previousState.getPosition().getAltitude();
-            //double deltaAltOld = previousState.getPosition().getAltitude() - oldestState.getPosition().getAltitude();
+            SphericalCoordinate newPos = new SphericalCoordinate(currentPosition);
+            AircraftState oldState = aircraftTrack.get(aircraftTrack.size() - 2);
+            SphericalVelocity oldVelocity = oldState.getVelocity();
+            double oldTime = oldState.getTime();
 
-            //Average velocities
-            double vLatNew = deltaLatNew / deltaTimeNew;
-            double vLatOld = deltaLatOld / deltaTimeOld;
-            double vLongNew = deltaLongNew / deltaTimeNew;
-            double vLongOld = deltaLongOld / deltaTimeOld;
-
-            //Average accelerations = changing v's by average time periods
-            double aLat = (vLatNew - vLatOld) / ( (deltaTimeNew+deltaTimeOld)/2 );
-            double aLong = (vLongNew - vLongOld) / ( (deltaTimeNew+deltaTimeOld)/2 );
+            double accelR = (currentVelocity.getDR() - oldVelocity.getDR()) / (startTime-oldTime);
+            double accelTheta = (currentVelocity.getDTheta() - oldVelocity.getDTheta()) / (startTime-oldTime);
+            double accelPhi = (currentVelocity.getDPhi() - oldVelocity.getDPhi()) / (startTime-oldTime);
 
 
-            double baseLat = newestState.getPosition().getLatitude(); //Base altitude to work off
-            double baseLong = newestState.getPosition().getLongitude(); //Base altitude to work off
-            double baseAlt = newestState.getPosition().getAltitude(); //Base altitude to work off
-            for (int numPredictions = 1; numPredictions != totalPredictions; numPredictions++)
+            for (int numPredictions = 1; numPredictions != 24; numPredictions++)
             {
-                GeographicCoordinate predictedPosition = new GeographicCoordinate(
-                        baseAlt,
-                        baseLat + (vLatNew * (numPredictions*5)) + (0.5 * aLat * (numPredictions*5) * (numPredictions*5)), //s2 = s1 + ut + .5a(t^2)
-                        baseLong + (vLongNew * (numPredictions*5)) + (0.5 * aLong * (numPredictions*5) * (numPredictions*5)) //s2 = s1 + ut + .5a(t^2)
+                SphericalCoordinate predictedPosition = new SphericalCoordinate(
+                        newPos.getR() + + (currentVelocity.getDR() * (numPredictions*5)) + (0.5 * accelR * (numPredictions*5) * (numPredictions*5)),
+                        newPos.getTheta() + (currentVelocity.getDTheta() * (numPredictions*5)) + (0.5 * accelTheta * (numPredictions*5) * (numPredictions*5)), //s2 = s1 + ut + .5a(t^2)
+                        newPos.getPhi() + (currentVelocity.getDTheta() * (numPredictions*5)) + (0.5 * accelPhi * (numPredictions*5) * (numPredictions*5)) //s2 = s1 + ut + .5a(t^2)
                 );
 
                 AircraftState predictedState = new AircraftState(
                         state.getAircraftID(),
                         startTime+(numPredictions*5),
-                        predictedPosition,
-                        velocity,
+                        new GeographicCoordinate(predictedPosition),
+                        currentVelocity,
                         0);
                 predictedStates.add(predictedState);
             }
