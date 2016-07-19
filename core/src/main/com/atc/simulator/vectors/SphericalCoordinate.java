@@ -252,4 +252,53 @@ public class SphericalCoordinate extends Vector3 {
     {
         return x * Math.acos(Math.cos(y)*Math.cos(other.y)+Math.sin(y)*Math.sin(other.y)*Math.sin(z - other.z));
     }
+
+
+    /**
+     * Get the cartesian unit vector for R
+     * @return
+     */
+    public Vector3 rCartesianUnitVector()
+    {
+        SphericalCoordinate rectified = this.rectifyBounds();
+        double theta = rectified.y;
+        double phi = rectified.z;
+        return new Vector3(
+                (float) (Math.cos(theta) * Math.sin(phi)),
+                (float) (Math.sin(theta) * Math.sin(phi)),
+                (float) (Math.cos(phi)));
+    }
+
+    /**
+     * Get the cartesian unit vector for Phi
+     * @return
+     */
+    public Vector3 phiCartesianUnitVector()
+    {
+        SphericalCoordinate rectified = this.rectifyBounds();
+        double theta = rectified.y;
+        double phi = rectified.z;
+
+        return new Vector3(
+                Math.cos(phi)*Math.cos(theta),
+                Math.cos(phi)*Math.sin(theta),
+                -Math.sin(phi)
+        );
+    }
+
+    /**
+     * Get the cartesian unit vector for theta
+     * @return
+     */
+    public Vector3 thetaCartesianUnitVector()
+    {
+        SphericalCoordinate rectified = this.rectifyBounds();
+        double theta = rectified.y;
+
+        return new Vector3(
+                -Math.sin(theta),
+                Math.cos(theta),
+                0
+        );
+    }
 }
