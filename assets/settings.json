@@ -13,6 +13,9 @@
         "worker-timer": false,
         "engine-timer": false,
         "predictionfeedserver-timer": false
-    	}
+    	},
+        "prediction" : {
+            "algorithm-type": "LINEAR2D"
+        }
     }
 }
