@@ -82,8 +82,9 @@ public class JavaChrisAlgorithm1 extends JavaPredictionAlgorithm {
             double oldTime = oldState.getTime();
             double dt = startTime - oldTime;
 
-            Vector3 acceleration = currentVelocity.subtract(oldVelocity).mult(1.0/dt);
+            Vector3 acceleration = currentVelocity.subtract(oldVelocity).mult(1.0/dt).mult(1000); //not sure why multiplying by 1000 makes this work!?
 
+            System.out.println("Acceleration:" + acceleration.length());
 
             for (int numPredictions = 1; numPredictions != 24; numPredictions++)
             {

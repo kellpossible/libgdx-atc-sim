@@ -138,29 +138,7 @@ public class ADSBRecordingScenario extends Scenario {
                     {
                         continue; //exclude records within 0.1 seconds of each other. (probably duplicates)
                     } else {
-                        // using http://www.astrosurf.com/jephem/library/li110spherCart_en.htm  added by Chris
-                        double cartesianX = position.getAltitude();
-                        double cartesianY = position.getLatitude();
-                        double cartesianZ = position.getLongitude();
-
-                        Vector3 deltaPos = position.subtract(previousPosition);
-                        double deltaX = deltaPos.x;
-                        double deltaY = deltaPos.y;
-                        double deltaZ = deltaPos.z;
-
-                        velocity = new SphericalVelocity(
-                                ( (cartesianX*deltaX)+(cartesianY*deltaY)+(cartesianZ*deltaZ) )
-                                            / java.lang.Math.sqrt( (cartesianX*cartesianX)+(cartesianY*cartesianY)+(cartesianY*cartesianY)),
-
-                                ( (deltaX*cartesianY)-(deltaY*cartesianX) )
-                                            / ((cartesianX*cartesianX)+(cartesianY*cartesianY)),
-
-                                ( (cartesianZ*((cartesianX*deltaX)+(cartesianY*deltaY)))  - (deltaZ*((cartesianX*cartesianX)+(cartesianY*cartesianY))))
-                                            / ( ((cartesianX*cartesianX)+(cartesianY*cartesianY)+(cartesianY*cartesianY))* java.lang.Math.sqrt((cartesianX*cartesianX)+(cartesianY*cartesianY)))
-                        );
-
-
- /*                       Vector3 dPos = position.subtract(previousPosition);
+                        Vector3 dPos = position.subtract(previousPosition);
                         double storeX = dPos.x;
 
                         Vector3 cartesionPrevPos = previousPosition.getCartesian();
@@ -191,7 +169,7 @@ public class ADSBRecordingScenario extends Scenario {
 //                        System.out.println("dpos" + dPos);
                         //hack until I can figure out how to calculate the velocity correctly
                         velocity = new SphericalVelocity(dPos);
- */                   }
+                    }
                 }
 
                 //TODO: callsign might not actually be the best thing to use for aircraft ID, looks like there might be duplicates?
