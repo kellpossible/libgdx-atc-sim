@@ -32,29 +32,17 @@ public class GnomonicProjection extends Projection {
         //get the normal of the projection (from the centre of the earth to the projection reference)
         Vector3 projectionNormal = projectionPlanePosition.normalize();
 
-        //create a coordinate which is just a tiny bit north of the reference
-        GeographicCoordinate projectionNorthAdjust = new GeographicCoordinate(projectionReference);
-        projectionNorthAdjust.setLatitude(projectionReference.getLatitude()+0.001); //TODO: this may need alternate behaviour close to the poles
-        //get the normal of the projection of this adjusted north position.
-        Vector3 projectionNorthNormal = new SphericalCoordinate(projectionNorthAdjust).getCartesian().normalize();
-
-        //create a ray from this normal
-        Ray3 projectionNorthNormalRay = new Ray3(zeroVector, projectionNorthNormal);
-
         //create the projection plane. ensure that the plane normal is facing towards the earth
         //so that intersections will work.
         projectionPlane = new Plane().fromPointNormal(projectionPlanePosition, projectionNormal.negate());
 
-        //do an intersection with the plane and the projected adjusted north coordinate.
-        Vector3 cartesianPlaneNorth = new Vector3();
-        boolean found = projectionPlane.intersection(projectionNorthNormalRay, cartesianPlaneNorth);
-
         //use this intersection point to figure out which way is north in the
         //gnomonic coordinate space.
-        northNormal = cartesianPlaneNorth.subtract(projectionPlanePosition).normalize();
+        SphericalCoordinate sphericalProjectionPlanePosition =  new SphericalCoordinate(projectionReference);
 
-        //do a cross product (and negate it) to get the east normal vector.
-        eastNormal = northNormal.cross(projectionNormal).negate();
+
+        northNormal = sphericalProjectionPlanePosition.phiCartesianUnitVector();
+        eastNormal = sphericalProjectionPlanePosition.thetaCartesianUnitVector();
     }
 
     /**
