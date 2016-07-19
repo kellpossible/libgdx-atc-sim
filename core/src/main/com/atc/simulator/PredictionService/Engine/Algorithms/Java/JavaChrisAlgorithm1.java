@@ -38,32 +38,37 @@ public class JavaChrisAlgorithm1 extends JavaPredictionAlgorithm {
 
         AircraftState state = aircraftTrack.getLatest();
         long startTime = state.getTime();
-        GeographicCoordinate currentPosition = state.getPosition();
-        SphericalVelocity currentVelocity = state.getVelocity();
+
+        GeographicCoordinate geographicPosition = state.getPosition();
+        Vector3 currentPosition = projection.transformPositionTo(geographicPosition);
+
+        SphericalVelocity sphericalVelocity = state.getVelocity();
+
+        Vector3 currentVelocity = projection.tranformVelocityTo(sphericalVelocity, geographicPosition, currentPosition);
+
+
         ArrayList<AircraftState> predictedStates = new ArrayList<AircraftState>(); //an array to store the predicted states
 
         if(aircraftTrack.size() < 3) //If there's only 1 or 2 states, we can't find acceleration
         {//So we will steal Luke's JavaLinearAlgorithm algorithm
 
-
-
+            int dt = 5000;
             int totalDT = 0;
+            int n = 24;
 
-
-            for (int i = 0; i < 24; i++)
+            for (int i = 0; i < n; i++)
             {
-                totalDT += 5000;
+                totalDT += dt;
 
                 //make a linear prediction based on the current velocity
-                GeographicCoordinate predictedPosition = new GeographicCoordinate(
-                        currentPosition.add(currentVelocity.mult(totalDT/1000))
-                );
+                Vector3 predictedPosition = currentPosition.add(currentVelocity.mult(totalDT/1000));
+                GeographicCoordinate predictedGeographicPosition = projection.transformPositionFrom(predictedPosition);
 
                 AircraftState predictedState = new AircraftState(
                         state.getAircraftID(),
                         startTime+totalDT,
-                        predictedPosition,
-                        currentVelocity,
+                        predictedGeographicPosition,
+                        sphericalVelocity,
                         0);
                 predictedStates.add(predictedState);
 
@@ -76,13 +81,15 @@ public class JavaChrisAlgorithm1 extends JavaPredictionAlgorithm {
         {
             //This will be acceleration in radians / second^2 I guess?
                         //and it can be made into a lot less lines... just neater this way for now x
-            SphericalCoordinate newPos = new SphericalCoordinate(currentPosition);
+            Vector3 newPos = new Vector3(currentPosition);
             AircraftState oldState = aircraftTrack.get(aircraftTrack.size() - 2);
             SphericalVelocity oldVelocity = oldState.getVelocity();
             double oldTime = oldState.getTime();
             double dt = startTime - oldTime;
 
-            Vector3 acceleration = currentVelocity.subtract(oldVelocity).mult(1.0/dt).mult(1000); //not sure why multiplying by 1000 makes this work!?
+
+
+            Vector3 acceleration = currentVelocity.subtract(oldVelocity).mult(1.0/dt);
 
             System.out.println("Acceleration:" + acceleration.length());
 
@@ -94,11 +101,14 @@ public class JavaChrisAlgorithm1 extends JavaPredictionAlgorithm {
                         )
                 );
 
+                GeographicCoordinate predictedGeographicPosition = projection.transformPositionFrom(predictedPosition);
+
+
                 AircraftState predictedState = new AircraftState(
                         state.getAircraftID(),
                         startTime+(numPredictions*5),
-                        new GeographicCoordinate(predictedPosition),
-                        currentVelocity,
+                        predictedGeographicPosition,
+                        sphericalVelocity,
                         0);
                 predictedStates.add(predictedState);
             }
