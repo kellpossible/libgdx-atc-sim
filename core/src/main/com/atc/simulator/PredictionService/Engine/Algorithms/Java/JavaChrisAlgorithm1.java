@@ -80,18 +80,17 @@ public class JavaChrisAlgorithm1 extends JavaPredictionAlgorithm {
             AircraftState oldState = aircraftTrack.get(aircraftTrack.size() - 2);
             SphericalVelocity oldVelocity = oldState.getVelocity();
             double oldTime = oldState.getTime();
+            double dt = startTime - oldTime;
 
-            double accelR = (currentVelocity.getDR() - oldVelocity.getDR()) / (startTime-oldTime);
-            double accelTheta = (currentVelocity.getDTheta() - oldVelocity.getDTheta()) / (startTime-oldTime);
-            double accelPhi = (currentVelocity.getDPhi() - oldVelocity.getDPhi()) / (startTime-oldTime);
+            Vector3 acceleration = currentVelocity.subtract(oldVelocity).mult(1.0/dt);
 
 
             for (int numPredictions = 1; numPredictions != 24; numPredictions++)
             {
-                SphericalCoordinate predictedPosition = new SphericalCoordinate(
-                        newPos.getR() + + (currentVelocity.getDR() * (numPredictions*5)) + (0.5 * accelR * (numPredictions*5) * (numPredictions*5)),
-                        newPos.getTheta() + (currentVelocity.getDTheta() * (numPredictions*5)) + (0.5 * accelTheta * (numPredictions*5) * (numPredictions*5)), //s2 = s1 + ut + .5a(t^2)
-                        newPos.getPhi() + (currentVelocity.getDTheta() * (numPredictions*5)) + (0.5 * accelPhi * (numPredictions*5) * (numPredictions*5)) //s2 = s1 + ut + .5a(t^2)
+                Vector3 predictedPosition = newPos.add(
+                        currentVelocity.mult(numPredictions*5).add(
+                                acceleration.mult(0.5*numPredictions*5*numPredictions*5)
+                        )
                 );
 
                 AircraftState predictedState = new AircraftState(
