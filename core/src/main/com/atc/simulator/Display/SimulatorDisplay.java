@@ -28,7 +28,6 @@ import java.util.concurrent.ArrayBlockingQueue;
 
 public class SimulatorDisplay extends ApplicationAdapter implements DataPlaybackListener, PredictionListener {
     private static final boolean enableDebugPrint = ApplicationConfig.getInstance().getBoolean("settings.debug.print-display");
-    private SpriteBatch batch;
 	private PerspectiveCamera cam;
     private Model earthTextureModel;
     private ModelInstance earthTextureInstance;
@@ -182,7 +181,6 @@ public class SimulatorDisplay extends ApplicationAdapter implements DataPlayback
         font = new BitmapFont(new FileHandle("assets/fonts/DejaVu_Sans_Mono_12.fnt"));
 
         modelBatch = new ModelBatch();
-		batch = new SpriteBatch();
 
 		cam = new PerspectiveCamera(40, Gdx.graphics.getWidth(), Gdx.graphics.getWidth());
 		cam.position.set(0f, 0f, 0f);
