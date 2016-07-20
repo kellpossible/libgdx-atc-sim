@@ -179,7 +179,7 @@ public class SimulatorDisplay extends ApplicationAdapter implements DataPlayback
 
 
         spriteBatch = new SpriteBatch();
-        font = new BitmapFont(new FileHandle("assets/fonts/DejaVu_Sans_Mono_16.fnt"));
+        font = new BitmapFont(new FileHandle("assets/fonts/DejaVu_Sans_Mono_12.fnt"));
 
         modelBatch = new ModelBatch();
 		batch = new SpriteBatch();
