@@ -435,7 +435,7 @@ public class SimulatorDisplay extends ApplicationAdapter implements DataPlayback
 		modelBatch.end();
 
         spriteBatch.begin();
-        font.draw(spriteBatch, "Hello World", textPosition.x, textPosition.y);
+//        font.draw(spriteBatch, "Hello World", textPosition.x, textPosition.y);
         spriteBatch.end();
 	}
 
