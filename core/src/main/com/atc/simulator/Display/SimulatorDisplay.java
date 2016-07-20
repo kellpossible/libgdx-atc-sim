@@ -243,8 +243,8 @@ public class SimulatorDisplay extends ApplicationAdapter implements DataPlayback
                         new Material());
                 builder.setColor(Color.YELLOW);
 
-                Vector3 previousPositionDrawVector = states.get(0).getPosition().getModelDrawVector();
-                for(int i = 1; i < states.size(); i++)
+                Vector3 previousPositionDrawVector = aircraftState.getPosition().getModelDrawVector();
+                for(int i = 0; i < states.size(); i++)
                 {
                     AircraftState state = states.get(i);
                     Vector3 positionDrawVector = state.getPosition().getModelDrawVector();
