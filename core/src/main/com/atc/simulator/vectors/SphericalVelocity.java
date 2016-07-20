@@ -1,5 +1,6 @@
 package com.atc.simulator.vectors;
 
+import pythagoras.d.Vector;
 import pythagoras.d.Vector3;
 
 /**
@@ -49,14 +50,6 @@ public class SphericalVelocity extends Vector3 {
         return this.z;
     }
 
-    /**
-     * get the equivalent cartesian coordinate vector of this spherical velocity.
-     * @return
-     */
-    public Vector3 getCartesian(SphericalCoordinate from) {
-        SphericalCoordinate to = new SphericalCoordinate(from.add(this));
-        return to.getCartesian().subtract(from.getCartesian());
-    }
 
     public double getSpeed()
     {
@@ -72,5 +65,34 @@ public class SphericalVelocity extends Vector3 {
         System.out.println("Coords after transform DR:"+this.getDR()+" DTheta:"+this.getDTheta()+" DPhi:" + this.getDPhi());
         Vector3 cartesian = this.getCartesian(from);
         return new com.badlogic.gdx.math.Vector3((float) cartesian.x, (float) cartesian.z, (float) cartesian.y);
+    }
+
+    /**
+     * Get the cartesian velocity
+     * @param from the point of reference for which this velocity is based
+     * @return
+     */
+    public Vector3 getCartesian(SphericalCoordinate from)
+    {
+        //v = dr * e_r + r*dtheta*sin(phi)*e_theta + r*dphi*e_phi
+        return from.rCartesianUnitVector().mult(x).add(
+                from.thetaCartesianUnitVector().mult(from.x * y * Math.sin(from.z)).add(
+                        from.phiCartesianUnitVector().mult(from.x * z)
+                )
+        );
+    }
+
+
+    /**
+     * Get the equivalent cartesian angular velocity.
+     * Using math from here:
+     * http://dynref.engr.illinois.edu/rvs.html
+     * @param from
+     * @return
+     */
+    public Vector3 getCartesianAngularVelocity(SphericalCoordinate from)
+    {
+        //w = dphi*e_theta + dtheta*k
+        return from.thetaCartesianUnitVector().mult(getDPhi()).add(new Vector3(0, 0, 1).mult(getDTheta()));
     }
 }

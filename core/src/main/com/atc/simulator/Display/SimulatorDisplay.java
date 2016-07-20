@@ -10,13 +10,16 @@ import com.atc.simulator.vectors.SphericalVelocity;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.*;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g3d.*;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.utils.CameraInputController;
 import com.badlogic.gdx.graphics.g3d.utils.MeshPartBuilder;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
 import java.util.ArrayList;
@@ -25,11 +28,12 @@ import java.util.concurrent.ArrayBlockingQueue;
 
 public class SimulatorDisplay extends ApplicationAdapter implements DataPlaybackListener, PredictionListener {
     private static final boolean enableDebugPrint = ApplicationConfig.getInstance().getBoolean("settings.debug.print-display");
-    private SpriteBatch batch;
 	private PerspectiveCamera cam;
     private Model earthTextureModel;
     private ModelInstance earthTextureInstance;
     private ModelBatch modelBatch;
+    private SpriteBatch spriteBatch;
+    private BitmapFont font;
     private Environment environment;
     private MyCameraController camController;
     private AssetManager assets;
@@ -46,6 +50,8 @@ public class SimulatorDisplay extends ApplicationAdapter implements DataPlayback
     private HashMap<String, Model> aircraftPredictionModels = null;
     private HashMap<String, ModelInstance> aircraftPredictionModelInstances = null;
     private HashMap<String, Prediction> predictions = null;
+
+    Vector2 textPosition;
 
     private Model countriesModel;
     private ModelInstance countriesModelInstance;
@@ -160,6 +166,7 @@ public class SimulatorDisplay extends ApplicationAdapter implements DataPlayback
 
 	@Override
 	public void create () {
+	    textPosition = new Vector2(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
 		assets = new AssetManager();
 //		assets.load("flight_data/CallibrateMap/CallibrateMap.csv", Track.class);
 //        assets.load("assets/models/planet.g3db", Model.class);
@@ -170,10 +177,10 @@ public class SimulatorDisplay extends ApplicationAdapter implements DataPlayback
 
 
 
-
+        spriteBatch = new SpriteBatch();
+        font = new BitmapFont(new FileHandle("assets/fonts/DejaVu_Sans_Mono_12.fnt"));
 
         modelBatch = new ModelBatch();
-		batch = new SpriteBatch();
 
 		cam = new PerspectiveCamera(40, Gdx.graphics.getWidth(), Gdx.graphics.getWidth());
 		cam.position.set(0f, 0f, 0f);
@@ -243,8 +250,8 @@ public class SimulatorDisplay extends ApplicationAdapter implements DataPlayback
                         new Material());
                 builder.setColor(Color.YELLOW);
 
-                Vector3 previousPositionDrawVector = states.get(0).getPosition().getModelDrawVector();
-                for(int i = 1; i < states.size(); i++)
+                Vector3 previousPositionDrawVector = aircraftState.getPosition().getModelDrawVector();
+                for(int i = 0; i < states.size(); i++)
                 {
                     AircraftState state = states.get(i);
                     Vector3 positionDrawVector = state.getPosition().getModelDrawVector();
@@ -314,7 +321,17 @@ public class SimulatorDisplay extends ApplicationAdapter implements DataPlayback
                 double depthAdjustment = -0.01;
                 Vector3 modelDrawVector = position.getModelDrawVector(depthAdjustment);
 
+                Vector3 screenPosition = cam.project(new Vector3(modelDrawVector));
+
+
                 String aircraftID = aircraftState.getAircraftID();
+                System.out.println("Screen Position: " + screenPosition + ", Aircraft ID: " + aircraftID);
+
+                if (aircraftID.equals("QFA489"))
+                {
+                    textPosition.x = screenPosition.x;
+                    textPosition.y = screenPosition.y;
+                }
 //
 //                System.out.println(aircraftID);
 //                System.out.println(position);
@@ -416,6 +433,10 @@ public class SimulatorDisplay extends ApplicationAdapter implements DataPlayback
 
 
 		modelBatch.end();
+
+        spriteBatch.begin();
+        font.draw(spriteBatch, "Hello World", textPosition.x, textPosition.y);
+        spriteBatch.end();
 	}
 
 	@Override
