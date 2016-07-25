@@ -15,7 +15,7 @@
         "predictionfeedserver-timer": false
     	},
         "prediction" : {
-            "algorithm-type": "CHRIS"
+            "algorithm-type": "CURVILINEAR2D"
         }
     }
 }
