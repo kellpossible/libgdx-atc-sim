@@ -8,7 +8,8 @@ import org.knowm.xchart.*;
 import pythagoras.d.Vector3;
 
 /**
- * Created by luke on 13/07/16.
+ * A visual test of the GnomonicProjection class
+ * @author Luke Frisken
  */
 public class TestGraphGnomonicProjection {
     public static void main(String[] arg)

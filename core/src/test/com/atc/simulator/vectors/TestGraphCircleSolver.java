@@ -10,7 +10,8 @@ import pythagoras.d.Vector3;
 import java.util.ArrayList;
 
 /**
- * Created by luke on 27/07/16.
+ * A visual test of the CircleSolver class
+ * @author Luke Frisken
  */
 public class TestGraphCircleSolver {
     public static void main(String[] arg)

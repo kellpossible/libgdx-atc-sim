@@ -8,7 +8,7 @@ import static java.lang.Math.PI;
 import static org.junit.Assert.*;
 
 /**
- * Created by Chris on 2/07/2016.
+ * @author Chris Coleman
  */
 public class GeographicCoordinateTest {
     GeographicCoordinate constGeoCoord1, constGeoCoord2, constGeoCoord3, constGeoCoord4, constGeoCoord5, constGeoCoord6, northPole, southPole;

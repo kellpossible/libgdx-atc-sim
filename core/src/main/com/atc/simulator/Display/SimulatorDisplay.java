@@ -26,6 +26,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.ArrayBlockingQueue;
 
+/**
+ * The Display for the Simulator
+ *
+ *  - Uses LibGDX
+ *  - Is a bit of a hack
+ *  - might need redesigning
+ *
+ * @author Luke Frisken
+ */
 public class SimulatorDisplay extends ApplicationAdapter implements DataPlaybackListener, PredictionListener {
     private static final boolean enableDebugPrint = ApplicationConfig.getInstance().getBoolean("settings.debug.print-display");
 	private PerspectiveCamera cam;

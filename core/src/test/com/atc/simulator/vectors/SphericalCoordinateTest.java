@@ -11,9 +11,7 @@ import static org.junit.Assert.assertTrue;
 /** 
 * SphericalCoordinate Tester. 
 * 
-* @author <Authors name> 
-* @since <pre>May 27, 2016</pre> 
-* @version 1.0 
+* @author Luke Frisken
 */ 
 public class SphericalCoordinateTest {
     SphericalCoordinate sc1, sc2, sc3, sc4, sc5, sc6, sc7;

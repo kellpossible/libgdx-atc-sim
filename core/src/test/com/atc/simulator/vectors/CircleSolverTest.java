@@ -10,9 +10,7 @@ import pythagoras.d.Vector3;
 /** 
 * CircleSolver Tester. 
 * 
-* @author <Authors name> 
-* @since <pre>Jul 20, 2016</pre> 
-* @version 1.0 
+* @author Luke Frisken
 */ 
 public class CircleSolverTest { 
 
