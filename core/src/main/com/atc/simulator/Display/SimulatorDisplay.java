@@ -186,7 +186,10 @@ public class SimulatorDisplay extends ApplicationAdapter implements DataPlayback
 		cam.position.set(0f, 0f, 0f);
 //		Vector3 firstPos = track.get(0).getPosition().getCartesianDrawVector();
 //		cam.lookAt(firstPos.x, firstPos.y, firstPos.z);
-		cam.lookAt(1, 0, 0);
+
+        Vector3 lookAt = scenario.getProjectionReference().getCartesianDrawVector();
+
+		cam.lookAt(lookAt);
 		cam.near = 0.01f;
 		cam.far = 2f;
 		cam.update();
