@@ -93,7 +93,7 @@ public class JavaCurvilinear2dAlgorithm extends JavaPredictionAlgorithm {
 
 
             }
-            if (crossTrackErrorMax > 250.0)
+            if (crossTrackErrorMax > 150.0)
             {
                 //find centre of circle given 3 points
                 Vector3 p1 = projection.transformPositionTo(aircraftTrack.get(aircraftTrack.size()-1).getPosition());
@@ -114,20 +114,42 @@ public class JavaCurvilinear2dAlgorithm extends JavaPredictionAlgorithm {
 
         }
 
-        if (crossTrackErrorMax > 250.0)
+        if (crossTrackErrorMax > 150.0)
         {
-            double stepIncrement = 0 ;
-            //Direction of Circle prediction (cw/anti-cw)
-            if(sphericalVelocity.getDTheta() > 0 && currentPosition.x > centre.x)
-                stepIncrement = 0.15;
-            else if(sphericalVelocity.getDTheta() < 0 && currentPosition.x > centre.x)
-                stepIncrement = -0.15;
-            else if(sphericalVelocity.getDTheta() > 0 && currentPosition.x < centre.x)
-                stepIncrement = -0.15;
-            else if(sphericalVelocity.getDTheta() < 0 && currentPosition.x < centre.x)
-                stepIncrement = 0.15;
+            double stepIncrement = (velocity.length() * 5 / (Math.abs(rVec.x)*Math.PI*2));
+            System.out.println("Each step is " + stepIncrement);
+
+
+            if(sphericalVelocity.getDTheta() >= 0) //Going 'right'
+            {
+                if(currentPosition.x < centre.x)//'left of circle'
+                {
+                    if(sphericalVelocity.getDPhi() > 0) //going 'up'
+                        stepIncrement = -stepIncrement;
+                }
+                else //'right' of circle
+                {
+                    if(sphericalVelocity.getDPhi() < 0)
+                        stepIncrement = -stepIncrement;
+                }
+            }
+            else if(sphericalVelocity.getDTheta() < 0) //going 'left'
+            {
+                if(currentPosition.x < centre.x)//'left of circle'
+                {
+                    if(sphericalVelocity.getDPhi() > 0) //going 'up'
+                        stepIncrement = -stepIncrement;
+                }
+                else //'right' of circle
+                {
+                    if(sphericalVelocity.getDPhi() < 0)
+                        stepIncrement = -stepIncrement;
+                }
+
+            }
             else
                 System.out.println("we have royally fucked up here");
+
 
             for (int i = 0; i < n; i++)
             {
