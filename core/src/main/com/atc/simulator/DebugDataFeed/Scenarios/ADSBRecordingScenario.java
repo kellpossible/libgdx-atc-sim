@@ -21,7 +21,7 @@ import java.util.*;
 import java.lang.Math;
 
 /**
- * Created by luke on 26/05/16.
+ * A scenario which is based on a recording of ADSB data in a JSON database file.
  *
  * @author Luke Frisken
  */

@@ -19,7 +19,7 @@ public class DesktopLauncher {
 
 
 //		Scenario scenario = new YMMLtoYSCBScenario();
-		Scenario scenario = new ADSBRecordingScenario("assets/flight_data/YMML_26_05_2016/database.json");
+		Scenario scenario = new ADSBRecordingScenario("assets/flight_data/YMML_27_07_2016/database.json");
 		Scenario.setCurrentScenario(scenario);
 
 		DataPlaybackThread dataPlaybackThread = new DataPlaybackThread(scenario, scenario.getRecommendedUpdateRate());

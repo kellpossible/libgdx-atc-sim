@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 /**
- * Created by luke on 24/05/16.
  * Represents a scenerio for playback in the DebugDataFeed.
  *
  * @author Luke Frisken

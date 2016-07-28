@@ -26,6 +26,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.ArrayBlockingQueue;
 
+/**
+ * The Display for the Simulator
+ *
+ *  - Uses LibGDX
+ *  - Is a bit of a hack
+ *  - might need redesigning
+ *
+ * @author Luke Frisken
+ */
 public class SimulatorDisplay extends ApplicationAdapter implements DataPlaybackListener, PredictionListener {
     private static final boolean enableDebugPrint = ApplicationConfig.getInstance().getBoolean("settings.debug.print-display");
 	private PerspectiveCamera cam;
@@ -186,7 +195,10 @@ public class SimulatorDisplay extends ApplicationAdapter implements DataPlayback
 		cam.position.set(0f, 0f, 0f);
 //		Vector3 firstPos = track.get(0).getPosition().getCartesianDrawVector();
 //		cam.lookAt(firstPos.x, firstPos.y, firstPos.z);
-		cam.lookAt(1, 0, 0);
+
+        Vector3 lookAt = scenario.getProjectionReference().getCartesianDrawVector();
+
+		cam.lookAt(lookAt);
 		cam.near = 0.01f;
 		cam.far = 2f;
 		cam.update();
@@ -325,7 +337,7 @@ public class SimulatorDisplay extends ApplicationAdapter implements DataPlayback
 
 
                 String aircraftID = aircraftState.getAircraftID();
-                System.out.println("Screen Position: " + screenPosition + ", Aircraft ID: " + aircraftID);
+//                System.out.println("Screen Position: " + screenPosition + ", Aircraft ID: " + aircraftID);
 
                 if (aircraftID.equals("QFA489"))
                 {

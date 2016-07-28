@@ -52,7 +52,7 @@ public class JavaCurvilinear2dAlgorithm extends JavaPredictionAlgorithm {
         int dt = 5000;
         int totalDT = 0;
         int n = 24;
-        int lookBack = Math.min(3, aircraftTrack.size()-1);
+        int lookBack = Math.min(4, aircraftTrack.size()-1);
 
         Vector3 lookBackDirection = velocity.negate().normalize();
 

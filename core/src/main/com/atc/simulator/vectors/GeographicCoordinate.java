@@ -12,6 +12,23 @@ public class GeographicCoordinate extends SphericalCoordinate
 {
     public static final double EARTH_MSL_RADIUS = 6371000.0;
 
+    /**
+     * Create a new GeographicCoordinate from latitude and longitude expressed in degrees
+     * @param altitude
+     * @param latitude
+     * @param longitude
+     * @return
+     */
+    public static GeographicCoordinate fromDegrees(double altitude, double latitude, double longitude)
+    {
+        return new GeographicCoordinate(Math.toRadians(altitude), Math.toRadians(latitude), Math.toRadians(longitude));
+    }
+
+    /**
+     * Transform a 3d cartesian vector into a GeographicCoordinate
+     * @param cv
+     * @return
+     */
     public static GeographicCoordinate fromCartesian(Vector3 cv)
     {
         return new GeographicCoordinate(SphericalCoordinate.fromCartesian(cv));
