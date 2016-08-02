@@ -1,5 +1,6 @@
 package com.atc.simulator.DebugDataFeed;
 
+import com.atc.simulator.Config.ApplicationConfig;
 import com.atc.simulator.DebugDataFeed.Scenarios.Scenario;
 import com.atc.simulator.RunnableThread;
 import com.atc.simulator.flightdata.ISO8601;
@@ -22,6 +23,7 @@ public class DataPlaybackThread implements RunnableThread {
     private long currentTime;
     private boolean continueThread;
     private boolean running;
+    private static final int speed = ApplicationConfig.getInstance().getInt("settings.debug-data-feed.speed");
 
     /**
      * Constructor for DataPlaybackThread
@@ -82,7 +84,7 @@ public class DataPlaybackThread implements RunnableThread {
                 //TODO: beware this is not precise tracking 1:1 of the time in the track
                 //would be better to use the difference in the system clock, and interpolate
                 //the values along the track in the Scenario. This is easier and better for performance for now.
-                Thread.sleep(updateRate/10);
+                Thread.sleep(updateRate/speed);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
