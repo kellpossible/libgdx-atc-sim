@@ -68,56 +68,34 @@ public class JavaCurvilinear2dAlgorithm extends JavaPredictionAlgorithm {
 
         Vector3 rVec = null;
         Vector3 centre = null;
-
-        double crossTrackErrorMaxVal = 200.0;
+        boolean useCircle = false;
+        double w = 0;
 
         if (aircraftTrack.size() > 3)
         {
-            for (int i = aircraftTrack.size()-1-lookBack; i < aircraftTrack.size()-1; i++)
+            //find centre of circle given 3 points
+            Vector3 p1 = projection.transformPositionTo(aircraftTrack.get(aircraftTrack.size()-1).getPosition());
+            Vector3 p2 = projection.transformPositionTo(aircraftTrack.get(aircraftTrack.size()-2).getPosition());
+            Vector3 p3 = projection.transformPositionTo(aircraftTrack.get(aircraftTrack.size()-3).getPosition());
+
+            Circle circle = CircleSolver.FromThreePoints(p1, p2, p3);
+
+            System.out.println("CrossTrackError: " + crossTrackErrorMax);
+            System.out.println("P1: " + p1);
+            System.out.println("P2: " + p2);
+            System.out.println("P3: " + p3);
+            System.out.println("Circle (" + circle.x + "," + circle.y + "," + circle.radius + ")");
+
+            if (circle.radius < 100000)
             {
-                AircraftState lookBackState = aircraftTrack.get(i);
-                GeographicCoordinate lookBackPosition = lookBackState.getPosition();
-                Vector3 lookBackPosition2d = projection.transformPositionTo(lookBackPosition);
-                lookBackPosition2d.z = 0;
-
-                double diff = lookBackPosition2d.subtract(currentPosition).length();
-
-                double crossTrackError = linearCrossTrackError(currentPosition, lookBackDirection, lookBackPosition2d);
-
-                if (crossTrackError > crossTrackErrorMax)
-                {
-                    crossTrackErrorMax = crossTrackError;
-                }
-//                System.out.println("CrossTrackError: " + crossTrackError);
-//                System.out.println("lookbackpos: " + lookBackPosition2d);
-//                System.out.println("diff: " + diff);
-//                System.out.println("i: " + i);
-
-
-            }
-            if (crossTrackErrorMax > crossTrackErrorMaxVal)
-            {
-                //find centre of circle given 3 points
-                Vector3 p1 = projection.transformPositionTo(aircraftTrack.get(aircraftTrack.size()-1).getPosition());
-                Vector3 p2 = projection.transformPositionTo(aircraftTrack.get(aircraftTrack.size()-2).getPosition());
-                Vector3 p3 = projection.transformPositionTo(aircraftTrack.get(aircraftTrack.size()-3).getPosition());
-
-                Circle circle = CircleSolver.FromThreePoints(p1, p2, p3);
-
-                System.out.println("CrossTrackError: " + crossTrackErrorMax);
-                System.out.println("P1: " + p1);
-                System.out.println("P2: " + p2);
-                System.out.println("P3: " + p3);
-                System.out.println("Circle (" + circle.x + "," + circle.y + "," + circle.radius + ")");
-
+                useCircle = true;
                 centre = new Vector3(circle.x, circle.y, 0);
                 rVec = currentPosition.subtract(centre);
-
+                w = velocity.length()/circle.radius;
             }
-
         }
 
-        if (crossTrackErrorMax > crossTrackErrorMaxVal)
+        if (useCircle)
         {
             for (int i = 0; i < n; i++)
             {
@@ -131,7 +109,13 @@ public class JavaCurvilinear2dAlgorithm extends JavaPredictionAlgorithm {
                     directionSign = -1.0;
                 }
 
-                Matrix3 rotation = new Matrix3().setToRotation(0.1*i*directionSign, new Vector3(0,0,1));
+                double dphi = (totalDT/1000)*w;
+                if (dphi > Math.PI)
+                {
+                    dphi = Math.PI;
+                }
+
+                Matrix3 rotation = new Matrix3().setToRotation(dphi*directionSign, new Vector3(0,0,1));
                 Vector3 rVecRotated = rotation.transform(rVec);
 
                 //make a linear prediction based on the current velocity
