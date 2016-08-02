@@ -1,5 +1,6 @@
 package com.atc.simulator.desktop;
 
+import com.atc.simulator.Config.ApplicationConfig;
 import com.atc.simulator.DebugDataFeed.DataPlaybackThread;
 import com.atc.simulator.DebugDataFeed.Scenarios.ADSBRecordingScenario;
 import com.atc.simulator.DebugDataFeed.Scenarios.Scenario;
@@ -12,6 +13,8 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.atc.simulator.Display.SimulatorDisplay;
 
 public class DesktopLauncher {
+	private static final String recordingFile = ApplicationConfig.getInstance().getString("settings.debug-data-feed.adsb-recording-scenario.file");
+
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.height = 768;
@@ -19,7 +22,7 @@ public class DesktopLauncher {
 
 
 //		Scenario scenario = new YMMLtoYSCBScenario();
-		Scenario scenario = new ADSBRecordingScenario("assets/flight_data/YMML_27_07_2016/database.json");
+		Scenario scenario = new ADSBRecordingScenario(recordingFile);
 		Scenario.setCurrentScenario(scenario);
 
 		DataPlaybackThread dataPlaybackThread = new DataPlaybackThread(scenario, scenario.getRecommendedUpdateRate());

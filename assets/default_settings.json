@@ -1,21 +1,26 @@
 {
-    "settings" : {
-    	"debug" : {
-    		"print-threading": false,
-    		"print-queues": false,
-    		"print-debugdatafeedserver": false,
-    		"print-worker": false,
-    		"print-predictionfeedserver": false,
-    		"print-predictionfeedclient": false,
-    		"print-display": false,
-        "print-algorithm": false,
-        "algorithm-timer": false,
-        "worker-timer": false,
-        "engine-timer": false,
-        "predictionfeedserver-timer": false
-    	},
-        "prediction" : {
-            "algorithm-type": "LINEAR2D"
-        }
+  "settings": {
+    "debug": {
+      "print-threading": false,
+      "print-queues": false,
+      "print-debugdatafeedserver": false,
+      "print-worker": false,
+      "print-predictionfeedserver": false,
+      "print-predictionfeedclient": false,
+      "print-display": false,
+      "print-algorithm": false,
+      "algorithm-timer": false,
+      "worker-timer": false,
+      "engine-timer": false,
+      "predictionfeedserver-timer": false
+    },
+    "prediction-service": {
+      "algorithm-type": "LINEAR2D"
+    },
+    "debug-data-feed": {
+      "adsb-recording-scenario": {
+        "file": "assets/flight_data/YMML_27_07_2016/database.json"
+      }
     }
+  }
 }
