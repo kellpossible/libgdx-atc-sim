@@ -52,7 +52,7 @@ public class JavaCurvilinear2dAlgorithm extends JavaPredictionAlgorithm {
         int dt = 5000;
         int totalDT = 0;
         int n = 24;
-        int lookBack = Math.min(4, aircraftTrack.size()-1);
+        int lookBack = Math.min(3, aircraftTrack.size()-1);
 
         Vector3 lookBackDirection = velocity.negate().normalize();
 
@@ -68,6 +68,8 @@ public class JavaCurvilinear2dAlgorithm extends JavaPredictionAlgorithm {
 
         Vector3 rVec = null;
         Vector3 centre = null;
+
+        double crossTrackErrorMaxVal = 200.0;
 
         if (aircraftTrack.size() > 3)
         {
@@ -86,14 +88,14 @@ public class JavaCurvilinear2dAlgorithm extends JavaPredictionAlgorithm {
                 {
                     crossTrackErrorMax = crossTrackError;
                 }
-                System.out.println("CrossTrackError: " + crossTrackError);
-                System.out.println("lookbackpos: " + lookBackPosition2d);
-                System.out.println("diff: " + diff);
-                System.out.println("i: " + i);
+//                System.out.println("CrossTrackError: " + crossTrackError);
+//                System.out.println("lookbackpos: " + lookBackPosition2d);
+//                System.out.println("diff: " + diff);
+//                System.out.println("i: " + i);
 
 
             }
-            if (crossTrackErrorMax > 200.0)
+            if (crossTrackErrorMax > crossTrackErrorMaxVal)
             {
                 //find centre of circle given 3 points
                 Vector3 p1 = projection.transformPositionTo(aircraftTrack.get(aircraftTrack.size()-1).getPosition());
@@ -102,29 +104,38 @@ public class JavaCurvilinear2dAlgorithm extends JavaPredictionAlgorithm {
 
                 Circle circle = CircleSolver.FromThreePoints(p1, p2, p3);
 
+                System.out.println("CrossTrackError: " + crossTrackErrorMax);
                 System.out.println("P1: " + p1);
                 System.out.println("P2: " + p2);
                 System.out.println("P3: " + p3);
                 System.out.println("Circle (" + circle.x + "," + circle.y + "," + circle.radius + ")");
 
                 centre = new Vector3(circle.x, circle.y, 0);
-                rVec = p1.subtract(currentPosition);
+                rVec = currentPosition.subtract(centre);
 
             }
 
         }
 
-        if (crossTrackErrorMax > 200.0)
+        if (crossTrackErrorMax > crossTrackErrorMaxVal)
         {
             for (int i = 0; i < n; i++)
             {
                 totalDT += dt;
 
-                Matrix3 rotation = new Matrix3().setToRotation(0.1*i, new Vector3(0,0,1));
+                Vector3 directionCheck = rVec.cross(velocity);
+                double directionSign;
+                if (directionCheck.z > 0.0) {
+                    directionSign = 1.0;
+                } else {
+                    directionSign = -1.0;
+                }
+
+                Matrix3 rotation = new Matrix3().setToRotation(0.1*i*directionSign, new Vector3(0,0,1));
                 Vector3 rVecRotated = rotation.transform(rVec);
 
                 //make a linear prediction based on the current velocity
-                Vector3 predictedPosition = centre.add(rVecRotated);
+                Vector3 predictedPosition = new Vector3(centre.add(rVecRotated));
                 GeographicCoordinate predictedGeographicPosition = projection.transformPositionFrom(predictedPosition);
 
                 AircraftState predictedState = new AircraftState(

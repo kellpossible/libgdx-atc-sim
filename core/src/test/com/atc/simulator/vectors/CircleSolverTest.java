@@ -81,5 +81,24 @@ public void after() throws Exception {
         System.out.println("Circle (" + circle.x + "," + circle.y + "," + circle.radius + ")");
     }
 
+    /**
+     *
+     * Method: FromThreePoints(Vector3 p1, Vector3 p2, Vector3 p3)
+     *
+     */
+    @Test
+    public void testFromThreePoints4() throws Exception {
+        Vector3 p1 = new Vector3(-6743.5805059626455, 10149.280369155487, 1295.4000000003725);
+        Vector3 p2 = new Vector3(-7442.60149559384, 9987.464109221019, 1318.2599999997765);
+        Vector3 p3 = new Vector3(-8141.269484977976, 9825.68682477462, 1341.1200000001118);
+        Circle circle = CircleSolver.FromThreePoints(p1, p2, p3);
+
+        Assert.assertEquals(2779177.43950465, circle.x, 0.0001);
+        Assert.assertEquals(-1.2026185490029592E7, circle.y, 0.0001);
+        Assert.assertEquals(1.2354542105430165E7, circle.radius, 0.0001);
+
+        System.out.println("Circle (" + circle.x + "," + circle.y + "," + circle.radius + ")");
+    }
+
 
 } 
