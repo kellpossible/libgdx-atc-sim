@@ -16,7 +16,12 @@ import pythagoras.d.Vector3;
 import java.util.ArrayList;
 
 /**
- * Created by luke on 13/07/16.
+ * This prediction algorithm makes a prediction based on the latest three recorded
+ * track points for a given aircraft. It calculates a circle which fits those three
+ * points, if the radius of the circle is small enough, that circle is used as a
+ * prediction for the future path of the aircraft (the aircraft is turning).
+ * If the radius is too large, then the aircraft is assumed to be travelling straight,
+ * and a linear prediction is used instead.
  */
 public class JavaCurvilinear2dAlgorithm extends JavaPredictionAlgorithm {
     GnomonicProjection projection = null;
@@ -29,6 +34,9 @@ public class JavaCurvilinear2dAlgorithm extends JavaPredictionAlgorithm {
      */
     @Override
     public Prediction makePrediction(Track aircraftTrack) {
+        //TODO: probably need to move this into a singleton
+        //basically have a cached version of the projection
+        //because we don't want to have to generate it every time.
         if (projection == null)
         {
             GeographicCoordinate projectionReference = Scenario.getCurrentScenario().getProjectionReference();
@@ -39,12 +47,20 @@ public class JavaCurvilinear2dAlgorithm extends JavaPredictionAlgorithm {
         AircraftState state = aircraftTrack.getLatest();
         long startTime = state.getTime();
         GeographicCoordinate geographicPosition = state.getPosition();
+
+        //transform position into a flat gnomonic projection coordinate system.
         Vector3 currentPosition = projection.transformPositionTo(geographicPosition);
+
+        //set the z position to zero because we don't care about it, and
+        //don't want to worry about it breaking stuff right now.
         currentPosition.z = 0;
 
         SphericalVelocity sphericalVelocity = state.getVelocity();
 
+        //transform the velocity into a flat gnomonic projection coordinate system
         Vector3 velocity = projection.tranformVelocityTo(sphericalVelocity, geographicPosition, currentPosition);
+
+        //same deal as with position z component
         velocity.z = 0;
 
         ArrayList<AircraftState> predictedStates = new ArrayList<AircraftState>();
@@ -52,19 +68,12 @@ public class JavaCurvilinear2dAlgorithm extends JavaPredictionAlgorithm {
         int dt = 5000;
         int totalDT = 0;
         int n = 24;
-        int lookBack = Math.min(3, aircraftTrack.size()-1);
-
-        Vector3 lookBackDirection = velocity.negate().normalize();
 
         System.out.println();
         System.out.println("NEW PREDICTION");
         System.out.println("Position: " + currentPosition);
         System.out.println("Size: " + aircraftTrack.size());
-        System.out.println("Lookback Direction: " + lookBackDirection);
         System.out.println("Velocity: " + velocity);
-        System.out.println("lookback: " + lookBack);
-
-        double crossTrackErrorMax = Double.MIN_VALUE;
 
         Vector3 rVec = null;
         Vector3 centre = null;
@@ -80,21 +89,24 @@ public class JavaCurvilinear2dAlgorithm extends JavaPredictionAlgorithm {
 
             Circle circle = CircleSolver.FromThreePoints(p1, p2, p3);
 
-            System.out.println("CrossTrackError: " + crossTrackErrorMax);
             System.out.println("P1: " + p1);
             System.out.println("P2: " + p2);
             System.out.println("P3: " + p3);
             System.out.println("Circle (" + circle.x + "," + circle.y + "," + circle.radius + ")");
 
+            //check to see whether the radius is small enough for the aircraft to actually be turning.
             if (circle.radius < 100000)
             {
                 useCircle = true;
                 centre = new Vector3(circle.x, circle.y, 0);
                 rVec = currentPosition.subtract(centre);
+
+                //calculate the angular velocity
                 w = velocity.length()/circle.radius;
             }
         }
 
+        //use the circle prediction
         if (useCircle)
         {
             for (int i = 0; i < n; i++)
@@ -109,6 +121,9 @@ public class JavaCurvilinear2dAlgorithm extends JavaPredictionAlgorithm {
                     directionSign = -1.0;
                 }
 
+                // calculate the distance around the circle given
+                // the angular velocity. Only predict up to half a
+                // circle maximum.
                 double dphi = (totalDT/1000)*w;
                 if (dphi > Math.PI)
                 {
@@ -152,12 +167,17 @@ public class JavaCurvilinear2dAlgorithm extends JavaPredictionAlgorithm {
             }
         }
 
-
-
         Prediction prediction = new Prediction(state.getAircraftID(), startTime, predictedStates);
         return prediction;
     }
 
+    /**
+     * Currently not used...
+     * @param referencePoint
+     * @param referenceDirection
+     * @param point
+     * @return
+     */
     private double linearCrossTrackError(Vector3 referencePoint, Vector3 referenceDirection, Vector3 point)
     {
         Vector3 to = point.subtract(referencePoint);
