@@ -13,7 +13,7 @@ public class GeographicCoordinate extends SphericalCoordinate
     public static final double EARTH_MSL_RADIUS = 6371000.0;
 
     /**
-     * Create a new GeographicCoordinate from latitude and longitude expressed in degrees
+     * Create a new GeographicCoordinate from latitude and longitude expres0sed in degrees
      * @param altitude
      * @param latitude
      * @param longitude
