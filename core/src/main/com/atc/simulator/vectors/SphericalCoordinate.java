@@ -10,7 +10,7 @@ import pythagoras.d.Vector3;
  *
  * r (0 -> infinity)
  * theta (0 -> 2PI)
- * phi (0 -> PI)
+ * phi (-PI -> PI)
  *
  * @author Luke Frisken
  */
