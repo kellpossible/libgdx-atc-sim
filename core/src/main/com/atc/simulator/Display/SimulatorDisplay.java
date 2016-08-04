@@ -68,6 +68,11 @@ public class SimulatorDisplay extends ApplicationAdapter implements DataPlayback
     private SystemState currentSystemState = null;
 
 
+    /**
+     * Constructor for the SimulatorDisplay
+     *
+     * @param scenario the scenario going to be displayed.
+     */
     public SimulatorDisplay(Scenario scenario)
     {
         this.scenario = scenario;
@@ -94,12 +99,20 @@ public class SimulatorDisplay extends ApplicationAdapter implements DataPlayback
     public void onSystemUpdate(SystemState systemState) {
         systemStateUpdateQueue.add(systemState);
     }
+
+    /**
+     * This method gets called when a new prediction is received by the {@link PredictionFeedClientThread}
+     * @param prediction
+     */
     @Override
     public void onPredictionUpdate(Prediction prediction) {
         predictionUpdateQueue.add(prediction);
     }
 
 
+    /**
+     * Private camera controller class to allow us to zoom and pan the map.
+     */
     private class MyCameraController extends CameraInputController {
 
 		public MyCameraController(Camera camera) {
@@ -111,6 +124,7 @@ public class SimulatorDisplay extends ApplicationAdapter implements DataPlayback
 		@Override
 		public boolean zoom(float amount)
 		{
+		    //some magic numbers for zooming and panning.
 			float newFieldOfView = cam.fieldOfView - (amount * (cam.fieldOfView/15f));
 			if (newFieldOfView < 0.01 || newFieldOfView > 179)
 			{
@@ -166,6 +180,9 @@ public class SimulatorDisplay extends ApplicationAdapter implements DataPlayback
         tracksModelInstance = new ModelInstance(tracksModel);
     }
 
+    /**
+     * Generate the vector lines model of the country borders.
+     */
     private void generateCountriesModel()
     {
         Countries countries = new Countries("assets/maps/countries.geo.json");
@@ -184,9 +201,9 @@ public class SimulatorDisplay extends ApplicationAdapter implements DataPlayback
         generateCountriesModel();
         generateTracksModel();
 
-
-
         spriteBatch = new SpriteBatch();
+
+        //load the bitmap font
         font = new BitmapFont(new FileHandle("assets/fonts/DejaVu_Sans_Mono_12.fnt"));
 
         modelBatch = new ModelBatch();
@@ -196,8 +213,10 @@ public class SimulatorDisplay extends ApplicationAdapter implements DataPlayback
 //		Vector3 firstPos = track.get(0).getPosition().getCartesianDrawVector();
 //		cam.lookAt(firstPos.x, firstPos.y, firstPos.z);
 
-        Vector3 lookAt = scenario.getProjectionReference().getCartesianDrawVector();
 
+        //make the camera look at the projection reference (as it is likely the center of whatever's going on
+        // in the scenario
+        Vector3 lookAt = scenario.getProjectionReference().getCartesianDrawVector();
 		cam.lookAt(lookAt);
 		cam.near = 0.01f;
 		cam.far = 2f;
@@ -225,6 +244,10 @@ public class SimulatorDisplay extends ApplicationAdapter implements DataPlayback
         Gdx.input.setInputProcessor(camController);
     }
 
+    /**
+     * Process any new predictions which have been placed in the prediction update queue
+     * by the {@link PredictionFeedClientThread}
+     */
     private void pollPredictionUpdateQueue()
     {
         if (currentSystemState == null)
@@ -234,7 +257,7 @@ public class SimulatorDisplay extends ApplicationAdapter implements DataPlayback
 
         Prediction prediction = predictionUpdateQueue.poll();
 
-
+        //poll the predictionUpdateQueue until it is empty (returning null)
         while (prediction != null)
         {
             String aircraftID = prediction.getAircraftID();
@@ -283,6 +306,11 @@ public class SimulatorDisplay extends ApplicationAdapter implements DataPlayback
     }
 
     //todo: to improve draw performance this should go into the callers thread, and out of the display thread. Only push models into the queue instead.
+
+    /**
+     * process any items which have been placed in the system update queue by
+     * the {@link com.atc.simulator.DebugDataFeed.DataPlaybackThread}
+     */
     private void pollSystemUpdateQueue()
     {
         SystemState systemState = systemStateUpdateQueue.poll();
@@ -369,6 +397,8 @@ public class SimulatorDisplay extends ApplicationAdapter implements DataPlayback
 //            builder.vertex(position.getModelDrawVector().x, position.getModelDrawVector().y, position.getModelDrawVector().z);
 
 //            systemStateModel = modelBuilder.end();
+
+                // create a model for the aircraft ( a little green sphere )
                 aircraftStateModel = modelBuilder.createSphere(
                         0.0005f, 0.0005f, 0.0005f, 10, 10,
                         new Material(ColorAttribute.createDiffuse(Color.GREEN)),
@@ -413,6 +443,9 @@ public class SimulatorDisplay extends ApplicationAdapter implements DataPlayback
         }
     }
 
+    /**
+     * The render method for the display.
+     */
 	@Override
 	public void render () {
 		Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -428,7 +461,6 @@ public class SimulatorDisplay extends ApplicationAdapter implements DataPlayback
 
         modelBatch.render(tracksModelInstance);
 
-
         for (ModelInstance instance: aircraftStateModelInstances.values()){
             modelBatch.render(instance);
         }
@@ -442,8 +474,6 @@ public class SimulatorDisplay extends ApplicationAdapter implements DataPlayback
             modelBatch.render(instance);
         }
 
-
-
 		modelBatch.end();
 
         spriteBatch.begin();
@@ -451,6 +481,10 @@ public class SimulatorDisplay extends ApplicationAdapter implements DataPlayback
         spriteBatch.end();
 	}
 
+
+    /**
+     * Dispose of objects which have been allocated outside of java
+     */
 	@Override
 	public void dispose () {
 		modelBatch.dispose();
@@ -467,6 +501,12 @@ public class SimulatorDisplay extends ApplicationAdapter implements DataPlayback
         }
 	}
 
+    /**
+     * Allow resizing of the display window.
+     * Compensate the camera for the changed window dimensions.
+     * @param width
+     * @param height
+     */
     @Override
     public void resize(int width, int height)
     {
