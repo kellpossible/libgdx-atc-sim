@@ -15,7 +15,7 @@
       "predictionfeedserver-timer": false
     },
     "prediction-service": {
-      "algorithm-type": "LINEAR2D"
+      "algorithm-type": "CURVILINEAR2D"
     },
     "debug-data-feed": {
       "adsb-recording-scenario": {
