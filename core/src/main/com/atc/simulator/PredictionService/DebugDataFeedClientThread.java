@@ -9,7 +9,7 @@ import com.atc.simulator.flightdata.SystemState;
 import com.atc.simulator.ProtocolBuffers.DebugDataFeedServe.*;
 import com.atc.simulator.vectors.GeographicCoordinate;
 import com.atc.simulator.vectors.SphericalVelocity;
-
+import com.atc.simulator.PredictionService.SystemStateDatabase;
 import java.net.*;
 import java.text.ParseException;
 import java.util.*;
@@ -23,7 +23,7 @@ import java.io.*;
  */
 public class DebugDataFeedClientThread implements RunnableThread
 {
-    private PredictionEngineThread myEngine;
+    private SystemStateDatabase systemStateDatabase;
     private static int PORT = 6989;
     private Socket serversSock;
     private boolean continueThread = true;
@@ -32,11 +32,11 @@ public class DebugDataFeedClientThread implements RunnableThread
 
     /**
      * Constructor for DebugDataFeedClientThread
-     * @param myEngine : The Engine this client has been connected and will send updates to
+     * @param aSystemStateDatabase : the System State database the client is connected to.
      */
-    public DebugDataFeedClientThread(PredictionEngineThread myEngine)
+    public DebugDataFeedClientThread(SystemStateDatabase aSystemStateDatabase)
     {
-        this.myEngine = myEngine;
+        this.systemStateDatabase = aSystemStateDatabase;
         try
         {
             serversSock = new Socket("localhost", PORT);
@@ -74,8 +74,8 @@ public class DebugDataFeedClientThread implements RunnableThread
                 }//End loop for all aircraft
                 //Make a new System State
                 SystemState testState = new SystemState(System.currentTimeMillis(), aircraftStatesReceived);
-                //Send it to the connected Engine!
-//                myEngine.onSystemUpdate(testState); //TODO: fix this
+                //Send it to the connected systemStateDatabase
+                systemStateDatabase.systemStateUpdate(testState);
             }catch(IOException e){System.err.println("Prediction-side Debug Message Parse Failed");}//End Catch
             catch(NullPointerException n){
                 System.err.println("Prediction-side Debug thread finishing");
@@ -85,8 +85,7 @@ public class DebugDataFeedClientThread implements RunnableThread
     } //End run
 
     /**
-     * Small method called too kill the server's threads when the have run through
-     * TODO: what?? this comment doesn't even make sense
+     * Method called to start the thread.
      */
     public void start()
     {

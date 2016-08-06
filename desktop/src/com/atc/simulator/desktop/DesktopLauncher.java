@@ -4,10 +4,12 @@ import com.atc.simulator.Config.ApplicationConfig;
 import com.atc.simulator.DebugDataFeed.DataPlaybackThread;
 import com.atc.simulator.DebugDataFeed.Scenarios.ADSBRecordingScenario;
 import com.atc.simulator.DebugDataFeed.Scenarios.Scenario;
+import com.atc.simulator.DebugDataFeed.DebugDataFeedServerThread;
 import com.atc.simulator.Display.PredictionFeedClientThread;
 import com.atc.simulator.PredictionService.Engine.PredictionEngineThread;
 import com.atc.simulator.PredictionService.PredictionFeedServerThread;
 import com.atc.simulator.PredictionService.SystemStateDatabase;
+import com.atc.simulator.PredictionService.DebugDataFeedClientThread;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.atc.simulator.Display.SimulatorDisplay;
@@ -27,7 +29,7 @@ public class DesktopLauncher {
 
 		DataPlaybackThread dataPlaybackThread = new DataPlaybackThread(scenario, scenario.getRecommendedUpdateRate());
 		SimulatorDisplay display =  new SimulatorDisplay(scenario);
-//		DebugDataFeedServerThread debugDataFeedServerThread = new DebugDataFeedServerThread();
+		DebugDataFeedServerThread debugDataFeedServerThread = new DebugDataFeedServerThread();
 
 		SystemStateDatabase systemStateDatabase = new SystemStateDatabase();
 
@@ -40,20 +42,22 @@ public class DesktopLauncher {
 				systemStateDatabase,
 				1);
 
-//		DebugDataFeedClientThread debugDataFeedClientThread = new DebugDataFeedClientThread(predictionEngine);
+		DebugDataFeedClientThread debugDataFeedClientThread = new DebugDataFeedClientThread(systemStateDatabase);
 
 		predictionFeedClientThread.addListener(display);
 		dataPlaybackThread.addListener(display);
-//		dataPlaybackThread.addListener(debugDataFeedServerThread);
-		dataPlaybackThread.addListener(systemStateDatabase);
+		dataPlaybackThread.addListener(debugDataFeedServerThread);
+
+		// commented out, previous by-pass used by Luke
+//		dataPlaybackThread.addListener(systemStateDatabase);
 		systemStateDatabase.addListener(predictionEngine);
 
 		predictionFeedServerThread.start();
 		predictionFeedClientThread.start();
 		predictionEngine.start();
 
-//		debugDataFeedServerThread.start();
-//		debugDataFeedClientThread.start();
+		debugDataFeedServerThread.start();
+		debugDataFeedClientThread.start();
 
 		dataPlaybackThread.start();
 		new LwjglApplication(display, config);

@@ -44,7 +44,7 @@ public class DebugServerTest
 
         PredictionEngineThread testEngine = new PredictionEngineThread(
                 testPredictionServer, systemStateDatabase, 1); //Must be after PredictionFeedServer
-        DebugDataFeedClientThread testDataClient = new DebugDataFeedClientThread(testEngine); //Must be after Engine
+        DebugDataFeedClientThread testDataClient = new DebugDataFeedClientThread(systemStateDatabase); //Must be after Engine
         systemStateDatabase.addListener(testEngine);
 
         //Start the threads
