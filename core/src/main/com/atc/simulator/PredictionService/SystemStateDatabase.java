@@ -84,7 +84,6 @@ public class SystemStateDatabase {
 
 
     /**
-     * TODO: remove this and implement the debugdatafeedclient listener interface
      * Note, Uros: This method gets called from the debugdatafeed client when debugdatafeed client
      * receives an update from the display.
      *

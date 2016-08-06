@@ -23,6 +23,7 @@ import java.io.*;
  */
 public class DebugDataFeedClientThread implements RunnableThread
 {
+    // System state database
     private SystemStateDatabase systemStateDatabase;
     private static int PORT = 6989;
     private Socket serversSock;
@@ -32,10 +33,11 @@ public class DebugDataFeedClientThread implements RunnableThread
 
     /**
      * Constructor for DebugDataFeedClientThread
-     * @param aSystemStateDatabase : the System State database the client is connected to.
+     * @param aSystemStateDatabase : the System State database the DebugDataFeedClient is connected to.
      */
     public DebugDataFeedClientThread(SystemStateDatabase aSystemStateDatabase)
     {
+        // takes a reference from the aSystemStateDatabase that is being passed in
         this.systemStateDatabase = aSystemStateDatabase;
         try
         {
@@ -75,6 +77,8 @@ public class DebugDataFeedClientThread implements RunnableThread
                 //Make a new System State
                 SystemState testState = new SystemState(System.currentTimeMillis(), aircraftStatesReceived);
                 //Send it to the connected systemStateDatabase
+                //Uros: I replaced the method in systemStateDatabase that was previously
+                // connected directly to the display, calls a simple method to update the system state.
                 systemStateDatabase.systemStateUpdate(testState);
             }catch(IOException e){System.err.println("Prediction-side Debug Message Parse Failed");}//End Catch
             catch(NullPointerException n){
