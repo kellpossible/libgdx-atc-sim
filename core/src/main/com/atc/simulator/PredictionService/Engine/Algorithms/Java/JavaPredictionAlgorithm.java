@@ -33,6 +33,8 @@ public abstract class JavaPredictionAlgorithm {
                 return new JavaLinear2dAlgorithm();
             case CURVILINEAR2D:
                 return new JavaCurvilinear2dAlgorithm();
+            case CHRIS:
+                return new JavaChrisAlgorithm1();
 
         }
         return null;

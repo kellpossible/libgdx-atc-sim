@@ -18,6 +18,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.ParseException;
 import java.util.*;
+import java.lang.Math;
 
 /**
  * A scenario which is based on a recording of ADSB data in a JSON database file.
