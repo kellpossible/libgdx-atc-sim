@@ -43,6 +43,7 @@ allprojects {
         joclVersion = '2.0.0'
         xchartVersion = '3.1.0'
         leastsquaresVersion = '1.0.0'
+        ejmlVersion = '0.29'
     }
 
     repositories {
@@ -96,6 +97,7 @@ project(":core") {
         compile "org.jocl:jocl:$joclVersion"
         compile "org.knowm.xchart:xchart:$xchartVersion"
         compile "org.orangepalantir:leastsquares:$leastsquaresVersion"
+        compile "org.ejml:core:$ejmlVersion"
         testCompile "junit:junit:+"
         //compile "net.mikera:vectorz:0.61.0"
 
