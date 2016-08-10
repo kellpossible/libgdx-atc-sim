@@ -3,6 +3,8 @@ package com.atc.simulator.vectors;
 import pythagoras.d.Circle;
 import pythagoras.d.Vector3;
 
+import java.util.List;
+
 /**
  * Created by luke on 20/07/16.
  *
@@ -27,5 +29,10 @@ public class CircleSolver {
         double r = Math.sqrt((x-p1.x)*(x-p1.x) + (y-p1.y)*(y-p1.y));
 
         return new Circle(x,y,r);
+    }
+
+    public static Circle LeastSquares(List<Vector3> points, Circle beta)
+    {
+        return null;
     }
 }

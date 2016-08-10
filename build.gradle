@@ -42,6 +42,7 @@ allprojects {
         jmhVersion = '1.12'
         joclVersion = '2.0.0'
         xchartVersion = '3.1.0'
+        leastsquaresVersion = '1.0.0'
     }
 
     repositories {
@@ -94,6 +95,7 @@ project(":core") {
         compile "org.openjdk.jmh:jmh-generator-annprocess:$jmhVersion"
         compile "org.jocl:jocl:$joclVersion"
         compile "org.knowm.xchart:xchart:$xchartVersion"
+        compile "org.orangepalantir:leastsquares:$leastsquaresVersion"
         testCompile "junit:junit:+"
         //compile "net.mikera:vectorz:0.61.0"
 
