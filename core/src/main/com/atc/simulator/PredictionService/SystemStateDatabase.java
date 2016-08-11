@@ -17,7 +17,7 @@ import java.util.HashMap;
  *
  * @author Luke Frisken
  */
-public class SystemStateDatabase implements DataPlaybackListener {
+public class SystemStateDatabase {
     private HashMap<String, Track> tracks;
     private ArrayList<SystemStateDatabaseListener> listeners;
 
@@ -84,14 +84,15 @@ public class SystemStateDatabase implements DataPlaybackListener {
 
 
     /**
-     * TODO: remove this and implement the debugdatafeedclient listener interface
+     * Note, Uros: This method gets called from the debugdatafeed client when debugdatafeed client
+     * receives an update from the display.
+     *
      * This method gets called when there is a system update, and gets
      * passed the new system state
      *
      * @param systemState the updated system state
      */
-    @Override
-    public void onSystemUpdate(SystemState systemState) {
+    public void systemStateUpdate(SystemState systemState) {
         //could just use basic array for better performance here
         ArrayList<String> aircraftIDs = new ArrayList<String>(systemState.getAircraftStates().size());
         for (AircraftState aircraftState : systemState.getAircraftStates())
