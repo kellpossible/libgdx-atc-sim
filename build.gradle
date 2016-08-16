@@ -98,6 +98,7 @@ project(":core") {
         compile "org.knowm.xchart:xchart:$xchartVersion"
         compile "org.orangepalantir:leastsquares:$leastsquaresVersion"
         compile "org.ejml:core:$ejmlVersion"
+        compile "org.ejml:simple:$ejmlVersion"
         testCompile "junit:junit:+"
         //compile "net.mikera:vectorz:0.61.0"
 
