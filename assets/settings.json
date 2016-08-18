@@ -24,10 +24,10 @@
       "adsb-recording-scenario": {
         "file": "assets/flight_data/YMML_26_05_2016/database.json"
       },
-      "speed": 5
+      "speed": 10
     },
     "display": {
-      "show-tracks": false
+      "show-tracks": true
     }
   }
 }
