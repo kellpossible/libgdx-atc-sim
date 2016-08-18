@@ -15,13 +15,19 @@
       "predictionfeedserver-timer": false
     },
     "prediction-service": {
-      "algorithm-type": "LMLEASTSQUARES"
+      "prediction-engine": {
+        "algorithm-type": "LMLEASTSQUARES",
+        "java-worker-threads": 4
+      }
     },
     "debug-data-feed": {
       "adsb-recording-scenario": {
-        "file": "assets/flight_data/YMML_27_07_2016/database.json"
+        "file": "assets/flight_data/YMML_26_05_2016/database.json"
       },
-      "speed": 10
+      "speed": 5
+    },
+    "display": {
+      "show-tracks": false
     }
   }
 }

@@ -25,7 +25,7 @@ import java.util.concurrent.locks.ReentrantLock;
 public class PredictionEngineThread implements RunnableThread, SystemStateDatabaseListener{
     private static final boolean enableTimer = ApplicationConfig.getInstance().getBoolean("settings.debug.engine-timer");
     private static final boolean enableDebugPrintQueues = ApplicationConfig.getInstance().getBoolean("settings.debug.print-queues");
-    private static final String algorithmType = ApplicationConfig.getInstance().getString("settings.prediction-service.algorithm-type");
+    private static final String algorithmType = ApplicationConfig.getInstance().getString("settings.prediction-service.prediction-engine.algorithm-type");
 
     private PredictionEngineTodoQueue todoQueue;
     private SystemStateDatabase systemStateDatabase;
@@ -118,7 +118,11 @@ public class PredictionEngineThread implements RunnableThread, SystemStateDataba
             // Avoid optimization
             start2 = System.nanoTime();
         }
-        todoList.remove(workItem); //remove this workItem from the todoList
+        synchronized (todoList)
+        {
+            todoList.remove(workItem); //remove this workItem from the todoList
+        }
+
         if(enableTimer)
         {
             long stop = System.nanoTime();
@@ -145,21 +149,24 @@ public class PredictionEngineThread implements RunnableThread, SystemStateDataba
                 currentTime = System.currentTimeMillis();
                 if ((currentTime - lastTime) > (maxLatency-5))
                 {
-                    for (PredictionWorkItem item : todoList)
+                    synchronized (todoList)
                     {
-                        if (previousTodoList.contains(item))
+                        for (PredictionWorkItem item : todoList)
                         {
-                            System.err.println("ERROR: "
-                                    + threadName
-                                    + " item "
-                                    + item
-                                    + " is taking too long to complete (>"
-                                    + (currentTime-lastTime)
-                                    + "ms)and is exceeding latency constraints");
-                        }
+                            if (previousTodoList.contains(item))
+                            {
+                                System.err.println("ERROR: "
+                                        + threadName
+                                        + " item "
+                                        + item
+                                        + " is taking too long to complete (>"
+                                        + (currentTime-lastTime)
+                                        + "ms)and is exceeding latency constraints");
+                            }
 
-                        previousTodoList.clear();
-                        previousTodoList.addAll(todoList);
+                            previousTodoList.clear();
+                            previousTodoList.addAll(todoList);
+                        }
                     }
                 }
 
@@ -248,8 +255,10 @@ public class PredictionEngineThread implements RunnableThread, SystemStateDataba
                  todoQueueLock.unlock();
              }
 
-             todoList.add(workItem);
-
+             synchronized (todoList)
+             {
+                 todoList.add(workItem);
+             }
          }
      }
  }

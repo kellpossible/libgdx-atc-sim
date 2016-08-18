@@ -37,6 +37,8 @@ import java.util.concurrent.ArrayBlockingQueue;
  */
 public class SimulatorDisplay extends ApplicationAdapter implements DataPlaybackListener, PredictionListener {
     private static final boolean enableDebugPrint = ApplicationConfig.getInstance().getBoolean("settings.debug.print-display");
+    private static final boolean showTracks = ApplicationConfig.getInstance().getBoolean("settings.display.show-tracks");
+
 	private PerspectiveCamera cam;
     private Model earthTextureModel;
     private ModelInstance earthTextureInstance;
@@ -459,7 +461,10 @@ public class SimulatorDisplay extends ApplicationAdapter implements DataPlayback
         pollSystemUpdateQueue();
         pollPredictionUpdateQueue();
 
-        modelBatch.render(tracksModelInstance);
+        if (showTracks)
+        {
+            modelBatch.render(tracksModelInstance);
+        }
 
         for (ModelInstance instance: aircraftStateModelInstances.values()){
             modelBatch.render(instance);

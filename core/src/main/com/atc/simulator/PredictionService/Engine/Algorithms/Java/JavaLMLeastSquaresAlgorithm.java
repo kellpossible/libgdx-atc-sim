@@ -16,6 +16,8 @@ import java.util.ArrayList;
 
 /**
  * Created by luke on 18/08/16.
+ *
+ * @author Luke Frisken
  */
 public class JavaLMLeastSquaresAlgorithm extends JavaPredictionAlgorithm {
     GnomonicProjection projection = null;
