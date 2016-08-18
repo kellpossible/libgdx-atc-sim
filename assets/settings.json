@@ -15,21 +15,25 @@
       "predictionfeedserver-timer": false
     },
     "prediction-service": {
-      "algorithm-type": "LINEAR2D",
-      "debug-client-port-number" : 6989,
-      "debug-client-server-ip" : "localhost",
-      "prediction-feed-port-number" : 6789
+      "prediction-engine": {
+        "algorithm-type": "LMLEASTSQUARES",
+        "java-worker-threads": 4
+      }
+      "debug-client-port-number": 6989,
+      "debug-client-server-ip": "localhost",
+      "prediction-feed-port-number": 6789
     },
     "debug-data-feed": {
       "adsb-recording-scenario": {
-        "file": "assets/flight_data/YMML_27_07_2016/database.json",
-        "debug-data-feed-server-port-number" : 6989
+        "file": "assets/flight_data/YMML_26_05_2016/database.json"
+        "debug-data-feed-server-port-number": 6989
       },
       "speed": 10
     },
     "display": {
-      "prediction-feed-client-port-number" : 6789,
-      "prediction-feed-client-server-ip" : "localhost"
+      "show-tracks": true
+      "prediction-feed-client-port-number": 6789,
+      "prediction-feed-client-server-ip": "localhost"
     }
   }
 }

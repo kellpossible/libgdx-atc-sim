@@ -16,6 +16,7 @@ import com.atc.simulator.Display.SimulatorDisplay;
 
 public class DesktopLauncher {
 	private static final String recordingFile = ApplicationConfig.getInstance().getString("settings.debug-data-feed.adsb-recording-scenario.file");
+	private static final int javaWorkerThreads = ApplicationConfig.getInstance().getInt("settings.prediction-service.prediction-engine.java-worker-threads");
 
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
@@ -40,7 +41,7 @@ public class DesktopLauncher {
 		PredictionEngineThread predictionEngine = new PredictionEngineThread(
 				predictionFeedServerThread,
 				systemStateDatabase,
-				1);
+				javaWorkerThreads);
 
 		DebugDataFeedClientThread debugDataFeedClientThread = new DebugDataFeedClientThread(systemStateDatabase);
 
