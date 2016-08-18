@@ -1,0 +1,3327 @@
+{
+    "projection_reference": [
+        -37.84,
+        145.07
+    ],
+    "system_states": [
+        {
+            "time": "2016-08-18T21:22:55.327461",
+            "aircraft_states": [
+                {
+                    "heading": 168.0,
+                    "radar": "F-YMEN1",
+                    "longitude": 144.7407,
+                    "time": "2016-08-18T21:27:32",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.2027,
+                    "callsign": "QFA696",
+                    "altitude": 3375.6600000000003,
+                    "registration": "VH-VZU",
+                    "speed": 173.882072,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:23:00.772880",
+            "aircraft_states": [
+                {
+                    "heading": 168.0,
+                    "radar": "F-YMEN1",
+                    "longitude": 144.7417,
+                    "time": "2016-08-18T21:27:35",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.2068,
+                    "callsign": "QFA696",
+                    "altitude": 3352.8,
+                    "registration": "VH-VZU",
+                    "speed": 173.367628,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:23:06.311155",
+            "aircraft_states": [
+                {
+                    "heading": 167.0,
+                    "radar": "F-YMEN1",
+                    "longitude": 144.7453,
+                    "time": "2016-08-18T21:27:44",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.2204,
+                    "callsign": "QFA696",
+                    "altitude": 3291.84,
+                    "registration": "VH-VZU",
+                    "speed": 172.853184,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:23:12.134083",
+            "aircraft_states": [
+                {
+                    "heading": 167.0,
+                    "radar": "F-YMEN1",
+                    "longitude": 144.7466,
+                    "time": "2016-08-18T21:27:47",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.2253,
+                    "callsign": "QFA696",
+                    "altitude": 3261.36,
+                    "registration": "VH-VZU",
+                    "speed": 172.853184,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:23:17.574096",
+            "aircraft_states": [
+                {
+                    "heading": 167.0,
+                    "radar": "F-YMEN1",
+                    "longitude": 144.7505,
+                    "time": "2016-08-18T21:27:57",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.2397,
+                    "callsign": "QFA696",
+                    "altitude": 3185.1600000000003,
+                    "registration": "VH-VZU",
+                    "speed": 171.824296,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:23:23.208829",
+            "aircraft_states": [
+                {
+                    "heading": 167.0,
+                    "radar": "F-YMEN1",
+                    "longitude": 144.7516,
+                    "time": "2016-08-18T21:28:00",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.2441,
+                    "callsign": "QFA696",
+                    "altitude": 3162.3,
+                    "registration": "VH-VZU",
+                    "speed": 171.824296,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:23:28.659929",
+            "aircraft_states": [
+                {
+                    "heading": 167.0,
+                    "radar": "F-YMEN1",
+                    "longitude": 144.7528,
+                    "time": "2016-08-18T21:28:03",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.2485,
+                    "callsign": "QFA696",
+                    "altitude": 3147.06,
+                    "registration": "VH-VZU",
+                    "speed": 171.309852,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:23:34.118726",
+            "aircraft_states": [
+                {
+                    "heading": 168.0,
+                    "radar": "F-YMEN1",
+                    "longitude": 144.7566,
+                    "time": "2016-08-18T21:28:12",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.2625,
+                    "callsign": "QFA696",
+                    "altitude": 3078.48,
+                    "registration": "VH-VZU",
+                    "speed": 170.795408,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:23:39.895399",
+            "aircraft_states": [
+                {
+                    "heading": 167.0,
+                    "radar": "F-YMEN1",
+                    "longitude": 144.7578,
+                    "time": "2016-08-18T21:28:15",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.2673,
+                    "callsign": "QFA696",
+                    "altitude": 3055.6200000000003,
+                    "registration": "VH-VZU",
+                    "speed": 170.280964,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:23:45.347546",
+            "aircraft_states": [
+                {
+                    "heading": 167.0,
+                    "radar": "F-YMEN1",
+                    "longitude": 144.7615,
+                    "time": "2016-08-18T21:28:25",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.281,
+                    "callsign": "QFA696",
+                    "altitude": 2987.04,
+                    "registration": "VH-VZU",
+                    "speed": 170.280964,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:23:50.783215",
+            "aircraft_states": [
+                {
+                    "heading": 167.0,
+                    "radar": "F-YMEN1",
+                    "longitude": 144.7627,
+                    "time": "2016-08-18T21:28:27",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.2855,
+                    "callsign": "QFA696",
+                    "altitude": 2964.1800000000003,
+                    "registration": "VH-VZU",
+                    "speed": 170.280964,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:23:56.604055",
+            "aircraft_states": [
+                {
+                    "heading": 167.0,
+                    "radar": "F-YMEN1",
+                    "longitude": 144.7651,
+                    "time": "2016-08-18T21:28:33",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.2943,
+                    "callsign": "QFA696",
+                    "altitude": 2926.08,
+                    "registration": "VH-VZU",
+                    "speed": 169.76652,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:24:02.120765",
+            "aircraft_states": [
+                {
+                    "heading": 167.0,
+                    "radar": "F-YMEN1",
+                    "longitude": 144.7674,
+                    "time": "2016-08-18T21:28:39",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.3031,
+                    "callsign": "QFA696",
+                    "altitude": 2880.36,
+                    "registration": "VH-VZU",
+                    "speed": 169.76652,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:24:07.553037",
+            "aircraft_states": [
+                {
+                    "heading": 168.0,
+                    "radar": "F-YMEN1",
+                    "longitude": 144.7699,
+                    "time": "2016-08-18T21:28:45",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.3125,
+                    "callsign": "QFA696",
+                    "altitude": 2827.02,
+                    "registration": "VH-VZU",
+                    "speed": 170.280964,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:24:13.034048",
+            "aircraft_states": [
+                {
+                    "heading": 169.0,
+                    "radar": "F-YMEN1",
+                    "longitude": 144.7709,
+                    "time": "2016-08-18T21:28:48",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.3166,
+                    "callsign": "QFA696",
+                    "altitude": 2811.78,
+                    "registration": "VH-VZU",
+                    "speed": 169.76652,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:24:18.454851",
+            "aircraft_states": [
+                {
+                    "heading": 175.0,
+                    "radar": "F-YMEN1",
+                    "longitude": 144.7729,
+                    "time": "2016-08-18T21:28:57",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.3309,
+                    "callsign": "QFA696",
+                    "altitude": 2758.44,
+                    "registration": "VH-VZU",
+                    "speed": 167.1943,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:24:23.963320",
+            "aircraft_states": [
+                {
+                    "heading": 177.0,
+                    "radar": "F-YMEN1",
+                    "longitude": 144.7732,
+                    "time": "2016-08-18T21:29:00",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.3356,
+                    "callsign": "QFA696",
+                    "altitude": 2743.2000000000003,
+                    "registration": "VH-VZU",
+                    "speed": 166.679856,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:24:29.791809",
+            "aircraft_states": [
+                {
+                    "heading": 179.0,
+                    "radar": "F-YMEN1",
+                    "longitude": 144.7732,
+                    "time": "2016-08-18T21:29:03",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.3402,
+                    "callsign": "QFA696",
+                    "altitude": 2727.96,
+                    "registration": "VH-VZU",
+                    "speed": 166.679856,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:24:35.223976",
+            "aircraft_states": [
+                {
+                    "heading": 179.0,
+                    "radar": "F-YMEN1",
+                    "longitude": 144.7732,
+                    "time": "2016-08-18T21:29:03",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.3402,
+                    "callsign": "QFA696",
+                    "altitude": 2727.96,
+                    "registration": "VH-VZU",
+                    "speed": 166.679856,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:24:40.692275",
+            "aircraft_states": [
+                {
+                    "heading": 179.0,
+                    "radar": "F-YMEN1",
+                    "longitude": 144.7732,
+                    "time": "2016-08-18T21:29:03",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.3402,
+                    "callsign": "QFA696",
+                    "altitude": 2727.96,
+                    "registration": "VH-VZU",
+                    "speed": 166.679856,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:24:46.145859",
+            "aircraft_states": [
+                {
+                    "heading": 186.0,
+                    "radar": "T-YMEN2",
+                    "longitude": 144.7709,
+                    "time": "2016-08-18T21:29:24",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.3675,
+                    "callsign": "QFA696",
+                    "altitude": 2636.52,
+                    "registration": "VH-VZU",
+                    "speed": 165.650968,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:24:51.973983",
+            "aircraft_states": [
+                {
+                    "heading": 185.0,
+                    "radar": "T-YMEN2",
+                    "longitude": 144.7698,
+                    "time": "2016-08-18T21:29:29",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.3763,
+                    "callsign": "QFA696",
+                    "altitude": 2613.6600000000003,
+                    "registration": "VH-VZU",
+                    "speed": 166.165412,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:24:57.495881",
+            "aircraft_states": [
+                {
+                    "heading": 185.0,
+                    "radar": "T-YMEN2",
+                    "longitude": 144.7688,
+                    "time": "2016-08-18T21:29:34",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.3847,
+                    "callsign": "QFA696",
+                    "altitude": 2583.1800000000003,
+                    "registration": "VH-VZU",
+                    "speed": 166.165412,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:25:02.981460",
+            "aircraft_states": [
+                {
+                    "heading": 185.0,
+                    "radar": "T-YMEN2",
+                    "longitude": 144.768,
+                    "time": "2016-08-18T21:29:39",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.3914,
+                    "callsign": "QFA696",
+                    "altitude": 2560.32,
+                    "registration": "VH-VZU",
+                    "speed": 166.165412,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:25:08.470451",
+            "aircraft_states": [
+                {
+                    "heading": 185.0,
+                    "radar": "T-YMEN2",
+                    "longitude": 144.7674,
+                    "time": "2016-08-18T21:29:44",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.3965,
+                    "callsign": "QFA696",
+                    "altitude": 2545.08,
+                    "registration": "VH-VZU",
+                    "speed": 166.165412,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:25:13.890038",
+            "aircraft_states": [
+                {
+                    "heading": 185.0,
+                    "radar": "T-YMEN2",
+                    "longitude": 144.7666,
+                    "time": "2016-08-18T21:29:49",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.4033,
+                    "callsign": "QFA696",
+                    "altitude": 2522.2200000000003,
+                    "registration": "VH-VZU",
+                    "speed": 166.165412,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:25:19.376831",
+            "aircraft_states": [
+                {
+                    "heading": 185.0,
+                    "radar": "T-YMEN2",
+                    "longitude": 144.7654,
+                    "time": "2016-08-18T21:29:54",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.4129,
+                    "callsign": "QFA696",
+                    "altitude": 2491.7400000000002,
+                    "registration": "VH-VZU",
+                    "speed": 166.165412,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:25:24.875628",
+            "aircraft_states": [
+                {
+                    "heading": 185.0,
+                    "radar": "T-YMEN2",
+                    "longitude": 144.7646,
+                    "time": "2016-08-18T21:30:00",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.4199,
+                    "callsign": "QFA696",
+                    "altitude": 2468.88,
+                    "registration": "VH-VZU",
+                    "speed": 166.679856,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:25:30.362256",
+            "aircraft_states": [
+                {
+                    "heading": 186.0,
+                    "radar": "T-YMEN2",
+                    "longitude": 144.7631,
+                    "time": "2016-08-18T21:30:09",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.4324,
+                    "callsign": "QFA696",
+                    "altitude": 2430.78,
+                    "registration": "VH-VZU",
+                    "speed": 167.708744,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:25:36.502910",
+            "aircraft_states": [
+                {
+                    "heading": 186.0,
+                    "radar": "T-YMEN2",
+                    "longitude": 144.7631,
+                    "time": "2016-08-18T21:30:09",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.4324,
+                    "callsign": "QFA696",
+                    "altitude": 2430.78,
+                    "registration": "VH-VZU",
+                    "speed": 167.708744,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:25:42.334469",
+            "aircraft_states": [
+                {
+                    "heading": 186.0,
+                    "radar": "T-YMEN2",
+                    "longitude": 144.7608,
+                    "time": "2016-08-18T21:30:19",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.4496,
+                    "callsign": "QFA696",
+                    "altitude": 2369.82,
+                    "registration": "VH-VZU",
+                    "speed": 169.76652,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:25:47.814143",
+            "aircraft_states": [
+                {
+                    "heading": 186.0,
+                    "radar": "T-YMEN2",
+                    "longitude": 144.7596,
+                    "time": "2016-08-18T21:30:24",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.4599,
+                    "callsign": "QFA696",
+                    "altitude": 2331.7200000000003,
+                    "registration": "VH-VZU",
+                    "speed": 170.280964,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:25:53.261508",
+            "aircraft_states": [
+                {
+                    "heading": 186.0,
+                    "radar": "T-YMEN2",
+                    "longitude": 144.7596,
+                    "time": "2016-08-18T21:30:24",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.4599,
+                    "callsign": "QFA696",
+                    "altitude": 2331.7200000000003,
+                    "registration": "VH-VZU",
+                    "speed": 170.280964,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:25:58.764615",
+            "aircraft_states": [
+                {
+                    "heading": 186.0,
+                    "radar": "T-YMEN2",
+                    "longitude": 144.7581,
+                    "time": "2016-08-18T21:30:34",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.4723,
+                    "callsign": "QFA696",
+                    "altitude": 2286.0,
+                    "registration": "VH-VZU",
+                    "speed": 170.280964,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:26:04.191962",
+            "aircraft_states": [
+                {
+                    "heading": 185.0,
+                    "radar": "T-YMEN2",
+                    "longitude": 144.7571,
+                    "time": "2016-08-18T21:30:39",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.4816,
+                    "callsign": "QFA696",
+                    "altitude": 2263.1400000000003,
+                    "registration": "VH-VZU",
+                    "speed": 168.223188,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:26:09.692192",
+            "aircraft_states": [
+                {
+                    "heading": 185.0,
+                    "radar": "T-YMEN2",
+                    "longitude": 144.7558,
+                    "time": "2016-08-18T21:30:49",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.4931,
+                    "callsign": "QFA696",
+                    "altitude": 2240.28,
+                    "registration": "VH-VZU",
+                    "speed": 165.136524,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:26:15.169884",
+            "aircraft_states": [
+                {
+                    "heading": 185.0,
+                    "radar": "T-YMEN2",
+                    "longitude": 144.7558,
+                    "time": "2016-08-18T21:30:49",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.4931,
+                    "callsign": "QFA696",
+                    "altitude": 2240.28,
+                    "registration": "VH-VZU",
+                    "speed": 165.136524,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:26:20.635141",
+            "aircraft_states": [
+                {
+                    "heading": 185.0,
+                    "radar": "T-YMEN2",
+                    "longitude": 144.7549,
+                    "time": "2016-08-18T21:30:54",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.501,
+                    "callsign": "QFA696",
+                    "altitude": 2217.42,
+                    "registration": "VH-VZU",
+                    "speed": 163.59319200000002,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:26:26.125861",
+            "aircraft_states": [
+                {
+                    "heading": 185.0,
+                    "radar": "F-YMEN1",
+                    "longitude": 144.7526,
+                    "time": "2016-08-18T21:31:05",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.5203,
+                    "callsign": "QFA696",
+                    "altitude": 2164.08,
+                    "registration": "VH-VZU",
+                    "speed": 159.47764,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:26:31.613817",
+            "aircraft_states": [
+                {
+                    "heading": 185.0,
+                    "radar": "F-YMEN1",
+                    "longitude": 144.7521,
+                    "time": "2016-08-18T21:31:07",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.525,
+                    "callsign": "QFA696",
+                    "altitude": 2156.46,
+                    "registration": "VH-VZU",
+                    "speed": 158.448752,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:26:37.083799",
+            "aircraft_states": [
+                {
+                    "heading": 185.0,
+                    "radar": "F-YMEN1",
+                    "longitude": 144.751,
+                    "time": "2016-08-18T21:31:13",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.5335,
+                    "callsign": "QFA696",
+                    "altitude": 2133.6,
+                    "registration": "VH-VZU",
+                    "speed": 156.90542,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:26:42.508270",
+            "aircraft_states": [
+                {
+                    "heading": 185.0,
+                    "radar": "F-YMEN1",
+                    "longitude": 144.7501,
+                    "time": "2016-08-18T21:31:19",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.5419,
+                    "callsign": "QFA696",
+                    "altitude": 2110.7400000000002,
+                    "registration": "VH-VZU",
+                    "speed": 155.362088,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:26:47.971038",
+            "aircraft_states": [
+                {
+                    "heading": 185.0,
+                    "radar": "F-YMEN1",
+                    "longitude": 144.7495,
+                    "time": "2016-08-18T21:31:23",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.5462,
+                    "callsign": "QFA696",
+                    "altitude": 2103.12,
+                    "registration": "VH-VZU",
+                    "speed": 155.362088,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:26:53.598543",
+            "aircraft_states": [
+                {
+                    "heading": 185.0,
+                    "radar": "F-YMEN1",
+                    "longitude": 144.748,
+                    "time": "2016-08-18T21:31:32",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.5589,
+                    "callsign": "QFA696",
+                    "altitude": 2072.6400000000003,
+                    "registration": "VH-VZU",
+                    "speed": 154.3332,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:26:59.141983",
+            "aircraft_states": [
+                {
+                    "heading": 185.0,
+                    "radar": "F-YMEN1",
+                    "longitude": 144.7475,
+                    "time": "2016-08-18T21:31:35",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.5628,
+                    "callsign": "QFA696",
+                    "altitude": 2065.02,
+                    "registration": "VH-VZU",
+                    "speed": 153.818756,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:27:04.775799",
+            "aircraft_states": [
+                {
+                    "heading": 185.0,
+                    "radar": "F-YMEN1",
+                    "longitude": 144.7464,
+                    "time": "2016-08-18T21:31:41",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.5709,
+                    "callsign": "QFA696",
+                    "altitude": 2042.16,
+                    "registration": "VH-VZU",
+                    "speed": 153.304312,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:27:10.553120",
+            "aircraft_states": [
+                {
+                    "heading": 185.0,
+                    "radar": "F-YMEN1",
+                    "longitude": 144.7455,
+                    "time": "2016-08-18T21:31:47",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.5794,
+                    "callsign": "QFA696",
+                    "altitude": 2019.3000000000002,
+                    "registration": "VH-VZU",
+                    "speed": 152.789868,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:27:16.027040",
+            "aircraft_states": [
+                {
+                    "heading": 185.0,
+                    "radar": "F-YMEN1",
+                    "longitude": 144.7444,
+                    "time": "2016-08-18T21:31:53",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.5882,
+                    "callsign": "QFA696",
+                    "altitude": 2004.0600000000002,
+                    "registration": "VH-VZU",
+                    "speed": 152.27542400000002,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:27:21.455039",
+            "aircraft_states": [
+                {
+                    "heading": 185.0,
+                    "radar": "F-YMEN1",
+                    "longitude": 144.7432,
+                    "time": "2016-08-18T21:31:59",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.5965,
+                    "callsign": "QFA696",
+                    "altitude": 1981.2,
+                    "registration": "VH-VZU",
+                    "speed": 152.27542400000002,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:27:26.884455",
+            "aircraft_states": [
+                {
+                    "heading": 185.0,
+                    "radar": "F-YMEN1",
+                    "longitude": 144.7421,
+                    "time": "2016-08-18T21:32:05",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.6048,
+                    "callsign": "QFA696",
+                    "altitude": 1965.96,
+                    "registration": "VH-VZU",
+                    "speed": 152.27542400000002,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:27:32.345185",
+            "aircraft_states": [
+                {
+                    "heading": 185.0,
+                    "radar": "F-YMEN1",
+                    "longitude": 144.7417,
+                    "time": "2016-08-18T21:32:08",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.6088,
+                    "callsign": "QFA696",
+                    "altitude": 1958.3400000000001,
+                    "registration": "VH-VZU",
+                    "speed": 152.27542400000002,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:27:37.858452",
+            "aircraft_states": [
+                {
+                    "heading": 185.0,
+                    "radar": "F-YMEN1",
+                    "longitude": 144.7401,
+                    "time": "2016-08-18T21:32:17",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.6209,
+                    "callsign": "QFA696",
+                    "altitude": 1935.48,
+                    "registration": "VH-VZU",
+                    "speed": 151.76098000000002,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:27:43.295044",
+            "aircraft_states": [
+                {
+                    "heading": 185.0,
+                    "radar": "F-YMEN1",
+                    "longitude": 144.7396,
+                    "time": "2016-08-18T21:32:21",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.6253,
+                    "callsign": "QFA696",
+                    "altitude": 1927.8600000000001,
+                    "registration": "VH-VZU",
+                    "speed": 151.76098000000002,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:27:48.725408",
+            "aircraft_states": [
+                {
+                    "heading": 185.0,
+                    "radar": "F-YMEN1",
+                    "longitude": 144.7391,
+                    "time": "2016-08-18T21:32:24",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.6288,
+                    "callsign": "QFA696",
+                    "altitude": 1920.24,
+                    "registration": "VH-VZU",
+                    "speed": 151.76098000000002,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:27:54.220519",
+            "aircraft_states": [
+                {
+                    "heading": 185.0,
+                    "radar": "F-YMEN1",
+                    "longitude": 144.7375,
+                    "time": "2016-08-18T21:32:33",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.6415,
+                    "callsign": "QFA696",
+                    "altitude": 1897.38,
+                    "registration": "VH-VZU",
+                    "speed": 150.732092,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:27:59.692107",
+            "aircraft_states": [
+                {
+                    "heading": 185.0,
+                    "radar": "F-YMEN1",
+                    "longitude": 144.7369,
+                    "time": "2016-08-18T21:32:36",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.6461,
+                    "callsign": "QFA696",
+                    "altitude": 1889.76,
+                    "registration": "VH-VZU",
+                    "speed": 150.217648,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:28:05.171299",
+            "aircraft_states": [
+                {
+                    "heading": 185.0,
+                    "radar": "F-YMEN1",
+                    "longitude": 144.7365,
+                    "time": "2016-08-18T21:32:39",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.6499,
+                    "callsign": "QFA696",
+                    "altitude": 1882.14,
+                    "registration": "VH-VZU",
+                    "speed": 150.217648,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:28:10.597186",
+            "aircraft_states": [
+                {
+                    "heading": 185.0,
+                    "radar": "F-YMEN1",
+                    "longitude": 144.735,
+                    "time": "2016-08-18T21:32:48",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.6623,
+                    "callsign": "QFA696",
+                    "altitude": 1851.66,
+                    "registration": "VH-VZU",
+                    "speed": 149.703204,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:28:16.129673",
+            "aircraft_states": [
+                {
+                    "heading": 185.0,
+                    "radar": "F-YMEN1",
+                    "longitude": 144.7345,
+                    "time": "2016-08-18T21:32:51",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.6663,
+                    "callsign": "QFA696",
+                    "altitude": 1844.0400000000002,
+                    "registration": "VH-VZU",
+                    "speed": 149.703204,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:28:21.617969",
+            "aircraft_states": [
+                {
+                    "heading": 185.0,
+                    "radar": "F-YMEN1",
+                    "longitude": 144.733,
+                    "time": "2016-08-18T21:33:00",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.6785,
+                    "callsign": "QFA696",
+                    "altitude": 1813.5600000000002,
+                    "registration": "VH-VZU",
+                    "speed": 150.217648,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:28:27.054642",
+            "aircraft_states": [
+                {
+                    "heading": 185.0,
+                    "radar": "F-YMEN1",
+                    "longitude": 144.7325,
+                    "time": "2016-08-18T21:33:03",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.683,
+                    "callsign": "QFA696",
+                    "altitude": 1798.3200000000002,
+                    "registration": "VH-VZU",
+                    "speed": 150.217648,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:28:32.571472",
+            "aircraft_states": [
+                {
+                    "heading": 185.0,
+                    "radar": "F-YMEN1",
+                    "longitude": 144.7316,
+                    "time": "2016-08-18T21:33:09",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.691,
+                    "callsign": "QFA696",
+                    "altitude": 1767.8400000000001,
+                    "registration": "VH-VZU",
+                    "speed": 150.732092,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:28:38.063521",
+            "aircraft_states": [
+                {
+                    "heading": 185.0,
+                    "radar": "F-YMEN1",
+                    "longitude": 144.7307,
+                    "time": "2016-08-18T21:33:15",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.6991,
+                    "callsign": "QFA696",
+                    "altitude": 1744.98,
+                    "registration": "VH-VZU",
+                    "speed": 151.246536,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:28:43.604254",
+            "aircraft_states": [
+                {
+                    "heading": 183.0,
+                    "radar": "F-YMEN1",
+                    "longitude": 144.73,
+                    "time": "2016-08-18T21:33:21",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.7078,
+                    "callsign": "QFA696",
+                    "altitude": 1706.88,
+                    "registration": "VH-VZU",
+                    "speed": 150.732092,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:28:49.085747",
+            "aircraft_states": [
+                {
+                    "heading": 181.0,
+                    "radar": "F-YMEN1",
+                    "longitude": 144.7298,
+                    "time": "2016-08-18T21:33:24",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.7112,
+                    "callsign": "QFA696",
+                    "altitude": 1699.26,
+                    "registration": "VH-VZU",
+                    "speed": 151.246536,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:28:54.573711",
+            "aircraft_states": [
+                {
+                    "heading": 180.0,
+                    "radar": "F-YMEN1",
+                    "longitude": 144.7298,
+                    "time": "2016-08-18T21:33:27",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.7158,
+                    "callsign": "QFA696",
+                    "altitude": 1684.02,
+                    "registration": "VH-VZU",
+                    "speed": 151.76098000000002,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:29:00.015533",
+            "aircraft_states": [
+                {
+                    "heading": 180.0,
+                    "radar": "F-YMEN1",
+                    "longitude": 144.7297,
+                    "time": "2016-08-18T21:33:36",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.728,
+                    "callsign": "QFA696",
+                    "altitude": 1630.68,
+                    "registration": "VH-VZU",
+                    "speed": 151.76098000000002,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:29:05.485550",
+            "aircraft_states": [
+                {
+                    "heading": 180.0,
+                    "radar": "F-YMEN1",
+                    "longitude": 144.7297,
+                    "time": "2016-08-18T21:33:39",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.7321,
+                    "callsign": "QFA696",
+                    "altitude": 1623.0600000000002,
+                    "registration": "VH-VZU",
+                    "speed": 151.76098000000002,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:29:10.987276",
+            "aircraft_states": [
+                {
+                    "heading": 180.0,
+                    "radar": "F-YMEN1",
+                    "longitude": 144.7296,
+                    "time": "2016-08-18T21:33:49",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.7452,
+                    "callsign": "QFA696",
+                    "altitude": 1577.3400000000001,
+                    "registration": "VH-VZU",
+                    "speed": 151.76098000000002,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:29:16.533155",
+            "aircraft_states": [
+                {
+                    "heading": 180.0,
+                    "radar": "F-YMEN1",
+                    "longitude": 144.7295,
+                    "time": "2016-08-18T21:33:52",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.7492,
+                    "callsign": "QFA696",
+                    "altitude": 1562.1000000000001,
+                    "registration": "VH-VZU",
+                    "speed": 151.76098000000002,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:29:22.045766",
+            "aircraft_states": [
+                {
+                    "heading": 180.0,
+                    "radar": "F-YMEN1",
+                    "longitude": 144.7292,
+                    "time": "2016-08-18T21:34:01",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.7616,
+                    "callsign": "QFA696",
+                    "altitude": 1516.38,
+                    "registration": "VH-VZU",
+                    "speed": 151.76098000000002,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:29:27.654291",
+            "aircraft_states": [
+                {
+                    "heading": 180.0,
+                    "radar": "F-YMEN1",
+                    "longitude": 144.7291,
+                    "time": "2016-08-18T21:34:04",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.7657,
+                    "callsign": "QFA696",
+                    "altitude": 1501.14,
+                    "registration": "VH-VZU",
+                    "speed": 151.76098000000002,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:29:33.152872",
+            "aircraft_states": [
+                {
+                    "heading": 180.0,
+                    "radar": "F-YMEN1",
+                    "longitude": 144.729,
+                    "time": "2016-08-18T21:34:07",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.7694,
+                    "callsign": "QFA696",
+                    "altitude": 1485.9,
+                    "registration": "VH-VZU",
+                    "speed": 151.76098000000002,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:29:38.631125",
+            "aircraft_states": [
+                {
+                    "heading": 180.0,
+                    "radar": "F-YMEN1",
+                    "longitude": 144.7289,
+                    "time": "2016-08-18T21:34:16",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.7817,
+                    "callsign": "QFA696",
+                    "altitude": 1440.18,
+                    "registration": "VH-VZU",
+                    "speed": 151.76098000000002,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:29:44.083335",
+            "aircraft_states": [
+                {
+                    "heading": 180.0,
+                    "radar": "F-YMEN1",
+                    "longitude": 144.7288,
+                    "time": "2016-08-18T21:34:19",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.7859,
+                    "callsign": "QFA696",
+                    "altitude": 1424.94,
+                    "registration": "VH-VZU",
+                    "speed": 151.76098000000002,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:29:49.515658",
+            "aircraft_states": [
+                {
+                    "heading": 180.0,
+                    "radar": "F-YMEN1",
+                    "longitude": 144.7287,
+                    "time": "2016-08-18T21:34:22",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.7899,
+                    "callsign": "QFA696",
+                    "altitude": 1409.7,
+                    "registration": "VH-VZU",
+                    "speed": 151.76098000000002,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:29:55.051264",
+            "aircraft_states": [
+                {
+                    "heading": 180.0,
+                    "radar": "F-YMEN1",
+                    "longitude": 144.7287,
+                    "time": "2016-08-18T21:34:22",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.7899,
+                    "callsign": "QFA696",
+                    "altitude": 1409.7,
+                    "registration": "VH-VZU",
+                    "speed": 151.76098000000002,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:30:01.491110",
+            "aircraft_states": [
+                {
+                    "heading": 180.0,
+                    "radar": "F-YMEN1",
+                    "longitude": 144.7287,
+                    "time": "2016-08-18T21:34:22",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.7899,
+                    "callsign": "QFA696",
+                    "altitude": 1409.7,
+                    "registration": "VH-VZU",
+                    "speed": 151.76098000000002,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:30:06.939505",
+            "aircraft_states": [
+                {
+                    "heading": 147.0,
+                    "radar": "T-YMAV1",
+                    "longitude": 144.738,
+                    "time": "2016-08-18T21:34:43",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.8168,
+                    "callsign": "QFA696",
+                    "altitude": 1341.1200000000001,
+                    "registration": "VH-VZU",
+                    "speed": 147.645428,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:30:12.405287",
+            "aircraft_states": [
+                {
+                    "heading": 136.0,
+                    "radar": "T-YMAV1",
+                    "longitude": 144.7435,
+                    "time": "2016-08-18T21:34:48",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.8217,
+                    "callsign": "QFA696",
+                    "altitude": 1348.74,
+                    "registration": "VH-VZU",
+                    "speed": 141.986544,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:30:17.869311",
+            "aircraft_states": [
+                {
+                    "heading": 127.0,
+                    "radar": "T-YMAV1",
+                    "longitude": 144.7495,
+                    "time": "2016-08-18T21:34:53",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.8253,
+                    "callsign": "QFA696",
+                    "altitude": 1356.3600000000001,
+                    "registration": "VH-VZU",
+                    "speed": 136.32766,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:30:23.308493",
+            "aircraft_states": [
+                {
+                    "heading": 115.0,
+                    "radar": "T-YMAV1",
+                    "longitude": 144.756,
+                    "time": "2016-08-18T21:34:58",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.828,
+                    "callsign": "QFA696",
+                    "altitude": 1363.98,
+                    "registration": "VH-VZU",
+                    "speed": 126.03878,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:30:28.735207",
+            "aircraft_states": [
+                {
+                    "heading": 109.0,
+                    "radar": "T-YMAV1",
+                    "longitude": 144.7622,
+                    "time": "2016-08-18T21:35:04",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.8297,
+                    "callsign": "QFA696",
+                    "altitude": 1363.98,
+                    "registration": "VH-VZU",
+                    "speed": 119.865452,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:30:34.253393",
+            "aircraft_states": [
+                {
+                    "heading": 107.0,
+                    "radar": "T-YMAV1",
+                    "longitude": 144.7752,
+                    "time": "2016-08-18T21:35:13",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.8328,
+                    "callsign": "QFA696",
+                    "altitude": 1341.1200000000001,
+                    "registration": "VH-VZU",
+                    "speed": 114.206568,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:30:39.712308",
+            "aircraft_states": [
+                {
+                    "heading": 107.0,
+                    "radar": "T-YMAV1",
+                    "longitude": 144.7752,
+                    "time": "2016-08-18T21:35:13",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.8328,
+                    "callsign": "QFA696",
+                    "altitude": 1341.1200000000001,
+                    "registration": "VH-VZU",
+                    "speed": 114.206568,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:30:45.191308",
+            "aircraft_states": [
+                {
+                    "heading": 109.0,
+                    "radar": "T-YMAV1",
+                    "longitude": 144.7812,
+                    "time": "2016-08-18T21:35:18",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.8345,
+                    "callsign": "QFA696",
+                    "altitude": 1318.26,
+                    "registration": "VH-VZU",
+                    "speed": 114.206568,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:30:50.656770",
+            "aircraft_states": [
+                {
+                    "heading": 109.0,
+                    "radar": "T-YMAV1",
+                    "longitude": 144.7938,
+                    "time": "2016-08-18T21:35:28",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.8381,
+                    "callsign": "QFA696",
+                    "altitude": 1257.3,
+                    "registration": "VH-VZU",
+                    "speed": 114.206568,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:30:56.104694",
+            "aircraft_states": [
+                {
+                    "heading": 106.0,
+                    "radar": "T-YMAV1",
+                    "longitude": 144.7996,
+                    "time": "2016-08-18T21:35:33",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.8395,
+                    "callsign": "QFA696",
+                    "altitude": 1234.44,
+                    "registration": "VH-VZU",
+                    "speed": 112.148792,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:31:01.546196",
+            "aircraft_states": [
+                {
+                    "heading": 98.0,
+                    "radar": "T-YMAV1",
+                    "longitude": 144.8058,
+                    "time": "2016-08-18T21:35:38",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.8403,
+                    "callsign": "QFA696",
+                    "altitude": 1203.96,
+                    "registration": "VH-VZU",
+                    "speed": 105.975464,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:31:07.081657",
+            "aircraft_states": [
+                {
+                    "heading": 91.0,
+                    "radar": "T-YMAV1",
+                    "longitude": 144.8116,
+                    "time": "2016-08-18T21:35:43",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.8404,
+                    "callsign": "QFA696",
+                    "altitude": 1181.1000000000001,
+                    "registration": "VH-VZU",
+                    "speed": 99.802136,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:31:12.607707",
+            "aircraft_states": [
+                {
+                    "heading": 91.0,
+                    "radar": "T-YMAV1",
+                    "longitude": 144.8116,
+                    "time": "2016-08-18T21:35:43",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.8404,
+                    "callsign": "QFA696",
+                    "altitude": 1181.1000000000001,
+                    "registration": "VH-VZU",
+                    "speed": 99.802136,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:31:18.029321",
+            "aircraft_states": [
+                {
+                    "heading": 91.0,
+                    "radar": "T-YMAV1",
+                    "longitude": 144.8116,
+                    "time": "2016-08-18T21:35:43",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.8404,
+                    "callsign": "QFA696",
+                    "altitude": 1181.1000000000001,
+                    "registration": "VH-VZU",
+                    "speed": 99.802136,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:31:23.543975",
+            "aircraft_states": [
+                {
+                    "heading": 91.0,
+                    "radar": "T-YMAV1",
+                    "longitude": 144.8116,
+                    "time": "2016-08-18T21:35:43",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.8404,
+                    "callsign": "QFA696",
+                    "altitude": 1181.1000000000001,
+                    "registration": "VH-VZU",
+                    "speed": 99.802136,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:31:29.030493",
+            "aircraft_states": [
+                {
+                    "heading": 69.0,
+                    "radar": "T-YMAV1",
+                    "longitude": 144.8309,
+                    "time": "2016-08-18T21:36:03",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.8371,
+                    "callsign": "QFA696",
+                    "altitude": 1082.04,
+                    "registration": "VH-VZU",
+                    "speed": 80.253264,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:31:34.491800",
+            "aircraft_states": [
+                {
+                    "heading": 59.0,
+                    "radar": "T-YMAV1",
+                    "longitude": 144.8384,
+                    "time": "2016-08-18T21:36:13",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.8339,
+                    "callsign": "QFA696",
+                    "altitude": 1051.56,
+                    "registration": "VH-VZU",
+                    "speed": 70.993272,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:31:39.945660",
+            "aircraft_states": [
+                {
+                    "heading": 59.0,
+                    "radar": "T-YMAV1",
+                    "longitude": 144.8384,
+                    "time": "2016-08-18T21:36:13",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.8339,
+                    "callsign": "QFA696",
+                    "altitude": 1051.56,
+                    "registration": "VH-VZU",
+                    "speed": 70.993272,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:31:45.437909",
+            "aircraft_states": [
+                {
+                    "heading": 55.0,
+                    "radar": "T-YMAV1",
+                    "longitude": 144.8417,
+                    "time": "2016-08-18T21:36:18",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.8321,
+                    "callsign": "QFA696",
+                    "altitude": 1036.3200000000002,
+                    "registration": "VH-VZU",
+                    "speed": 66.87772,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:31:50.875682",
+            "aircraft_states": [
+                {
+                    "heading": 45.0,
+                    "radar": "T-YMAV1",
+                    "longitude": 144.8471,
+                    "time": "2016-08-18T21:36:29",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.8284,
+                    "callsign": "QFA696",
+                    "altitude": 998.22,
+                    "registration": "VH-VZU",
+                    "speed": 61.73328,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:31:56.340189",
+            "aircraft_states": [
+                {
+                    "heading": 45.0,
+                    "radar": "T-YMAV1",
+                    "longitude": 144.8471,
+                    "time": "2016-08-18T21:36:29",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.8284,
+                    "callsign": "QFA696",
+                    "altitude": 998.22,
+                    "registration": "VH-VZU",
+                    "speed": 61.73328,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:32:01.839644",
+            "aircraft_states": [
+                {
+                    "heading": 37.0,
+                    "radar": "T-YMAV1",
+                    "longitude": 144.8513,
+                    "time": "2016-08-18T21:36:38",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.8243,
+                    "callsign": "QFA696",
+                    "altitude": 967.74,
+                    "registration": "VH-VZU",
+                    "speed": 58.132172000000004,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:32:07.351564",
+            "aircraft_states": [
+                {
+                    "heading": 33.0,
+                    "radar": "T-YMAV1",
+                    "longitude": 144.8532,
+                    "time": "2016-08-18T21:36:43",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.8222,
+                    "callsign": "QFA696",
+                    "altitude": 952.5,
+                    "registration": "VH-VZU",
+                    "speed": 57.103284,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:32:12.867799",
+            "aircraft_states": [
+                {
+                    "heading": 30.0,
+                    "radar": "T-YMAV1",
+                    "longitude": 144.8547,
+                    "time": "2016-08-18T21:36:48",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.8201,
+                    "callsign": "QFA696",
+                    "altitude": 937.26,
+                    "registration": "VH-VZU",
+                    "speed": 56.074396,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:32:18.293803",
+            "aircraft_states": [
+                {
+                    "heading": 28.0,
+                    "radar": "T-YMAV1",
+                    "longitude": 144.8563,
+                    "time": "2016-08-18T21:36:53",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.8179,
+                    "callsign": "QFA696",
+                    "altitude": 922.0200000000001,
+                    "registration": "VH-VZU",
+                    "speed": 54.531064,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:32:23.791261",
+            "aircraft_states": [
+                {
+                    "heading": 24.0,
+                    "radar": "T-YMAV1",
+                    "longitude": 144.8576,
+                    "time": "2016-08-18T21:36:59",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.8156,
+                    "callsign": "QFA696",
+                    "altitude": 906.7800000000001,
+                    "registration": "VH-VZU",
+                    "speed": 53.502176,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:32:29.220775",
+            "aircraft_states": [
+                {
+                    "heading": 21.0,
+                    "radar": "T-YMAV1",
+                    "longitude": 144.8587,
+                    "time": "2016-08-18T21:37:03",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.8134,
+                    "callsign": "QFA696",
+                    "altitude": 891.5400000000001,
+                    "registration": "VH-VZU",
+                    "speed": 52.987732,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:32:34.702013",
+            "aircraft_states": [
+                {
+                    "heading": 14.0,
+                    "radar": "T-YMAV1",
+                    "longitude": 144.8604,
+                    "time": "2016-08-18T21:37:13",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.8088,
+                    "callsign": "QFA696",
+                    "altitude": 868.6800000000001,
+                    "registration": "VH-VZU",
+                    "speed": 51.958844,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:32:40.174970",
+            "aircraft_states": [
+                {
+                    "heading": 14.0,
+                    "radar": "T-YMAV1",
+                    "longitude": 144.8604,
+                    "time": "2016-08-18T21:37:13",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.8088,
+                    "callsign": "QFA696",
+                    "altitude": 868.6800000000001,
+                    "registration": "VH-VZU",
+                    "speed": 51.958844,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:32:45.677059",
+            "aircraft_states": [
+                {
+                    "heading": 7.0,
+                    "radar": "T-YMAV1",
+                    "longitude": 144.8614,
+                    "time": "2016-08-18T21:37:24",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.8041,
+                    "callsign": "QFA696",
+                    "altitude": 838.2,
+                    "registration": "VH-VZU",
+                    "speed": 50.929956000000004,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:32:51.161954",
+            "aircraft_states": [
+                {
+                    "heading": 4.0,
+                    "radar": "T-YMAV1",
+                    "longitude": 144.8616,
+                    "time": "2016-08-18T21:37:28",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.8018,
+                    "callsign": "QFA696",
+                    "altitude": 822.96,
+                    "registration": "VH-VZU",
+                    "speed": 50.929956000000004,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:32:56.614682",
+            "aircraft_states": [
+                {
+                    "heading": 4.0,
+                    "radar": "T-YMAV1",
+                    "longitude": 144.8616,
+                    "time": "2016-08-18T21:37:28",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.8018,
+                    "callsign": "QFA696",
+                    "altitude": 822.96,
+                    "registration": "VH-VZU",
+                    "speed": 50.929956000000004,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:33:02.047517",
+            "aircraft_states": [
+                {
+                    "heading": 4.0,
+                    "radar": "T-YMAV1",
+                    "longitude": 144.8616,
+                    "time": "2016-08-18T21:37:34",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.7997,
+                    "callsign": "QFA696",
+                    "altitude": 815.34,
+                    "registration": "VH-VZU",
+                    "speed": 51.4444,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:33:07.490015",
+            "aircraft_states": [
+                {
+                    "heading": 4.0,
+                    "radar": "T-YMAV1",
+                    "longitude": 144.8616,
+                    "time": "2016-08-18T21:37:34",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.7997,
+                    "callsign": "QFA696",
+                    "altitude": 815.34,
+                    "registration": "VH-VZU",
+                    "speed": 51.4444,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:33:12.998456",
+            "aircraft_states": [
+                {
+                    "heading": 4.0,
+                    "radar": "T-YMAV1",
+                    "longitude": 144.8616,
+                    "time": "2016-08-18T21:37:34",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.7997,
+                    "callsign": "QFA696",
+                    "altitude": 815.34,
+                    "registration": "VH-VZU",
+                    "speed": 51.4444,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:33:18.496537",
+            "aircraft_states": [
+                {
+                    "heading": 351.0,
+                    "radar": "T-YMAV1",
+                    "longitude": 144.8604,
+                    "time": "2016-08-18T21:37:54",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.7902,
+                    "callsign": "QFA696",
+                    "altitude": 762.0,
+                    "registration": "VH-VZU",
+                    "speed": 49.901068,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:33:23.970692",
+            "aircraft_states": [
+                {
+                    "heading": 351.0,
+                    "radar": "T-YMAV1",
+                    "longitude": 144.86,
+                    "time": "2016-08-18T21:37:59",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.788,
+                    "callsign": "QFA696",
+                    "altitude": 746.76,
+                    "registration": "VH-VZU",
+                    "speed": 49.901068,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:33:29.437823",
+            "aircraft_states": [
+                {
+                    "heading": 351.0,
+                    "radar": "T-YMAV1",
+                    "longitude": 144.8592,
+                    "time": "2016-08-18T21:38:09",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.7836,
+                    "callsign": "QFA696",
+                    "altitude": 723.9000000000001,
+                    "registration": "VH-VZU",
+                    "speed": 49.901068,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:33:34.918129",
+            "aircraft_states": [
+                {
+                    "heading": 351.0,
+                    "radar": "T-YMAV1",
+                    "longitude": 144.8592,
+                    "time": "2016-08-18T21:38:09",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.7836,
+                    "callsign": "QFA696",
+                    "altitude": 723.9000000000001,
+                    "registration": "VH-VZU",
+                    "speed": 49.901068,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:33:40.418876",
+            "aircraft_states": [
+                {
+                    "heading": 351.0,
+                    "radar": "T-YMAV1",
+                    "longitude": 144.8587,
+                    "time": "2016-08-18T21:38:14",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.7815,
+                    "callsign": "QFA696",
+                    "altitude": 708.6600000000001,
+                    "registration": "VH-VZU",
+                    "speed": 49.386624,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:33:45.918022",
+            "aircraft_states": [
+                {
+                    "heading": 352.0,
+                    "radar": "T-YMAV1",
+                    "longitude": 144.858,
+                    "time": "2016-08-18T21:38:24",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.777,
+                    "callsign": "QFA696",
+                    "altitude": 678.1800000000001,
+                    "registration": "VH-VZU",
+                    "speed": 49.386624,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:33:51.414045",
+            "aircraft_states": [
+                {
+                    "heading": 352.0,
+                    "radar": "T-YMAV1",
+                    "longitude": 144.8576,
+                    "time": "2016-08-18T21:38:29",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.7747,
+                    "callsign": "QFA696",
+                    "altitude": 670.5600000000001,
+                    "registration": "VH-VZU",
+                    "speed": 49.386624,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:33:56.949240",
+            "aircraft_states": [
+                {
+                    "heading": 352.0,
+                    "radar": "T-YMAV1",
+                    "longitude": 144.8576,
+                    "time": "2016-08-18T21:38:29",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.7747,
+                    "callsign": "QFA696",
+                    "altitude": 670.5600000000001,
+                    "registration": "VH-VZU",
+                    "speed": 49.386624,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:34:02.435846",
+            "aircraft_states": [
+                {
+                    "heading": 352.0,
+                    "radar": "T-YMAV1",
+                    "longitude": 144.8569,
+                    "time": "2016-08-18T21:38:39",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.7704,
+                    "callsign": "QFA696",
+                    "altitude": 640.08,
+                    "registration": "VH-VZU",
+                    "speed": 49.386624,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:34:07.899224",
+            "aircraft_states": [
+                {
+                    "heading": 351.0,
+                    "radar": "T-YMAV1",
+                    "longitude": 144.8565,
+                    "time": "2016-08-18T21:38:44",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.7682,
+                    "callsign": "QFA696",
+                    "altitude": 624.84,
+                    "registration": "VH-VZU",
+                    "speed": 49.386624,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:34:13.354421",
+            "aircraft_states": [
+                {
+                    "heading": 351.0,
+                    "radar": "T-YMAV1",
+                    "longitude": 144.8561,
+                    "time": "2016-08-18T21:38:49",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.766,
+                    "callsign": "QFA696",
+                    "altitude": 617.22,
+                    "registration": "VH-VZU",
+                    "speed": 49.386624,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:34:18.839559",
+            "aircraft_states": [
+                {
+                    "heading": 351.0,
+                    "radar": "T-YMAV1",
+                    "longitude": 144.8556,
+                    "time": "2016-08-18T21:38:54",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.7637,
+                    "callsign": "QFA696",
+                    "altitude": 601.98,
+                    "registration": "VH-VZU",
+                    "speed": 49.386624,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:34:24.685393",
+            "aircraft_states": [
+                {
+                    "heading": 350.0,
+                    "radar": "T-YMAV1",
+                    "longitude": 144.8552,
+                    "time": "2016-08-18T21:38:59",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.7615,
+                    "callsign": "QFA696",
+                    "altitude": 586.74,
+                    "registration": "VH-VZU",
+                    "speed": 48.87218,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:34:30.130938",
+            "aircraft_states": [
+                {
+                    "heading": 351.0,
+                    "radar": "T-YMAV1",
+                    "longitude": 144.8544,
+                    "time": "2016-08-18T21:39:09",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.7571,
+                    "callsign": "QFA696",
+                    "altitude": 563.88,
+                    "registration": "VH-VZU",
+                    "speed": 48.357736,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:34:35.672065",
+            "aircraft_states": [
+                {
+                    "heading": 351.0,
+                    "radar": "T-YMAV1",
+                    "longitude": 144.8544,
+                    "time": "2016-08-18T21:39:09",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.7571,
+                    "callsign": "QFA696",
+                    "altitude": 563.88,
+                    "registration": "VH-VZU",
+                    "speed": 48.357736,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:34:41.156483",
+            "aircraft_states": [
+                {
+                    "heading": 351.0,
+                    "radar": "T-YMAV1",
+                    "longitude": 144.8541,
+                    "time": "2016-08-18T21:39:15",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.7555,
+                    "callsign": "QFA696",
+                    "altitude": 548.64,
+                    "registration": "VH-VZU",
+                    "speed": 48.357736,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:34:46.658679",
+            "aircraft_states": [
+                {
+                    "heading": 351.0,
+                    "radar": "T-YMAV1",
+                    "longitude": 144.8532,
+                    "time": "2016-08-18T21:39:24",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.751,
+                    "callsign": "QFA696",
+                    "altitude": 525.78,
+                    "registration": "VH-VZU",
+                    "speed": 48.87218,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:34:52.149469",
+            "aircraft_states": [
+                {
+                    "heading": 351.0,
+                    "radar": "T-YMAV1",
+                    "longitude": 144.8528,
+                    "time": "2016-08-18T21:39:29",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.7485,
+                    "callsign": "QFA696",
+                    "altitude": 510.54,
+                    "registration": "VH-VZU",
+                    "speed": 48.87218,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:34:57.615728",
+            "aircraft_states": [
+                {
+                    "heading": 351.0,
+                    "radar": "T-YMAV1",
+                    "longitude": 144.8525,
+                    "time": "2016-08-18T21:39:35",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.7471,
+                    "callsign": "QFA696",
+                    "altitude": 502.92,
+                    "registration": "VH-VZU",
+                    "speed": 49.386624,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:35:03.079501",
+            "aircraft_states": [
+                {
+                    "heading": 351.0,
+                    "radar": "T-YMAV1",
+                    "longitude": 144.8519,
+                    "time": "2016-08-18T21:39:40",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.744,
+                    "callsign": "QFA696",
+                    "altitude": 480.06,
+                    "registration": "VH-VZU",
+                    "speed": 49.386624,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:35:08.583010",
+            "aircraft_states": [
+                {
+                    "heading": 351.0,
+                    "radar": "T-YMAV1",
+                    "longitude": 144.8515,
+                    "time": "2016-08-18T21:39:45",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.7415,
+                    "callsign": "QFA696",
+                    "altitude": 464.82000000000005,
+                    "registration": "VH-VZU",
+                    "speed": 49.901068,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:35:14.075829",
+            "aircraft_states": [
+                {
+                    "heading": 351.0,
+                    "radar": "T-YMAV1",
+                    "longitude": 144.8511,
+                    "time": "2016-08-18T21:39:50",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.7395,
+                    "callsign": "QFA696",
+                    "altitude": 457.20000000000005,
+                    "registration": "VH-VZU",
+                    "speed": 50.929956000000004,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:35:19.559207",
+            "aircraft_states": [
+                {
+                    "heading": 351.0,
+                    "radar": "T-YMAV1",
+                    "longitude": 144.8506,
+                    "time": "2016-08-18T21:39:55",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.7372,
+                    "callsign": "QFA696",
+                    "altitude": 441.96000000000004,
+                    "registration": "VH-VZU",
+                    "speed": 50.929956000000004,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:35:25.003144",
+            "aircraft_states": [
+                {
+                    "heading": 351.0,
+                    "radar": "T-YMAV1",
+                    "longitude": 144.8501,
+                    "time": "2016-08-18T21:40:00",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.7346,
+                    "callsign": "QFA696",
+                    "altitude": 426.72,
+                    "registration": "VH-VZU",
+                    "speed": 51.4444,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:35:30.553470",
+            "aircraft_states": [
+                {
+                    "heading": 351.0,
+                    "radar": "T-YMAV1",
+                    "longitude": 144.8498,
+                    "time": "2016-08-18T21:40:05",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.7326,
+                    "callsign": "QFA696",
+                    "altitude": 411.48,
+                    "registration": "VH-VZU",
+                    "speed": 51.958844,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:35:36.031261",
+            "aircraft_states": [
+                {
+                    "heading": 352.0,
+                    "radar": "T-YMAV1",
+                    "longitude": 144.8493,
+                    "time": "2016-08-18T21:40:10",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.73,
+                    "callsign": "QFA696",
+                    "altitude": 396.24,
+                    "registration": "VH-VZU",
+                    "speed": 51.958844,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:35:41.553599",
+            "aircraft_states": [
+                {
+                    "heading": 350.0,
+                    "radar": "T-YMAV1",
+                    "longitude": 144.8484,
+                    "time": "2016-08-18T21:40:20",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.7253,
+                    "callsign": "QFA696",
+                    "altitude": 365.76,
+                    "registration": "VH-VZU",
+                    "speed": 52.473288000000004,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:35:47.370695",
+            "aircraft_states": [
+                {
+                    "heading": 350.0,
+                    "radar": "T-YMAV1",
+                    "longitude": 144.848,
+                    "time": "2016-08-18T21:40:25",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.7231,
+                    "callsign": "QFA696",
+                    "altitude": 358.14000000000004,
+                    "registration": "VH-VZU",
+                    "speed": 52.473288000000004,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:35:52.830266",
+            "aircraft_states": [
+                {
+                    "heading": 350.0,
+                    "radar": "T-YMAV1",
+                    "longitude": 144.848,
+                    "time": "2016-08-18T21:40:25",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.7231,
+                    "callsign": "QFA696",
+                    "altitude": 358.14000000000004,
+                    "registration": "VH-VZU",
+                    "speed": 52.473288000000004,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:35:58.307420",
+            "aircraft_states": [
+                {
+                    "heading": 351.0,
+                    "radar": "T-YMAV1",
+                    "longitude": 144.8471,
+                    "time": "2016-08-18T21:40:36",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.7184,
+                    "callsign": "QFA696",
+                    "altitude": 327.66,
+                    "registration": "VH-VZU",
+                    "speed": 52.987732,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:36:03.827418",
+            "aircraft_states": [
+                {
+                    "heading": 351.0,
+                    "radar": "T-YMAV1",
+                    "longitude": 144.8466,
+                    "time": "2016-08-18T21:40:40",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.7156,
+                    "callsign": "QFA696",
+                    "altitude": 312.42,
+                    "registration": "VH-VZU",
+                    "speed": 53.502176,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:36:09.322257",
+            "aircraft_states": [
+                {
+                    "heading": 351.0,
+                    "radar": "T-YMAV1",
+                    "longitude": 144.8461,
+                    "time": "2016-08-18T21:40:45",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.7133,
+                    "callsign": "QFA696",
+                    "altitude": 297.18,
+                    "registration": "VH-VZU",
+                    "speed": 54.01662,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:36:14.774058",
+            "aircraft_states": [
+                {
+                    "heading": 351.0,
+                    "radar": "T-YMAV1",
+                    "longitude": 144.8457,
+                    "time": "2016-08-18T21:40:50",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.7108,
+                    "callsign": "QFA696",
+                    "altitude": 281.94,
+                    "registration": "VH-VZU",
+                    "speed": 54.531064,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:36:20.690231",
+            "aircraft_states": [
+                {
+                    "heading": 351.0,
+                    "radar": "T-YMAV1",
+                    "longitude": 144.8452,
+                    "time": "2016-08-18T21:40:55",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.7083,
+                    "callsign": "QFA696",
+                    "altitude": 266.7,
+                    "registration": "VH-VZU",
+                    "speed": 55.045508,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:36:26.177720",
+            "aircraft_states": [
+                {
+                    "heading": 351.0,
+                    "radar": "T-YMAV1",
+                    "longitude": 144.8442,
+                    "time": "2016-08-18T21:41:05",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.7032,
+                    "callsign": "QFA696",
+                    "altitude": 243.84,
+                    "registration": "VH-VZU",
+                    "speed": 57.103284,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:36:31.618700",
+            "aircraft_states": [
+                {
+                    "heading": 351.0,
+                    "radar": "T-YMAV1",
+                    "longitude": 144.8442,
+                    "time": "2016-08-18T21:41:05",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.7032,
+                    "callsign": "QFA696",
+                    "altitude": 243.84,
+                    "registration": "VH-VZU",
+                    "speed": 57.103284,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:36:37.107209",
+            "aircraft_states": [
+                {
+                    "heading": 351.0,
+                    "radar": "T-YMAV1",
+                    "longitude": 144.8438,
+                    "time": "2016-08-18T21:41:10",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.7007,
+                    "callsign": "QFA696",
+                    "altitude": 228.60000000000002,
+                    "registration": "VH-VZU",
+                    "speed": 58.132172000000004,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:36:42.620342",
+            "aircraft_states": [
+                {
+                    "heading": 352.0,
+                    "radar": "T-YMAV1",
+                    "longitude": 144.843,
+                    "time": "2016-08-18T21:41:20",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.6962,
+                    "callsign": "QFA696",
+                    "altitude": 198.12,
+                    "registration": "VH-VZU",
+                    "speed": 59.675504000000004,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:36:48.130762",
+            "aircraft_states": [
+                {
+                    "heading": 351.0,
+                    "radar": "T-YMAV1",
+                    "longitude": 144.8426,
+                    "time": "2016-08-18T21:41:25",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.694,
+                    "callsign": "QFA696",
+                    "altitude": 182.88,
+                    "registration": "VH-VZU",
+                    "speed": 60.704392,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:36:53.550770",
+            "aircraft_states": [
+                {
+                    "heading": 351.0,
+                    "radar": "T-YMAV1",
+                    "longitude": 144.8422,
+                    "time": "2016-08-18T21:41:31",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.6922,
+                    "callsign": "QFA696",
+                    "altitude": 175.26000000000002,
+                    "registration": "VH-VZU",
+                    "speed": 60.704392,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:36:59.031182",
+            "aircraft_states": [
+                {
+                    "heading": 351.0,
+                    "radar": "T-YMAV1",
+                    "longitude": 144.8422,
+                    "time": "2016-08-18T21:41:31",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.6922,
+                    "callsign": "QFA696",
+                    "altitude": 175.26000000000002,
+                    "registration": "VH-VZU",
+                    "speed": 60.704392,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:37:04.492409",
+            "aircraft_states": [
+                {
+                    "heading": 351.0,
+                    "radar": "T-YMAV1",
+                    "longitude": 144.8422,
+                    "time": "2016-08-18T21:41:31",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.6922,
+                    "callsign": "QFA696",
+                    "altitude": 175.26000000000002,
+                    "registration": "VH-VZU",
+                    "speed": 60.704392,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:37:09.971513",
+            "aircraft_states": [
+                {
+                    "heading": 351.0,
+                    "radar": "T-YMAV1",
+                    "longitude": 144.8422,
+                    "time": "2016-08-18T21:41:31",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.6922,
+                    "callsign": "QFA696",
+                    "altitude": 175.26000000000002,
+                    "registration": "VH-VZU",
+                    "speed": 60.704392,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:37:15.457044",
+            "aircraft_states": [
+                {
+                    "heading": 351.0,
+                    "radar": "T-YMAV1",
+                    "longitude": 144.8422,
+                    "time": "2016-08-18T21:41:31",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.6922,
+                    "callsign": "QFA696",
+                    "altitude": 175.26000000000002,
+                    "registration": "VH-VZU",
+                    "speed": 60.704392,
+                    "aircraft_type": "B738"
+                }
+            ]
+        },
+        {
+            "time": "2016-08-18T21:37:20.910633",
+            "aircraft_states": [
+                {
+                    "heading": 351.0,
+                    "radar": "T-YMAV1",
+                    "longitude": 144.8396,
+                    "time": "2016-08-18T21:41:59",
+                    "destination_airport": "MEL",
+                    "mode_s_code": "7C6DE8",
+                    "origin_airport": "ADL",
+                    "squawk": 4305,
+                    "latitude": -37.6793,
+                    "callsign": "QFA696",
+                    "altitude": 175.26000000000002,
+                    "registration": "VH-VZU",
+                    "speed": 60.704392,
+                    "aircraft_type": "B738"
+                }
+            ]
+        }
+    ],
+    "update_rate": 5.0
+}
