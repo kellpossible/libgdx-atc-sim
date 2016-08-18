@@ -21,9 +21,7 @@ public class DebugDataFeedServerThread implements RunnableThread, DataPlaybackLi
     private static final boolean enableDebugPrint = ApplicationConfig.getInstance().getBoolean("settings.debug.print-debugdatafeedserver");
     private static final boolean enableDebugPrintQueues = ApplicationConfig.getInstance().getBoolean("settings.debug.print-queues");
     private static final boolean enableDebugPrintThreading = ApplicationConfig.getInstance().getBoolean("settings.debug.print-threading");
-
-    static int PORT = 6989;
-
+    private static final int PORT = ApplicationConfig.getInstance().getInt("settings.debug-data-feed.debug-data-feed-server-port-number");
     private ArrayList<SystemStateMessage> toBeSentBuffer;
 
     private Thread serverThread; //Thread to accept connections by clients

@@ -23,9 +23,12 @@ import java.io.*;
  */
 public class DebugDataFeedClientThread implements RunnableThread
 {
+    // External config setup for debugDataFeedClientThread.
+    private static final int PORT = ApplicationConfig.getInstance().getInt("settings.prediction-service.debug-client-port-number");
+    private static final String serverIp = ApplicationConfig.getInstance().getString("settings.prediction-service.debug-client-server-ip");
+
     // System state database
     private SystemStateDatabase systemStateDatabase;
-    private static int PORT = 6989;
     private Socket serversSock;
     private boolean continueThread = true;
     private Thread thread;
@@ -41,7 +44,7 @@ public class DebugDataFeedClientThread implements RunnableThread
         this.systemStateDatabase = aSystemStateDatabase;
         try
         {
-            serversSock = new Socket("localhost", PORT);
+            serversSock = new Socket(serverIp, PORT);
             //this.predictionFeedServerThread = predictionFeedServerThread;
         }
         catch(IOException e)

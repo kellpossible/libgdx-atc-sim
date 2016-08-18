@@ -40,8 +40,11 @@ import java.util.Calendar;
 public class PredictionFeedClientThread implements RunnableThread {
     private static final boolean enableDebugPrint = ApplicationConfig.getInstance().getBoolean("settings.debug.print-predictionfeedclient");
 
+    // External config setup for port number and server IP
+    private static final int PORT = ApplicationConfig.getInstance().getInt("settings.display.prediction-feed-client-port-number");
+    private static final String serverIp = ApplicationConfig.getInstance().getString("settings.display.prediction-feed-client-server-ip");
+
     //Socket Definitions
-    private static int PORTNUMBER = 6789;
     private Socket serversSock;
     //Thread Definitions
     private boolean continueThread = true;
@@ -64,7 +67,7 @@ public class PredictionFeedClientThread implements RunnableThread {
         InputStream inputStream = null;
         //I don't think this should really be here....
         try{
-            serversSock = new Socket("localhost", PORTNUMBER);
+            serversSock = new Socket(serverIp, PORT);
         }catch(IOException e){System.err.println("PredictionFeedClientThread Initialisation Failed");System.exit(1);}
 
 

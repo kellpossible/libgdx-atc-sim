@@ -29,11 +29,11 @@ public class PredictionFeedServerThread implements RunnableThread{
     private static final boolean enableDebugPrintQueues = ApplicationConfig.getInstance().getBoolean("settings.debug.print-queues");
     private static final boolean enableDebugPrintThreading = ApplicationConfig.getInstance().getBoolean("settings.debug.print-threading");
 
+    private static final int PORT = ApplicationConfig.getInstance().getInt("settings.prediction-service.prediction-feed-port-number");
 
 
     private ArrayBlockingQueue<PredictionFeedServe.AircraftPredictionMessage> toBeSentBuffer; //Buffer of encoded messages
     //Socket definitions
-    static int PORT = 6789;
     private ServerSocket connectionSocket; //ServerSocket that handles connect requests by clients
     //TODO: Some method of removing clients or handling when they disappear
     private ArrayList<Socket> connectedClients; //List of successfully connected clients that will be sent the new predictions
