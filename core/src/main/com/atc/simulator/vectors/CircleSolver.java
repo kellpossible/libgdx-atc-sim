@@ -1,8 +1,16 @@
 package com.atc.simulator.vectors;
 
+import org.ddogleg.optimization.FactoryOptimization;
+import org.ddogleg.optimization.UnconstrainedLeastSquares;
+import org.ddogleg.optimization.UtilOptimize;
+import org.ddogleg.optimization.functions.FunctionNtoM;
+import org.ejml.data.DenseMatrix64F;
+import org.ejml.example.LevenbergMarquardt;
 import pythagoras.d.Circle;
+import pythagoras.d.Matrix3;
 import pythagoras.d.Vector3;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -31,8 +39,90 @@ public class CircleSolver {
         return new Circle(x,y,r);
     }
 
-    public static Circle LeastSquares(List<Vector3> points, Circle beta)
+    /**
+     * Use ddogleg's LM least squares optimizer to
+     * find a circle which matches a set of points
+     * @param points points to match
+     * @param beta initial circle parameters
+     * @return
+     */
+    public static Circle LeastSquares(final List<Vector3> points, Circle beta)
     {
-        return null;
+        // Define the function being optimized and create the optimizer
+        FunctionNtoM func = new FunctionNtoM() {
+            @Override
+            public int getNumOfInputsN() {
+                return 3;
+            }
+
+            @Override
+            public int getNumOfOutputsM() {
+                return points.size();
+            }
+
+            @Override
+            public void process(double[] input, double[] output) {
+                double a = input[0];
+                double b = input[1];
+                double r = input[2];
+                Circle c = new Circle(a, b, r);
+
+                for (int i = 0; i<points.size(); i++)
+                {
+                    Vector3 point = points.get(i);
+                    output[i] = distance2FromCircle(c, point);
+                }
+            }
+        };
+
+        UnconstrainedLeastSquares optimizer = FactoryOptimization.leastSquaresLM(1e-3, true);
+        optimizer.setFunction(func, null);
+        optimizer.initialize(new double[]{beta.x, beta.y, beta.radius}, 1e-12,1e-12);
+
+        // iterate 500 times or until it converges.
+        UtilOptimize.process(optimizer, 500);
+
+        double found[] = optimizer.getParameters();
+
+        return new Circle(found[0], found[1], found[2]);
+    }
+
+    /**
+     * The distance squared of a point from a circle
+     * @param c
+     * @param point
+     * @return
+     */
+    public static double distance2FromCircle(Circle c, Vector3 point)
+    {
+        double dx = point.x - c.x;
+        double dy = point.y - c.y;
+        double d = Math.sqrt(dx*dx + dy*dy) - c.radius;
+        return d*d;
+    }
+
+
+    /**
+     * Get an ArrayList of positions spaced evenly along a circle
+     * @param circle
+     * @param nPoints number of positions
+     * @return
+     */
+    public static ArrayList<Vector3> getDrawPositions(Circle circle, int nPoints)
+    {
+        Vector3 centre = new Vector3(circle.x, circle.y, 0);
+        Vector3 startPoint = centre.add(new Vector3(circle.radius, 0, 0));
+        ArrayList<Vector3> positions = new ArrayList<Vector3>();
+
+        for(int i=0; i<nPoints+1; i++)
+        {
+            double dtheta = 2.0*Math.PI/nPoints;
+            Vector3 toVec = startPoint.subtract(centre);
+            Matrix3 rotation = new Matrix3().setToRotation(dtheta*i, new Vector3(0, 0, 1));
+            Vector3 circlePos = rotation.transform(toVec).add(centre);
+            positions.add(circlePos);
+        }
+
+        return positions;
     }
 }

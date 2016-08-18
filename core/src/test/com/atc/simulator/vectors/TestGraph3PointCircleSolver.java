@@ -13,7 +13,7 @@ import java.util.ArrayList;
  * A visual test of the CircleSolver class
  * @author Luke Frisken
  */
-public class TestGraphCircleSolver {
+public class TestGraph3PointCircleSolver {
     public static void main(String[] arg)
     {
         GeographicCoordinate p1 = GeographicCoordinate.fromDegrees(0, -37.841908, 144.876470);
