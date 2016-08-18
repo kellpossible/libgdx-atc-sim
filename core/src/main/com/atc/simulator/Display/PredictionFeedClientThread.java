@@ -41,8 +41,8 @@ public class PredictionFeedClientThread implements RunnableThread {
     private static final boolean enableDebugPrint = ApplicationConfig.getInstance().getBoolean("settings.debug.print-predictionfeedclient");
 
     // External config setup for port number and server IP
-    private static final int PORT = ApplicationConfig.getInstance().getInt("settings.display.prediction-feed-client-port-number");
-    private static final String serverIp = ApplicationConfig.getInstance().getString("settings.display.prediction-feed-client-server-ip");
+    private static final int PORT = ApplicationConfig.getInstance().getInt("settings.display.prediction-feed-client.port-number");
+    private static final String serverIp = ApplicationConfig.getInstance().getString("settings.display.prediction-feed-client.server-ip");
 
     //Socket Definitions
     private Socket serversSock;

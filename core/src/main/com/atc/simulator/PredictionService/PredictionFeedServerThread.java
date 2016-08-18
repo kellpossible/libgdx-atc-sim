@@ -29,7 +29,7 @@ public class PredictionFeedServerThread implements RunnableThread{
     private static final boolean enableDebugPrintQueues = ApplicationConfig.getInstance().getBoolean("settings.debug.print-queues");
     private static final boolean enableDebugPrintThreading = ApplicationConfig.getInstance().getBoolean("settings.debug.print-threading");
 
-    private static final int PORT = ApplicationConfig.getInstance().getInt("settings.prediction-service.prediction-feed-port-number");
+    private static final int PORT = ApplicationConfig.getInstance().getInt("settings.prediction-service.server.port-number");
 
 
     private ArrayBlockingQueue<PredictionFeedServe.AircraftPredictionMessage> toBeSentBuffer; //Buffer of encoded messages

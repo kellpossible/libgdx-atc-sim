@@ -24,8 +24,8 @@ import java.io.*;
 public class DebugDataFeedClientThread implements RunnableThread
 {
     // External config setup for debugDataFeedClientThread.
-    private static final int PORT = ApplicationConfig.getInstance().getInt("settings.prediction-service.debug-client-port-number");
-    private static final String serverIp = ApplicationConfig.getInstance().getString("settings.prediction-service.debug-client-server-ip");
+    private static final int PORT = ApplicationConfig.getInstance().getInt("settings.prediction-service.debug-data-feed-client.port-number");
+    private static final String serverIp = ApplicationConfig.getInstance().getString("settings.prediction-service.debug-data-feed-client.server-ip");
 
     // System state database
     private SystemStateDatabase systemStateDatabase;
