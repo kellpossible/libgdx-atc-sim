@@ -7,7 +7,7 @@ import com.atc.simulator.flightdata.SystemState;
 import com.atc.simulator.ProtocolBuffers.DebugDataFeedServe.*;
 import com.atc.simulator.vectors.GeographicCoordinate;
 import com.atc.simulator.vectors.SphericalVelocity;
-
+import java.util.concurrent.ArrayBlockingQueue;
 import java.net.*;
 import java.util.*;
 import java.io.*;
@@ -22,8 +22,8 @@ public class DebugDataFeedServerThread implements RunnableThread, DataPlaybackLi
     private static final boolean enableDebugPrintQueues = ApplicationConfig.getInstance().getBoolean("settings.debug.print-queues");
     private static final boolean enableDebugPrintThreading = ApplicationConfig.getInstance().getBoolean("settings.debug.print-threading");
     private static final int PORT = ApplicationConfig.getInstance().getInt("settings.debug-data-feed.server.port-number");
-    private ArrayList<SystemStateMessage> toBeSentBuffer;
 
+    private ArrayBlockingQueue<SystemStateMessage> toBeSentBuffer;
     private Thread serverThread; //Thread to accept connections by clients
 
     private ServerSocket serverSocket; //ServerSocket that handles connect requests by clients
@@ -33,7 +33,8 @@ public class DebugDataFeedServerThread implements RunnableThread, DataPlaybackLi
     private final String threadName = "DebugDataFeedServerThread";
 
     public DebugDataFeedServerThread() {
-        toBeSentBuffer = new ArrayList<SystemStateMessage>();
+        // using same value as predictionfeedserver thread for capacity, (400).
+        toBeSentBuffer = new ArrayBlockingQueue<SystemStateMessage>(400);
         clientSocket = new Socket();
         try
         {
@@ -76,11 +77,13 @@ public class DebugDataFeedServerThread implements RunnableThread, DataPlaybackLi
                     {
                         try
                         {
-                            toBeSentBuffer.get(0).writeDelimitedTo(clientSocket.getOutputStream()); //Try to send message
-                        } catch (IOException e) {System.err.println("Send to DebugDataFeed Client failed");
+                            toBeSentBuffer.take().writeDelimitedTo(clientSocket.getOutputStream()); //Try to send message
+                        } catch ( InterruptedException e) {System.err.println("Interrupted process");
                             e.printStackTrace();
+                        } catch (IOException i ) {
+                            System.err.println("Send to DebugDataFeed Client failed");
+                            i.printStackTrace();
                         }
-                        toBeSentBuffer.remove(0);
                     }
                 }
                 try {
