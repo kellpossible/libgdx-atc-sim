@@ -71,7 +71,7 @@ public class DebugDataFeedServerThread implements RunnableThread, DataPlaybackLi
                 if (toBeSentBuffer.size() > 0) {
                     if (!clientSocket.isConnected()) //If nothing is connected
                     {
-                        toBeSentBuffer.remove(0); //Delete the data
+                        toBeSentBuffer.clear(); //Delete the data
                         System.out.println("No client, data deleted");
                     } else
                     {
