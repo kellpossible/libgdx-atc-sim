@@ -1,5 +1,6 @@
 package com.atc.simulator.desktop;
 
+import IntegrationTesting.TestAccuracy;
 import com.atc.simulator.Config.ApplicationConfig;
 import com.atc.simulator.DebugDataFeed.DataPlaybackThread;
 import com.atc.simulator.DebugDataFeed.Scenarios.ADSBRecordingScenario;
@@ -31,7 +32,9 @@ public class DesktopLauncher {
 		DataPlaybackThread dataPlaybackThread = new DataPlaybackThread(scenario, scenario.getRecommendedUpdateRate());
 		SimulatorDisplay display =  new SimulatorDisplay(scenario);
 		DebugDataFeedServerThread debugDataFeedServerThread = new DebugDataFeedServerThread();
-
+		/****/
+		TestAccuracy accuracyTester = new TestAccuracy(scenario);
+		/****/
 		SystemStateDatabase systemStateDatabase = new SystemStateDatabase();
 
 
@@ -46,6 +49,9 @@ public class DesktopLauncher {
 		DebugDataFeedClientThread debugDataFeedClientThread = new DebugDataFeedClientThread(systemStateDatabase);
 
 		predictionFeedClientThread.addListener(display);
+		/****/
+		predictionFeedClientThread.addListener(accuracyTester);
+		/****/
 		dataPlaybackThread.addListener(display);
 		dataPlaybackThread.addListener(debugDataFeedServerThread);
 
@@ -53,6 +59,9 @@ public class DesktopLauncher {
 //		dataPlaybackThread.addListener(systemStateDatabase);
 		systemStateDatabase.addListener(predictionEngine);
 
+		/****/
+		accuracyTester.start();
+		/****/
 		predictionFeedServerThread.start();
 		predictionFeedClientThread.start();
 		predictionEngine.start();

@@ -2,7 +2,7 @@
   "settings": {
     "prediction-service": {
       "prediction-engine": {
-        "algorithm-type": "LMLEASTSQUARES",
+        "algorithm-type": "LINEAR",
         "java-worker-threads": 4
       },
       "debug-data-feed-client": {
