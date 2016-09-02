@@ -461,11 +461,13 @@ public class SimulatorDisplay extends ApplicationAdapter implements DataPlayback
         pollSystemUpdateQueue();
         pollPredictionUpdateQueue();
 
+        //render the aircraft tracks
         if (showTracks)
         {
             modelBatch.render(tracksModelInstance);
         }
 
+        //render the aircraft
         for (ModelInstance instance: aircraftStateModelInstances.values()){
             modelBatch.render(instance);
         }
@@ -474,6 +476,7 @@ public class SimulatorDisplay extends ApplicationAdapter implements DataPlayback
 //            modelBatch.render(instance);
 //        }
 
+        //render the predictions
         for (ModelInstance instance: aircraftPredictionModelInstances.values())
         {
             modelBatch.render(instance);
