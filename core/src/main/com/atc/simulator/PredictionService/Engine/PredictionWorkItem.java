@@ -81,32 +81,62 @@ public class PredictionWorkItem implements Comparator<PredictionWorkItem>{
 
     }
 
+    /**
+     * Get the id of the aircraft who's track is being used for the
+     * prediction in this work item.
+     * @return
+     */
     public String getAircraftID() {
         return aircraftID;
     }
 
 
+    /**
+     * Get the track which is being used for the prediction in this work item.
+     * @return
+     */
     public Track getTrack() {
         return aircraftTrack;
     }
 
+
+    /**
+     * Get the prediction created by and belonging to this work item.
+     * @return
+     */
     public Prediction getPrediction() {
         return prediction;
     }
 
 
+    /**
+     * Whether or not processing has started on this work item.
+     * @return
+     */
     public boolean isStarted() {
         return started;
     }
 
+    /**
+     * Whether or not processing has completed on this work item.
+     * @return
+     */
     public boolean isCompleted() {
         return completed;
     }
 
+    /**
+     * Get the worker currently assigned to this work item.
+     * @return
+     */
     public PredictionWorkerThread getWorker() {
         return worker;
     }
 
+    /**
+     * Get the type of algorithm being used for the prediction in this work item.
+     * @return
+     */
     public PredictionAlgorithmType getAlgorithmType() {
         return algorithmType;
     }
