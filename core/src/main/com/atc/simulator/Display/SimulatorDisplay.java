@@ -27,7 +27,7 @@ import java.util.HashMap;
 import java.util.concurrent.ArrayBlockingQueue;
 
 /**
- * The Display for the Simulator
+ * The DisplayModel for the Simulator
  *
  *  - Uses LibGDX
  *  - Is a bit of a hack
@@ -197,7 +197,7 @@ public class SimulatorDisplay extends ApplicationAdapter implements DataPlayback
 	    textPosition = new Vector2(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
 		assets = new AssetManager();
 //		assets.load("flight_data/CallibrateMap/CallibrateMap.csv", Track.class);
-//        assets.load("assets/models/planet.g3db", Model.class);
+//        assets.load("assets/models/planet.g3db", DisplayModel.class);
 		assets.finishLoading();
 
         generateCountriesModel();
@@ -232,7 +232,7 @@ public class SimulatorDisplay extends ApplicationAdapter implements DataPlayback
 
 
 //        System.out.println("Finished loading");
-//        earthTextureModel = assets.get("assets/models/planet.g3db", Model.class);
+//        earthTextureModel = assets.get("assets/models/planet.g3db", DisplayModel.class);
 
 
 //		earthTextureInstance = new ModelInstance(earthTextureModel);
