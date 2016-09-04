@@ -1,5 +1,6 @@
 package com.atc.simulator.Display.DisplayModel.RenderLayers;
 
+import com.atc.simulator.Display.DisplayModel.ModelInstanceListener;
 import com.atc.simulator.Display.DisplayModel.ModelInstanceProvider;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.utils.ArrayMap;
@@ -12,45 +13,34 @@ import java.util.List;
 /**
  * Created by luke on 4/09/16.
  */
-public class RenderLayer implements Comparable, Iterable<ModelInstance> {
-    ArrayList<ModelInstanceProvider> instanceProviders;
+public class RenderLayer implements Comparable, Iterable<ModelInstance>, ModelInstanceListener {
+    HashMap<ModelInstanceProvider, ModelInstance> instances;
     protected int priority;
     private String name;
 
 
-    private final class ModelInstanceIterator implements Iterator<ModelInstance>
+    public RenderLayer(int priority, String name)
     {
-        private Iterator<ModelInstanceProvider> providerIterator;
-        public ModelInstanceIterator() {
-            providerIterator = instanceProviders.iterator();
-        }
-        @Override
-        public boolean hasNext() {
-            return providerIterator.hasNext();
-        }
+        instances = new HashMap<ModelInstanceProvider, ModelInstance>();
+        this.priority = priority;
+        this.name = name;
+    }
 
-        @Override
-        public ModelInstance next() {
-            return providerIterator.next().getModelInstance();
-        }
+    @Override
+    public void onInstanceUpdate(ModelInstanceProvider provider, ModelInstance newInstance) {
+        instances.put(provider, newInstance);
+    }
 
-        @Override
-        public void remove() {
-            providerIterator.remove();
-        }
+    public void addInstance(ModelInstanceProvider provider, ModelInstance newInstance)
+    {
+        instances.put(provider, newInstance);
     }
 
     @Override
     public Iterator<ModelInstance> iterator() {
-        return new ModelInstanceIterator();
+        return instances.values().iterator();
     }
 
-    public RenderLayer(int priority, String name)
-    {
-        instanceProviders = new ArrayList<ModelInstanceProvider>();
-        this.priority = priority;
-        this.name = name;
-    }
 
     /**
      * Get the name of this render layer
@@ -81,10 +71,5 @@ public class RenderLayer implements Comparable, Iterable<ModelInstance> {
         RenderLayer other = (RenderLayer) o;
 
         return Integer.compare(this.priority, other.priority);
-    }
-
-    public void addProvider(ModelInstanceProvider provider)
-    {
-        instanceProviders.add(provider);
     }
 }

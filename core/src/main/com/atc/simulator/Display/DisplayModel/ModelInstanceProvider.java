@@ -7,4 +7,6 @@ import com.badlogic.gdx.graphics.g3d.ModelInstance;
  */
 public interface ModelInstanceProvider {
     public ModelInstance getModelInstance();
+    public void addModelInstanceListener(ModelInstanceListener listener);
+    public void dispose();
 }

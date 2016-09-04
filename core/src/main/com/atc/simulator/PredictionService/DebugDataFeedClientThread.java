@@ -1,17 +1,14 @@
 package com.atc.simulator.PredictionService;
 import com.atc.simulator.Config.ApplicationConfig;
 import com.atc.simulator.ProtocolBuffers.DebugDataFeedServe;
-import com.atc.simulator.PredictionService.Engine.PredictionEngineThread;
 import com.atc.simulator.RunnableThread;
 import com.atc.simulator.flightdata.AircraftState;
-import com.atc.simulator.flightdata.ISO8601;
 import com.atc.simulator.flightdata.SystemState;
 import com.atc.simulator.ProtocolBuffers.DebugDataFeedServe.*;
 import com.atc.simulator.vectors.GeographicCoordinate;
 import com.atc.simulator.vectors.SphericalVelocity;
-import com.atc.simulator.PredictionService.SystemStateDatabase;
+import com.atc.simulator.flightdata.SystemStateDatabase;
 import java.net.*;
-import java.text.ParseException;
 import java.util.*;
 import java.io.*;
 

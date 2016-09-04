@@ -1,4 +1,4 @@
-package com.atc.simulator.PredictionService;
+package com.atc.simulator.flightdata;
 
 import java.util.ArrayList;
 
@@ -14,4 +14,6 @@ public interface SystemStateDatabaseListener {
      * @param aircraftIDs of type ArrayList<String>
      */
     public void onSystemStateUpdate(ArrayList<String> aircraftIDs);
+    public void onNewAircraft(String aircraftID);
+    public void onRemoveAircraft(String aircraftID);
 }

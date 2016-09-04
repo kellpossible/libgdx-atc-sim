@@ -367,7 +367,7 @@ public class SimulatorDisplay extends ApplicationAdapter implements DataPlayback
 
 
                 String aircraftID = aircraftState.getAircraftID();
-//                System.out.println("Screen Position: " + screenPosition + ", Aircraft ID: " + aircraftID);
+//                System.out.println("Screen Position: " + screenPosition + ", DisplayAircraft ID: " + aircraftID);
 
                 if (aircraftID.equals("QFA489"))
                 {
