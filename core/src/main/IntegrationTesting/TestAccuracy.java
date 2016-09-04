@@ -10,9 +10,9 @@ import com.atc.simulator.flightdata.Prediction;
 import com.atc.simulator.flightdata.Track;
 import com.atc.simulator.vectors.GeographicCoordinate;
 
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ArrayBlockingQueue;
 
 /**
@@ -24,10 +24,10 @@ import java.util.concurrent.ArrayBlockingQueue;
  * Created by Chris on 31/08/2016.
  */
 public class TestAccuracy implements PredictionListener, RunnableThread {
-    private static final boolean enableDebugPrint = ApplicationConfig.getInstance().getBoolean("settings.debug.print-predictionfeedserver");
+    //private static final boolean enableDebugPrint = ApplicationConfig.getInstance().getBoolean("settings.debug.print-predictionfeedserver");
 
     private ArrayBlockingQueue<Prediction> newPredictionQueue; //Queue to store predictions
-    private HashMap<String, HashMap<Long, GeographicCoordinate>> actualDataValues; //Nested HashMaps: Find planeID, then Time, get position as GeoCoord
+    private Map<String, Map<Long, GeographicCoordinate>> actualDataValues; //Nested HashMaps: Find planeID, then Time, get position as GeoCoord
 
     private static final String threadName = "IntAccuracyTest";
     private Thread thread;
@@ -43,7 +43,7 @@ public class TestAccuracy implements PredictionListener, RunnableThread {
     public TestAccuracy(Scenario scenario)
     {
         newPredictionQueue = new ArrayBlockingQueue<Prediction>(400); //Create a queue to store predictions
-        actualDataValues = new HashMap<String, HashMap<Long, GeographicCoordinate>>(); //and the nested HashMaps for the Scenario's tracks
+        actualDataValues = new HashMap<String, Map<Long, GeographicCoordinate>>(); //and the nested HashMaps for the Scenario's tracks
 
         for(Track temp: scenario.getTracks()) //For every track in the scenario:
         {
@@ -54,6 +54,18 @@ public class TestAccuracy implements PredictionListener, RunnableThread {
             actualDataValues.put(temp.get(0).getAircraftID(), tempMap); //And store that temporary Map with the PlaneID as a Key
         }
         System.out.println("We have " + actualDataValues.size() + " aircraft for the Accuracy Testing");
+
+        /* Uncomment to print out all time stamps stored in the map
+        System.out.println("------------------------------------------");
+        for(String name: actualDataValues.keySet())
+        {
+            for(long time : actualDataValues.get(name).keySet())
+            {
+                System.out.println(time);
+            }
+        }
+        System.out.println("------------------------------------------");
+        */
     }
 
     /**
@@ -89,20 +101,35 @@ public class TestAccuracy implements PredictionListener, RunnableThread {
     public void run()
     {
         while(continueThread)
-        {try{
-            Prediction predictionUnderTest = newPredictionQueue.take();
-            String planeID = predictionUnderTest.getAircraftID();
-            ArrayList<AircraftState> predictionStates = predictionUnderTest.getAircraftStates();
-            System.out.print(planeID + ",");
-            for(int i = 0; i < Math.min(predictionStates.size(),5); i++)
+        {
+            //See if new predictions have been made
+            Prediction predictionUnderTest = newPredictionQueue.poll();
+            if(predictionUnderTest != null)
             {
-                //PredictedLat - ActualLat
-                System.out.print(predictionStates.get(i).getPosition().getLatitude()- actualDataValues.get(planeID).get(predictionStates.get(i).getTime()).getLatitude());
-                System.out.print(",");
-            }
-            System.out.println();
+                //Collect and print the PlaneID
+                String planeID = predictionUnderTest.getAircraftID();
+                System.out.print(planeID);
+                //Remove the list of predictions
+                ArrayList<AircraftState> predictionStates = predictionUnderTest.getAircraftStates();
 
-        }catch (InterruptedException e){e.printStackTrace();}}
+                //For now: Loop over the first 5 predictions
+                for (int i = 0; i < 5; i++)
+                {
+                    //Print out the prediction's time stamp
+                    System.out.print(", " + predictionStates.get(i).getTime());
+                    //if the actual data also contains that PlaneID/TimeStamp combination
+                    if(actualDataValues.containsKey(planeID) && actualDataValues.get(planeID).containsKey(predictionStates.get(i).getTime()))
+                    {
+                        //Print out the difference between the two points (this is purely testing, we will change this later)
+                        double predictedLat = predictionStates.get(i).getPosition().getLatitude();
+                        double actualLat = actualDataValues.get(planeID).get(predictionStates.get(i).getTime()).getLatitude();
+                        System.out.print(": " + (predictedLat - actualLat));
+                    }
+                }
+                System.out.println();
+            }
+            else{try{Thread.sleep(500);} catch (InterruptedException e) {e.printStackTrace();}}
+       }
 
     }
 
