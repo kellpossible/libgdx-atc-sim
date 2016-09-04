@@ -18,11 +18,12 @@ import java.util.ArrayList;
  * Created by luke on 4/09/16.
  */
 public class DisplayPrediction extends Prediction implements ModelInstanceProvider {
-    private ModelInstance instance;
+    private ArrayList<ModelInstanceListener> modelInstanceListeners = new ArrayList<ModelInstanceListener>();
+    private ModelInstance modelInstance;
     private Model model;
 
     /**
-     * Constructor DisplayPrediction creates a new DisplayPrediction instance.
+     * Constructor DisplayPrediction creates a new DisplayPrediction modelInstance.
      *
      * @param aircraft       of type DisplayAircraft.
      * @param time           of type long. The time (in milliseconds since epoch) for the first predicted position.
@@ -34,7 +35,7 @@ public class DisplayPrediction extends Prediction implements ModelInstanceProvid
         ModelBuilder modelBuilder = new ModelBuilder();
         modelBuilder.begin();
         MeshPartBuilder builder = modelBuilder.part(
-                "track",
+                "prediction",
                 GL20.GL_LINES,
                 VertexAttributes.Usage.Position | VertexAttributes.Usage.ColorUnpacked,
                 new Material());
@@ -52,7 +53,7 @@ public class DisplayPrediction extends Prediction implements ModelInstanceProvid
         }
 
         model = modelBuilder.end();
-        instance = new ModelInstance(model);
+        modelInstance = new ModelInstance(model);
     }
 
     public DisplayPrediction(DisplayAircraft aircraft, Prediction prediction)
@@ -62,16 +63,21 @@ public class DisplayPrediction extends Prediction implements ModelInstanceProvid
 
     @Override
     public ModelInstance getModelInstance() {
-        return null;
+        return modelInstance;
     }
 
     @Override
     public void addModelInstanceListener(ModelInstanceListener listener) {
-
+        listener.onInstanceUpdate(this, modelInstance);
+        modelInstanceListeners.add(listener);
     }
 
     @Override
     public void dispose() {
         model.dispose();
+        for (ModelInstanceListener listener : modelInstanceListeners)
+        {
+            listener.onInstanceDispose(this);
+        }
     }
 }

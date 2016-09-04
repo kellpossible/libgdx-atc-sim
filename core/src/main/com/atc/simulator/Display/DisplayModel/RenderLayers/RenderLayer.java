@@ -5,10 +5,7 @@ import com.atc.simulator.Display.DisplayModel.ModelInstanceProvider;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.utils.ArrayMap;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by luke on 4/09/16.
@@ -26,14 +23,25 @@ public class RenderLayer implements Comparable, Iterable<ModelInstance>, ModelIn
         this.name = name;
     }
 
+    public Collection<ModelInstance> getRenderInstances()
+    {
+        return instances.values();
+    }
+
     @Override
     public void onInstanceUpdate(ModelInstanceProvider provider, ModelInstance newInstance) {
         instances.put(provider, newInstance);
     }
 
-    public void addInstance(ModelInstanceProvider provider, ModelInstance newInstance)
+    @Override
+    public void onInstanceDispose(ModelInstanceProvider provider) {
+        instances.remove(provider);
+    }
+
+    public void addInstanceProvider(ModelInstanceProvider provider)
     {
-        instances.put(provider, newInstance);
+        provider.addModelInstanceListener(this);
+        instances.put(provider, provider.getModelInstance());
     }
 
     @Override
@@ -71,5 +79,13 @@ public class RenderLayer implements Comparable, Iterable<ModelInstance>, ModelIn
         RenderLayer other = (RenderLayer) o;
 
         return Integer.compare(this.priority, other.priority);
+    }
+
+    public void dispose()
+    {
+        for (ModelInstanceProvider provider : instances.keySet())
+        {
+            provider.dispose();
+        }
     }
 }
