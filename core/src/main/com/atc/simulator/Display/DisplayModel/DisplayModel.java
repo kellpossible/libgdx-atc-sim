@@ -26,7 +26,11 @@ public class DisplayModel {
         ArrayList<ModelInstance> instances = new ArrayList<ModelInstance>();
         for (RenderLayer layer: layers)
         {
-            instances.addAll(layer.getRenderInstances());
+            Collection<ModelInstance> layerInstances = layer.getRenderInstances();
+            if (layerInstances != null)
+            {
+                instances.addAll(layerInstances);
+            }
         }
 
         return instances;

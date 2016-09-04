@@ -222,10 +222,13 @@ public class SimulatorDisplay extends ApplicationAdapter implements DataPlayback
         map = new DisplayWorldMap();
         mapLayer.addInstanceProvider(map);
 
-        tracksLayer = new RenderLayer(9, "tracks");
-        displayModel.addRenderLayer(tracksLayer);
-        tracks = new DisplayTracks(scenario);
-        tracksLayer.addInstanceProvider(tracks);
+        if (showTracks)
+        {
+            tracksLayer = new RenderLayer(9, "tracks");
+            displayModel.addRenderLayer(tracksLayer);
+            tracks = new DisplayTracks(scenario);
+            tracksLayer.addInstanceProvider(tracks);
+        }
 
         predictionLayer = new RenderLayer(8, "predictions");
         displayModel.addRenderLayer(predictionLayer);

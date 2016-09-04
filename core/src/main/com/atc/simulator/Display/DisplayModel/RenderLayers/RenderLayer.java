@@ -14,6 +14,7 @@ public class RenderLayer implements Comparable, Iterable<ModelInstance>, ModelIn
     HashMap<ModelInstanceProvider, ModelInstance> instances;
     protected int priority;
     private String name;
+    private boolean visible;
 
 
     public RenderLayer(int priority, String name)
@@ -21,11 +22,28 @@ public class RenderLayer implements Comparable, Iterable<ModelInstance>, ModelIn
         instances = new HashMap<ModelInstanceProvider, ModelInstance>();
         this.priority = priority;
         this.name = name;
+        visible = true;
+    }
+
+    public boolean isVisible()
+    {
+        return visible;
+    }
+
+    public void setVisible(boolean visible)
+    {
+        this.visible = visible;
     }
 
     public Collection<ModelInstance> getRenderInstances()
     {
-        return instances.values();
+        if (visible)
+        {
+            return instances.values();
+        } else {
+            return null;
+        }
+
     }
 
     @Override
