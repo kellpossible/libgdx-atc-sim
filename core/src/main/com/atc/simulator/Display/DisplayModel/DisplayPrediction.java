@@ -21,6 +21,7 @@ public class DisplayPrediction extends Prediction implements ModelInstanceProvid
     private ArrayList<ModelInstanceListener> modelInstanceListeners = new ArrayList<ModelInstanceListener>();
     private ModelInstance modelInstance;
     private Model model;
+    private DisplayAircraft aircraft;
 
     /**
      * Constructor DisplayPrediction creates a new DisplayPrediction modelInstance.
@@ -31,7 +32,33 @@ public class DisplayPrediction extends Prediction implements ModelInstanceProvid
      */
     public DisplayPrediction(DisplayAircraft aircraft, long time, ArrayList<AircraftState> aircraftStates) {
         super(aircraft.getAircraftID(), time, aircraftStates);
+        this.aircraft = aircraft;
 
+        update();
+    }
+
+    public DisplayPrediction(DisplayAircraft aircraft, Prediction prediction)
+    {
+        this(aircraft, prediction.getPredictionTime(), prediction.getAircraftStates());
+    }
+
+    @Override
+    public ModelInstance getModelInstance() {
+        return modelInstance;
+    }
+
+    @Override
+    public void addModelInstanceListener(ModelInstanceListener listener) {
+        listener.onInstanceUpdate(this, modelInstance);
+        modelInstanceListeners.add(listener);
+    }
+
+    @Override
+    public void update() {
+        if (model != null)
+        {
+            model.dispose();
+        }
         ModelBuilder modelBuilder = new ModelBuilder();
         modelBuilder.begin();
         MeshPartBuilder builder = modelBuilder.part(
@@ -54,22 +81,6 @@ public class DisplayPrediction extends Prediction implements ModelInstanceProvid
 
         model = modelBuilder.end();
         modelInstance = new ModelInstance(model);
-    }
-
-    public DisplayPrediction(DisplayAircraft aircraft, Prediction prediction)
-    {
-        this(aircraft, prediction.getPredictionTime(), prediction.getAircraftStates());
-    }
-
-    @Override
-    public ModelInstance getModelInstance() {
-        return modelInstance;
-    }
-
-    @Override
-    public void addModelInstanceListener(ModelInstanceListener listener) {
-        listener.onInstanceUpdate(this, modelInstance);
-        modelInstanceListeners.add(listener);
     }
 
     @Override

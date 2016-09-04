@@ -13,7 +13,9 @@ public interface SystemStateDatabaseListener {
      *
      * @param aircraftIDs of type ArrayList<String>
      */
-    public void onSystemStateUpdate(ArrayList<String> aircraftIDs);
-    public void onNewAircraft(String aircraftID);
-    public void onRemoveAircraft(String aircraftID);
+    void onSystemStateUpdate(SystemStateDatabase stateDatabase, ArrayList<String> aircraftIDs);
+    void onNewAircraft(SystemStateDatabase stateDatabase, String aircraftID);
+    void onRemoveAircraft(SystemStateDatabase stateDatabase, String aircraftID);
+    void onUpdateAircraft(SystemStateDatabase stateDatabase, String aircraftID);
+
 }

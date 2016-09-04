@@ -229,36 +229,52 @@ public class PredictionEngineThread implements RunnableThread, SystemStateDataba
         }
     }
 
-     /**
-      * This method is called by the SystemStateDataBase on its listeners
-      * whenever the SystemStateDatabase receives updated information.
-      *
-      * @param aircraftIDs of type ArrayList<String>
-      */
-     @Override
-     public void onSystemStateUpdate(ArrayList<String> aircraftIDs) {
-         for (String aircraftID: aircraftIDs)
-         {
-             Track aircraftTrack = systemStateDatabase.copyTrack(aircraftID);
-             PredictionWorkItem workItem = new PredictionWorkItem(
-                     aircraftID,
-                     aircraftTrack,
-                     PredictionAlgorithmType.valueOf(algorithmType));
-             //TODO: make a seperate buffer for this so it doesn't block while todoQueue is being reordered?
-             if(enableDebugPrintQueues){System.out.println(threadName + " Adding to queue which has a current size of " + todoQueue.size());}
+    /**
+     * This method is called by the SystemStateDataBase on its listeners
+     * whenever the SystemStateDatabase receives updated information.
+     *
+     * @param stateDatabase
+     * @param aircraftIDs   of type ArrayList<String>
+     */
+    @Override
+    public void onSystemStateUpdate(SystemStateDatabase stateDatabase, ArrayList<String> aircraftIDs) {
+        for (String aircraftID: aircraftIDs)
+        {
+            Track aircraftTrack = stateDatabase.copyTrack(aircraftID);
+            PredictionWorkItem workItem = new PredictionWorkItem(
+                    aircraftID,
+                    aircraftTrack,
+                    PredictionAlgorithmType.valueOf(algorithmType));
+            //TODO: make a seperate buffer for this so it doesn't block while todoQueue is being reordered?
+            if(enableDebugPrintQueues){System.out.println(threadName + " Adding to queue which has a current size of " + todoQueue.size());}
 
-             todoQueueLock.lock();
-             try {
-                 todoQueue.add(workItem); //TODO: make this an addinorder call
-                 todoQueueChangedCondition.signalAll();
-             } finally {
-                 todoQueueLock.unlock();
-             }
+            todoQueueLock.lock();
+            try {
+                todoQueue.add(workItem); //TODO: make this an addinorder call
+                todoQueueChangedCondition.signalAll();
+            } finally {
+                todoQueueLock.unlock();
+            }
 
-             synchronized (todoList)
-             {
-                 todoList.add(workItem);
-             }
-         }
-     }
- }
+            synchronized (todoList)
+            {
+                todoList.add(workItem);
+            }
+        }
+    }
+
+    @Override
+    public void onNewAircraft(SystemStateDatabase stateDatabase, String aircraftID) {
+
+    }
+
+    @Override
+    public void onRemoveAircraft(SystemStateDatabase stateDatabase, String aircraftID) {
+
+    }
+
+    @Override
+    public void onUpdateAircraft(SystemStateDatabase stateDatabase, String aircraftID) {
+
+    }
+}

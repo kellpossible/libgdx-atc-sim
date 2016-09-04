@@ -32,4 +32,20 @@ public abstract class SimpleModelInstanceProvider implements ModelInstanceProvid
             listener.onInstanceDispose(this);
         }
     }
+
+    public void update()
+    {
+        if (model != null)
+        {
+            model.dispose();
+        }
+    }
+
+    public void triggerOnInstanceUpdate(ModelInstance updatedInstance)
+    {
+        for (ModelInstanceListener listener : modelInstanceListeners)
+        {
+            listener.onInstanceUpdate(this, updatedInstance);
+        }
+    }
 }

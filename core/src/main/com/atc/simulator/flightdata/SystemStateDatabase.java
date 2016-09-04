@@ -39,10 +39,12 @@ public class SystemStateDatabase {
             track = new Track();
             track.add(aircraftState);
             tracks.put(aircraftID, track);
+            triggerOnNewAircraft(aircraftID);
         }
         ArrayList<String> aircraftIDs = new ArrayList<String>();
         aircraftIDs.add(aircraftID);
         triggerOnSystemStateUpdate(aircraftIDs);
+        triggerOnUpdateAircraft(aircraftID);
     }
 
     /**
@@ -131,7 +133,23 @@ public class SystemStateDatabase {
     {
         for (SystemStateDatabaseListener listener : listeners)
         {
-            listener.onSystemStateUpdate(aircraftIDs);
+            listener.onSystemStateUpdate(this, aircraftIDs);
+        }
+    }
+
+    private void triggerOnNewAircraft(String aircraftID)
+    {
+        for (SystemStateDatabaseListener listener : listeners)
+        {
+            listener.onNewAircraft(this, aircraftID);
+        }
+    }
+
+    private void triggerOnUpdateAircraft(String aircraftID)
+    {
+        for (SystemStateDatabaseListener listener : listeners)
+        {
+            listener.onUpdateAircraft(this, aircraftID);
         }
     }
 }

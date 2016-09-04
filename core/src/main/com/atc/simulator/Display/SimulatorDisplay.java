@@ -6,21 +6,14 @@ import com.atc.simulator.DebugDataFeed.Scenarios.Scenario;
 import com.atc.simulator.Display.DisplayModel.*;
 import com.atc.simulator.Display.DisplayModel.RenderLayers.RenderLayer;
 import com.atc.simulator.flightdata.*;
-import com.atc.simulator.navdata.Countries;
-import com.atc.simulator.vectors.GeographicCoordinate;
-import com.atc.simulator.vectors.SphericalVelocity;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.*;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g3d.*;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.utils.CameraInputController;
-import com.badlogic.gdx.graphics.g3d.utils.MeshPartBuilder;
-import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
@@ -51,15 +44,54 @@ public class SimulatorDisplay extends ApplicationAdapter implements DataPlayback
     private Scenario scenario;
     private ArrayBlockingQueue<SystemState> systemStateUpdateQueue;
     private ArrayBlockingQueue<Prediction> predictionUpdateQueue;
-    private DisplayModel displayModel;
 
+    private SystemStateDatabase stateDatabase;
+    private DisplayModel displayModel;
     private DisplayWorldMap map;
+    private RenderLayer mapLayer;
     private DisplayTracks tracks;
+    private RenderLayer tracksLayer;
+    private AircraftDatabase aircraftDatabase;
+    private RenderLayer aircraftLayer;
+    private RenderLayer predictionLayer;
 
     Vector2 textPosition;
 
     private SystemState currentSystemState = null;
 
+
+    private class AircraftDatabase extends HashMap<String, DisplayAircraft> implements SystemStateDatabaseListener
+    {
+        /**
+         * This method is called by the SystemStateDataBase on its listeners
+         * whenever the SystemStateDatabase receives updated information.
+         *
+         * @param stateDatabase
+         * @param aircraftIDs   of type ArrayList<String>
+         */
+        @Override
+        public void onSystemStateUpdate(SystemStateDatabase stateDatabase, ArrayList<String> aircraftIDs) {
+
+        }
+
+        @Override
+        public void onNewAircraft(SystemStateDatabase stateDatabase, String aircraftID) {
+            DisplayAircraft newAircraft = new DisplayAircraft(stateDatabase.getTrack(aircraftID));
+            aircraftLayer.addInstanceProvider(newAircraft);
+            this.put(aircraftID, newAircraft);
+        }
+
+        @Override
+        public void onRemoveAircraft(SystemStateDatabase stateDatabase, String aircraftID) {
+            this.get(aircraftID).dispose();
+            this.remove(aircraftID);
+        }
+
+        @Override
+        public void onUpdateAircraft(SystemStateDatabase stateDatabase, String aircraftID) {
+            this.get(aircraftID).update();
+        }
+    }
 
     /**
      * Constructor for the SimulatorDisplay
@@ -72,20 +104,9 @@ public class SimulatorDisplay extends ApplicationAdapter implements DataPlayback
         systemStateUpdateQueue = new ArrayBlockingQueue<SystemState>(100);
         predictionUpdateQueue = new ArrayBlockingQueue<Prediction>(300);
         displayModel = new DisplayModel();
-
-        RenderLayer mapLayer = new RenderLayer(10, "map");
-        displayModel.addRenderLayer(mapLayer);
-        map = new DisplayWorldMap();
-        mapLayer.addInstanceProvider(map);
-
-        RenderLayer tracksLayer = new RenderLayer(9, "tracks");
-        displayModel.addRenderLayer(tracksLayer);
-        tracks = new DisplayTracks(scenario);
-        tracksLayer.addInstanceProvider(tracks);
-
-
-        RenderLayer aircraftLayer = new RenderLayer(8, "aircraft");
-        displayModel.addRenderLayer(aircraftLayer);
+        stateDatabase = new SystemStateDatabase();
+        aircraftDatabase = new AircraftDatabase();
+        stateDatabase.addListener(aircraftDatabase);
 
     }
 
@@ -195,6 +216,22 @@ public class SimulatorDisplay extends ApplicationAdapter implements DataPlayback
 
         camController = new MyCameraController(cam);
         Gdx.input.setInputProcessor(camController);
+
+        mapLayer = new RenderLayer(10, "map");
+        displayModel.addRenderLayer(mapLayer);
+        map = new DisplayWorldMap();
+        mapLayer.addInstanceProvider(map);
+
+        tracksLayer = new RenderLayer(9, "tracks");
+        displayModel.addRenderLayer(tracksLayer);
+        tracks = new DisplayTracks(scenario);
+        tracksLayer.addInstanceProvider(tracks);
+
+        predictionLayer = new RenderLayer(8, "predictions");
+        displayModel.addRenderLayer(predictionLayer);
+
+        aircraftLayer = new RenderLayer(7, "aircraft");
+        displayModel.addRenderLayer(aircraftLayer);
     }
 
     /**
@@ -214,7 +251,20 @@ public class SimulatorDisplay extends ApplicationAdapter implements DataPlayback
         while (prediction != null)
         {
             String aircraftID = prediction.getAircraftID();
-            AircraftState aircraftState = currentSystemState.getAircraftState(aircraftID);
+
+            DisplayAircraft aircraft = aircraftDatabase.get(aircraftID);
+
+            if (aircraft != null)
+            {
+                DisplayPrediction displayPrediction = aircraft.getPrediction();
+                if (displayPrediction != null)
+                {
+                    displayPrediction.dispose();
+                }
+                displayPrediction = new DisplayPrediction(aircraft, prediction);
+                predictionLayer.addInstanceProvider(displayPrediction);
+                aircraft.setPrediction(displayPrediction);
+            }
 
 
             prediction = predictionUpdateQueue.poll();
@@ -234,8 +284,7 @@ public class SimulatorDisplay extends ApplicationAdapter implements DataPlayback
 
         while (systemState != null)
         {
-
-
+            stateDatabase.systemStateUpdate(systemState);
             systemState = systemStateUpdateQueue.poll();
         }
     }
