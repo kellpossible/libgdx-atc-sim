@@ -1,21 +1,19 @@
-package com.atc.simulator.Display.DisplayModel;
+package com.atc.simulator.Display;
 
-import com.atc.simulator.Display.DisplayModel.RenderLayers.RenderLayer;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
 
 import java.util.*;
 
 /**
- * Model for the Display MVC.
  * @author Luke Frisken
  */
-public class DisplayModel {
+public class LayerManager {
     private PriorityQueue<RenderLayer> layers;
 
     /**
-     * Constructor DisplayModel creates a new DisplayModel instance.
+     * Constructor LayerManager creates a new LayerManager instance.
      */
-    public DisplayModel()
+    public LayerManager()
     {
         layers = new PriorityQueue<RenderLayer>();
     }
@@ -31,9 +29,9 @@ public class DisplayModel {
     }
 
     /**
-     * Method getRenderInstances returns the renderInstances of this DisplayModel object.
+     * Method getRenderInstances returns the renderInstances of this LayerManager object.
      *
-     * @return the renderInstances (type Collection<ModelInstance>) of this DisplayModel object.
+     * @return the renderInstances (type Collection<ModelInstance>) of this LayerManager object.
      */
     public Collection<ModelInstance> getRenderInstances()
     {

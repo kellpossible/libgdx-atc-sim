@@ -7,8 +7,6 @@ import com.atc.simulator.Display.DisplayData.*;
 import com.atc.simulator.Display.DisplayData.DisplayAircraft;
 import com.atc.simulator.Display.DisplayData.ModelInstanceProviders.WorldMapModel;
 import com.atc.simulator.Display.DisplayData.ModelInstanceProviders.TracksModel;
-import com.atc.simulator.Display.DisplayData.ModelInstanceProviders.PredictionModel;
-import com.atc.simulator.Display.DisplayData.RenderLayers.RenderLayer;
 import com.atc.simulator.flightdata.*;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;

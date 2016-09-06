@@ -3,8 +3,10 @@ package com.atc.simulator.Display;
 import com.atc.simulator.Config.ApplicationConfig;
 import com.atc.simulator.DebugDataFeed.DataPlaybackListener;
 import com.atc.simulator.DebugDataFeed.Scenarios.Scenario;
-import com.atc.simulator.Display.DisplayModel.*;
-import com.atc.simulator.Display.DisplayModel.RenderLayers.RenderLayer;
+import com.atc.simulator.Display.DisplayData.DisplayAircraft;
+import com.atc.simulator.Display.DisplayData.DisplayPrediction;
+import com.atc.simulator.Display.DisplayData.ModelInstanceProviders.TracksModel;
+import com.atc.simulator.Display.DisplayData.ModelInstanceProviders.WorldMapModel;
 import com.atc.simulator.flightdata.*;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
@@ -46,10 +48,10 @@ public class SimulatorDisplay extends ApplicationAdapter implements DataPlayback
     private ArrayBlockingQueue<Prediction> predictionUpdateQueue;
 
     private SystemStateDatabase stateDatabase;
-    private DisplayModel displayModel;
-    private DisplayWorldMap map;
+    private LayerManager layerManager;
+    private WorldMapModel map;
     private RenderLayer mapLayer;
-    private DisplayTracks tracks;
+    private TracksModel tracks;
     private RenderLayer tracksLayer;
     private AircraftDatabase aircraftDatabase;
     private RenderLayer aircraftLayer;
@@ -112,7 +114,7 @@ public class SimulatorDisplay extends ApplicationAdapter implements DataPlayback
         this.scenario = scenario;
         systemStateUpdateQueue = new ArrayBlockingQueue<SystemState>(100);
         predictionUpdateQueue = new ArrayBlockingQueue<Prediction>(300);
-        displayModel = new DisplayModel();
+        layerManager = new LayerManager();
         stateDatabase = new SystemStateDatabase();
         aircraftDatabase = new AircraftDatabase();
         stateDatabase.addListener(aircraftDatabase);
@@ -234,23 +236,23 @@ public class SimulatorDisplay extends ApplicationAdapter implements DataPlayback
 
         //Set up all the RenderLayers
         mapLayer = new RenderLayer(10, "map");
-        displayModel.addRenderLayer(mapLayer);
-        map = new DisplayWorldMap();
+        layerManager.addRenderLayer(mapLayer);
+        map = new WorldMapModel();
         mapLayer.addInstanceProvider(map);
 
         if (showTracks)
         {
             tracksLayer = new RenderLayer(9, "tracks");
-            displayModel.addRenderLayer(tracksLayer);
-            tracks = new DisplayTracks(scenario);
+            layerManager.addRenderLayer(tracksLayer);
+            tracks = new TracksModel(scenario);
             tracksLayer.addInstanceProvider(tracks);
         }
 
         predictionLayer = new RenderLayer(8, "predictions");
-        displayModel.addRenderLayer(predictionLayer);
+        layerManager.addRenderLayer(predictionLayer);
 
         aircraftLayer = new RenderLayer(7, "aircraft");
-        displayModel.addRenderLayer(aircraftLayer);
+        layerManager.addRenderLayer(aircraftLayer);
     }
 
     /**
@@ -322,8 +324,8 @@ public class SimulatorDisplay extends ApplicationAdapter implements DataPlayback
         pollSystemUpdateQueue();
         pollPredictionUpdateQueue();
 
-        //Render all the instances in the displayModel.
-        Collection<ModelInstance> instances = displayModel.getRenderInstances();
+        //Render all the instances in the layerManager.
+        Collection<ModelInstance> instances = layerManager.getRenderInstances();
         for(ModelInstance instance : instances)
         {
             modelBatch.render(instance);

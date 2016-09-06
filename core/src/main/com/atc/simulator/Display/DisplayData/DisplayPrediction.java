@@ -3,6 +3,7 @@ package com.atc.simulator.Display.DisplayData;
 import com.atc.simulator.Display.DisplayData.ModelInstanceProviders.ModelInstanceProvider;
 import com.atc.simulator.Display.DisplayData.ModelInstanceProviders.ModelInstanceProviderMultiplexer;
 import com.atc.simulator.Display.DisplayData.ModelInstanceProviders.PredictionModel;
+import com.atc.simulator.Display.DisplayData.ModelInstanceProviders.VelocityModel;
 import com.atc.simulator.flightdata.Prediction;
 import com.badlogic.gdx.utils.Disposable;
 
@@ -32,7 +33,8 @@ public class DisplayPrediction extends Prediction implements Disposable, ModelIn
     private void createModels()
     {
 
-        models.put("PredictionLine", new PredictionModel(this));
+//        models.put("PredictionLine", new PredictionModel(this));
+        models.put("VelocityLine", new VelocityModel(aircraft));
     }
 
     public DisplayAircraft getAircraft()

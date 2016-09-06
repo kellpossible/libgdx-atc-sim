@@ -1,9 +1,9 @@
-package com.atc.simulator.Display.DisplayModel.RenderLayers;
+package com.atc.simulator.Display;
 
-import com.atc.simulator.Display.DisplayModel.ModelInstanceListener;
-import com.atc.simulator.Display.DisplayModel.ModelInstanceProvider;
+import com.atc.simulator.Display.DisplayData.ModelInstanceProviders.ModelInstanceProviderListener;
+import com.atc.simulator.Display.DisplayData.ModelInstanceProviders.ModelInstanceProvider;
+import com.atc.simulator.Display.DisplayData.ModelInstanceProviders.ModelInstanceProviderMultiplexer;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
-import com.badlogic.gdx.utils.ArrayMap;
 
 import java.util.*;
 
@@ -11,7 +11,7 @@ import java.util.*;
  *
  * @author Luke Frisken
  */
-public class RenderLayer implements Comparable, Iterable<ModelInstance>, ModelInstanceListener {
+public class RenderLayer implements Comparable, Iterable<ModelInstance>, ModelInstanceProviderListener {
     HashMap<ModelInstanceProvider, ModelInstance> instances;
     protected int priority;
     private String name;
@@ -71,6 +71,10 @@ public class RenderLayer implements Comparable, Iterable<ModelInstance>, ModelIn
      */
     @Override
     public void onInstanceUpdate(ModelInstanceProvider provider, ModelInstance newInstance) {
+        if (newInstance == null)
+        {
+            throw new NullPointerException(provider.getClass().getName() + " provided a null model instance");
+        }
         instances.put(provider, newInstance);
     }
 
@@ -92,6 +96,19 @@ public class RenderLayer implements Comparable, Iterable<ModelInstance>, ModelIn
     {
         provider.addModelInstanceListener(this);
         instances.put(provider, provider.getModelInstance());
+    }
+
+    /**
+     * Add new instance provider multiplexer to this render layer.
+     *
+     * @param multiplexer of type ModelInstanceProviderMultiplexer
+     */
+    public void addInstanceProvider(ModelInstanceProviderMultiplexer multiplexer)
+    {
+        for(ModelInstanceProvider provider : multiplexer.getInstanceProviders())
+        {
+            addInstanceProvider(provider);
+        }
     }
 
     /**
@@ -124,7 +141,7 @@ public class RenderLayer implements Comparable, Iterable<ModelInstance>, ModelIn
 
     /**
      * Implementation of the compareTo interface,
-     * used by the DisplayModel to sort the render layers.
+     * used by the LayerManager to sort the render layers.
      * @param o
      * @return
      */

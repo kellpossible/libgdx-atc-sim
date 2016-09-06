@@ -6,7 +6,9 @@ import com.atc.simulator.vectors.SphericalVelocity;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.VertexAttributes;
 import com.badlogic.gdx.graphics.g3d.Material;
+import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
+import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.badlogic.gdx.math.Vector3;
 
 /**
@@ -23,6 +25,7 @@ public class VelocityModel extends SimpleModelInstanceProvider{
     public VelocityModel(DisplayAircraft aircraft)
     {
         this.aircraft = aircraft;
+        update();
     }
 
     /**
@@ -31,17 +34,25 @@ public class VelocityModel extends SimpleModelInstanceProvider{
     @Override
     public void update()
     {
-//        GeographicCoordinate position = aircraft.getPosition();
-//        double depthAdjustment = -0.01;
-//        Vector3 modelDrawVector = position.getModelDrawVector(depthAdjustment);
-//
-//        SphericalVelocity velocity = aircraft.getVelocity();
-//
-//        GeographicCoordinate velocityEndPos = new GeographicCoordinate(velocity.angularVelocityTranslate(position, 120));
-//        modelBuilder.createArrow(
-//                modelDrawVector,
-//                velocityEndPos.getModelDrawVector(depthAdjustment),
-//                new Material(ColorAttribute.createDiffuse(Color.GREEN)),
-//                VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal);
+        if (model != null)
+        {
+            model.dispose();
+        }
+        ModelBuilder modelBuilder = new ModelBuilder();
+
+        GeographicCoordinate position = aircraft.getPosition();
+        double depthAdjustment = -0.01;
+        Vector3 modelDrawVector = position.getModelDrawVector(depthAdjustment);
+
+        SphericalVelocity velocity = aircraft.getVelocity();
+
+        GeographicCoordinate velocityEndPos = new GeographicCoordinate(velocity.angularVelocityTranslate(position, 120));
+        model = modelBuilder.createArrow(
+                modelDrawVector,
+                velocityEndPos.getModelDrawVector(depthAdjustment),
+                new Material(ColorAttribute.createDiffuse(Color.GREEN)),
+                VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal);
+
+        modelInstance = new ModelInstance(model);
     }
 }
