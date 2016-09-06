@@ -10,7 +10,8 @@ import java.util.Collection;
 import java.util.HashMap;
 
 /**
- * Aircraft to be displayed in the display.
+ * Represents an aircraft...
+ * With display specific extensions.
  * @author Luke Frisken
  */
 public class DisplayAircraft extends AircraftState implements Disposable, ModelInstanceProviderMultiplexer {

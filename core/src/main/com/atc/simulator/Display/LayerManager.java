@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import java.util.*;
 
 /**
+ * Stores the layers, generates collection of instances for rendering.
  * @author Luke Frisken
  */
 public class LayerManager {

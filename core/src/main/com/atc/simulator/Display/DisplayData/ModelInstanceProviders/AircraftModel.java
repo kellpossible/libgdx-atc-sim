@@ -14,6 +14,7 @@ import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.badlogic.gdx.math.Vector3;
 
 /**
+ * Green dot representing the aircraft
  * @author Luke Frisken
  */
 public class AircraftModel extends SimpleModelInstanceProvider {

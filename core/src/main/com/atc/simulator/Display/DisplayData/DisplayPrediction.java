@@ -12,6 +12,8 @@ import java.util.Collection;
 import java.util.HashMap;
 
 /**
+ * Represents a prediction of an aircraft's trajectory.
+ * With display specific extensions.
  * @author Luke Frisken
  */
 public class DisplayPrediction extends Prediction implements Disposable, ModelInstanceProviderMultiplexer {

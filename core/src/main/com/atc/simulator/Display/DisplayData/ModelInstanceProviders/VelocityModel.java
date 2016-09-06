@@ -13,6 +13,7 @@ import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.badlogic.gdx.math.Vector3;
 
 /**
+ * Green velocity arrows
  * @author Luke Frisken
  */
 public class VelocityModel extends SimpleModelInstanceProvider{

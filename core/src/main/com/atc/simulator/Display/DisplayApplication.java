@@ -25,11 +25,9 @@ import java.util.HashMap;
 import java.util.concurrent.ArrayBlockingQueue;
 
 /**
- * The LayerManager for the Simulator
+ * The DisplayApplication for the Simulator
  *
  *  - Uses LibGDX
- *  - Is a bit of a hack
- *  - might need redesigning
  *
  * @author Luke Frisken
  */
@@ -73,18 +71,13 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
      */
     private class AircraftDatabase extends HashMap<String, DisplayAircraft> implements SystemStateDatabaseListener
     {
-        /**
-         * This method is called by the SystemStateDataBase on its listeners
-         * whenever the SystemStateDatabase receives updated information.
-         *
-         * @param stateDatabase
-         * @param aircraftIDs   of type ArrayList<String>
-         */
+        /** @see SystemStateDatabaseListener#onSystemStateUpdate(SystemStateDatabase, ArrayList<String>) */
         @Override
         public void onSystemStateUpdate(SystemStateDatabase stateDatabase, ArrayList<String> aircraftIDs) {
 
         }
 
+        /** @see SystemStateDatabaseListener#onNewAircraft(SystemStateDatabase, String) */
         @Override
         public void onNewAircraft(SystemStateDatabase stateDatabase, String aircraftID) {
             DisplayAircraft newAircraft = new DisplayAircraft(stateDatabase.getTrack(aircraftID));
@@ -92,12 +85,14 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
             this.put(aircraftID, newAircraft);
         }
 
+        /** @see SystemStateDatabaseListener#onRemoveAircraft(SystemStateDatabase, String) */
         @Override
         public void onRemoveAircraft(SystemStateDatabase stateDatabase, String aircraftID) {
             this.get(aircraftID).dispose();
             this.remove(aircraftID);
         }
 
+        /** @see SystemStateDatabaseListener#onUpdateAircraft(SystemStateDatabase, String) */
         @Override
         public void onUpdateAircraft(SystemStateDatabase stateDatabase, String aircraftID) {
             this.get(aircraftID).update();

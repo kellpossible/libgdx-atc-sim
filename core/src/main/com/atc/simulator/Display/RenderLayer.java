@@ -11,7 +11,7 @@ import java.util.*;
  *
  * @author Luke Frisken
  */
-public class RenderLayer implements Comparable, Iterable<ModelInstance>, ModelInstanceProviderListener {
+class RenderLayer implements Comparable, Iterable<ModelInstance>, ModelInstanceProviderListener {
     HashMap<ModelInstanceProvider, ModelInstance> instances;
     protected int priority;
     private String name;
@@ -142,8 +142,8 @@ public class RenderLayer implements Comparable, Iterable<ModelInstance>, ModelIn
     /**
      * Implementation of the compareTo interface,
      * used by the LayerManager to sort the render layers.
-     * @param o
-     * @return
+     * @param o object to compare to
+     * @return -1 if o is greater than this, 0 if same, and 1 if o less than this.
      */
     @Override
     public int compareTo(Object o) {

@@ -3,6 +3,8 @@ package com.atc.simulator.Display.DisplayData.ModelInstanceProviders;
 import java.util.Collection;
 
 /**
+ * A bit of a hack to allow multiple model instance providers
+ * to be passed to a render layer by a single object.
  * @author Luke Frisken
  */
 public interface ModelInstanceProviderMultiplexer {
