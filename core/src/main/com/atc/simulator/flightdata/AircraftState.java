@@ -135,4 +135,18 @@ public class AircraftState {
     public void setTime(long time) {
         this.time = time;
     }
+
+
+    /**
+     * Shallow copy state data from another AircraftState object.
+     * @param other aircraft state to copy from
+     */
+    public void copyData(AircraftState other)
+    {
+        aircraftID = other.aircraftID;
+        time = other.time;
+        position = other.position;
+        velocity = other.velocity;
+        heading = other.heading;
+    }
 }

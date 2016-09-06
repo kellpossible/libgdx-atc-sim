@@ -187,7 +187,7 @@ public class PredictionFeedServerThread implements RunnableThread{
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
-                    System.err.println("Send to Display failed");
+                    System.err.println("Send to LayerManager failed");
                 }
             }
         }

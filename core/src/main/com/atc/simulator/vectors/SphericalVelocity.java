@@ -1,5 +1,6 @@
 package com.atc.simulator.vectors;
 
+import pythagoras.d.Matrix3;
 import pythagoras.d.Vector;
 import pythagoras.d.Vector3;
 
@@ -94,5 +95,25 @@ public class SphericalVelocity extends Vector3 {
     {
         //w = dphi*e_theta + dtheta*k
         return from.thetaCartesianUnitVector().mult(getDPhi()).add(new Vector3(0, 0, 1).mult(getDTheta()));
+    }
+
+
+    /**
+     * Rotate a spherical coordinate using this Spherical velocity as an angular velocity
+     * around a sphere.
+     * @param from the point to translate
+     * @param t the amount of time in seconds (resulting in the angle to rotate).
+     * @return the rotated coordinate
+     */
+    public SphericalCoordinate angularVelocityTranslate(SphericalCoordinate from, double t)
+    {
+        Vector3 cartesianPosition = from.getCartesian();
+        Vector3 angularVelocity = getCartesianAngularVelocity(from);
+        double dangle = angularVelocity.length();
+        Vector3 angleAxis = angularVelocity.normalize();
+        Matrix3 rotation = new Matrix3().setToRotation(dangle*t, angleAxis);
+
+        Vector3 cartesianTranslatedPosition = rotation.transform(cartesianPosition);
+        return SphericalCoordinate.fromCartesian(cartesianTranslatedPosition);
     }
 }
