@@ -54,10 +54,4 @@ public class VelocityModel extends SimpleModelInstanceProvider{
 
         setModel(newModel);
     }
-
-//    @Override
-//    public void dispose()
-//    {
-//
-//    }
 }
