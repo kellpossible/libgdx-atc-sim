@@ -33,7 +33,7 @@ public class DisplayPrediction extends Prediction implements Disposable, ModelIn
     private void createModels()
     {
 
-//        models.put("PredictionLine", new PredictionModel(this));
+        models.put("PredictionLine", new PredictionModel(this));
         models.put("VelocityLine", new VelocityModel(aircraft));
     }
 

@@ -22,10 +22,7 @@ import java.util.ArrayList;
  * A prediction to be displayed in the display.
  * @author Luke Frisken
  */
-public class PredictionModel implements ModelInstanceProvider {
-    private ArrayList<ModelInstanceProviderListener> modelInstanceListeners = new ArrayList<ModelInstanceProviderListener>();
-    private ModelInstance modelInstance;
-    private Model model;
+public class PredictionModel extends SimpleModelInstanceProvider {
     private DisplayPrediction prediction;
 
     public PredictionModel(DisplayPrediction prediction) {
@@ -34,35 +31,14 @@ public class PredictionModel implements ModelInstanceProvider {
     }
 
     /**
-     * Get the instance provided by this class
-     * @return the instance provided by this class
-     */
-    @Override
-    public ModelInstance getModelInstance() {
-        return modelInstance;
-    }
-
-    /**
-     * Add a ModelInstanceProviderListener listener to this class.
-     * @param listener the listener to be added
-     */
-    @Override
-    public void addModelInstanceListener(ModelInstanceProviderListener listener) {
-        listener.onInstanceUpdate(this, modelInstance);
-        modelInstanceListeners.add(listener);
-    }
-
-    /**
      * Call to update the instance provided by this class.
      */
     @Override
-    public void update() {
-        DisplayAircraft aircraft = prediction.getAircraft();
+    public void update()
+    {
+        super.update();
 
-        if (model != null)
-        {
-            model.dispose();
-        }
+        DisplayAircraft aircraft = prediction.getAircraft();
         ModelBuilder modelBuilder = new ModelBuilder();
         modelBuilder.begin();
         MeshPartBuilder builder = modelBuilder.part(
@@ -84,19 +60,9 @@ public class PredictionModel implements ModelInstanceProvider {
             previousPositionDrawVector = positionDrawVector;
         }
 
-        model = modelBuilder.end();
-        modelInstance = new ModelInstance(model);
-    }
-
-    /**
-     * Call to dispose of this class, and its resources.
-     */
-    @Override
-    public void dispose() {
-        model.dispose();
-        for (ModelInstanceProviderListener listener : modelInstanceListeners)
-        {
-            listener.onInstanceDispose(this);
-        }
+        Model newModel = modelBuilder.end();
+        setModel(newModel);
     }
 }
+
+

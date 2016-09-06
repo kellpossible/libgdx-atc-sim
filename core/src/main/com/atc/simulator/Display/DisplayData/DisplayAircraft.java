@@ -70,6 +70,11 @@ public class DisplayAircraft extends AircraftState implements Disposable, ModelI
         {
             model.update();
         }
+
+        if (prediction != null)
+        {
+            prediction.update();
+        }
     }
 
     private void createModels()

@@ -11,8 +11,8 @@ import java.util.ArrayList;
  */
 public abstract class SimpleModelInstanceProvider implements ModelInstanceProvider {
     private ArrayList<ModelInstanceProviderListener> modelInstanceListeners = new ArrayList<ModelInstanceProviderListener>();
-    protected ModelInstance modelInstance;
-    protected Model model;
+    private ModelInstance modelInstance;
+    private Model model;
 
     /**
      * Get the instance provided by this class
@@ -39,10 +39,7 @@ public abstract class SimpleModelInstanceProvider implements ModelInstanceProvid
     @Override
     public void dispose() {
         model.dispose();
-        for (ModelInstanceProviderListener listener : modelInstanceListeners)
-        {
-            listener.onInstanceDispose(this);
-        }
+        triggerOnInstanceDispose();
     }
 
     /**
@@ -53,6 +50,7 @@ public abstract class SimpleModelInstanceProvider implements ModelInstanceProvid
         if (model != null)
         {
             model.dispose();
+            triggerOnInstanceDispose();
         }
     }
 
@@ -66,5 +64,20 @@ public abstract class SimpleModelInstanceProvider implements ModelInstanceProvid
         {
             listener.onInstanceUpdate(this, updatedInstance);
         }
+    }
+
+    public void triggerOnInstanceDispose()
+    {
+        for (ModelInstanceProviderListener listener : modelInstanceListeners)
+        {
+            listener.onInstanceDispose(this);
+        }
+    }
+
+    protected ModelInstance setModel(Model newModel)
+    {
+        modelInstance = new ModelInstance(newModel);
+        triggerOnInstanceUpdate(modelInstance);
+        return modelInstance;
     }
 }

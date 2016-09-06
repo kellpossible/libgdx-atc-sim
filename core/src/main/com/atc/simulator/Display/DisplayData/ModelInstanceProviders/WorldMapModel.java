@@ -2,6 +2,7 @@ package com.atc.simulator.Display.DisplayData.ModelInstanceProviders;
 
 import com.atc.simulator.Display.DisplayData.ModelInstanceProviders.SimpleModelInstanceProvider;
 import com.atc.simulator.navdata.Countries;
+import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
 
 /**
@@ -22,9 +23,7 @@ public class WorldMapModel extends SimpleModelInstanceProvider {
         super.update();
 
         Countries countries = new Countries("assets/maps/countries.geo.json");
-        model = countries.getModel();
-        modelInstance = new ModelInstance(model);
-
-        triggerOnInstanceUpdate(modelInstance);
+        Model newModel = countries.getModel();
+        setModel(newModel);
     }
 }

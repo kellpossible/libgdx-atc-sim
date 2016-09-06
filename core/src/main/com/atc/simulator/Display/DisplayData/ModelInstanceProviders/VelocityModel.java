@@ -6,6 +6,7 @@ import com.atc.simulator.vectors.SphericalVelocity;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.VertexAttributes;
 import com.badlogic.gdx.graphics.g3d.Material;
+import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
@@ -34,10 +35,8 @@ public class VelocityModel extends SimpleModelInstanceProvider{
     @Override
     public void update()
     {
-        if (model != null)
-        {
-            model.dispose();
-        }
+        super.update();
+
         ModelBuilder modelBuilder = new ModelBuilder();
 
         GeographicCoordinate position = aircraft.getPosition();
@@ -47,12 +46,18 @@ public class VelocityModel extends SimpleModelInstanceProvider{
         SphericalVelocity velocity = aircraft.getVelocity();
 
         GeographicCoordinate velocityEndPos = new GeographicCoordinate(velocity.angularVelocityTranslate(position, 120));
-        model = modelBuilder.createArrow(
+        Model newModel = modelBuilder.createArrow(
                 modelDrawVector,
                 velocityEndPos.getModelDrawVector(depthAdjustment),
                 new Material(ColorAttribute.createDiffuse(Color.GREEN)),
                 VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal);
 
-        modelInstance = new ModelInstance(model);
+        setModel(newModel);
     }
+
+//    @Override
+//    public void dispose()
+//    {
+//
+//    }
 }
