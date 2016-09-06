@@ -12,13 +12,19 @@ import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.badlogic.gdx.math.Vector3;
 
 /**
- * Created by luke on 4/09/16.
+ * Aircraft to be displayed in the display.
+ * @author Luke Frisken
  */
 public class DisplayAircraft extends SimpleModelInstanceProvider {
     private String aircraftID;
     private Track track;
     private DisplayPrediction prediction = null;
 
+    /**
+     * Constructor DisplayAircraft creates a new DisplayAircraft instance.
+     *
+     * @param track with this aircraft in it.
+     */
     public DisplayAircraft(Track track)
     {
         this.track = track;
@@ -50,26 +56,47 @@ public class DisplayAircraft extends SimpleModelInstanceProvider {
 
     }
 
+    /**
+     * Method setPrediction sets the current prediction associated with this aircraft.
+     *
+     * @param newPrediction the new prediction to be associated with this aircraft
+     *
+     */
     public void setPrediction(DisplayPrediction newPrediction)
     {
         prediction = newPrediction;
     }
 
+    /**
+     * Get the prediction associated with this aircraft.
+     * @return DisplayPrediction
+     */
     public DisplayPrediction getPrediction()
     {
         return prediction;
     }
 
+    /**
+     * Get the id of this aircraft.
+     * @return String id of this aircraft
+     */
     public String getAircraftID()
     {
         return aircraftID;
     }
 
+    /**
+     * Get the current AircraftState of this aircraft.
+     * @return state of this aircraft.
+     */
     public AircraftState getCurrentState()
     {
         return track.getLatest();
     }
 
+    /**
+     * Call to update the instance provided by this class.
+     */
     @Override
     public void update() {
         super.update();

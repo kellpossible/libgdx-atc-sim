@@ -8,7 +8,8 @@ import com.badlogic.gdx.utils.ArrayMap;
 import java.util.*;
 
 /**
- * Created by luke on 4/09/16.
+ *
+ * @author Luke Frisken
  */
 public class RenderLayer implements Comparable, Iterable<ModelInstance>, ModelInstanceListener {
     HashMap<ModelInstanceProvider, ModelInstance> instances;
@@ -17,6 +18,11 @@ public class RenderLayer implements Comparable, Iterable<ModelInstance>, ModelIn
     private boolean visible;
 
 
+    /**
+     * Default constructor for RenderLayer
+     * @param priority priority/order of render layer.
+     * @param name name of render layer
+     */
     public RenderLayer(int priority, String name)
     {
         instances = new HashMap<ModelInstanceProvider, ModelInstance>();
@@ -25,16 +31,28 @@ public class RenderLayer implements Comparable, Iterable<ModelInstance>, ModelIn
         visible = true;
     }
 
+    /**
+     * Check to see whether or not this layer is set to visible.
+     * @return boolean visible
+     */
     public boolean isVisible()
     {
         return visible;
     }
 
+    /**
+     * Set the visibility of this RenderLayer
+     * @param visible boolean status of visibility
+     */
     public void setVisible(boolean visible)
     {
         this.visible = visible;
     }
 
+    /**
+     * Get the instances in this layer
+     * @return collection of model instances
+     */
     public Collection<ModelInstance> getRenderInstances()
     {
         if (visible)
@@ -46,22 +64,40 @@ public class RenderLayer implements Comparable, Iterable<ModelInstance>, ModelIn
 
     }
 
+    /**
+     * Called by an instance provider to its listeners when it is being updated.
+     * @param provider the provider who is updating
+     * @param newInstance the new model instance as a result of the update
+     */
     @Override
     public void onInstanceUpdate(ModelInstanceProvider provider, ModelInstance newInstance) {
         instances.put(provider, newInstance);
     }
 
+    /**
+     * Called by an instance provider to its listeners when it is being disposed of.
+     * @param provider the provider who is being disposed of
+     */
     @Override
     public void onInstanceDispose(ModelInstanceProvider provider) {
         instances.remove(provider);
     }
 
+    /**
+     * Add a new instance provider to this render layer.
+     *
+     * @param provider of type ModelInstanceProvider
+     */
     public void addInstanceProvider(ModelInstanceProvider provider)
     {
         provider.addModelInstanceListener(this);
         instances.put(provider, provider.getModelInstance());
     }
 
+    /**
+     * Implementation of iterable interface
+     * @return Iterator<ModelInstance>
+     */
     @Override
     public Iterator<ModelInstance> iterator() {
         return instances.values().iterator();
@@ -70,7 +106,7 @@ public class RenderLayer implements Comparable, Iterable<ModelInstance>, ModelIn
 
     /**
      * Get the name of this render layer
-     * @return
+     * @return String
      */
     public String getName()
     {
@@ -79,7 +115,7 @@ public class RenderLayer implements Comparable, Iterable<ModelInstance>, ModelIn
 
     /**
      * Get the priority of this render layer
-     * @return
+     * @return int
      */
     public int getPriority()
     {
@@ -99,6 +135,9 @@ public class RenderLayer implements Comparable, Iterable<ModelInstance>, ModelIn
         return Integer.compare(this.priority, other.priority);
     }
 
+    /**
+     * Call to dispose of this class, and its resources.
+     */
     public void dispose()
     {
         for (ModelInstanceProvider provider : instances.keySet())

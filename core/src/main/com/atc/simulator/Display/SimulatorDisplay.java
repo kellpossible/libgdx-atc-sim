@@ -60,6 +60,15 @@ public class SimulatorDisplay extends ApplicationAdapter implements DataPlayback
     private SystemState currentSystemState = null;
 
 
+    /**
+     * private class for storing DisplayAircraft associated with the SystemStateDatabase,
+     * and to keep them in sync with the systemstatedatabase.
+     *
+     * May have been better to subclass SystemStateDatabase...
+     *
+     * @author Luke Frisken
+     * Created on 6/09/16
+     */
     private class AircraftDatabase extends HashMap<String, DisplayAircraft> implements SystemStateDatabaseListener
     {
         /**
@@ -115,7 +124,6 @@ public class SimulatorDisplay extends ApplicationAdapter implements DataPlayback
     /**
      * This method gets called when there is a system update, and gets
      * passed the new system state
-     *
      * @param systemState the updated system state
      */
     @Override
@@ -124,12 +132,13 @@ public class SimulatorDisplay extends ApplicationAdapter implements DataPlayback
     }
 
     /**
-     * This method gets called when a new prediction is received by the {@link PredictionFeedClientThread}
-     * @param prediction
+     * When a client receives new information, it will call this method to notify listeners
+     * of a new data
+     * @param newPrediction the new prediction information
      */
     @Override
-    public void onPredictionUpdate(Prediction prediction) {
-        predictionUpdateQueue.add(prediction);
+    public void onPredictionUpdate(Prediction newPrediction) {
+        predictionUpdateQueue.add(newPrediction);
     }
 
 
@@ -167,7 +176,12 @@ public class SimulatorDisplay extends ApplicationAdapter implements DataPlayback
 		}
 	}
 
-	@Override
+	/**
+     * Method create,
+     * put any initialization stuff in here that relies on the opengl context
+     * being available.
+     */
+    @Override
 	public void create () {
 	    textPosition = new Vector2(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
 		assets = new AssetManager();
@@ -217,6 +231,8 @@ public class SimulatorDisplay extends ApplicationAdapter implements DataPlayback
         camController = new MyCameraController(cam);
         Gdx.input.setInputProcessor(camController);
 
+
+        //Set up all the RenderLayers
         mapLayer = new RenderLayer(10, "map");
         displayModel.addRenderLayer(mapLayer);
         map = new DisplayWorldMap();
@@ -306,6 +322,7 @@ public class SimulatorDisplay extends ApplicationAdapter implements DataPlayback
         pollSystemUpdateQueue();
         pollPredictionUpdateQueue();
 
+        //Render all the instances in the displayModel.
         Collection<ModelInstance> instances = displayModel.getRenderInstances();
         for(ModelInstance instance : instances)
         {

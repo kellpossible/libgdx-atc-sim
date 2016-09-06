@@ -15,16 +15,25 @@ import com.badlogic.gdx.math.Vector3;
 import java.util.ArrayList;
 
 /**
- * Created by luke on 5/09/16.
+ * Red tracks from scenario to go in display.
+ * @author Luke Frisken
  */
 public class DisplayTracks extends SimpleModelInstanceProvider {
     private Scenario scenario;
+
+    /**
+     * Cnstructor of DisplayTracks
+     * @param scenario scenario to grab tracks from.
+     */
     public DisplayTracks(Scenario scenario)
     {
         this.scenario = scenario;
         update();
     }
 
+    /**
+     * Call to update the instance provided by this class.
+     */
     @Override
     public void update()
     {

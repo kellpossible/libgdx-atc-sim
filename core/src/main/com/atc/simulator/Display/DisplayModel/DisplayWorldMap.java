@@ -4,13 +4,17 @@ import com.atc.simulator.navdata.Countries;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
 
 /**
- * Created by luke on 4/09/16.
+ * The background map for the display.
+ * @author Luke Frisken
  */
 public class DisplayWorldMap extends SimpleModelInstanceProvider {
     public DisplayWorldMap() {
         update();
     }
 
+    /**
+     * Call to update the instance provided by this class.
+     */
     @Override
     public void update()
     {

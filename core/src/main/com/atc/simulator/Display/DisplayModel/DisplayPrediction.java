@@ -15,7 +15,8 @@ import com.badlogic.gdx.math.Vector3;
 import java.util.ArrayList;
 
 /**
- * Created by luke on 4/09/16.
+ * A prediction to be displayed in the display.
+ * @author Luke Frisken
  */
 public class DisplayPrediction extends Prediction implements ModelInstanceProvider {
     private ArrayList<ModelInstanceListener> modelInstanceListeners = new ArrayList<ModelInstanceListener>();
@@ -37,22 +38,38 @@ public class DisplayPrediction extends Prediction implements ModelInstanceProvid
         update();
     }
 
+    /**
+     * Constructor for DisplayPrediction
+     * @param aircraft the aircraft associated with this prediction
+     * @param prediction the prediction data
+     */
     public DisplayPrediction(DisplayAircraft aircraft, Prediction prediction)
     {
         this(aircraft, prediction.getPredictionTime(), prediction.getAircraftStates());
     }
 
+    /**
+     * Get the instance provided by this class
+     * @return the instance provided by this class
+     */
     @Override
     public ModelInstance getModelInstance() {
         return modelInstance;
     }
 
+    /**
+     * Add a ModelInstanceListener listener to this class.
+     * @param listener the listener to be added
+     */
     @Override
     public void addModelInstanceListener(ModelInstanceListener listener) {
         listener.onInstanceUpdate(this, modelInstance);
         modelInstanceListeners.add(listener);
     }
 
+    /**
+     * Call to update the instance provided by this class.
+     */
     @Override
     public void update() {
         if (model != null)
@@ -70,6 +87,7 @@ public class DisplayPrediction extends Prediction implements ModelInstanceProvid
 
         ArrayList<AircraftState> states = this.getAircraftStates();
 
+        //start of prediction line is the current aircraft position.
         Vector3 previousPositionDrawVector = aircraft.getCurrentState().getPosition().getModelDrawVector();
         for(int i = 0; i < states.size(); i++)
         {
@@ -83,6 +101,9 @@ public class DisplayPrediction extends Prediction implements ModelInstanceProvid
         modelInstance = new ModelInstance(model);
     }
 
+    /**
+     * Call to dispose of this class, and its resources.
+     */
     @Override
     public void dispose() {
         model.dispose();
