@@ -1,8 +1,6 @@
 package com.atc.simulator.Display.DisplayData.ModelInstanceProviders;
 
 import com.atc.simulator.Display.DisplayData.DisplayAircraft;
-import com.atc.simulator.flightdata.AircraftState;
-import com.atc.simulator.flightdata.Track;
 import com.atc.simulator.vectors.GeographicCoordinate;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.VertexAttributes;
@@ -17,7 +15,7 @@ import com.badlogic.gdx.math.Vector3;
  * Green dot representing the aircraft
  * @author Luke Frisken
  */
-public class AircraftModel extends SimpleModelInstanceProvider {
+public class AircraftModel extends ModelInstanceDisplayRenderableProvider {
     private DisplayAircraft aircraft;
 
 
@@ -69,9 +67,9 @@ public class AircraftModel extends SimpleModelInstanceProvider {
                 0.0005f, 0.0005f, 0.0005f, 10, 10,
                 new Material(ColorAttribute.createDiffuse(Color.GREEN)),
                 VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal);
-        ModelInstance modelInstance = setModel(newModel);
+        ModelInstance modelInstance = setModel(newModel, false);
         modelInstance.transform.setTranslation(modelDrawVector.x, modelDrawVector.y, modelDrawVector.z);
 
-        triggerOnInstanceUpdate(modelInstance);
+        triggerOnInstanceUpdate(getDisplayRenderable());
     }
 }

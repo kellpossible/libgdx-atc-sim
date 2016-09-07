@@ -5,7 +5,6 @@ import com.atc.simulator.flightdata.AircraftState;
 import com.atc.simulator.flightdata.Track;
 import com.badlogic.gdx.utils.Disposable;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 
@@ -14,10 +13,10 @@ import java.util.HashMap;
  * With display specific extensions.
  * @author Luke Frisken
  */
-public class DisplayAircraft extends AircraftState implements Disposable, ModelInstanceProviderMultiplexer {
+public class DisplayAircraft extends AircraftState implements Disposable, DisplayRenderableProviderMultiplexer {
     private Track track;
     private DisplayPrediction prediction = null;
-    private HashMap<String, ModelInstanceProvider> models;
+    private HashMap<String, DisplayRenderableProvider> models;
 
     private DisplayAircraft(AircraftState aircraftState)
     {
@@ -32,7 +31,7 @@ public class DisplayAircraft extends AircraftState implements Disposable, ModelI
     {
         this(track.getLatest());
         this.track = track;
-        models = new HashMap<String, ModelInstanceProvider>();
+        models = new HashMap<String, DisplayRenderableProvider>();
         createModels();
 
 
@@ -67,7 +66,7 @@ public class DisplayAircraft extends AircraftState implements Disposable, ModelI
     public void update()
     {
         this.copyData(track.getLatest());
-        for (ModelInstanceProvider model : models.values())
+        for (DisplayRenderableProvider model : models.values())
         {
             model.update();
         }
@@ -113,14 +112,14 @@ public class DisplayAircraft extends AircraftState implements Disposable, ModelI
      */
     @Override
     public void dispose() {
-        for (ModelInstanceProvider model : models.values())
+        for (DisplayRenderableProvider model : models.values())
         {
             model.dispose();
         }
     }
 
     @Override
-    public Collection<ModelInstanceProvider> getInstanceProviders() {
+    public Collection<DisplayRenderableProvider> getDisplayRenderableProviders() {
         return models.values();
     }
 }

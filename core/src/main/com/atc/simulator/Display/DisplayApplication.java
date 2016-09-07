@@ -81,7 +81,7 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
         @Override
         public void onNewAircraft(SystemStateDatabase stateDatabase, String aircraftID) {
             DisplayAircraft newAircraft = new DisplayAircraft(stateDatabase.getTrack(aircraftID));
-            aircraftLayer.addInstanceProvider(newAircraft);
+            aircraftLayer.addDisplayRenderableProvider(newAircraft);
             this.put(aircraftID, newAircraft);
         }
 
@@ -233,14 +233,14 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
         mapLayer = new RenderLayer(10, "map");
         displayModel.addRenderLayer(mapLayer);
         map = new WorldMapModel();
-        mapLayer.addInstanceProvider(map);
+        mapLayer.addDisplayRenderableProvider(map);
 
         if (showTracks)
         {
             tracksLayer = new RenderLayer(9, "tracks");
             displayModel.addRenderLayer(tracksLayer);
             tracks = new TracksModel(scenario);
-            tracksLayer.addInstanceProvider(tracks);
+            tracksLayer.addDisplayRenderableProvider(tracks);
         }
 
         predictionLayer = new RenderLayer(8, "predictions");
@@ -278,7 +278,7 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
                     displayPrediction.update(prediction);
                 } else {
                     displayPrediction = new DisplayPrediction(aircraft, prediction);
-                    predictionLayer.addInstanceProvider(displayPrediction);
+                    predictionLayer.addDisplayRenderableProvider(displayPrediction);
                     aircraft.setPrediction(displayPrediction);
                 }
             }

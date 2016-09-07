@@ -1,13 +1,10 @@
 package com.atc.simulator.Display.DisplayData;
 
-import com.atc.simulator.Display.DisplayData.ModelInstanceProviders.ModelInstanceProvider;
-import com.atc.simulator.Display.DisplayData.ModelInstanceProviders.ModelInstanceProviderMultiplexer;
 import com.atc.simulator.Display.DisplayData.ModelInstanceProviders.PredictionModel;
 import com.atc.simulator.Display.DisplayData.ModelInstanceProviders.VelocityModel;
 import com.atc.simulator.flightdata.Prediction;
 import com.badlogic.gdx.utils.Disposable;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 
@@ -16,8 +13,8 @@ import java.util.HashMap;
  * With display specific extensions.
  * @author Luke Frisken
  */
-public class DisplayPrediction extends Prediction implements Disposable, ModelInstanceProviderMultiplexer {
-    private HashMap<String, ModelInstanceProvider> models;
+public class DisplayPrediction extends Prediction implements Disposable, DisplayRenderableProviderMultiplexer {
+    private HashMap<String, DisplayRenderableProvider> models;
     private DisplayAircraft aircraft;
     /**
      * Constructor DisplayPrediction creates a new DisplayPrediction instance.
@@ -28,7 +25,7 @@ public class DisplayPrediction extends Prediction implements Disposable, ModelIn
     public DisplayPrediction(DisplayAircraft aircraft, Prediction prediction) {
         super(prediction.getAircraftID(), prediction.getPredictionTime(), prediction.getAircraftStates());
         this.aircraft = aircraft;
-        models = new HashMap<String, ModelInstanceProvider>();
+        models = new HashMap<String, DisplayRenderableProvider>();
         createModels();
     }
 
@@ -49,14 +46,14 @@ public class DisplayPrediction extends Prediction implements Disposable, ModelIn
      */
     @Override
     public void dispose() {
-        for (ModelInstanceProvider model : models.values())
+        for (DisplayRenderableProvider model : models.values())
         {
             model.dispose();
         }
     }
 
     @Override
-    public Collection<ModelInstanceProvider> getInstanceProviders() {
+    public Collection<DisplayRenderableProvider> getDisplayRenderableProviders() {
         return models.values();
     }
 
@@ -76,7 +73,7 @@ public class DisplayPrediction extends Prediction implements Disposable, ModelIn
      */
     @Override
     public void update() {
-        for (ModelInstanceProvider model : models.values())
+        for (DisplayRenderableProvider model : models.values())
         {
             model.update();
         }

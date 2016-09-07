@@ -1,8 +1,9 @@
 package com.atc.simulator.Display;
 
-import com.atc.simulator.Display.DisplayData.ModelInstanceProviders.ModelInstanceProviderListener;
-import com.atc.simulator.Display.DisplayData.ModelInstanceProviders.ModelInstanceProvider;
-import com.atc.simulator.Display.DisplayData.ModelInstanceProviders.ModelInstanceProviderMultiplexer;
+import com.atc.simulator.Display.DisplayData.DisplayRenderable;
+import com.atc.simulator.Display.DisplayData.DisplayRenderableProvider;
+import com.atc.simulator.Display.DisplayData.DisplayRenderableProviderListener;
+import com.atc.simulator.Display.DisplayData.DisplayRenderableProviderMultiplexer;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
 
 import java.util.*;
@@ -11,8 +12,8 @@ import java.util.*;
  *
  * @author Luke Frisken
  */
-class RenderLayer implements Comparable, Iterable<ModelInstance>, ModelInstanceProviderListener {
-    HashMap<ModelInstanceProvider, ModelInstance> instances;
+class RenderLayer implements Comparable, Iterable<ModelInstance>, DisplayRenderableProviderListener {
+    HashMap<DisplayRenderableProvider, ModelInstance> instances;
     protected int priority;
     private String name;
     private boolean visible;
@@ -25,7 +26,7 @@ class RenderLayer implements Comparable, Iterable<ModelInstance>, ModelInstanceP
      */
     public RenderLayer(int priority, String name)
     {
-        instances = new HashMap<ModelInstanceProvider, ModelInstance>();
+        instances = new HashMap<DisplayRenderableProvider, ModelInstance>();
         this.priority = priority;
         this.name = name;
         visible = true;
@@ -67,15 +68,35 @@ class RenderLayer implements Comparable, Iterable<ModelInstance>, ModelInstanceP
     /**
      * Called by an instance provider to its listeners when it is being updated.
      * @param provider the provider who is updating
-     * @param newInstance the new model instance as a result of the update
+     * @param displayRenderable the new model instance as a result of the update
      */
     @Override
-    public void onInstanceUpdate(ModelInstanceProvider provider, ModelInstance newInstance) {
-        if (newInstance == null)
+    public void onDisplayRenderableUpdate(DisplayRenderableProvider provider, DisplayRenderable displayRenderable) {
+        if (displayRenderable == null)
         {
             throw new NullPointerException(provider.getClass().getName() + " provided a null model instance");
         }
-        instances.put(provider, newInstance);
+        storeDisplayRenderable(provider, displayRenderable);
+    }
+
+    /**
+     * Store a DisplayRenderable and it's provider in the appropriate
+     * location.
+     *
+     * @param provider the provider of the renderable
+     * @param renderable the renderable to store, associated with its provider.
+     */
+    private void storeDisplayRenderable(DisplayRenderableProvider provider, DisplayRenderable renderable)
+    {
+        switch (renderable.getType())
+        {
+            case DISPLAYTEXT:
+                renderable.getDisplayText();
+                break;
+            case MODELINSTANCE:
+                instances.put(provider, renderable.getModelInstance());
+                break;
+        }
     }
 
     /**
@@ -83,31 +104,34 @@ class RenderLayer implements Comparable, Iterable<ModelInstance>, ModelInstanceP
      * @param provider the provider who is being disposed of
      */
     @Override
-    public void onInstanceDispose(ModelInstanceProvider provider) {
+    public void onDisplayRenderableDispose(DisplayRenderableProvider provider) {
         instances.remove(provider);
     }
 
     /**
      * Add a new instance provider to this render layer.
      *
-     * @param provider of type ModelInstanceProvider
+     * @param provider of type DisplayRenderableProvider
      */
-    public void addInstanceProvider(ModelInstanceProvider provider)
+    public void addDisplayRenderableProvider(DisplayRenderableProvider provider)
     {
         provider.addModelInstanceListener(this);
-        instances.put(provider, provider.getModelInstance());
+        DisplayRenderable renderable = provider.getDisplayRenderable();
+
+        storeDisplayRenderable(provider, renderable);
+
     }
 
     /**
      * Add new instance provider multiplexer to this render layer.
      *
-     * @param multiplexer of type ModelInstanceProviderMultiplexer
+     * @param multiplexer of type DisplayRenderableProviderMultiplexer
      */
-    public void addInstanceProvider(ModelInstanceProviderMultiplexer multiplexer)
+    public void addDisplayRenderableProvider(DisplayRenderableProviderMultiplexer multiplexer)
     {
-        for(ModelInstanceProvider provider : multiplexer.getInstanceProviders())
+        for(DisplayRenderableProvider provider : multiplexer.getDisplayRenderableProviders())
         {
-            addInstanceProvider(provider);
+            addDisplayRenderableProvider(provider);
         }
     }
 
@@ -157,7 +181,7 @@ class RenderLayer implements Comparable, Iterable<ModelInstance>, ModelInstanceP
      */
     public void dispose()
     {
-        for (ModelInstanceProvider provider : instances.keySet())
+        for (DisplayRenderableProvider provider : instances.keySet())
         {
             provider.dispose();
         }

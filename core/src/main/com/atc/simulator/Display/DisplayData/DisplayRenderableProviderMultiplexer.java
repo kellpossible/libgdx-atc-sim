@@ -1,4 +1,6 @@
-package com.atc.simulator.Display.DisplayData.ModelInstanceProviders;
+package com.atc.simulator.Display.DisplayData;
+
+import com.atc.simulator.Display.DisplayData.DisplayRenderableProvider;
 
 import java.util.Collection;
 
@@ -7,12 +9,12 @@ import java.util.Collection;
  * to be passed to a render layer by a single object.
  * @author Luke Frisken
  */
-public interface ModelInstanceProviderMultiplexer {
+public interface DisplayRenderableProviderMultiplexer {
     /**
      * Get the instance providers provided by this multiplexer
      * @return
      */
-    Collection<ModelInstanceProvider> getInstanceProviders();
+    Collection<DisplayRenderableProvider> getDisplayRenderableProviders();
 
     /**
      * Call to update the instances provided by this multiplexer.

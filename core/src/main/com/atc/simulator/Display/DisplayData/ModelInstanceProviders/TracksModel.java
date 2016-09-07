@@ -1,7 +1,6 @@
 package com.atc.simulator.Display.DisplayData.ModelInstanceProviders;
 
 import com.atc.simulator.DebugDataFeed.Scenarios.Scenario;
-import com.atc.simulator.Display.DisplayData.ModelInstanceProviders.SimpleModelInstanceProvider;
 import com.atc.simulator.flightdata.AircraftState;
 import com.atc.simulator.flightdata.Track;
 import com.badlogic.gdx.graphics.Color;
@@ -9,7 +8,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.VertexAttributes;
 import com.badlogic.gdx.graphics.g3d.Material;
 import com.badlogic.gdx.graphics.g3d.Model;
-import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.graphics.g3d.utils.MeshPartBuilder;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.badlogic.gdx.math.Vector3;
@@ -20,7 +18,7 @@ import java.util.ArrayList;
  * Red tracks from scenario to go in display.
  * @author Luke Frisken
  */
-public class TracksModel extends SimpleModelInstanceProvider {
+public class TracksModel extends ModelInstanceDisplayRenderableProvider {
     private Scenario scenario;
 
     /**

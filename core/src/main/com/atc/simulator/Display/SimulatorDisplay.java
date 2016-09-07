@@ -88,7 +88,7 @@ public class SimulatorDisplay extends ApplicationAdapter implements DataPlayback
         @Override
         public void onNewAircraft(SystemStateDatabase stateDatabase, String aircraftID) {
             DisplayAircraft newAircraft = new DisplayAircraft(stateDatabase.getTrack(aircraftID));
-            aircraftLayer.addInstanceProvider(newAircraft);
+            aircraftLayer.addDisplayRenderableProvider(newAircraft);
             this.put(aircraftID, newAircraft);
         }
 
@@ -238,14 +238,14 @@ public class SimulatorDisplay extends ApplicationAdapter implements DataPlayback
         mapLayer = new RenderLayer(10, "map");
         layerManager.addRenderLayer(mapLayer);
         map = new WorldMapModel();
-        mapLayer.addInstanceProvider(map);
+        mapLayer.addDisplayRenderableProvider(map);
 
         if (showTracks)
         {
             tracksLayer = new RenderLayer(9, "tracks");
             layerManager.addRenderLayer(tracksLayer);
             tracks = new TracksModel(scenario);
-            tracksLayer.addInstanceProvider(tracks);
+            tracksLayer.addDisplayRenderableProvider(tracks);
         }
 
         predictionLayer = new RenderLayer(8, "predictions");
@@ -283,7 +283,7 @@ public class SimulatorDisplay extends ApplicationAdapter implements DataPlayback
                     displayPrediction.dispose();
                 }
                 displayPrediction = new DisplayPrediction(aircraft, prediction);
-                predictionLayer.addInstanceProvider(displayPrediction);
+                predictionLayer.addDisplayRenderableProvider(displayPrediction);
                 aircraft.setPrediction(displayPrediction);
             }
 
