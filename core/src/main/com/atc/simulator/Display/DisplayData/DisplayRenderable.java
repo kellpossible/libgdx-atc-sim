@@ -1,8 +1,7 @@
 package com.atc.simulator.Display.DisplayData;
 
+import com.atc.simulator.Display.BitmapText.BitmapText;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
-
-import java.util.concurrent.ExecutionException;
 
 /**
  * @author Luke Frisken
@@ -22,7 +21,7 @@ public class DisplayRenderable {
         type = RenderableType.MODELINSTANCE;
     }
 
-    public DisplayRenderable(DisplayText text)
+    public DisplayRenderable(BitmapText text)
     {
         renderable = text;
         type = RenderableType.DISPLAYTEXT;
@@ -33,10 +32,10 @@ public class DisplayRenderable {
         return type;
     }
 
-    public DisplayText getDisplayText()
+    public BitmapText getDisplayText()
     {
         checkType(RenderableType.DISPLAYTEXT);
-        return (DisplayText) renderable;
+        return (BitmapText) renderable;
     }
 
     public ModelInstance getModelInstance()

@@ -7,6 +7,7 @@ import com.atc.simulator.Display.DisplayData.*;
 import com.atc.simulator.Display.DisplayData.DisplayAircraft;
 import com.atc.simulator.Display.DisplayData.ModelInstanceProviders.WorldMapModel;
 import com.atc.simulator.Display.DisplayData.ModelInstanceProviders.TracksModel;
+import com.atc.simulator.Display.VectorText.HersheyFont;
 import com.atc.simulator.flightdata.*;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
@@ -113,6 +114,8 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
         stateDatabase = new SystemStateDatabase();
         aircraftDatabase = new AircraftDatabase();
         stateDatabase.addListener(aircraftDatabase);
+
+        HersheyFont hersheyFont = new HersheyFont();
 
     }
 

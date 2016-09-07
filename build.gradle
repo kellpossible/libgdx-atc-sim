@@ -45,6 +45,7 @@ allprojects {
         leastsquaresVersion = '1.0.0'
         ejmlVersion = '0.29'
         ddoglegVersion = '0.9'
+        guavaVersion = '19.0'
     }
 
     repositories {
@@ -100,6 +101,7 @@ project(":core") {
         compile "org.orangepalantir:leastsquares:$leastsquaresVersion"
         compile "org.ejml:all:$ejmlVersion"
         compile "org.ddogleg:ddogleg:$ddoglegVersion"
+        compile "com.google.guava:guava:$guavaVersion"
         testCompile "junit:junit:+"
         //compile "net.mikera:vectorz:0.61.0"
 

@@ -46,7 +46,7 @@ public class TestGraphLineSolver {
         positions.addAll(data1);
         positions.add(new Vector3(fit.x1, fit.y1, 0));
         positions.add(new Vector3(fit.x2, fit.y2, 0));
-        
+
 
         double[] xData = new double[positions.size()];
         double[] yData = new double[positions.size()];

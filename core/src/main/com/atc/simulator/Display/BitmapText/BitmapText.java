@@ -1,4 +1,4 @@
-package com.atc.simulator.Display.DisplayData;
+package com.atc.simulator.Display.BitmapText;
 
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -7,18 +7,18 @@ import com.badlogic.gdx.math.Vector2;
 /**
  * @author Luke Frisken
  */
-public class DisplayText {
+public class BitmapText {
     private Vector2 position;
     private String text;
     private BitmapFont font;
 
     /**
-     * Constructor for DisplayText
+     * Constructor for BitmapText
      * @param text text to be rendered
      * @param position position in screen coordintates to render this text
      * @param font the font to render this text with.
      */
-    public DisplayText(String text, Vector2 position, BitmapFont font)
+    public BitmapText(String text, Vector2 position, BitmapFont font)
     {
         this.position = position;
         this.text = text;
