@@ -1,6 +1,7 @@
 package com.atc.simulator.Display.DisplayData;
 
 import com.atc.simulator.Display.DisplayData.ModelInstanceProviders.*;
+import com.atc.simulator.Display.LayerManager;
 import com.atc.simulator.flightdata.AircraftState;
 import com.atc.simulator.flightdata.Track;
 import com.badlogic.gdx.utils.Disposable;
@@ -17,19 +18,21 @@ public class DisplayAircraft extends AircraftState implements Disposable, Displa
     private Track track;
     private DisplayPrediction prediction = null;
     private HashMap<String, DisplayRenderableProvider> models;
+    private LayerManager layerManager;
 
-    private DisplayAircraft(AircraftState aircraftState)
+    private DisplayAircraft(LayerManager layerManager, AircraftState aircraftState)
     {
         super(aircraftState.getAircraftID(),
                 aircraftState.getTime(),
                 aircraftState.getPosition(),
                 aircraftState.getVelocity(),
                 aircraftState.getHeading());
+        this.layerManager = layerManager;
     }
 
-    public DisplayAircraft(Track track)
+    public DisplayAircraft(LayerManager layerManager, Track track)
     {
-        this(track.getLatest());
+        this(layerManager, track.getLatest());
         this.track = track;
         models = new HashMap<String, DisplayRenderableProvider>();
         createModels();
@@ -79,7 +82,7 @@ public class DisplayAircraft extends AircraftState implements Disposable, Displa
 
     private void createModels()
     {
-        models.put("Aircraft", new AircraftModel(this));
+        models.put("Aircraft", new AircraftModel(layerManager.getCamera("perspective"), this));
     }
 
     /**

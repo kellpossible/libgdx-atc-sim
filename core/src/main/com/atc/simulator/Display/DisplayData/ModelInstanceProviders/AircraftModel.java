@@ -2,6 +2,7 @@ package com.atc.simulator.Display.DisplayData.ModelInstanceProviders;
 
 import com.atc.simulator.Display.DisplayData.DisplayAircraft;
 import com.atc.simulator.vectors.GeographicCoordinate;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.VertexAttributes;
 import com.badlogic.gdx.graphics.g3d.Material;
@@ -19,8 +20,9 @@ public class AircraftModel extends ModelInstanceDisplayRenderableProvider {
     private DisplayAircraft aircraft;
 
 
-    public AircraftModel(DisplayAircraft aircraft)
+    public AircraftModel(Camera camera, DisplayAircraft aircraft)
     {
+        super(camera);
         this.aircraft = aircraft;
         update();
 

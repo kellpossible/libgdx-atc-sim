@@ -1,40 +1,17 @@
 package com.atc.simulator.Display.VectorText;
 
-import com.atc.simulator.vectors.GeographicCoordinate;
-import com.atc.simulator.vectors.GnomonicProjection;
-import com.atc.simulator.vectors.LineSolver;
-import com.atc.simulator.vectors.TestGraphLeastSquaresCircleSolver;
 import com.badlogic.gdx.math.Vector2;
 import org.knowm.xchart.*;
-import pythagoras.d.Line;
-import pythagoras.d.Vector3;
+import org.knowm.xchart.style.markers.SeriesMarkers;
 
 import java.util.ArrayList;
 
-import org.knowm.xchart.QuickChart;
 import org.knowm.xchart.SwingWrapper;
 import org.knowm.xchart.XYChart;
-import pythagoras.d.Circle;
-import pythagoras.d.Line;
-import pythagoras.d.Matrix3;
-import pythagoras.d.Vector3;
-
-import java.util.ArrayList;
 
 /**
  * @author Luke Frisken
  */
-
-import com.atc.simulator.Display.VectorText.HersheyFont;
-import org.knowm.xchart.QuickChart;
-import org.knowm.xchart.SwingWrapper;
-import org.knowm.xchart.XYChart;
-import pythagoras.d.Circle;
-import pythagoras.d.Line;
-import pythagoras.d.Matrix3;
-import pythagoras.d.Vector3;
-
-import java.util.ArrayList;
 
 /**
  * @author Luke Frisken
@@ -65,25 +42,49 @@ public class TestGraphHersheyFont {
         // Create Chart
         XYChart chart = new XYChartBuilder().width(1000).height(1000).title("Test Graph Hershey Font").build();
 
-
         HersheyFont font = new HersheyFont();
 
-        Vector2[][] lines = font.getCharacter(50, HersheyFont.CharacterSet.SIMPLEX);
+        ArrayList<Vector2[]> linesArrayList = new ArrayList<Vector2[]>();
 
-
-        XYSeries[] series = new XYSeries[lines.length];
-        for (int i = 0; i < lines.length; i++)
+        for (int x = 32; x <= 127; x++)
         {
-            Vector2[] line = lines[i];
+            Vector2[][] lines = font.getCharacterLines(x, HersheyFont.CharacterSet.SIMPLEX);
+
+            if (lines == null)
+            {
+                continue;
+            }
+
+
+            for (Vector2[] line: lines)
+            {
+                Vector2[] shiftedLine = new Vector2[line.length];
+                for (int line_i = 0; line_i <line.length; line_i++)
+                {
+                    shiftedLine[line_i] = line[line_i].add(new Vector2(x%12*0.5f, -x/12));
+                }
+                linesArrayList.add(shiftedLine);
+            }
+        }
+
+
+        XYSeries[] series = new XYSeries[linesArrayList.size()];
+        for (int i = 0; i < linesArrayList.size(); i++)
+        {
+            Vector2[] line = linesArrayList.get(i);
             XYData data = dataFromVectorList(line);
             series[i] = chart.addSeries("line " + i, data.xData, data.yData);
             series[i].setXYSeriesRenderStyle(XYSeries.XYSeriesRenderStyle.Line);
+            series[i].setMarker(SeriesMarkers.NONE);
         }
 
-        chart.getStyler().setXAxisMin(-0.5);
-        chart.getStyler().setXAxisMax(0.5);
-        chart.getStyler().setYAxisMin(-0.5);
-        chart.getStyler().setYAxisMax(0.5);
+
+
+
+//        chart.getStyler().setXAxisMin(-0.5);
+//        chart.getStyler().setXAxisMax(0.5);
+//        chart.getStyler().setYAxisMin(-0.5);
+//        chart.getStyler().setYAxisMax(0.5);
 
         // Show it
         new SwingWrapper(chart).displayChart();

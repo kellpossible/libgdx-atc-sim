@@ -4,6 +4,7 @@ import com.atc.simulator.Display.DisplayData.DisplayRenderable;
 import com.atc.simulator.Display.DisplayData.DisplayRenderableProvider;
 import com.atc.simulator.Display.DisplayData.DisplayRenderableProviderListener;
 import com.atc.simulator.Display.DisplayData.DisplayRenderableProviderMultiplexer;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
 
 import java.util.*;
@@ -12,11 +13,14 @@ import java.util.*;
  *
  * @author Luke Frisken
  */
-class RenderLayer implements Comparable, Iterable<ModelInstance>, DisplayRenderableProviderListener {
-    HashMap<DisplayRenderableProvider, ModelInstance> instances;
+class RenderLayer implements Comparable, DisplayRenderableProviderListener {
+    private HashMap<Camera, CameraBatch> cameraBatches;
+
     protected int priority;
     private String name;
     private boolean visible;
+
+
 
 
     /**
@@ -26,7 +30,7 @@ class RenderLayer implements Comparable, Iterable<ModelInstance>, DisplayRendera
      */
     public RenderLayer(int priority, String name)
     {
-        instances = new HashMap<DisplayRenderableProvider, ModelInstance>();
+        cameraBatches = new HashMap<Camera, CameraBatch>();
         this.priority = priority;
         this.name = name;
         visible = true;
@@ -51,14 +55,14 @@ class RenderLayer implements Comparable, Iterable<ModelInstance>, DisplayRendera
     }
 
     /**
-     * Get the instances in this layer
+     * Get the camera batches for the model instances in this layer
      * @return collection of model instances
      */
-    public Collection<ModelInstance> getRenderInstances()
+    public Collection<CameraBatch> getModelInstanceCameraBatches()
     {
         if (visible)
         {
-            return instances.values();
+            return cameraBatches.values();
         } else {
             return null;
         }
@@ -83,8 +87,8 @@ class RenderLayer implements Comparable, Iterable<ModelInstance>, DisplayRendera
      * Store a DisplayRenderable and it's provider in the appropriate
      * location.
      *
-     * @param provider the provider of the renderable
-     * @param renderable the renderable to store, associated with its provider.
+     * @param provider the provider of the renderab
+     * @param renderable of type DisplayRenderable
      */
     private void storeDisplayRenderable(DisplayRenderableProvider provider, DisplayRenderable renderable)
     {
@@ -94,9 +98,22 @@ class RenderLayer implements Comparable, Iterable<ModelInstance>, DisplayRendera
                 renderable.getDisplayText();
                 break;
             case MODELINSTANCE:
-                instances.put(provider, renderable.getModelInstance());
+                storeModelInstance(provider, renderable);
                 break;
         }
+    }
+
+    private void storeModelInstance(DisplayRenderableProvider provider, DisplayRenderable renderable)
+    {
+        Camera camera = renderable.getCamera();
+        CameraBatch batch = cameraBatches.get(camera);
+        if (batch == null)
+        {
+            batch = new CameraBatch(camera);
+            cameraBatches.put(camera, batch);
+        }
+
+        batch.put(provider, renderable.getModelInstance());
     }
 
     /**
@@ -105,7 +122,11 @@ class RenderLayer implements Comparable, Iterable<ModelInstance>, DisplayRendera
      */
     @Override
     public void onDisplayRenderableDispose(DisplayRenderableProvider provider) {
-        instances.remove(provider);
+        for (CameraBatch cameraBatch : cameraBatches.values())
+        {
+            cameraBatch.remove(provider);
+        }
+
     }
 
     /**
@@ -133,15 +154,6 @@ class RenderLayer implements Comparable, Iterable<ModelInstance>, DisplayRendera
         {
             addDisplayRenderableProvider(provider);
         }
-    }
-
-    /**
-     * Implementation of iterable interface
-     * @return Iterator<ModelInstance>
-     */
-    @Override
-    public Iterator<ModelInstance> iterator() {
-        return instances.values().iterator();
     }
 
 
@@ -181,9 +193,13 @@ class RenderLayer implements Comparable, Iterable<ModelInstance>, DisplayRendera
      */
     public void dispose()
     {
-        for (DisplayRenderableProvider provider : instances.keySet())
+        for (CameraBatch cameraBatch : cameraBatches.values())
         {
-            provider.dispose();
+            for (DisplayRenderableProvider provider : cameraBatch.keySet())
+            {
+                provider.dispose();
+            }
         }
+
     }
 }

@@ -3,6 +3,7 @@ package com.atc.simulator.Display.DisplayData.ModelInstanceProviders;
 import com.atc.simulator.Display.DisplayData.DisplayAircraft;
 import com.atc.simulator.vectors.GeographicCoordinate;
 import com.atc.simulator.vectors.SphericalVelocity;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.VertexAttributes;
 import com.badlogic.gdx.graphics.g3d.Material;
@@ -23,8 +24,9 @@ public class VelocityModel extends ModelInstanceDisplayRenderableProvider {
      *
      * @param aircraft of type DisplayAircraft
      */
-    public VelocityModel(DisplayAircraft aircraft)
+    public VelocityModel(Camera camera, DisplayAircraft aircraft)
     {
+        super(camera);
         this.aircraft = aircraft;
         update();
     }

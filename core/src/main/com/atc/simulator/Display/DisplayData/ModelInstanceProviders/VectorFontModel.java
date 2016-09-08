@@ -3,6 +3,7 @@ package com.atc.simulator.Display.DisplayData.ModelInstanceProviders;
 import com.atc.simulator.DebugDataFeed.Scenarios.Scenario;
 import com.atc.simulator.flightdata.AircraftState;
 import com.atc.simulator.flightdata.Track;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.VertexAttributes;
@@ -24,8 +25,9 @@ public class VectorFontModel extends ModelInstanceDisplayRenderableProvider {
      * Cnstructor of TracksModel
      * @param scenario scenario to grab tracks from.
      */
-    public VectorFontModel(Scenario scenario)
+    public VectorFontModel(Camera camera, Scenario scenario)
     {
+        super(camera);
         this.scenario = scenario;
         update();
     }

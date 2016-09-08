@@ -71,10 +71,6 @@ public class HersheyFont {
 
         public FloatGlyph toFloatGlyph()
         {
-            if (charcode == 503)
-            {
-                System.out.println("DLKSFJSDLKFJDSLKFJ");
-            }
             FloatGlyph newGlyph = new FloatGlyph();
             newGlyph.bbox = boundsToVector();
             newGlyph.lines = linesToVector();
@@ -160,8 +156,15 @@ public class HersheyFont {
         characterSets.put(SIMPLEX, simplexGlyphs);
     }
 
-    public Vector2[][] getCharacter(int keycode, CharacterSet characterSet)
+    public Vector2[][] getCharacterLines(int keycode, CharacterSet characterSet)
     {
-        return characterSets.get(characterSet).get(keycode).lines;
+        HashMap<Integer, FloatGlyph>  glyphs = characterSets.get(characterSet);
+        FloatGlyph glyph = glyphs.get(keycode);
+        if (glyph == null)
+        {
+            return null;
+        } else {
+            return glyph.lines;
+        }
     }
 }

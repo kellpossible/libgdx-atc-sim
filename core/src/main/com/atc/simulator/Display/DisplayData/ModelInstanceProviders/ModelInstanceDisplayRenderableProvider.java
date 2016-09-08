@@ -3,6 +3,7 @@ package com.atc.simulator.Display.DisplayData.ModelInstanceProviders;
 import com.atc.simulator.Display.DisplayData.DisplayRenderable;
 import com.atc.simulator.Display.DisplayData.DisplayRenderableProvider;
 import com.atc.simulator.Display.DisplayData.DisplayRenderableProviderListener;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
 
@@ -16,6 +17,12 @@ public abstract class ModelInstanceDisplayRenderableProvider implements DisplayR
     private ArrayList<DisplayRenderableProviderListener> modelInstanceListeners = new ArrayList<DisplayRenderableProviderListener>();
     private DisplayRenderable renderable;
     private Model model;
+    private Camera camera;
+
+    public ModelInstanceDisplayRenderableProvider(Camera camera)
+    {
+        this.camera = camera;
+    }
 
     /**
      * Get the instance provided by this class
@@ -86,7 +93,7 @@ public abstract class ModelInstanceDisplayRenderableProvider implements DisplayR
     {
         ModelInstance instance = new ModelInstance(newModel);
         model = newModel;
-        renderable = new DisplayRenderable(instance);
+        renderable = new DisplayRenderable(instance, camera);
         if (triggerUpdate)
         {
             triggerOnInstanceUpdate(renderable);

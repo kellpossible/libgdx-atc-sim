@@ -36,7 +36,7 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
     private static final boolean enableDebugPrint = ApplicationConfig.getInstance().getBoolean("settings.debug.print-display");
     private static final boolean showTracks = ApplicationConfig.getInstance().getBoolean("settings.display.show-tracks");
 
-	private PerspectiveCamera cam;
+	private PerspectiveCamera perspectiveCamera;
     private ModelBatch modelBatch;
     private SpriteBatch spriteBatch;
     private Environment environment;
@@ -81,7 +81,7 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
         /** @see SystemStateDatabaseListener#onNewAircraft(SystemStateDatabase, String) */
         @Override
         public void onNewAircraft(SystemStateDatabase stateDatabase, String aircraftID) {
-            DisplayAircraft newAircraft = new DisplayAircraft(stateDatabase.getTrack(aircraftID));
+            DisplayAircraft newAircraft = new DisplayAircraft(displayModel, stateDatabase.getTrack(aircraftID));
             aircraftLayer.addDisplayRenderableProvider(newAircraft);
             this.put(aircraftID, newAircraft);
         }
@@ -157,16 +157,16 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
 		public boolean zoom(float amount)
 		{
 		    //some magic numbers for zooming and panning.
-			float newFieldOfView = cam.fieldOfView - (amount * (cam.fieldOfView/15f));
+			float newFieldOfView = perspectiveCamera.fieldOfView - (amount * (perspectiveCamera.fieldOfView/15f));
 			if (newFieldOfView < 0.01 || newFieldOfView > 179)
 			{
 				return false;
 			}
 
-			cam.fieldOfView = newFieldOfView;
-			cam.update();
+			perspectiveCamera.fieldOfView = newFieldOfView;
+			perspectiveCamera.update();
 
-			this.rotateAngle = cam.fieldOfView;
+			this.rotateAngle = perspectiveCamera.fieldOfView;
 			return true;
 		}
 
@@ -196,19 +196,20 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
 
         modelBatch = new ModelBatch();
 
-		cam = new PerspectiveCamera(40, Gdx.graphics.getWidth(), Gdx.graphics.getWidth());
-		cam.position.set(0f, 0f, 0f);
+		perspectiveCamera = new PerspectiveCamera(40, Gdx.graphics.getWidth(), Gdx.graphics.getWidth());
+        displayModel.addCamera("perspective", perspectiveCamera);
+		perspectiveCamera.position.set(0f, 0f, 0f);
 //		Vector3 firstPos = track.get(0).getPosition().getCartesianDrawVector();
-//		cam.lookAt(firstPos.x, firstPos.y, firstPos.z);
+//		perspectiveCamera.lookAt(firstPos.x, firstPos.y, firstPos.z);
 
 
         //make the camera look at the projection reference (as it is likely the center of whatever's going on
         // in the scenario
         Vector3 lookAt = scenario.getProjectionReference().getCartesianDrawVector();
-		cam.lookAt(lookAt);
-		cam.near = 0.01f;
-		cam.far = 2f;
-		cam.update();
+		perspectiveCamera.lookAt(lookAt);
+		perspectiveCamera.near = 0.01f;
+		perspectiveCamera.far = 2f;
+		perspectiveCamera.update();
 
 //		ModelBuilder modelBuilder = new ModelBuilder();
 //		earthTextureModel = modelBuilder.createSphere(5f, 5f, 5f, 64, 64,
@@ -228,21 +229,21 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
         environment.set(new ColorAttribute(ColorAttribute.AmbientLight, 10f, 10f, 10f, 1f));
         //environment.add(new DirectionalLight().set(0.8f, 0.8f, 0.8f, -1f, -0.8f, -0.2f));
 
-        camController = new MyCameraController(cam);
+        camController = new MyCameraController(perspectiveCamera);
         Gdx.input.setInputProcessor(camController);
 
 
         //Set up all the RenderLayers
         mapLayer = new RenderLayer(10, "map");
         displayModel.addRenderLayer(mapLayer);
-        map = new WorldMapModel();
+        map = new WorldMapModel(perspectiveCamera);
         mapLayer.addDisplayRenderableProvider(map);
 
         if (showTracks)
         {
             tracksLayer = new RenderLayer(9, "tracks");
             displayModel.addRenderLayer(tracksLayer);
-            tracks = new TracksModel(scenario);
+            tracks = new TracksModel(perspectiveCamera, scenario);
             tracksLayer.addDisplayRenderableProvider(tracks);
         }
 
@@ -280,7 +281,7 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
                 {
                     displayPrediction.update(prediction);
                 } else {
-                    displayPrediction = new DisplayPrediction(aircraft, prediction);
+                    displayPrediction = new DisplayPrediction(displayModel, aircraft, prediction);
                     predictionLayer.addDisplayRenderableProvider(displayPrediction);
                     aircraft.setPrediction(displayPrediction);
                 }
@@ -318,17 +319,26 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 
         camController.update();
-		modelBatch.begin(cam);
+		modelBatch.begin(perspectiveCamera);
 
         pollSystemUpdateQueue();
         pollPredictionUpdateQueue();
 
         //Render all the instances in the displayModel.
-        Collection<ModelInstance> instances = displayModel.getRenderInstances();
-        for(ModelInstance instance : instances)
+        Collection<CameraBatch> cameraBatches = displayModel.getRenderInstances();
+
+
+        for(CameraBatch cameraBatch: cameraBatches)
         {
-            modelBatch.render(instance);
+            modelBatch.flush();
+            modelBatch.setCamera(cameraBatch.getCamera());
+            for(ModelInstance instance : cameraBatch.instances())
+            {
+                modelBatch.render(instance);
+            }
         }
+
+
 
 		modelBatch.end();
 
@@ -359,9 +369,9 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
     public void resize(int width, int height)
     {
         float aspectRatio = (float) width / (float) height;
-        cam.viewportWidth = 2f * aspectRatio;
-        cam.viewportHeight = 2f;
-        cam.update();
+        perspectiveCamera.viewportWidth = 2f * aspectRatio;
+        perspectiveCamera.viewportHeight = 2f;
+        perspectiveCamera.update();
 
     }
 }

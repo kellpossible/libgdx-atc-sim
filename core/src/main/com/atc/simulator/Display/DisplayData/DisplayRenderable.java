@@ -1,6 +1,7 @@
 package com.atc.simulator.Display.DisplayData;
 
 import com.atc.simulator.Display.BitmapText.BitmapText;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
 
 /**
@@ -9,16 +10,18 @@ import com.badlogic.gdx.graphics.g3d.ModelInstance;
 public class DisplayRenderable {
     private Object renderable;
     private RenderableType type;
+    private Camera camera;
 
     public enum RenderableType {
         MODELINSTANCE,
         DISPLAYTEXT
     }
 
-    public DisplayRenderable(ModelInstance instance)
+    public DisplayRenderable(ModelInstance instance, Camera camera)
     {
         renderable = instance;
         type = RenderableType.MODELINSTANCE;
+        this.camera = camera;
     }
 
     public DisplayRenderable(BitmapText text)
@@ -42,6 +45,11 @@ public class DisplayRenderable {
     {
         checkType(RenderableType.MODELINSTANCE);
         return (ModelInstance) renderable;
+    }
+
+    public Camera getCamera()
+    {
+        return camera;
     }
 
 

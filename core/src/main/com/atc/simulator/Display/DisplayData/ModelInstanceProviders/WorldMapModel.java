@@ -1,6 +1,7 @@
 package com.atc.simulator.Display.DisplayData.ModelInstanceProviders;
 
 import com.atc.simulator.navdata.Countries;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g3d.Model;
 
 /**
@@ -8,7 +9,8 @@ import com.badlogic.gdx.graphics.g3d.Model;
  * @author Luke Frisken
  */
 public class WorldMapModel extends ModelInstanceDisplayRenderableProvider {
-    public WorldMapModel() {
+    public WorldMapModel(Camera camera) {
+        super(camera);
         update();
     }
 
