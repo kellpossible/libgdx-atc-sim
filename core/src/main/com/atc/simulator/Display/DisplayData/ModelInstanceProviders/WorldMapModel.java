@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.g3d.Model;
  * The background map for the display.
  * @author Luke Frisken
  */
-public class WorldMapModel extends ModelInstanceDisplayRenderableProvider {
+public class WorldMapModel extends SimpleDisplayRenderableProvider {
     public WorldMapModel(Camera camera) {
         super(camera);
         update();

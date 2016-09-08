@@ -65,7 +65,7 @@ public class DisplayAircraft extends AircraftState implements Disposable, Displa
     }
 
     /**
-     * Call to update the instances provided by this multiplexer.
+     * Call to update the gdxRenderableProviders provided by this multiplexer.
      */
     public void update()
     {
@@ -87,6 +87,7 @@ public class DisplayAircraft extends AircraftState implements Disposable, Displa
         AircraftInfoModel infoModel = new AircraftInfoModel(display.getCamera("ortho"), display, this);
         display.addCameraListener(infoModel.getCamera(), infoModel);
         models.put("AircraftInfo", infoModel);
+        models.put("AircraftBreadcrumbs", new BreadCrumbModel(display.getCamera("perspective"), this));
     }
 
     /**

@@ -13,13 +13,13 @@ import java.util.ArrayList;
  * A simple implementation of MOdelInstanceProvider, providing a single instance.
  * @author Luke Frisken
  */
-public abstract class ModelInstanceDisplayRenderableProvider implements DisplayRenderableProvider {
+public abstract class SimpleDisplayRenderableProvider implements DisplayRenderableProvider {
     private ArrayList<DisplayRenderableProviderListener> modelInstanceListeners = new ArrayList<DisplayRenderableProviderListener>();
     private DisplayRenderable renderable;
     private Model model;
     private Camera camera;
 
-    public ModelInstanceDisplayRenderableProvider(Camera camera)
+    public SimpleDisplayRenderableProvider(Camera camera)
     {
         this.camera = camera;
     }
@@ -38,7 +38,7 @@ public abstract class ModelInstanceDisplayRenderableProvider implements DisplayR
      * @param listener the listener to be added
      */
     @Override
-    public void addModelInstanceListener(DisplayRenderableProviderListener listener) {
+    public void addDisplayRenderableProviderListener(DisplayRenderableProviderListener listener) {
         modelInstanceListeners.add(listener);
         listener.onDisplayRenderableUpdate(this, renderable);
     }
@@ -68,7 +68,7 @@ public abstract class ModelInstanceDisplayRenderableProvider implements DisplayR
      * Trigger an onDisplayRenderableUpdate event for this class' listeners.
      * @param renderable the new, updated instance
      */
-    public void triggerOnInstanceUpdate(DisplayRenderable renderable)
+    public void triggerOnRenderableUpdate(DisplayRenderable renderable)
     {
         for (DisplayRenderableProviderListener listener : modelInstanceListeners)
         {
@@ -84,6 +84,22 @@ public abstract class ModelInstanceDisplayRenderableProvider implements DisplayR
         }
     }
 
+    public void setDisplayRenderable(DisplayRenderable newRenderable)
+    {
+        setDisplayRenderable(newRenderable, true);
+    }
+
+    public void setDisplayRenderable(DisplayRenderable newRenderable, boolean triggerUpdate)
+    {
+        renderable = newRenderable;
+
+        if (triggerUpdate)
+        {
+            triggerOnRenderableUpdate(renderable);
+        }
+    }
+
+    //todo remove setModel, because it's superceded by setrenderable
     protected ModelInstance setModel(Model newModel)
     {
         return setModel(newModel, true);
@@ -93,11 +109,7 @@ public abstract class ModelInstanceDisplayRenderableProvider implements DisplayR
     {
         ModelInstance instance = new ModelInstance(newModel);
         model = newModel;
-        renderable = new DisplayRenderable(instance, camera);
-        if (triggerUpdate)
-        {
-            triggerOnInstanceUpdate(renderable);
-        }
+        setDisplayRenderable(new DisplayRenderable(instance, camera), triggerUpdate);
         return instance;
     }
 
@@ -107,7 +119,7 @@ public abstract class ModelInstanceDisplayRenderableProvider implements DisplayR
     }
 
     /**
-     * Get the camera being used to draw the model instances provided by this provider.
+     * Get the camera being used to draw the model gdxRenderableProviders provided by this provider.
      * @return
      */
     public Camera getCamera()

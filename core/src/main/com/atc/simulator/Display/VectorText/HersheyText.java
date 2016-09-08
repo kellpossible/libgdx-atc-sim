@@ -35,7 +35,7 @@ public class HersheyText {
             byte character = chars[j];
             FloatGlyph glyph = font.getGlyph(character);
 
-            
+
 // start of an implementation for type spacing
 //            float x_offset = -glyph.left;
 //            if (previousGlyph != null)

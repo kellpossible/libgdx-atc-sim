@@ -19,7 +19,7 @@ import java.util.ArrayList;
  * Red tracks from scenario to go in display.
  * @author Luke Frisken
  */
-public class TracksModel extends ModelInstanceDisplayRenderableProvider {
+public class TracksModel extends SimpleDisplayRenderableProvider {
     private Scenario scenario;
 
     /**

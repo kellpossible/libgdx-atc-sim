@@ -5,7 +5,6 @@ import com.atc.simulator.Display.DisplayData.DisplayRenderableProvider;
 import com.atc.simulator.Display.DisplayData.DisplayRenderableProviderListener;
 import com.atc.simulator.Display.DisplayData.DisplayRenderableProviderMultiplexer;
 import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.g3d.ModelInstance;
 
 import java.util.*;
 
@@ -55,8 +54,8 @@ class RenderLayer implements Comparable, DisplayRenderableProviderListener {
     }
 
     /**
-     * Get the camera batches for the model instances in this layer
-     * @return collection of model instances
+     * Get the camera batches for the model gdxRenderableProviders in this layer
+     * @return collection of model gdxRenderableProviders
      */
     public Collection<CameraBatch> getModelInstanceCameraBatches()
     {
@@ -97,7 +96,7 @@ class RenderLayer implements Comparable, DisplayRenderableProviderListener {
             case DISPLAYTEXT:
                 renderable.getDisplayText();
                 break;
-            case MODELINSTANCE:
+            case GDX_RENDERABLE_PROVIDER:
                 storeModelInstance(provider, renderable);
                 break;
         }
@@ -113,7 +112,7 @@ class RenderLayer implements Comparable, DisplayRenderableProviderListener {
             cameraBatches.put(camera, batch);
         }
 
-        batch.put(provider, renderable.getModelInstance());
+        batch.put(provider, renderable.getRenderableProvider());
     }
 
     /**
@@ -136,7 +135,7 @@ class RenderLayer implements Comparable, DisplayRenderableProviderListener {
      */
     public void addDisplayRenderableProvider(DisplayRenderableProvider provider)
     {
-        provider.addModelInstanceListener(this);
+        provider.addDisplayRenderableProviderListener(this);
         DisplayRenderable renderable = provider.getDisplayRenderable();
 
         storeDisplayRenderable(provider, renderable);

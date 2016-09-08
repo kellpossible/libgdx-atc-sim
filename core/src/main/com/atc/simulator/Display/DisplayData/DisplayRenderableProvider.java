@@ -5,7 +5,7 @@ import com.badlogic.gdx.utils.Disposable;
 
 /**
  * This interface represents any object which is able
- * to provide Model instances to RenderLayers in the
+ * to provide Model gdxRenderableProviders to RenderLayers in the
  * display.
  * @author Luke Frisken
  */
@@ -20,7 +20,7 @@ public interface DisplayRenderableProvider extends Disposable {
      * Add a DisplayRenderableProviderListener listener to this class.
      * @param listener the listener to be added
      */
-    void addModelInstanceListener(DisplayRenderableProviderListener listener);
+    void addDisplayRenderableProviderListener(DisplayRenderableProviderListener listener);
 
     /**
      * Call to update the instance provided by this class.

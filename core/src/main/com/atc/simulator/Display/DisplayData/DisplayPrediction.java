@@ -65,7 +65,7 @@ public class DisplayPrediction extends Prediction implements Disposable, Display
 
     /**
      * Update this prediction with new prediction values.
-     * and update the model instances provided by this object.
+     * and update the model gdxRenderableProviders provided by this object.
      * @param newPrediction
      */
     public void update(Prediction newPrediction)
@@ -75,7 +75,7 @@ public class DisplayPrediction extends Prediction implements Disposable, Display
     }
 
     /**
-     * Call to update the instances provided by this multiplexer.
+     * Call to update the gdxRenderableProviders provided by this multiplexer.
      */
     @Override
     public void update() {

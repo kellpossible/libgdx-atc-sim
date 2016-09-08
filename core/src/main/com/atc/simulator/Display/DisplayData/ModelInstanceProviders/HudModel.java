@@ -20,7 +20,7 @@ import com.badlogic.gdx.math.Vector3;
  * @author Luke Frisken
  * Created by luke on 8/09/16.
  */
-public class HudModel extends ModelInstanceDisplayRenderableProvider implements DisplayCameraListener {
+public class HudModel extends SimpleDisplayRenderableProvider implements DisplayCameraListener {
     private Display display;
     private HersheyFont font;
     /**
@@ -77,7 +77,7 @@ public class HudModel extends ModelInstanceDisplayRenderableProvider implements 
         Model newModel = modelBuilder.end();
         ModelInstance modelInstance = setModel(newModel, false);
 
-        triggerOnInstanceUpdate(getDisplayRenderable());
+        triggerOnRenderableUpdate(getDisplayRenderable());
     }
 
     @Override

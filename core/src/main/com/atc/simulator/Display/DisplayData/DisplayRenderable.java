@@ -2,7 +2,7 @@ package com.atc.simulator.Display.DisplayData;
 
 import com.atc.simulator.Display.BitmapText.BitmapText;
 import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.g3d.ModelInstance;
+import com.badlogic.gdx.graphics.g3d.RenderableProvider;
 
 /**
  * @author Luke Frisken
@@ -13,14 +13,22 @@ public class DisplayRenderable {
     private Camera camera;
 
     public enum RenderableType {
-        MODELINSTANCE,
-        DISPLAYTEXT
+        GDX_RENDERABLE_PROVIDER,
+        DISPLAYTEXT,
+        HIDDEN
     }
 
-    public DisplayRenderable(ModelInstance instance, Camera camera)
+    public DisplayRenderable()
     {
-        renderable = instance;
-        type = RenderableType.MODELINSTANCE;
+        renderable = null;
+        type = RenderableType.HIDDEN;
+        this.camera = null;
+    }
+
+    public DisplayRenderable(RenderableProvider gdxRenderableProvider, Camera camera)
+    {
+        renderable = gdxRenderableProvider;
+        type = RenderableType.GDX_RENDERABLE_PROVIDER;
         this.camera = camera;
     }
 
@@ -41,10 +49,10 @@ public class DisplayRenderable {
         return (BitmapText) renderable;
     }
 
-    public ModelInstance getModelInstance()
+    public RenderableProvider getRenderableProvider()
     {
-        checkType(RenderableType.MODELINSTANCE);
-        return (ModelInstance) renderable;
+        checkType(RenderableType.GDX_RENDERABLE_PROVIDER);
+        return (RenderableProvider) renderable;
     }
 
     public Camera getCamera()

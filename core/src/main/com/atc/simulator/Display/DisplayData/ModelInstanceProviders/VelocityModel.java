@@ -1,19 +1,16 @@
 package com.atc.simulator.Display.DisplayData.ModelInstanceProviders;
 
 import com.atc.simulator.Display.DisplayData.DisplayAircraft;
-import com.atc.simulator.PredictionService.Engine.Algorithms.Java.JavaLinear2dAlgorithm;
 import com.atc.simulator.PredictionService.Engine.Algorithms.Java.JavaLinearAlgorithm;
 import com.atc.simulator.flightdata.AircraftState;
 import com.atc.simulator.flightdata.Prediction;
 import com.atc.simulator.vectors.GeographicCoordinate;
-import com.atc.simulator.vectors.SphericalVelocity;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.VertexAttributes;
 import com.badlogic.gdx.graphics.g3d.Material;
 import com.badlogic.gdx.graphics.g3d.Model;
-import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.utils.MeshPartBuilder;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.badlogic.gdx.math.Vector3;
@@ -24,7 +21,7 @@ import java.util.ArrayList;
  * Green velocity arrows
  * @author Luke Frisken
  */
-public class VelocityModel extends ModelInstanceDisplayRenderableProvider {
+public class VelocityModel extends SimpleDisplayRenderableProvider {
     private DisplayAircraft aircraft;
 
     /**

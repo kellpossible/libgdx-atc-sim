@@ -16,6 +16,7 @@ import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g3d.*;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
+import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
 import com.badlogic.gdx.graphics.g3d.utils.CameraInputController;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -40,7 +41,6 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
     private OrthographicCamera orthoCamera;
     private ModelBatch modelBatch;
     private SpriteBatch spriteBatch;
-    private Environment environment;
     private MyCameraController camController;
     private AssetManager assets;
     private Scenario scenario;
@@ -59,6 +59,7 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
     private RenderLayer aircraftLayer;
     private RenderLayer predictionLayer;
     private HudModel hud;
+    private Environment environment;
 
     Vector2 textPosition;
 
@@ -189,6 +190,10 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
      */
     @Override
 	public void create () {
+        environment = new Environment();
+        environment.set(new ColorAttribute(ColorAttribute.AmbientLight, 0.5f, 0.5f, 0.5f, 1.0f));
+        environment.add(new DirectionalLight().set(0.8f, 0.8f, 0.8f, -1f, -0.8f, -0.2f));
+
 	    textPosition = new Vector2(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
 		assets = new AssetManager();
 //		assets.load("flight_data/CallibrateMap/CallibrateMap.csv", Track.class);
@@ -236,9 +241,7 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
 //		earthTextureInstance = new ModelInstance(earthTextureModel);
 //        earthTextureInstance.transform.setToScaling(-1f,1f,1f);
 
-        environment = new Environment();
-        environment.set(new ColorAttribute(ColorAttribute.AmbientLight, 10f, 10f, 10f, 1f));
-        //environment.add(new DirectionalLight().set(0.8f, 0.8f, 0.8f, -1f, -0.8f, -0.2f));
+
 
         camController = new MyCameraController(perspectiveCamera);
         Gdx.input.setInputProcessor(camController);
@@ -338,30 +341,30 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
         hud.update();
 
         camController.update();
-		modelBatch.begin(perspectiveCamera);
-
         pollSystemUpdateQueue();
         pollPredictionUpdateQueue();
 
-        //Render all the instances in the layerManager.
-        Collection<CameraBatch> cameraBatches = layerManager.getRenderInstances();
 
+
+        modelBatch.begin(perspectiveCamera);
+        //Render all the gdxRenderableProviders in the layerManager.
+        Collection<CameraBatch> cameraBatches = layerManager.getRenderInstances();
 
         for(CameraBatch cameraBatch: cameraBatches)
         {
             modelBatch.flush(); //render everything before switching to the new camera.
             modelBatch.setCamera(cameraBatch.getCamera());
-            for(ModelInstance instance : cameraBatch.instances())
+            for(RenderableProvider gdxRenderableProvider : cameraBatch.gdxRenderableProviders())
             {
-                modelBatch.render(instance);
+                modelBatch.render(gdxRenderableProvider);
             }
         }
-
+        modelBatch.flush();
 		modelBatch.end();
 
-        spriteBatch.begin();
-//        font.draw(spriteBatch, "Hello World", textPosition.x, textPosition.y);
-        spriteBatch.end();
+//        spriteBatch.begin();
+////        font.draw(spriteBatch, "Hello World", textPosition.x, textPosition.y);
+//        spriteBatch.end();
 	}
 
 

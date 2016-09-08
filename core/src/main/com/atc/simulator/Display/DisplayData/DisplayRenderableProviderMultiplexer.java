@@ -17,7 +17,7 @@ public interface DisplayRenderableProviderMultiplexer {
     Collection<DisplayRenderableProvider> getDisplayRenderableProviders();
 
     /**
-     * Call to update the instances provided by this multiplexer.
+     * Call to update the gdxRenderableProviders provided by this multiplexer.
      */
     void update();
 }

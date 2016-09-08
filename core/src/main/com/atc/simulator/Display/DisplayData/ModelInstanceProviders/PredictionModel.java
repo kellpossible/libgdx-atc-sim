@@ -19,7 +19,7 @@ import java.util.ArrayList;
  * A prediction to be displayed in the display.
  * @author Luke Frisken
  */
-public class PredictionModel extends ModelInstanceDisplayRenderableProvider {
+public class PredictionModel extends SimpleDisplayRenderableProvider {
     private DisplayPrediction prediction;
 
     public PredictionModel(Camera camera, DisplayPrediction prediction) {

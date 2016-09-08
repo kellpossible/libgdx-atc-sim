@@ -1,13 +1,9 @@
 package com.atc.simulator.Display.DisplayData.ModelInstanceProviders;
 
-import com.atc.simulator.DebugDataFeed.Scenarios.Scenario;
 import com.atc.simulator.Display.Display;
 import com.atc.simulator.Display.DisplayCameraListener;
 import com.atc.simulator.Display.DisplayData.DisplayAircraft;
-import com.atc.simulator.flightdata.AircraftState;
-import com.atc.simulator.flightdata.Track;
 import com.atc.simulator.vectors.GeographicCoordinate;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -19,12 +15,10 @@ import com.badlogic.gdx.graphics.g3d.utils.MeshPartBuilder;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.badlogic.gdx.math.Vector3;
 
-import java.util.ArrayList;
-
 /**
  * Created by luke on 8/09/16.
  */
-public class AircraftInfoModel extends ModelInstanceDisplayRenderableProvider implements DisplayCameraListener {
+public class AircraftInfoModel extends SimpleDisplayRenderableProvider implements DisplayCameraListener {
     private Display display;
     private DisplayAircraft aircraft;
     /**
@@ -76,7 +70,7 @@ public class AircraftInfoModel extends ModelInstanceDisplayRenderableProvider im
 //        modelInstance.transform.setTranslation(modelDrawVector.x, modelDrawVector.y, modelDrawVector.z);
 
 
-        triggerOnInstanceUpdate(getDisplayRenderable());
+        triggerOnRenderableUpdate(getDisplayRenderable());
     }
 
     @Override
