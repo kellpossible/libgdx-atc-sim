@@ -3,6 +3,8 @@ package com.atc.simulator.Display.DisplayData.ModelInstanceProviders;
 import com.atc.simulator.Display.Display;
 import com.atc.simulator.Display.DisplayCameraListener;
 import com.atc.simulator.Display.DisplayData.DisplayAircraft;
+import com.atc.simulator.Display.VectorText.HersheyFont;
+import com.atc.simulator.Display.VectorText.HershyText;
 import com.atc.simulator.vectors.GeographicCoordinate;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
@@ -18,10 +20,12 @@ import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.badlogic.gdx.math.Vector3;
 
 /**
+ * @author Luke Frisken
  * Created by luke on 8/09/16.
  */
 public class HudModel extends ModelInstanceDisplayRenderableProvider implements DisplayCameraListener {
     private Display display;
+    private HersheyFont font;
     /**
      * Cnstructor of TracksModel
      * @param camera the camera used to draw this model
@@ -30,6 +34,7 @@ public class HudModel extends ModelInstanceDisplayRenderableProvider implements 
     public HudModel(Camera camera, Display display)
     {
         super(camera);
+        font = new HersheyFont(HersheyFont.CharacterSet.SIMPLEX);
         this.display = display;
         update();
     }
@@ -42,6 +47,8 @@ public class HudModel extends ModelInstanceDisplayRenderableProvider implements 
     {
         super.update();
 
+
+
         ModelBuilder modelBuilder = new ModelBuilder();
         modelBuilder.begin();
         MeshPartBuilder builder = modelBuilder.part(
@@ -52,8 +59,15 @@ public class HudModel extends ModelInstanceDisplayRenderableProvider implements 
         builder.setColor(Color.WHITE);
 
         float crossHairSize = 10;
+        float frameRateSize = 20f;
+        Vector3 frameRateScale = new Vector3(frameRateSize, -frameRateSize, frameRateSize);
 
         Vector3 centre = new Vector3(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2, 0);
+
+        HershyText fpsText = new HershyText("FPS: " + Gdx.graphics.getFramesPerSecond(),
+                font, new Vector3(0, 20, 0), frameRateScale, 0f);
+        fpsText.render(builder);
+
         Vector3 crossHairTop = new Vector3(centre).add(new Vector3(0f, crossHairSize, 0f));
         Vector3 crossHairBottom = new Vector3(centre).add(new Vector3(0f, -crossHairSize, 0f));
         Vector3 crossHairLeft = new Vector3(centre).add(new Vector3(-crossHairSize, 0f, 0f));

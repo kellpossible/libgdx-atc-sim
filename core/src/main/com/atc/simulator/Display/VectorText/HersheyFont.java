@@ -17,6 +17,9 @@ import static com.atc.simulator.Display.VectorText.HersheyFont.CharacterSet.SIMP
  * @author Luke Frisken
  */
 public class HersheyFont {
+
+
+
     private class Glyph {
         int charcode; // Hershey (not ascii) character code
         int left; // left bearing X coordinate
@@ -96,13 +99,16 @@ public class HersheyFont {
     private HashMap<Integer, FloatGlyph> glyphs; //glyphs referenced by their Hershey Code
     private HashMap<Integer, FloatGlyph> simplexGlyphs; //simplex glyph set referenced by their ASCII code
     private HashMap<CharacterSet, HashMap<Integer, FloatGlyph>> characterSets;
+    private CharacterSet characterSet;
 
     public enum CharacterSet {
         SIMPLEX
     }
 
-    public HersheyFont()
+    public HersheyFont(CharacterSet characterSet)
     {
+        this.characterSet = characterSet;
+
         characterSets = new HashMap<CharacterSet, HashMap<Integer, FloatGlyph>>();
         try {
             FileReader fileReader = new FileReader("assets/fonts/hershey-occidental.json");
@@ -156,8 +162,12 @@ public class HersheyFont {
         characterSets.put(SIMPLEX, simplexGlyphs);
     }
 
-    public Vector2[][] getCharacterLines(int keycode, CharacterSet characterSet)
+    public Vector2[][] getCharacterLines(int keycode)
     {
+        if (keycode == 32)
+        {
+            return new Vector2[0][0];
+        }
         HashMap<Integer, FloatGlyph>  glyphs = characterSets.get(characterSet);
         FloatGlyph glyph = glyphs.get(keycode);
         if (glyph == null)

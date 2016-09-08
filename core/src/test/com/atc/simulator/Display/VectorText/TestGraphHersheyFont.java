@@ -42,13 +42,13 @@ public class TestGraphHersheyFont {
         // Create Chart
         XYChart chart = new XYChartBuilder().width(1000).height(1000).title("Test Graph Hershey Font").build();
 
-        HersheyFont font = new HersheyFont();
+        HersheyFont font = new HersheyFont(HersheyFont.CharacterSet.SIMPLEX);
 
         ArrayList<Vector2[]> linesArrayList = new ArrayList<Vector2[]>();
 
         for (int x = 32; x <= 127; x++)
         {
-            Vector2[][] lines = font.getCharacterLines(x, HersheyFont.CharacterSet.SIMPLEX);
+            Vector2[][] lines = font.getCharacterLines(x);
 
             if (lines == null)
             {

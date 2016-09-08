@@ -1,16 +1,24 @@
 package com.atc.simulator.Display.DisplayData.ModelInstanceProviders;
 
 import com.atc.simulator.Display.DisplayData.DisplayAircraft;
+import com.atc.simulator.PredictionService.Engine.Algorithms.Java.JavaLinear2dAlgorithm;
+import com.atc.simulator.PredictionService.Engine.Algorithms.Java.JavaLinearAlgorithm;
+import com.atc.simulator.flightdata.AircraftState;
+import com.atc.simulator.flightdata.Prediction;
 import com.atc.simulator.vectors.GeographicCoordinate;
 import com.atc.simulator.vectors.SphericalVelocity;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.VertexAttributes;
 import com.badlogic.gdx.graphics.g3d.Material;
 import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
+import com.badlogic.gdx.graphics.g3d.utils.MeshPartBuilder;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.badlogic.gdx.math.Vector3;
+
+import java.util.ArrayList;
 
 /**
  * Green velocity arrows
@@ -42,18 +50,32 @@ public class VelocityModel extends ModelInstanceDisplayRenderableProvider {
         ModelBuilder modelBuilder = new ModelBuilder();
 
         GeographicCoordinate position = aircraft.getPosition();
-        double depthAdjustment = -0.01;
-        Vector3 modelDrawVector = position.getModelDrawVector(depthAdjustment);
+        double depthAdjustment = -0.02;
 
-        SphericalVelocity velocity = aircraft.getVelocity();
+        Prediction prediction = new JavaLinearAlgorithm().makePrediction(aircraft.getTrack());
 
-        GeographicCoordinate velocityEndPos = new GeographicCoordinate(velocity.angularVelocityTranslate(position, 120));
-        Model newModel = modelBuilder.createArrow(
-                modelDrawVector,
-                velocityEndPos.getModelDrawVector(depthAdjustment),
-                new Material(ColorAttribute.createDiffuse(Color.GREEN)),
-                VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal);
 
+        modelBuilder.begin();
+        MeshPartBuilder builder = modelBuilder.part(
+                "prediction",
+                GL20.GL_LINES,
+                VertexAttributes.Usage.Position | VertexAttributes.Usage.ColorUnpacked,
+                new Material());
+        builder.setColor(Color.GREEN);
+
+        ArrayList<AircraftState> states = prediction.getAircraftStates();
+
+        //start of prediction line is the current aircraft position.
+        Vector3 previousPositionDrawVector = aircraft.getPosition().getModelDrawVector(depthAdjustment);
+        for(int i = 0; i < states.size(); i++)
+        {
+            AircraftState state = states.get(i);
+            Vector3 positionDrawVector = state.getPosition().getModelDrawVector(depthAdjustment);
+            builder.line(previousPositionDrawVector, positionDrawVector);
+            previousPositionDrawVector = positionDrawVector;
+        }
+
+        Model newModel = modelBuilder.end();
         setModel(newModel);
     }
 }

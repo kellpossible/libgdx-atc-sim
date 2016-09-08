@@ -8,7 +8,6 @@ import com.atc.simulator.Display.DisplayData.DisplayAircraft;
 import com.atc.simulator.Display.DisplayData.ModelInstanceProviders.HudModel;
 import com.atc.simulator.Display.DisplayData.ModelInstanceProviders.WorldMapModel;
 import com.atc.simulator.Display.DisplayData.ModelInstanceProviders.TracksModel;
-import com.atc.simulator.Display.VectorText.HersheyFont;
 import com.atc.simulator.flightdata.*;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
@@ -38,7 +37,7 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
     private static final boolean showTracks = ApplicationConfig.getInstance().getBoolean("settings.display.show-tracks");
 
 	private PerspectiveCamera perspectiveCamera;
-    private OrthographicCamera hudCamera;
+    private OrthographicCamera orthoCamera;
     private ModelBatch modelBatch;
     private SpriteBatch spriteBatch;
     private Environment environment;
@@ -123,8 +122,6 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
         display = new Display();
         display.setLayerManager(layerManager);
 
-        HersheyFont hersheyFont = new HersheyFont();
-
     }
 
 
@@ -205,10 +202,10 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
 
         modelBatch = new ModelBatch();
 
-        hudCamera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        hudCamera.setToOrtho(true, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        hudCamera.update();
-        display.addCamera("hud", hudCamera);
+        orthoCamera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        orthoCamera.setToOrtho(true, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        orthoCamera.update();
+        display.addCamera("ortho", orthoCamera);
 
 		perspectiveCamera = new PerspectiveCamera(40, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         display.addCamera("perspective", perspectiveCamera);
@@ -269,9 +266,9 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
 
         hudLayer = new RenderLayer(6, "hud");
         layerManager.addRenderLayer(hudLayer);
-        hud = new HudModel(hudCamera, display);
+        hud = new HudModel(orthoCamera, display);
         hudLayer.addDisplayRenderableProvider(hud);
-        display.addCameraListener(hudCamera, hud);
+        display.addCameraListener(orthoCamera, hud);
     }
 
     /**
@@ -338,6 +335,8 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
 		Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 
+        hud.update();
+
         camController.update();
 		modelBatch.begin(perspectiveCamera);
 
@@ -391,9 +390,9 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
         perspectiveCamera.viewportHeight = 2f;
         perspectiveCamera.update();
 
-        hudCamera.setToOrtho(true, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        hudCamera.update();
+        orthoCamera.setToOrtho(true, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        orthoCamera.update();
         display.triggerCameraOnUpdate(perspectiveCamera, DisplayCameraListener.UpdateType.RESIZE);
-        display.triggerCameraOnUpdate(hudCamera, DisplayCameraListener.UpdateType.RESIZE);
+        display.triggerCameraOnUpdate(orthoCamera, DisplayCameraListener.UpdateType.RESIZE);
     }
 }
