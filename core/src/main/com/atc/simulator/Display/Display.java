@@ -14,6 +14,8 @@ public class Display {
     private HashMap<String, Camera> cameras;
     private ArrayList<ObjectMap.Entry<DisplayCameraListener, Camera>> cameraListeners;
 
+
+
     public Display()
     {
         cameras = new HashMap<String, Camera>();
@@ -36,6 +38,11 @@ public class Display {
     public Camera getCamera(String cameraName)
     {
         return cameras.get(cameraName);
+    }
+
+    public void addDelayedCameraListener(Camera camera, DisplayCameraListener listener, int priority, int cost)
+    {
+
     }
 
     public void addCameraListener(Camera camera, DisplayCameraListener listener)

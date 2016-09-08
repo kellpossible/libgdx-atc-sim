@@ -95,8 +95,10 @@ public class AircraftModel extends SimpleDisplayRenderableProvider implements Di
     public void onUpdate(Camera camera, UpdateType updateType) {
         switch (updateType)
         {
-            case RESIZE:
+            case ZOOM:
+//                System.out.println("updating" + aircraft.getAircraftID());
                 update();
+//                System.out.println("finished" + aircraft.getAircraftID());
                 break;
         }
     }

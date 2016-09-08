@@ -174,7 +174,7 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
 
 			this.rotateAngle = perspectiveCamera.fieldOfView;
             display.triggerCameraOnUpdate(perspectiveCamera, DisplayCameraListener.UpdateType.ZOOM);
-			return true;
+            return true;
 		}
 
 		@Override
