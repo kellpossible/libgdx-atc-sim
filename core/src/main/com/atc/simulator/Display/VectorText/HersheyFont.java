@@ -1,9 +1,7 @@
 package com.atc.simulator.Display.VectorText;
 
-import com.google.common.collect.ContiguousSet;
-import com.google.common.collect.DiscreteDomain;
-import com.google.common.collect.Range;
-import com.google.common.primitives.Ints;
+import com.atc.simulator.flightdata.SystemState;
+import com.badlogic.gdx.math.Vector2;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 
@@ -11,7 +9,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import static com.atc.simulator.Display.VectorText.HersheyFont.CharacterSet.SIMPLEX;
@@ -34,58 +31,64 @@ public class HersheyFont {
             return "Hershey " + charcode;
         }
 
-        public float[][][] linesToFloat()
+        public Vector2[][] linesToVector()
         {
-            float size = right - left;
+            float size = getSize();
 
-            float[][][] newLines = new float[lines.length][2][2];
+            Vector2[][] newLines = new Vector2[lines.length][];
 
             for (int i = 0; i < lines.length; i++)
             {
                 int[][] line = lines[i];
+                newLines[i] = new Vector2[line.length];
 
-                for(int j=0; j<2; j++)
+                for(int j=0; j<line.length; j++)
                 {
                     int[] point = line[j];
                     int x = point[0];
                     int y = point[1];
 
-                    float newX = ((float) x)/size;
-                    float newY = ((float) y)/size;
-
-                    newLines[i][j][0] = newX;
-                    newLines[i][j][0] = newY;
+                    newLines[i][j] = new Vector2(((float) x)/size, ((float) -y)/size);
                 }
             }
 
             return newLines;
         }
 
-        public float[][] boundsToFloat()
+        public int getSize()
         {
-            float size = right - left;
-            float[][] newBbox = new float[2][2];
-            newBbox[0][0] = ((float) bbox[0][0])/size;
-            newBbox[0][1] = ((float) bbox[0][1])/size;
-            newBbox[1][0] = ((float) bbox[1][0])/size;
-            newBbox[1][1] = ((float) bbox[1][1])/size;
+            return (right - left)*2;
+        }
+
+        public Vector2[] boundsToVector()
+        {
+            float size = getSize();
+            Vector2[] newBbox = new Vector2[2];
+            newBbox[0] = new Vector2(((float) bbox[0][0])/size, ((float) bbox[0][1])/size);
+            newBbox[1] = new Vector2(((float) bbox[1][0])/size, ((float) bbox[1][1])/size);
             return newBbox;
         }
 
         public FloatGlyph toFloatGlyph()
         {
+            if (charcode == 503)
+            {
+                System.out.println("DLKSFJSDLKFJDSLKFJ");
+            }
             FloatGlyph newGlyph = new FloatGlyph();
-            newGlyph.bbox = boundsToFloat();
-            newGlyph.lines = linesToFloat();
+            newGlyph.bbox = boundsToVector();
+            newGlyph.lines = linesToVector();
             newGlyph.charcode = charcode;
+
+
             return newGlyph;
         }
     }
 
     private class FloatGlyph {
         int charcode; // Hershey (not ascii) character code
-        float[][] bbox; // glyph bounding box
-        float[][][] lines; // array of array of arrays (array of lines of points)
+        Vector2[] bbox; // glyph bounding box
+        Vector2[][] lines; // array of array of arrays (array of lines of points)
 
         public String toString()
         {
@@ -109,12 +112,13 @@ public class HersheyFont {
             FileReader fileReader = new FileReader("assets/fonts/hershey-occidental.json");
             Gson gson = new Gson();
             JsonReader jsonReader = new JsonReader(fileReader);
-            Glyph[] glyphs = gson.fromJson(jsonReader, Glyph[].class);
+            Glyph[] intGlyphs = gson.fromJson(jsonReader, Glyph[].class);
 
             this.glyphs = new HashMap<Integer, FloatGlyph>();
-            for (Glyph glyph : glyphs)
+            for (Glyph glyph : intGlyphs)
             {
-                this.glyphs.put(glyph.charcode, glyph.toFloatGlyph());
+                FloatGlyph floatGlyph = glyph.toFloatGlyph();
+                this.glyphs.put(glyph.charcode, floatGlyph);
             }
 
             fileReader.close();
@@ -156,7 +160,7 @@ public class HersheyFont {
         characterSets.put(SIMPLEX, simplexGlyphs);
     }
 
-    public float[][][] getCharacter(int keycode, CharacterSet characterSet)
+    public Vector2[][] getCharacter(int keycode, CharacterSet characterSet)
     {
         return characterSets.get(characterSet).get(keycode).lines;
     }
