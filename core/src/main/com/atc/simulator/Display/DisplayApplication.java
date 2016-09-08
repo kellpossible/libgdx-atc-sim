@@ -5,6 +5,7 @@ import com.atc.simulator.DebugDataFeed.DataPlaybackListener;
 import com.atc.simulator.DebugDataFeed.Scenarios.Scenario;
 import com.atc.simulator.Display.DisplayData.*;
 import com.atc.simulator.Display.DisplayData.DisplayAircraft;
+import com.atc.simulator.Display.DisplayData.ModelInstanceProviders.HudModel;
 import com.atc.simulator.Display.DisplayData.ModelInstanceProviders.WorldMapModel;
 import com.atc.simulator.Display.DisplayData.ModelInstanceProviders.TracksModel;
 import com.atc.simulator.Display.VectorText.HersheyFont;
@@ -37,6 +38,7 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
     private static final boolean showTracks = ApplicationConfig.getInstance().getBoolean("settings.display.show-tracks");
 
 	private PerspectiveCamera perspectiveCamera;
+    private OrthographicCamera hudCamera;
     private ModelBatch modelBatch;
     private SpriteBatch spriteBatch;
     private Environment environment;
@@ -53,9 +55,11 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
     private RenderLayer mapLayer;
     private TracksModel tracks;
     private RenderLayer tracksLayer;
+    private RenderLayer hudLayer;
     private AircraftDatabase aircraftDatabase;
     private RenderLayer aircraftLayer;
     private RenderLayer predictionLayer;
+    private HudModel hud;
 
     Vector2 textPosition;
 
@@ -171,6 +175,7 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
 			perspectiveCamera.update();
 
 			this.rotateAngle = perspectiveCamera.fieldOfView;
+            display.triggerCameraOnUpdate(perspectiveCamera, DisplayCameraListener.UpdateType.ZOOM);
 			return true;
 		}
 
@@ -200,7 +205,12 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
 
         modelBatch = new ModelBatch();
 
-		perspectiveCamera = new PerspectiveCamera(40, Gdx.graphics.getWidth(), Gdx.graphics.getWidth());
+        hudCamera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        hudCamera.setToOrtho(true, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        hudCamera.update();
+        display.addCamera("hud", hudCamera);
+
+		perspectiveCamera = new PerspectiveCamera(40, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         display.addCamera("perspective", perspectiveCamera);
 		perspectiveCamera.position.set(0f, 0f, 0f);
 //		Vector3 firstPos = track.get(0).getPosition().getCartesianDrawVector();
@@ -256,6 +266,12 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
 
         aircraftLayer = new RenderLayer(7, "aircraft");
         layerManager.addRenderLayer(aircraftLayer);
+
+        hudLayer = new RenderLayer(6, "hud");
+        layerManager.addRenderLayer(hudLayer);
+        hud = new HudModel(hudCamera, display);
+        hudLayer.addDisplayRenderableProvider(hud);
+        display.addCameraListener(hudCamera, hud);
     }
 
     /**
@@ -334,15 +350,13 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
 
         for(CameraBatch cameraBatch: cameraBatches)
         {
-            modelBatch.flush();
+            modelBatch.flush(); //render everything before switching to the new camera.
             modelBatch.setCamera(cameraBatch.getCamera());
             for(ModelInstance instance : cameraBatch.instances())
             {
                 modelBatch.render(instance);
             }
         }
-
-
 
 		modelBatch.end();
 
@@ -377,5 +391,9 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
         perspectiveCamera.viewportHeight = 2f;
         perspectiveCamera.update();
 
+        hudCamera.setToOrtho(true, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        hudCamera.update();
+        display.triggerCameraOnUpdate(perspectiveCamera, DisplayCameraListener.UpdateType.RESIZE);
+        display.triggerCameraOnUpdate(hudCamera, DisplayCameraListener.UpdateType.RESIZE);
     }
 }

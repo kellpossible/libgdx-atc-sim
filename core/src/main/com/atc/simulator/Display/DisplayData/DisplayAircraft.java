@@ -84,6 +84,9 @@ public class DisplayAircraft extends AircraftState implements Disposable, Displa
     private void createModels()
     {
         models.put("Aircraft", new AircraftModel(display.getCamera("perspective"), this));
+        AircraftInfoModel infoModel = new AircraftInfoModel(display.getCamera("hud"), display, this);
+        display.addCameraListener(infoModel.getCamera(), infoModel);
+        models.put("AircraftInfo", infoModel);
     }
 
     /**
@@ -120,6 +123,9 @@ public class DisplayAircraft extends AircraftState implements Disposable, Displa
         {
             model.dispose();
         }
+
+        AircraftInfoModel infoModel = (AircraftInfoModel) models.get("AircraftInfo");
+        display.removeCameraListener(infoModel.getCamera(), infoModel);
     }
 
     @Override

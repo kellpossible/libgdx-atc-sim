@@ -1,9 +1,11 @@
 package com.atc.simulator.Display.DisplayData.ModelInstanceProviders;
 
+import com.atc.simulator.Display.DisplayCameraListener;
 import com.atc.simulator.Display.DisplayData.DisplayAircraft;
 import com.atc.simulator.vectors.GeographicCoordinate;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.graphics.VertexAttributes;
 import com.badlogic.gdx.graphics.g3d.Material;
 import com.badlogic.gdx.graphics.g3d.Model;
@@ -16,7 +18,7 @@ import com.badlogic.gdx.math.Vector3;
  * Green dot representing the aircraft
  * @author Luke Frisken
  */
-public class AircraftModel extends ModelInstanceDisplayRenderableProvider {
+public class AircraftModel extends ModelInstanceDisplayRenderableProvider implements DisplayCameraListener {
     private DisplayAircraft aircraft;
 
 
@@ -61,6 +63,16 @@ public class AircraftModel extends ModelInstanceDisplayRenderableProvider {
 
         GeographicCoordinate position = aircraft.getPosition();
 
+        float scale = 1f;
+
+        PerspectiveCamera camera = (PerspectiveCamera) getCamera();
+        scale = camera.fieldOfView/2;
+
+        if (scale > 2f)
+        {
+            scale = 2;
+        }
+
         double depthAdjustment = -0.01;
         Vector3 modelDrawVector = position.getModelDrawVector(depthAdjustment);
 
@@ -70,8 +82,20 @@ public class AircraftModel extends ModelInstanceDisplayRenderableProvider {
                 new Material(ColorAttribute.createDiffuse(Color.GREEN)),
                 VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal);
         ModelInstance modelInstance = setModel(newModel, false);
+        modelInstance.transform.setToScaling(scale, scale, scale);
+        modelInstance.calculateTransforms();
         modelInstance.transform.setTranslation(modelDrawVector.x, modelDrawVector.y, modelDrawVector.z);
 
         triggerOnInstanceUpdate(getDisplayRenderable());
+    }
+
+    @Override
+    public void onUpdate(Camera camera, UpdateType updateType) {
+        switch (updateType)
+        {
+            case RESIZE:
+                update();
+                break;
+        }
     }
 }

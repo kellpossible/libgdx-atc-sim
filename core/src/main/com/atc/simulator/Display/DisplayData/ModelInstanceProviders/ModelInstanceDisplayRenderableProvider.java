@@ -105,4 +105,13 @@ public abstract class ModelInstanceDisplayRenderableProvider implements DisplayR
     {
         return model;
     }
+
+    /**
+     * Get the camera being used to draw the model instances provided by this provider.
+     * @return
+     */
+    public Camera getCamera()
+    {
+        return camera;
+    }
 }
