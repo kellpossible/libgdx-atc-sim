@@ -14,6 +14,14 @@ import java.util.Map;
 import static com.atc.simulator.Display.VectorText.HersheyFont.CharacterSet.SIMPLEX;
 
 /**
+ * Useful resources:
+ * http://www.astro.caltech.edu/~tjp/pgplot/hershey.html
+ * http://paulbourke.net/dataformats/hershey/
+ *
+ * Data source from:
+ * https://github.com/scruss/python-hershey
+ * License is also there.
+ *
  * @author Luke Frisken
  */
 public class HersheyFont {
