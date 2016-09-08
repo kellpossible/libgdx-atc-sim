@@ -46,8 +46,9 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
     private ArrayBlockingQueue<SystemState> systemStateUpdateQueue;
     private ArrayBlockingQueue<Prediction> predictionUpdateQueue;
 
+    private Display display;
     private SystemStateDatabase stateDatabase;
-    private LayerManager displayModel;
+    private LayerManager layerManager;
     private WorldMapModel map;
     private RenderLayer mapLayer;
     private TracksModel tracks;
@@ -81,7 +82,7 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
         /** @see SystemStateDatabaseListener#onNewAircraft(SystemStateDatabase, String) */
         @Override
         public void onNewAircraft(SystemStateDatabase stateDatabase, String aircraftID) {
-            DisplayAircraft newAircraft = new DisplayAircraft(displayModel, stateDatabase.getTrack(aircraftID));
+            DisplayAircraft newAircraft = new DisplayAircraft(display, stateDatabase.getTrack(aircraftID));
             aircraftLayer.addDisplayRenderableProvider(newAircraft);
             this.put(aircraftID, newAircraft);
         }
@@ -110,10 +111,13 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
         this.scenario = scenario;
         systemStateUpdateQueue = new ArrayBlockingQueue<SystemState>(100);
         predictionUpdateQueue = new ArrayBlockingQueue<Prediction>(300);
-        displayModel = new LayerManager();
+        layerManager = new LayerManager();
         stateDatabase = new SystemStateDatabase();
         aircraftDatabase = new AircraftDatabase();
         stateDatabase.addListener(aircraftDatabase);
+
+        display = new Display();
+        display.setLayerManager(layerManager);
 
         HersheyFont hersheyFont = new HersheyFont();
 
@@ -197,7 +201,7 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
         modelBatch = new ModelBatch();
 
 		perspectiveCamera = new PerspectiveCamera(40, Gdx.graphics.getWidth(), Gdx.graphics.getWidth());
-        displayModel.addCamera("perspective", perspectiveCamera);
+        display.addCamera("perspective", perspectiveCamera);
 		perspectiveCamera.position.set(0f, 0f, 0f);
 //		Vector3 firstPos = track.get(0).getPosition().getCartesianDrawVector();
 //		perspectiveCamera.lookAt(firstPos.x, firstPos.y, firstPos.z);
@@ -235,23 +239,23 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
 
         //Set up all the RenderLayers
         mapLayer = new RenderLayer(10, "map");
-        displayModel.addRenderLayer(mapLayer);
+        layerManager.addRenderLayer(mapLayer);
         map = new WorldMapModel(perspectiveCamera);
         mapLayer.addDisplayRenderableProvider(map);
 
         if (showTracks)
         {
             tracksLayer = new RenderLayer(9, "tracks");
-            displayModel.addRenderLayer(tracksLayer);
+            layerManager.addRenderLayer(tracksLayer);
             tracks = new TracksModel(perspectiveCamera, scenario);
             tracksLayer.addDisplayRenderableProvider(tracks);
         }
 
         predictionLayer = new RenderLayer(8, "predictions");
-        displayModel.addRenderLayer(predictionLayer);
+        layerManager.addRenderLayer(predictionLayer);
 
         aircraftLayer = new RenderLayer(7, "aircraft");
-        displayModel.addRenderLayer(aircraftLayer);
+        layerManager.addRenderLayer(aircraftLayer);
     }
 
     /**
@@ -281,7 +285,7 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
                 {
                     displayPrediction.update(prediction);
                 } else {
-                    displayPrediction = new DisplayPrediction(displayModel, aircraft, prediction);
+                    displayPrediction = new DisplayPrediction(display, aircraft, prediction);
                     predictionLayer.addDisplayRenderableProvider(displayPrediction);
                     aircraft.setPrediction(displayPrediction);
                 }
@@ -324,8 +328,8 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
         pollSystemUpdateQueue();
         pollPredictionUpdateQueue();
 
-        //Render all the instances in the displayModel.
-        Collection<CameraBatch> cameraBatches = displayModel.getRenderInstances();
+        //Render all the instances in the layerManager.
+        Collection<CameraBatch> cameraBatches = layerManager.getRenderInstances();
 
 
         for(CameraBatch cameraBatch: cameraBatches)
@@ -356,7 +360,7 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
 		modelBatch.dispose();
 
         //this is throwing a concurrent modification exception, I have no idea why though...
-//        displayModel.dispose();
+//        layerManager.dispose();
 	}
 
     /**

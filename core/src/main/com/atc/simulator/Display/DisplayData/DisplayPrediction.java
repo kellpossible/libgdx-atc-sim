@@ -1,5 +1,6 @@
 package com.atc.simulator.Display.DisplayData;
 
+import com.atc.simulator.Display.Display;
 import com.atc.simulator.Display.DisplayData.ModelInstanceProviders.PredictionModel;
 import com.atc.simulator.Display.DisplayData.ModelInstanceProviders.VelocityModel;
 import com.atc.simulator.Display.LayerManager;
@@ -18,25 +19,25 @@ import java.util.HashMap;
 public class DisplayPrediction extends Prediction implements Disposable, DisplayRenderableProviderMultiplexer {
     private HashMap<String, DisplayRenderableProvider> models;
     private DisplayAircraft aircraft;
-    private LayerManager layerManager;
+    private Display display;
     /**
      * Constructor DisplayPrediction creates a new DisplayPrediction instance.
      *
      * @param aircraft the aircraft this prediction belongs to
      * @param prediction of type Prediction
      */
-    public DisplayPrediction(LayerManager layerManager, DisplayAircraft aircraft, Prediction prediction) {
+    public DisplayPrediction(Display display, DisplayAircraft aircraft, Prediction prediction) {
         super(prediction.getAircraftID(), prediction.getPredictionTime(), prediction.getAircraftStates());
         this.aircraft = aircraft;
         models = new HashMap<String, DisplayRenderableProvider>();
-        this.layerManager = layerManager;
+        this.display = display;
 
         createModels();
     }
 
     private void createModels()
     {
-        Camera perspectiveCamera = layerManager.getCamera("perspective");
+        Camera perspectiveCamera = display.getCamera("perspective");
         models.put("PredictionLine", new PredictionModel(perspectiveCamera, this));
         models.put("VelocityLine", new VelocityModel(perspectiveCamera, aircraft));
     }

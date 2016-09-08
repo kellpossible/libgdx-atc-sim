@@ -11,7 +11,7 @@ import java.util.*;
  */
 public class LayerManager {
     private PriorityQueue<RenderLayer> layers;
-    private HashMap<String, Camera> cameras;
+
 
     /**
      * Constructor LayerManager creates a new LayerManager instance.
@@ -19,7 +19,7 @@ public class LayerManager {
     public LayerManager()
     {
         layers = new PriorityQueue<RenderLayer>();
-        cameras = new HashMap<String, Camera>();
+
     }
 
     /**
@@ -50,16 +50,6 @@ public class LayerManager {
         }
 
         return cameraBatches;
-    }
-
-    public void addCamera(String cameraName, Camera camera)
-    {
-        cameras.put(cameraName, camera);
-    }
-
-    public Camera getCamera(String cameraName)
-    {
-        return cameras.get(cameraName);
     }
 
     /**

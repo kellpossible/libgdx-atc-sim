@@ -1,5 +1,6 @@
 package com.atc.simulator.Display.DisplayData;
 
+import com.atc.simulator.Display.Display;
 import com.atc.simulator.Display.DisplayData.ModelInstanceProviders.*;
 import com.atc.simulator.Display.LayerManager;
 import com.atc.simulator.flightdata.AircraftState;
@@ -18,21 +19,21 @@ public class DisplayAircraft extends AircraftState implements Disposable, Displa
     private Track track;
     private DisplayPrediction prediction = null;
     private HashMap<String, DisplayRenderableProvider> models;
-    private LayerManager layerManager;
+    private Display display;
 
-    private DisplayAircraft(LayerManager layerManager, AircraftState aircraftState)
+    private DisplayAircraft(Display display, AircraftState aircraftState)
     {
         super(aircraftState.getAircraftID(),
                 aircraftState.getTime(),
                 aircraftState.getPosition(),
                 aircraftState.getVelocity(),
                 aircraftState.getHeading());
-        this.layerManager = layerManager;
+        this.display = display;
     }
 
-    public DisplayAircraft(LayerManager layerManager, Track track)
+    public DisplayAircraft(Display display, Track track)
     {
-        this(layerManager, track.getLatest());
+        this(display, track.getLatest());
         this.track = track;
         models = new HashMap<String, DisplayRenderableProvider>();
         createModels();
@@ -82,7 +83,7 @@ public class DisplayAircraft extends AircraftState implements Disposable, Displa
 
     private void createModels()
     {
-        models.put("Aircraft", new AircraftModel(layerManager.getCamera("perspective"), this));
+        models.put("Aircraft", new AircraftModel(display.getCamera("perspective"), this));
     }
 
     /**
