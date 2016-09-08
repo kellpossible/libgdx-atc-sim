@@ -48,7 +48,7 @@ public class TestGraphHersheyFont {
 
         for (int x = 32; x <= 127; x++)
         {
-            Vector2[][] lines = font.getCharacterLines(x);
+            Vector2[][] lines = font.getGlyph(x).lines;
 
             if (lines == null)
             {

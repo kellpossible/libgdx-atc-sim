@@ -2,10 +2,8 @@ package com.atc.simulator.Display.DisplayData.ModelInstanceProviders;
 
 import com.atc.simulator.Display.Display;
 import com.atc.simulator.Display.DisplayCameraListener;
-import com.atc.simulator.Display.DisplayData.DisplayAircraft;
 import com.atc.simulator.Display.VectorText.HersheyFont;
-import com.atc.simulator.Display.VectorText.HershyText;
-import com.atc.simulator.vectors.GeographicCoordinate;
+import com.atc.simulator.Display.VectorText.HersheyText;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
@@ -14,7 +12,6 @@ import com.badlogic.gdx.graphics.VertexAttributes;
 import com.badlogic.gdx.graphics.g3d.Material;
 import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
-import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.utils.MeshPartBuilder;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.badlogic.gdx.math.Vector3;
@@ -64,7 +61,7 @@ public class HudModel extends ModelInstanceDisplayRenderableProvider implements 
 
         Vector3 centre = new Vector3(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2, 0);
 
-        HershyText fpsText = new HershyText("FPS: " + Gdx.graphics.getFramesPerSecond(),
+        HersheyText fpsText = new HersheyText("FPS: " + Gdx.graphics.getFramesPerSecond(),
                 font, new Vector3(0, 20, 0), frameRateScale, 0f);
         fpsText.render(builder);
 

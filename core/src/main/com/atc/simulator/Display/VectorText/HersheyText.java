@@ -14,14 +14,14 @@ import java.util.ArrayList;
  * Hershy text font to render out using the MeshPartBuilder to construct lines.
  * @author Luke Frisken
  */
-public class HershyText {
+public class HersheyText {
     private String text;
     private ArrayList<Vector3[]> lines;
     private Vector3 scale;
     private Vector3 position;
     private HersheyFont font;
 
-    public HershyText(String text, HersheyFont font, Vector3 position, Vector3 scale, float depth)
+    public HersheyText(String text, HersheyFont font, Vector3 position, Vector3 scale, float depth)
     {
         this.setPosition(position);
         this.font = font;
@@ -29,23 +29,33 @@ public class HershyText {
         lines = new ArrayList<Vector3[]>();
 
         byte[] chars = text.getBytes(StandardCharsets.US_ASCII);
+        FloatGlyph previousGlyph = null;
         for(int j = 0; j<chars.length; j++)
         {
             byte character = chars[j];
-            Vector2[][] newLines = font.getCharacterLines(character);
-            if (newLines == null)
+            FloatGlyph glyph = font.getGlyph(character);
+
+            
+// start of an implementation for type spacing
+//            float x_offset = -glyph.left;
+//            if (previousGlyph != null)
+//            {
+//                x_offset += previousGlyph.right;
+//            }
+
+            if (glyph == null)
             {
                 System.out.println("Character " + character);
             }
 
-            for(Vector2[] line : newLines)
+            for(Vector2[] line : glyph.lines)
             {
                 Vector3[] transformedLine = new Vector3[line.length];
 
                 for(int i=0;i<line.length;i++)
                 {
                     Vector3 point = new Vector3(line[i], depth);
-                    point = point.add(new Vector3(j*0.5f + 0.5f, 0f, 0f));
+                    point = point.add(new Vector3(j*0.6f + 0.5f, 0f, 0f));
                     point = point.mul(new Matrix4().setToScaling(scale));
                     point = point.add(position);
                     transformedLine[i] = point;
@@ -53,6 +63,8 @@ public class HershyText {
 
                 lines.add(transformedLine);
             }
+
+            previousGlyph = glyph;
         }
     }
 
