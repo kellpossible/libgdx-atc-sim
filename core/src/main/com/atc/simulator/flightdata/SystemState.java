@@ -2,6 +2,8 @@ package com.atc.simulator.flightdata;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
+import java.util.HashMap;
 
 /**
  * Represents the state of a radar tracking/adsb/whatever aircraft tracking system at a given point in time.
@@ -56,5 +58,36 @@ public class SystemState {
         }
 
         return aircraftState;
+    }
+
+    /**
+     * Check to see if there are duplicate states contained in this SystemState.
+     * @return
+     */
+    public Collection<AircraftState> getDuplicatesById()
+    {
+        ArrayList<String> checkedIds = new ArrayList<String>();
+        ArrayList<AircraftState> duplicates = new ArrayList<AircraftState>();
+
+        for (AircraftState state : getAircraftStates())
+        {
+            String aircraftID = state.getAircraftID();
+            boolean found = false;
+            for(String checkedId : checkedIds)
+            {
+                if (aircraftID.equals(checkedId))
+                {
+                    duplicates.add(state);
+                    found = true;
+                }
+
+                if (!found)
+                {
+                    checkedIds.add(aircraftID);
+                }
+            }
+        }
+
+        return duplicates;
     }
 }
