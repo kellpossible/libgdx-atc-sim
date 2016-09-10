@@ -8,9 +8,11 @@ import com.atc.simulator.flightdata.AircraftState;
 import com.atc.simulator.flightdata.Prediction;
 import com.atc.simulator.flightdata.Track;
 import com.atc.simulator.vectors.GeographicCoordinate;
-import pythagoras.d.Vector3;
 
+import java.io.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -19,9 +21,11 @@ import java.util.concurrent.ArrayBlockingQueue;
  * Integration Testing - Accuracy
  *
  * Listens in on the DebugDataFeed and PredictionEngine to receive updates, and then compares the predicted future states with
- * the actual values in order to analyse the accuracy and pros/cons of the implemented Prediction Algorithms
+ * the actual values in order to analyse the accuracy and pros/cons of the implemented Prediction Algorithms.
+ * Stores results in a .txt file with filenames the date/time the current simulation was run.
+ * (All results files are stored in our project's workspace, in a Libgdx_ATC_Simulator/Results/Accuracy/ directory
  *
- * Created by Chris on 31/08/2016.
+ * Modified by Chris on 10/09/2016.
  */
 public class TestAccuracy implements PredictionListener, RunnableThread {
     /**
@@ -33,7 +37,6 @@ public class TestAccuracy implements PredictionListener, RunnableThread {
         public GeographicCoordinate pos;//Geographic Position of the data point
     }
 
-
     private ArrayBlockingQueue<Prediction> newPredictionQueue; //Queue to store predictions
     private Map<String, ArrayList<dataPoint>> actualDataValues; //HashMaps: Find planeID, then you can iterate through times and positions
 
@@ -41,10 +44,14 @@ public class TestAccuracy implements PredictionListener, RunnableThread {
     private Thread thread;
     private Boolean continueThread = true;
 
+    private File resultsFile; //File that will store results
+    private PrintStream resultsWriter;//Writer for the file
     /**
      * Constructor
      * Instantiate the Prediction Receiving queue and the HashMap for the Scenario's tracks.
-     * Then takes the supplied scenario and removes plane ID's/Times/Coordinates to fill in the HashMap
+     * Then takes the supplied scenario and removes the tracks, and stores them under each PlaneID
+     *
+     * Once this is complete, generate a new results file using the current time (MM-dd HH-mm-ss) and have that ready to be written
      *
      * @param scenario the scenario being run and tested on
      */
@@ -65,22 +72,10 @@ public class TestAccuracy implements PredictionListener, RunnableThread {
             }
             actualDataValues.put(temp.get(0).getAircraftID(), tempList); //And store that temporary Map with the PlaneID as a Key
         }
-        System.out.println("We have " + actualDataValues.size() + " states to test Accuracy Testing");
-        for(String name: actualDataValues.keySet())
-        {
-            System.out.println("Respectively " + actualDataValues.get(name).size() + " positions to test");
-        }
-        /* Uncomment to print out all time stamps stored in the map
-        System.out.println("------------------------------------------");
-        for(String name: actualDataValues.keySet())
-        {
-            for(long time : actualDataValues.get(name).keySet())
-            {
-                System.out.println(time);
-            }
-        }
-        System.out.println("------------------------------------------");
-        */
+
+        //Create a new file for results with the date/time as filename
+        String fileName = "Results/Accuracy/" + new SimpleDateFormat("MM-dd HH-mm-ss").format(new Date())+".txt";
+        resultsFile = new File(fileName);
     }
 
     /**
@@ -106,38 +101,44 @@ public class TestAccuracy implements PredictionListener, RunnableThread {
     }
 
     /**
-     * Threaded Loop function
-     *   1. Wait for a prediction to be present in the Queue
-     *   2. Remove it and store the PlaneID
-     *   3a. If prediction time stamps match data, compare
-     *   3b.  else, linear interpolate to find corresponding data point
-     *   4. **Some calculations in here?
-     *   5. **Store in a document?
+     * Threaded function, waits for a new prediction to be fed in and then:
+     *  1. Stores the Plane's ID
+     *  2. Removes and loops through all the states making up the prediction
+     *  3. Finds the matching, or bordering, states from the Scenario data via timeStamps
+     *  4a. If matching times, uses the actual data position
+     *  4b. otherwise, it will interpolate a position between the two bordering positions
+     *  5. Using Greater-Circle Arc Distance, finds the distance between prediction and actual data points
+     *  6. Writes the planeID, times and distance errors in a file
      */
     public void run()
     {
         while(continueThread)
         {
-            //See if new predictions have been made
+            String singleTestString;
+            //Step1: See if there are new predictions to test
             Prediction predictionUnderTest = newPredictionQueue.poll();
             if(predictionUnderTest != null)
             {
-                //Collect and print the PlaneID
+
+                singleTestString = "";
+                //Store PlaneID for use in the HashMap
                 String planeID = predictionUnderTest.getAircraftID();
-                System.out.print(planeID);
+                singleTestString += planeID +", ";
+
                 //Remove the list of predictions
                 ArrayList<AircraftState> predictionStates = predictionUnderTest.getAircraftStates();
 
-                //if the actual data contains the plane (otherwise we've had something go wrong here)
+                //Check that our Scenario contains this Plane (sanity, if this fails we have messed up)
                 if(actualDataValues.containsKey(planeID))
                 {
-                    //For now: Loop over the first 5 predictions
-                    for (int i = 0; i < 5; i++)
+                    //todo: this just loops the first 5, our algorithm can change this
+                    for (int i = 0; i < 12; i++)
                     {
                         GeographicCoordinate actualCoord = null;
-
+                        //Get the timeStamp for the prediction we're testing
                         long predTime = predictionStates.get(i).getTime();
-                        System.out.print(", "+predTime+": ");
+                        singleTestString += predTime + ", ";
+
                         for(int j=0; j<actualDataValues.get(planeID).size(); j++)
                         {
                            //If we have a matching timeStamp, store the coordinate
@@ -147,28 +148,35 @@ public class TestAccuracy implements PredictionListener, RunnableThread {
                                 break;
                             }
                             //If we've passed the moment, find the linear interpolation of the last two positions
-                            //todo :  Make this a heap neater.. I feel I'm making do too much work here :/
                             else if(predTime < actualDataValues.get(planeID).get(j).timeStamp)
                             {
-                                double interpolant = (double)(predTime - actualDataValues.get(planeID).get(j-1).timeStamp)
-                                        / (double)(actualDataValues.get(planeID).get(j).timeStamp-actualDataValues.get(planeID).get(j-1).timeStamp);
-                                actualCoord = new GeographicCoordinate(
-                                        actualDataValues.get(planeID).get(j-1).pos.getCartesian().lerp(
-                                                predictionStates.get(i).getPosition().getCartesian(),interpolant));
+                                //Interpolant: how far (in %) the prediction timeStamp is between the two closest actual data times
+                                float interpolant = Math.abs((predTime - actualDataValues.get(planeID).get(j-1).timeStamp))
+                                        / Math.abs((actualDataValues.get(planeID).get(j).timeStamp-actualDataValues.get(planeID).get(j-1).timeStamp));
+                                //Obtain the interpolated 'actual' coordinate and break out of the loop
+                                actualCoord = new GeographicCoordinate(actualDataValues.get(planeID).get(j-1).pos.linearIntepolate
+                                        (actualDataValues.get(planeID).get(j).pos, interpolant));
                                 break;
-                                //Vector3
                             }
                         }
                         if(actualCoord != null)
                         {
-                            System.out.print( Math.abs(Math.abs(actualCoord.getLatitude())-Math.abs(predictionStates.get(i).getPosition().getLatitude())));
+                            //Store the distance between our predicted and the interpolated 'actual' positions
+                            double distance = Math.abs(actualCoord.arcDistance(predictionStates.get(i).getPosition()));
+                            singleTestString += distance+", ";
                         }
+
                     }
+
                 }
-                System.out.println();
+                //And write the newly formed string to our File
+                try{resultsWriter = new PrintStream(new FileOutputStream(resultsFile,true));
+                        resultsWriter.println(singleTestString);
+                        resultsWriter.close();}catch(IOException e){System.err.println("Error printing to FILE, Accuracy Test");}
             }
             else{try{Thread.sleep(500);} catch (InterruptedException e) {e.printStackTrace();}}
        }
+
 
     }
 
