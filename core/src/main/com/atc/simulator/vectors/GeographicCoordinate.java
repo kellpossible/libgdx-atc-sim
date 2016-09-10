@@ -7,6 +7,7 @@ import pythagoras.d.Vector3;
  * See https://en.wikipedia.org/wiki/Geographic_coordinate_system
  *
  * @author Luke Frisken
+ * @modified Chris Coleman 10/9/16
  */
 public class GeographicCoordinate extends SphericalCoordinate
 {
@@ -133,9 +134,10 @@ public class GeographicCoordinate extends SphericalCoordinate
     /**
      * REQUIRES TESTING
      * Arc Distance between two Geographic Coordinates.
+     *  https://en.wikipedia.org/wiki/Great-circle_distance
      *
-     * @param other
-     * @return
+     * @param other The GeographicCoordinate we are comparing this Coord to
+     * @return double The distance in Metres (or whatever your altitude was written in)
      */
     public double arcDistance(GeographicCoordinate other)
     {
