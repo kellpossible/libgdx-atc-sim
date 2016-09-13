@@ -29,13 +29,27 @@ public class TestGraphLeastSquaresCircleSolver {
         }
     }
 
-    public static void main(String[] arg)
+    public static XYData dataFromVectorList(ArrayList<Vector3> vectors) {
+        XYData data = new XYData(vectors.size());
+
+        for (int i=0; i<vectors.size();i++)
+        {
+            data.xData[i] = vectors.get(i).x;
+            data.yData[i] = vectors.get(i).y;
+        }
+
+        return data;
+    }
+
+    public TestGraphLeastSquaresCircleSolver(double position1x, double position1y, double position2x, double position2y,
+                                             double position3x, double position3y, double position4x, double position4y)
     {
+
         ArrayList<Vector3> positions = new ArrayList<Vector3>();
-        positions.add(new Vector3(-2736.5842226839904, 9051.690473155024, 0));
-        positions.add(new Vector3(-1973.134855393139, 9237.219387656745, 0));
-        positions.add(new Vector3(-1307.9423416823379, 10095.120237700188, 0));
-        positions.add(new Vector3(-1212.8163721100887, 10729.934781668326, 0));
+        positions.add(new Vector3(position1x, position1y, 0));
+        positions.add(new Vector3(position2x, position2y, 0));
+        positions.add(new Vector3(position3x, position3y, 0));
+        positions.add(new Vector3(position4x, position4y, 0));
 
         Circle betaCircle = CircleSolver.FromThreePoints(positions.get(0), positions.get(1), positions.get(2));
         Circle fitCircle = CircleSolver.LeastSquares(positions, betaCircle);
@@ -78,19 +92,5 @@ public class TestGraphLeastSquaresCircleSolver {
 
         // Show it
         new SwingWrapper(chart).displayChart();
-
-
-    }
-
-    public static XYData dataFromVectorList(ArrayList<Vector3> vectors) {
-        XYData data = new XYData(vectors.size());
-
-        for (int i=0; i<vectors.size();i++)
-        {
-            data.xData[i] = vectors.get(i).x;
-            data.yData[i] = vectors.get(i).y;
-        }
-
-        return data;
     }
 }
