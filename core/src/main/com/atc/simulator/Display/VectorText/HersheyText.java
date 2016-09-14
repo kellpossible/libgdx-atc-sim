@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 
 /**
- * Hershy text font to render out using the MeshPartBuilder to construct lines.
+ * Hershy text font to buildMesh out using the MeshPartBuilder to construct lines.
  * @author Luke Frisken
  */
 public class HersheyText {
@@ -21,6 +21,14 @@ public class HersheyText {
     private Vector3 position;
     private HersheyFont font;
 
+    /**
+     * Constructor for HersheyText
+     * @param text String of text contained in this text to be displayed
+     * @param font font to render this text with
+     * @param position position to render this text within its model
+     * @param scale scale of this text within its model
+     * @param depth z depth of this text within its model
+     */
     public HersheyText(String text, HersheyFont font, Vector3 position, Vector3 scale, float depth)
     {
         this.setPosition(position);
@@ -48,7 +56,7 @@ public class HersheyText {
                 System.out.println("Character " + character);
             }
 
-            for(Vector2[] line : glyph.lines)
+            for(Vector2[] line : glyph.getLines())
             {
                 Vector3[] transformedLine = new Vector3[line.length];
 
@@ -68,12 +76,20 @@ public class HersheyText {
         }
     }
 
+    /**
+     * Get the String text contained in this text.
+     * @return
+     */
     public String getText()
     {
         return text;
     }
 
-    public void render(MeshPartBuilder builder)
+    /**
+     * Build the mesh for this text object.
+     * @param builder MeshPartBuilder with which to build the mesh.
+     */
+    public void buildMesh(MeshPartBuilder builder)
     {
         for(Vector3[] line : lines)
         {
@@ -84,22 +100,42 @@ public class HersheyText {
         }
     }
 
+    /**
+     * Get the scale of this text.
+     * @return
+     */
     public Vector3 getScale() {
         return scale;
     }
 
+    /**
+     * Set the scale of this text
+     * @param scale
+     */
     public void setScale(Vector3 scale) {
         this.scale = scale;
     }
 
+    /**
+     * Get the position of this text.
+     * @return
+     */
     public Vector3 getPosition() {
         return position;
     }
 
+    /**
+     * Set the position of this text.
+     * @param position
+     */
     public void setPosition(Vector3 position) {
         this.position = position;
     }
 
+    /**
+     * Get the font that this text is using.
+     * @return
+     */
     public HersheyFont getFont() {
         return font;
     }

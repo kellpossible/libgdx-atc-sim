@@ -333,7 +333,7 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
     }
 
     /**
-     * The render method for the display.
+     * The buildMesh method for the display.
      */
 	@Override
 	public void render () {
@@ -349,12 +349,17 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
 
 
         modelBatch.begin(perspectiveCamera);
+
         //Render all the gdxRenderableProviders in the layerManager.
+        //they are in a collection of cameraBatches so that they get rendered
+        //with the correct camera.
         Collection<CameraBatch> cameraBatches = layerManager.getRenderInstances();
 
         for(CameraBatch cameraBatch: cameraBatches)
         {
-            modelBatch.flush(); //render everything before switching to the new camera.
+            modelBatch.flush(); //buildMesh everything before switching to the new camera.
+
+            //set the camera associated with this camera batch
             modelBatch.setCamera(cameraBatch.getCamera());
             for(RenderableProvider gdxRenderableProvider : cameraBatch.gdxRenderableProviders())
             {

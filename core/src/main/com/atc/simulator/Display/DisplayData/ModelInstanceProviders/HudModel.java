@@ -63,7 +63,7 @@ public class HudModel extends SimpleDisplayRenderableProvider implements Display
 
         HersheyText fpsText = new HersheyText("FPS: " + Gdx.graphics.getFramesPerSecond(),
                 font, new Vector3(0, 20, 0), frameRateScale, 0f);
-        fpsText.render(builder);
+        fpsText.buildMesh(builder);
 
         Vector3 crossHairTop = new Vector3(centre).add(new Vector3(0f, crossHairSize, 0f));
         Vector3 crossHairBottom = new Vector3(centre).add(new Vector3(0f, -crossHairSize, 0f));

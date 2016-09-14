@@ -15,8 +15,8 @@ public class BitmapText {
     /**
      * Constructor for BitmapText
      * @param text text to be rendered
-     * @param position position in screen coordintates to render this text
-     * @param font the font to render this text with.
+     * @param position position in screen coordintates to buildMesh this text
+     * @param font the font to buildMesh this text with.
      */
     public BitmapText(String text, Vector2 position, BitmapFont font)
     {
@@ -44,8 +44,8 @@ public class BitmapText {
     }
 
     /**
-     * Get the font being used to render this text
-     * @return the BitmapFont being used to render this text.
+     * Get the font being used to buildMesh this text
+     * @return the BitmapFont being used to buildMesh this text.
      */
     public BitmapFont getFont()
     {
