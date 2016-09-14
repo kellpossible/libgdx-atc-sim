@@ -3,7 +3,7 @@ import com.atc.simulator.Display.PredictionFeedClientThread;
 import com.atc.simulator.PredictionService.DebugDataFeedClientThread;
 import com.atc.simulator.PredictionService.Engine.PredictionEngineThread;
 import com.atc.simulator.PredictionService.PredictionFeedServerThread;
-import com.atc.simulator.flightdata.SystemStateDatabase;
+import com.atc.simulator.flightdata.SystemStateDatabase.SystemStateDatabase;
 import com.atc.simulator.flightdata.AircraftState;
 import com.atc.simulator.flightdata.SystemState;
 import com.atc.simulator.vectors.GeographicCoordinate;

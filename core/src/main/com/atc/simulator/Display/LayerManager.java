@@ -1,15 +1,17 @@
 package com.atc.simulator.Display;
 
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
 
 import java.util.*;
 
 /**
- * Stores the layers, generates collection of instances for rendering.
+ * Stores the layers, generates collection of gdxRenderableProviders for rendering.
  * @author Luke Frisken
  */
 public class LayerManager {
     private PriorityQueue<RenderLayer> layers;
+
 
     /**
      * Constructor LayerManager creates a new LayerManager instance.
@@ -17,6 +19,7 @@ public class LayerManager {
     public LayerManager()
     {
         layers = new PriorityQueue<RenderLayer>();
+
     }
 
     /**
@@ -30,23 +33,23 @@ public class LayerManager {
     }
 
     /**
-     * Method getRenderInstances returns the renderInstances of this LayerManager object.
+     * Method getModelInstanceCameraBatches returns the renderInstances of this LayerManager object.
      *
      * @return the renderInstances (type Collection<ModelInstance>) of this LayerManager object.
      */
-    public Collection<ModelInstance> getRenderInstances()
+    public Collection<CameraBatch> getRenderInstances()
     {
-        ArrayList<ModelInstance> instances = new ArrayList<ModelInstance>();
+        ArrayList<CameraBatch> cameraBatches = new ArrayList<CameraBatch>();
         for (RenderLayer layer: layers)
         {
-            Collection<ModelInstance> layerInstances = layer.getRenderInstances();
-            if (layerInstances != null)
+            Collection<CameraBatch> layerCameraBatches = layer.getModelInstanceCameraBatches();
+            if (layerCameraBatches != null)
             {
-                instances.addAll(layerInstances);
+                cameraBatches.addAll(layerCameraBatches);
             }
         }
 
-        return instances;
+        return cameraBatches;
     }
 
     /**

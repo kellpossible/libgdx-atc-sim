@@ -1,31 +1,36 @@
 package com.atc.simulator.Display;
 
-import com.atc.simulator.Display.DisplayData.ModelInstanceProviders.ModelInstanceProviderListener;
-import com.atc.simulator.Display.DisplayData.ModelInstanceProviders.ModelInstanceProvider;
-import com.atc.simulator.Display.DisplayData.ModelInstanceProviders.ModelInstanceProviderMultiplexer;
-import com.badlogic.gdx.graphics.g3d.ModelInstance;
+import com.atc.simulator.Display.DisplayData.DisplayRenderable;
+import com.atc.simulator.Display.DisplayData.DisplayRenderableProvider;
+import com.atc.simulator.Display.DisplayData.DisplayRenderableProviderListener;
+import com.atc.simulator.Display.DisplayData.DisplayRenderableProviderMultiplexer;
+import com.badlogic.gdx.graphics.Camera;
 
 import java.util.*;
 
 /**
- *
+ * Represents a layer in the display, a collection of items which
+ * get rendered together. Either due to draw order, or shader requirements.
  * @author Luke Frisken
  */
-class RenderLayer implements Comparable, Iterable<ModelInstance>, ModelInstanceProviderListener {
-    HashMap<ModelInstanceProvider, ModelInstance> instances;
+class RenderLayer implements Comparable, DisplayRenderableProviderListener {
+    private HashMap<Camera, CameraBatch> cameraBatches;
+
     protected int priority;
     private String name;
     private boolean visible;
 
 
+
+
     /**
      * Default constructor for RenderLayer
-     * @param priority priority/order of render layer.
-     * @param name name of render layer
+     * @param priority priority/order of buildMesh layer.
+     * @param name name of buildMesh layer
      */
     public RenderLayer(int priority, String name)
     {
-        instances = new HashMap<ModelInstanceProvider, ModelInstance>();
+        cameraBatches = new HashMap<Camera, CameraBatch>();
         this.priority = priority;
         this.name = name;
         visible = true;
@@ -50,14 +55,14 @@ class RenderLayer implements Comparable, Iterable<ModelInstance>, ModelInstanceP
     }
 
     /**
-     * Get the instances in this layer
-     * @return collection of model instances
+     * Get the camera batches for the model gdxRenderableProviders in this layer
+     * @return collection of model gdxRenderableProviders
      */
-    public Collection<ModelInstance> getRenderInstances()
+    public Collection<CameraBatch> getModelInstanceCameraBatches()
     {
         if (visible)
         {
-            return instances.values();
+            return cameraBatches.values();
         } else {
             return null;
         }
@@ -67,15 +72,48 @@ class RenderLayer implements Comparable, Iterable<ModelInstance>, ModelInstanceP
     /**
      * Called by an instance provider to its listeners when it is being updated.
      * @param provider the provider who is updating
-     * @param newInstance the new model instance as a result of the update
+     * @param displayRenderable the new model instance as a result of the update
      */
     @Override
-    public void onInstanceUpdate(ModelInstanceProvider provider, ModelInstance newInstance) {
-        if (newInstance == null)
+    public void onDisplayRenderableUpdate(DisplayRenderableProvider provider, DisplayRenderable displayRenderable) {
+        if (displayRenderable == null)
         {
             throw new NullPointerException(provider.getClass().getName() + " provided a null model instance");
         }
-        instances.put(provider, newInstance);
+        storeDisplayRenderable(provider, displayRenderable);
+    }
+
+    /**
+     * Store a DisplayRenderable and it's provider in the appropriate
+     * location.
+     *
+     * @param provider the provider of the renderab
+     * @param renderable of type DisplayRenderable
+     */
+    private void storeDisplayRenderable(DisplayRenderableProvider provider, DisplayRenderable renderable)
+    {
+        switch (renderable.getType())
+        {
+            case DISPLAYTEXT:
+                renderable.getDisplayText();
+                break;
+            case GDX_RENDERABLE_PROVIDER:
+                storeModelInstance(provider, renderable);
+                break;
+        }
+    }
+
+    private void storeModelInstance(DisplayRenderableProvider provider, DisplayRenderable renderable)
+    {
+        Camera camera = renderable.getCamera();
+        CameraBatch batch = cameraBatches.get(camera);
+        if (batch == null)
+        {
+            batch = new CameraBatch(camera);
+            cameraBatches.put(camera, batch);
+        }
+
+        batch.put(provider, renderable.getRenderableProvider());
     }
 
     /**
@@ -83,46 +121,44 @@ class RenderLayer implements Comparable, Iterable<ModelInstance>, ModelInstanceP
      * @param provider the provider who is being disposed of
      */
     @Override
-    public void onInstanceDispose(ModelInstanceProvider provider) {
-        instances.remove(provider);
-    }
-
-    /**
-     * Add a new instance provider to this render layer.
-     *
-     * @param provider of type ModelInstanceProvider
-     */
-    public void addInstanceProvider(ModelInstanceProvider provider)
-    {
-        provider.addModelInstanceListener(this);
-        instances.put(provider, provider.getModelInstance());
-    }
-
-    /**
-     * Add new instance provider multiplexer to this render layer.
-     *
-     * @param multiplexer of type ModelInstanceProviderMultiplexer
-     */
-    public void addInstanceProvider(ModelInstanceProviderMultiplexer multiplexer)
-    {
-        for(ModelInstanceProvider provider : multiplexer.getInstanceProviders())
+    public void onDisplayRenderableDispose(DisplayRenderableProvider provider) {
+        for (CameraBatch cameraBatch : cameraBatches.values())
         {
-            addInstanceProvider(provider);
+            cameraBatch.remove(provider);
+        }
+
+    }
+
+    /**
+     * Add a new instance provider to this buildMesh layer.
+     *
+     * @param provider of type DisplayRenderableProvider
+     */
+    public void addDisplayRenderableProvider(DisplayRenderableProvider provider)
+    {
+        provider.addDisplayRenderableProviderListener(this);
+        DisplayRenderable renderable = provider.getDisplayRenderable();
+
+        storeDisplayRenderable(provider, renderable);
+
+    }
+
+    /**
+     * Add new instance provider multiplexer to this buildMesh layer.
+     *
+     * @param multiplexer of type DisplayRenderableProviderMultiplexer
+     */
+    public void addDisplayRenderableProvider(DisplayRenderableProviderMultiplexer multiplexer)
+    {
+        for(DisplayRenderableProvider provider : multiplexer.getDisplayRenderableProviders())
+        {
+            addDisplayRenderableProvider(provider);
         }
     }
 
-    /**
-     * Implementation of iterable interface
-     * @return Iterator<ModelInstance>
-     */
-    @Override
-    public Iterator<ModelInstance> iterator() {
-        return instances.values().iterator();
-    }
-
 
     /**
-     * Get the name of this render layer
+     * Get the name of this buildMesh layer
      * @return String
      */
     public String getName()
@@ -131,7 +167,7 @@ class RenderLayer implements Comparable, Iterable<ModelInstance>, ModelInstanceP
     }
 
     /**
-     * Get the priority of this render layer
+     * Get the priority of this buildMesh layer
      * @return int
      */
     public int getPriority()
@@ -141,7 +177,7 @@ class RenderLayer implements Comparable, Iterable<ModelInstance>, ModelInstanceP
 
     /**
      * Implementation of the compareTo interface,
-     * used by the LayerManager to sort the render layers.
+     * used by the LayerManager to sort the buildMesh layers.
      * @param o object to compare to
      * @return -1 if o is greater than this, 0 if same, and 1 if o less than this.
      */
@@ -157,9 +193,13 @@ class RenderLayer implements Comparable, Iterable<ModelInstance>, ModelInstanceP
      */
     public void dispose()
     {
-        for (ModelInstanceProvider provider : instances.keySet())
+        for (CameraBatch cameraBatch : cameraBatches.values())
         {
-            provider.dispose();
+            for (DisplayRenderableProvider provider : cameraBatch.keySet())
+            {
+                provider.dispose();
+            }
         }
+
     }
 }

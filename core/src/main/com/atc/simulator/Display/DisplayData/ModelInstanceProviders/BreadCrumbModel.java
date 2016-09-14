@@ -2,6 +2,7 @@ package com.atc.simulator.Display.DisplayData.ModelInstanceProviders;
 
 import com.atc.simulator.Display.DisplayCameraListener;
 import com.atc.simulator.Display.DisplayData.DisplayAircraft;
+import com.atc.simulator.Display.DisplayData.DisplayRenderable;
 import com.atc.simulator.flightdata.Track;
 import com.atc.simulator.vectors.GeographicCoordinate;
 import com.badlogic.gdx.graphics.Camera;
@@ -17,14 +18,14 @@ import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.badlogic.gdx.math.Vector3;
 
 /**
- * Green dot representing the aircraft
  * @author Luke Frisken
+ * Created by luke on 9/09/16.
  */
-public class AircraftModel extends SimpleDisplayRenderableProvider implements DisplayCameraListener {
+public class BreadCrumbModel extends SimpleDisplayRenderableProvider implements DisplayCameraListener {
     private DisplayAircraft aircraft;
 
 
-    public AircraftModel(Camera camera, DisplayAircraft aircraft)
+    public BreadCrumbModel(Camera camera, DisplayAircraft aircraft)
     {
         super(camera);
         this.aircraft = aircraft;
@@ -63,9 +64,8 @@ public class AircraftModel extends SimpleDisplayRenderableProvider implements Di
     public void update() {
         super.update();
 
-        GeographicCoordinate position = aircraft.getPosition();
-
         float scale = 1f;
+        double depthAdjustment = -0.01;
 
         PerspectiveCamera camera = (PerspectiveCamera) getCamera();
         scale = camera.fieldOfView/2;
@@ -75,20 +75,54 @@ public class AircraftModel extends SimpleDisplayRenderableProvider implements Di
             scale = 2;
         }
 
-        double depthAdjustment = -0.01;
-        Vector3 modelDrawVector = position.getModelDrawVector(depthAdjustment);
+        int stepSize = 1;
+        int lookback = 20;
 
-        ModelBuilder modelBuilder = new ModelBuilder();
-        Model newModel = modelBuilder.createSphere(
-                0.0005f, 0.0005f, 0.0005f, 7, 7,
-                new Material(ColorAttribute.createDiffuse(new Color(0, 1, 0, 1))),
-                VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal);
-        ModelInstance modelInstance = setModel(newModel, false);
-        modelInstance.transform.setToScaling(scale, scale, scale);
-        modelInstance.calculateTransforms();
-        modelInstance.transform.setTranslation(modelDrawVector.x, modelDrawVector.y, modelDrawVector.z);
+        Track track = aircraft.getTrack();
 
-        triggerOnRenderableUpdate(getDisplayRenderable());
+        if (track.size() < 1+stepSize)
+        {
+            setDisplayRenderable(new DisplayRenderable());
+            return;
+        }
+
+        if (track.size()%stepSize != 0 )
+            return;
+
+        track.get(track.size()-1);
+
+        ModelCache modelCache = new ModelCache();
+        modelCache.begin();
+
+
+        int n = 1;
+        for (int i = track.size()-1-stepSize; i > Math.max(0, track.size()-1-lookback); i-=stepSize)
+        {
+            float colorBrightness = 1.0f * ((float) Math.exp(-((double) n)/15.0f));
+            float intermediateScale = (float) (scale * Math.exp(((double) -(n+3))/(lookback/2)));
+
+            GeographicCoordinate position = track.get(i).getPosition();
+            Vector3 modelDrawVector = position.getModelDrawVector(depthAdjustment);
+
+            Color newColor = new Color(colorBrightness, colorBrightness, colorBrightness, 1.0f);
+
+            ModelBuilder modelBuilder = new ModelBuilder();
+            Model newModel = modelBuilder.createSphere(
+                    0.0005f, 0.0005f, 0.0005f, 5, 5,
+                    new Material(ColorAttribute.createDiffuse(newColor)),
+                    VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal);
+            ModelInstance modelInstance = new ModelInstance(newModel);
+            modelInstance.transform.setToScaling(intermediateScale, intermediateScale, intermediateScale);
+            modelInstance.calculateTransforms();
+            modelInstance.transform.setTranslation(modelDrawVector.x, modelDrawVector.y, modelDrawVector.z);
+            modelCache.add(modelInstance);
+
+            n++;
+        }
+
+        modelCache.end();
+
+        setDisplayRenderable(new DisplayRenderable(modelCache, camera));
     }
 
     @Override
@@ -96,9 +130,8 @@ public class AircraftModel extends SimpleDisplayRenderableProvider implements Di
         switch (updateType)
         {
             case ZOOM:
-//                System.out.println("updating" + aircraft.getAircraftID());
+//                System.out.println("lock length" + updateLock.getQueueLength());
                 update();
-//                System.out.println("finished" + aircraft.getAircraftID());
                 break;
         }
     }

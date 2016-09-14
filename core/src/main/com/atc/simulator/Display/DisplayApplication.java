@@ -2,19 +2,23 @@ package com.atc.simulator.Display;
 
 import com.atc.simulator.Config.ApplicationConfig;
 import com.atc.simulator.DebugDataFeed.DataPlaybackListener;
+import com.atc.simulator.DebugDataFeed.DataPlaybackThread;
 import com.atc.simulator.DebugDataFeed.Scenarios.Scenario;
 import com.atc.simulator.Display.DisplayData.*;
 import com.atc.simulator.Display.DisplayData.DisplayAircraft;
+import com.atc.simulator.Display.DisplayData.ModelInstanceProviders.HudModel;
 import com.atc.simulator.Display.DisplayData.ModelInstanceProviders.WorldMapModel;
 import com.atc.simulator.Display.DisplayData.ModelInstanceProviders.TracksModel;
 import com.atc.simulator.flightdata.*;
-import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.Gdx;
+import com.atc.simulator.flightdata.SystemStateDatabase.SystemStateDatabase;
+import com.atc.simulator.flightdata.SystemStateDatabase.SystemStateDatabaseListener;
+import com.badlogic.gdx.*;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g3d.*;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
+import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
 import com.badlogic.gdx.graphics.g3d.utils.CameraInputController;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -35,25 +39,32 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
     private static final boolean enableDebugPrint = ApplicationConfig.getInstance().getBoolean("settings.debug.print-display");
     private static final boolean showTracks = ApplicationConfig.getInstance().getBoolean("settings.display.show-tracks");
 
-	private PerspectiveCamera cam;
+	private PerspectiveCamera perspectiveCamera;
+    private OrthographicCamera orthoCamera;
     private ModelBatch modelBatch;
     private SpriteBatch spriteBatch;
-    private Environment environment;
     private MyCameraController camController;
     private AssetManager assets;
     private Scenario scenario;
     private ArrayBlockingQueue<SystemState> systemStateUpdateQueue;
     private ArrayBlockingQueue<Prediction> predictionUpdateQueue;
 
+    private Display display;
     private SystemStateDatabase stateDatabase;
-    private LayerManager displayModel;
+    private LayerManager layerManager;
     private WorldMapModel map;
     private RenderLayer mapLayer;
     private TracksModel tracks;
     private RenderLayer tracksLayer;
+    private RenderLayer hudLayer;
     private AircraftDatabase aircraftDatabase;
     private RenderLayer aircraftLayer;
     private RenderLayer predictionLayer;
+    private HudModel hud;
+    private Environment environment;
+
+    private DataPlaybackThread playbackThread;
+    private InputMultiplexer inputMultiplexer;
 
     Vector2 textPosition;
 
@@ -64,9 +75,11 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
      * private class for storing DisplayAircraft associated with the SystemStateDatabase,
      * and to keep them in sync with the systemstatedatabase.
      *
+     *
      * May have been better to subclass SystemStateDatabase...
      *
      * @author Luke Frisken
+     * @modified Chris Coleman, 14/9/16 - Added pause functionality
      * Created on 6/09/16
      */
     private class AircraftDatabase extends HashMap<String, DisplayAircraft> implements SystemStateDatabaseListener
@@ -80,8 +93,8 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
         /** @see SystemStateDatabaseListener#onNewAircraft(SystemStateDatabase, String) */
         @Override
         public void onNewAircraft(SystemStateDatabase stateDatabase, String aircraftID) {
-            DisplayAircraft newAircraft = new DisplayAircraft(stateDatabase.getTrack(aircraftID));
-            aircraftLayer.addInstanceProvider(newAircraft);
+            DisplayAircraft newAircraft = new DisplayAircraft(display, stateDatabase.getTrack(aircraftID));
+            aircraftLayer.addDisplayRenderableProvider(newAircraft);
             this.put(aircraftID, newAircraft);
         }
 
@@ -103,16 +116,21 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
      * Constructor for the DisplayApplication
      *
      * @param scenario the scenario going to be displayed.
+     * @param playbackThread The thread we need to pause if requested
      */
-    public DisplayApplication(Scenario scenario)
+    public DisplayApplication(Scenario scenario, DataPlaybackThread playbackThread)
     {
         this.scenario = scenario;
         systemStateUpdateQueue = new ArrayBlockingQueue<SystemState>(100);
         predictionUpdateQueue = new ArrayBlockingQueue<Prediction>(300);
-        displayModel = new LayerManager();
+        layerManager = new LayerManager();
         stateDatabase = new SystemStateDatabase();
         aircraftDatabase = new AircraftDatabase();
         stateDatabase.addListener(aircraftDatabase);
+        this.playbackThread = playbackThread;
+        inputMultiplexer = new InputMultiplexer();
+        display = new Display();
+        display.setLayerManager(layerManager);
 
     }
 
@@ -154,17 +172,18 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
 		public boolean zoom(float amount)
 		{
 		    //some magic numbers for zooming and panning.
-			float newFieldOfView = cam.fieldOfView - (amount * (cam.fieldOfView/15f));
+			float newFieldOfView = perspectiveCamera.fieldOfView - (amount * (perspectiveCamera.fieldOfView/15f));
 			if (newFieldOfView < 0.01 || newFieldOfView > 179)
 			{
 				return false;
 			}
 
-			cam.fieldOfView = newFieldOfView;
-			cam.update();
+			perspectiveCamera.fieldOfView = newFieldOfView;
+			perspectiveCamera.update();
 
-			this.rotateAngle = cam.fieldOfView;
-			return true;
+			this.rotateAngle = perspectiveCamera.fieldOfView;
+            display.triggerCameraOnUpdate(perspectiveCamera, DisplayCameraListener.UpdateType.ZOOM);
+            return true;
 		}
 
 		@Override
@@ -180,6 +199,10 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
      */
     @Override
 	public void create () {
+        environment = new Environment();
+        environment.set(new ColorAttribute(ColorAttribute.AmbientLight, 0.5f, 0.5f, 0.5f, 1.0f));
+        environment.add(new DirectionalLight().set(0.8f, 0.8f, 0.8f, -1f, -0.8f, -0.2f));
+
 	    textPosition = new Vector2(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
 		assets = new AssetManager();
 //		assets.load("flight_data/CallibrateMap/CallibrateMap.csv", Track.class);
@@ -193,19 +216,25 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
 
         modelBatch = new ModelBatch();
 
-		cam = new PerspectiveCamera(40, Gdx.graphics.getWidth(), Gdx.graphics.getWidth());
-		cam.position.set(0f, 0f, 0f);
+        orthoCamera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        orthoCamera.setToOrtho(true, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        orthoCamera.update();
+        display.addCamera("ortho", orthoCamera);
+
+		perspectiveCamera = new PerspectiveCamera(40, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        display.addCamera("perspective", perspectiveCamera);
+		perspectiveCamera.position.set(0f, 0f, 0f);
 //		Vector3 firstPos = track.get(0).getPosition().getCartesianDrawVector();
-//		cam.lookAt(firstPos.x, firstPos.y, firstPos.z);
+//		perspectiveCamera.lookAt(firstPos.x, firstPos.y, firstPos.z);
 
 
         //make the camera look at the projection reference (as it is likely the center of whatever's going on
         // in the scenario
         Vector3 lookAt = scenario.getProjectionReference().getCartesianDrawVector();
-		cam.lookAt(lookAt);
-		cam.near = 0.01f;
-		cam.far = 2f;
-		cam.update();
+		perspectiveCamera.lookAt(lookAt);
+		perspectiveCamera.near = 0.01f;
+		perspectiveCamera.far = 2f;
+		perspectiveCamera.update();
 
 //		ModelBuilder modelBuilder = new ModelBuilder();
 //		earthTextureModel = modelBuilder.createSphere(5f, 5f, 5f, 64, 64,
@@ -221,33 +250,42 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
 //		earthTextureInstance = new ModelInstance(earthTextureModel);
 //        earthTextureInstance.transform.setToScaling(-1f,1f,1f);
 
-        environment = new Environment();
-        environment.set(new ColorAttribute(ColorAttribute.AmbientLight, 10f, 10f, 10f, 1f));
-        //environment.add(new DirectionalLight().set(0.8f, 0.8f, 0.8f, -1f, -0.8f, -0.2f));
 
-        camController = new MyCameraController(cam);
+
+        camController = new MyCameraController(perspectiveCamera);
         Gdx.input.setInputProcessor(camController);
 
 
         //Set up all the RenderLayers
         mapLayer = new RenderLayer(10, "map");
-        displayModel.addRenderLayer(mapLayer);
-        map = new WorldMapModel();
-        mapLayer.addInstanceProvider(map);
+        layerManager.addRenderLayer(mapLayer);
+        map = new WorldMapModel(perspectiveCamera);
+        mapLayer.addDisplayRenderableProvider(map);
 
         if (showTracks)
         {
             tracksLayer = new RenderLayer(9, "tracks");
-            displayModel.addRenderLayer(tracksLayer);
-            tracks = new TracksModel(scenario);
-            tracksLayer.addInstanceProvider(tracks);
+            layerManager.addRenderLayer(tracksLayer);
+            tracks = new TracksModel(perspectiveCamera, scenario);
+            tracksLayer.addDisplayRenderableProvider(tracks);
         }
 
         predictionLayer = new RenderLayer(8, "predictions");
-        displayModel.addRenderLayer(predictionLayer);
+        layerManager.addRenderLayer(predictionLayer);
 
         aircraftLayer = new RenderLayer(7, "aircraft");
-        displayModel.addRenderLayer(aircraftLayer);
+        layerManager.addRenderLayer(aircraftLayer);
+
+        hudLayer = new RenderLayer(6, "hud");
+        layerManager.addRenderLayer(hudLayer);
+        hud = new HudModel(orthoCamera, display);
+        hudLayer.addDisplayRenderableProvider(hud);
+        display.addCameraListener(orthoCamera, hud);
+
+        inputMultiplexer.addProcessor(camController);
+        inputMultiplexer.addProcessor(new SimulationController());
+
+        Gdx.input.setInputProcessor(inputMultiplexer);
     }
 
     /**
@@ -277,8 +315,8 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
                 {
                     displayPrediction.update(prediction);
                 } else {
-                    displayPrediction = new DisplayPrediction(aircraft, prediction);
-                    predictionLayer.addInstanceProvider(displayPrediction);
+                    displayPrediction = new DisplayPrediction(display, aircraft, prediction);
+                    predictionLayer.addDisplayRenderableProvider(displayPrediction);
                     aircraft.setPrediction(displayPrediction);
                 }
             }
@@ -307,31 +345,45 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
     }
 
     /**
-     * The render method for the display.
+     * The buildMesh method for the display.
      */
 	@Override
 	public void render () {
 		Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 
-        camController.update();
-		modelBatch.begin(cam);
+        hud.update();
 
+        camController.update();
         pollSystemUpdateQueue();
         pollPredictionUpdateQueue();
 
-        //Render all the instances in the displayModel.
-        Collection<ModelInstance> instances = displayModel.getRenderInstances();
-        for(ModelInstance instance : instances)
-        {
-            modelBatch.render(instance);
-        }
 
+
+        modelBatch.begin(perspectiveCamera);
+
+        //Render all the gdxRenderableProviders in the layerManager.
+        //they are in a collection of cameraBatches so that they get rendered
+        //with the correct camera.
+        Collection<CameraBatch> cameraBatches = layerManager.getRenderInstances();
+
+        for(CameraBatch cameraBatch: cameraBatches)
+        {
+            modelBatch.flush(); //buildMesh everything before switching to the new camera.
+
+            //set the camera associated with this camera batch
+            modelBatch.setCamera(cameraBatch.getCamera());
+            for(RenderableProvider gdxRenderableProvider : cameraBatch.gdxRenderableProviders())
+            {
+                modelBatch.render(gdxRenderableProvider);
+            }
+        }
+        modelBatch.flush();
 		modelBatch.end();
 
-        spriteBatch.begin();
-//        font.draw(spriteBatch, "Hello World", textPosition.x, textPosition.y);
-        spriteBatch.end();
+//        spriteBatch.begin();
+////        font.draw(spriteBatch, "Hello World", textPosition.x, textPosition.y);
+//        spriteBatch.end();
 	}
 
 
@@ -343,7 +395,7 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
 		modelBatch.dispose();
 
         //this is throwing a concurrent modification exception, I have no idea why though...
-//        displayModel.dispose();
+//        layerManager.dispose();
 	}
 
     /**
@@ -356,9 +408,32 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
     public void resize(int width, int height)
     {
         float aspectRatio = (float) width / (float) height;
-        cam.viewportWidth = 2f * aspectRatio;
-        cam.viewportHeight = 2f;
-        cam.update();
+        perspectiveCamera.viewportWidth = 2f * aspectRatio;
+        perspectiveCamera.viewportHeight = 2f;
+        perspectiveCamera.update();
 
+        orthoCamera.setToOrtho(true, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        orthoCamera.update();
+        display.triggerCameraOnUpdate(perspectiveCamera, DisplayCameraListener.UpdateType.RESIZE);
+        display.triggerCameraOnUpdate(orthoCamera, DisplayCameraListener.UpdateType.RESIZE);
+    }
+
+    /**
+     * Private class that handles the Input from User
+     */
+    private class SimulationController extends InputAdapter
+    {
+        @Override
+        public boolean keyDown(int keycode)
+        {
+            switch (keycode)
+            {
+                case Input.Keys.SPACE:
+                    playbackThread.setPaused(!playbackThread.getPaused());
+                    break;
+            }
+
+            return true;
+        }
     }
 }

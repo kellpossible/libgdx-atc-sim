@@ -1,13 +1,13 @@
 package com.atc.simulator.Display.DisplayData;
 
-import com.atc.simulator.Display.DisplayData.ModelInstanceProviders.ModelInstanceProvider;
-import com.atc.simulator.Display.DisplayData.ModelInstanceProviders.ModelInstanceProviderMultiplexer;
+import com.atc.simulator.Display.Display;
 import com.atc.simulator.Display.DisplayData.ModelInstanceProviders.PredictionModel;
 import com.atc.simulator.Display.DisplayData.ModelInstanceProviders.VelocityModel;
+import com.atc.simulator.Display.LayerManager;
 import com.atc.simulator.flightdata.Prediction;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.utils.Disposable;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 
@@ -16,27 +16,30 @@ import java.util.HashMap;
  * With display specific extensions.
  * @author Luke Frisken
  */
-public class DisplayPrediction extends Prediction implements Disposable, ModelInstanceProviderMultiplexer {
-    private HashMap<String, ModelInstanceProvider> models;
+public class DisplayPrediction extends Prediction implements Disposable, DisplayRenderableProviderMultiplexer {
+    private HashMap<String, DisplayRenderableProvider> models;
     private DisplayAircraft aircraft;
+    private Display display;
     /**
      * Constructor DisplayPrediction creates a new DisplayPrediction instance.
      *
      * @param aircraft the aircraft this prediction belongs to
      * @param prediction of type Prediction
      */
-    public DisplayPrediction(DisplayAircraft aircraft, Prediction prediction) {
+    public DisplayPrediction(Display display, DisplayAircraft aircraft, Prediction prediction) {
         super(prediction.getAircraftID(), prediction.getPredictionTime(), prediction.getAircraftStates());
         this.aircraft = aircraft;
-        models = new HashMap<String, ModelInstanceProvider>();
+        models = new HashMap<String, DisplayRenderableProvider>();
+        this.display = display;
+
         createModels();
     }
 
     private void createModels()
     {
-
-        models.put("PredictionLine", new PredictionModel(this));
-        models.put("VelocityLine", new VelocityModel(aircraft));
+        Camera perspectiveCamera = display.getCamera("perspective");
+        models.put("PredictionLine", new PredictionModel(perspectiveCamera, this));
+        models.put("VelocityLine", new VelocityModel(perspectiveCamera, aircraft));
     }
 
     public DisplayAircraft getAircraft()
@@ -49,20 +52,20 @@ public class DisplayPrediction extends Prediction implements Disposable, ModelIn
      */
     @Override
     public void dispose() {
-        for (ModelInstanceProvider model : models.values())
+        for (DisplayRenderableProvider model : models.values())
         {
             model.dispose();
         }
     }
 
     @Override
-    public Collection<ModelInstanceProvider> getInstanceProviders() {
+    public Collection<DisplayRenderableProvider> getDisplayRenderableProviders() {
         return models.values();
     }
 
     /**
      * Update this prediction with new prediction values.
-     * and update the model instances provided by this object.
+     * and update the model gdxRenderableProviders provided by this object.
      * @param newPrediction
      */
     public void update(Prediction newPrediction)
@@ -72,11 +75,11 @@ public class DisplayPrediction extends Prediction implements Disposable, ModelIn
     }
 
     /**
-     * Call to update the instances provided by this multiplexer.
+     * Call to update the gdxRenderableProviders provided by this multiplexer.
      */
     @Override
     public void update() {
-        for (ModelInstanceProvider model : models.values())
+        for (DisplayRenderableProvider model : models.values())
         {
             model.update();
         }

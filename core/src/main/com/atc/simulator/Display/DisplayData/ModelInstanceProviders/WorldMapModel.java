@@ -1,16 +1,16 @@
 package com.atc.simulator.Display.DisplayData.ModelInstanceProviders;
 
-import com.atc.simulator.Display.DisplayData.ModelInstanceProviders.SimpleModelInstanceProvider;
 import com.atc.simulator.navdata.Countries;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g3d.Model;
-import com.badlogic.gdx.graphics.g3d.ModelInstance;
 
 /**
  * The background map for the display.
  * @author Luke Frisken
  */
-public class WorldMapModel extends SimpleModelInstanceProvider {
-    public WorldMapModel() {
+public class WorldMapModel extends SimpleDisplayRenderableProvider {
+    public WorldMapModel(Camera camera) {
+        super(camera);
         update();
     }
 

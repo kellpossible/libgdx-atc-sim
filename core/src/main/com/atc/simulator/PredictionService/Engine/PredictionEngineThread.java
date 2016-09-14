@@ -5,8 +5,8 @@ import com.atc.simulator.PredictionService.Engine.Algorithms.PredictionAlgorithm
 import com.atc.simulator.PredictionService.Engine.Workers.JavaPredictionWorkerThread;
 import com.atc.simulator.PredictionService.Engine.Workers.PredictionWorkerThread;
 import com.atc.simulator.PredictionService.PredictionFeedServerThread;
-import com.atc.simulator.flightdata.SystemStateDatabase;
-import com.atc.simulator.flightdata.SystemStateDatabaseListener;
+import com.atc.simulator.flightdata.SystemStateDatabase.SystemStateDatabase;
+import com.atc.simulator.flightdata.SystemStateDatabase.SystemStateDatabaseListener;
 import com.atc.simulator.RunnableThread;
 import com.atc.simulator.flightdata.Prediction;
 import com.atc.simulator.flightdata.Track;

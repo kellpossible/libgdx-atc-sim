@@ -1,11 +1,12 @@
 package com.atc.simulator.Display.DisplayData;
 
+import com.atc.simulator.Display.Display;
 import com.atc.simulator.Display.DisplayData.ModelInstanceProviders.*;
+import com.atc.simulator.Display.LayerManager;
 import com.atc.simulator.flightdata.AircraftState;
 import com.atc.simulator.flightdata.Track;
 import com.badlogic.gdx.utils.Disposable;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 
@@ -14,25 +15,27 @@ import java.util.HashMap;
  * With display specific extensions.
  * @author Luke Frisken
  */
-public class DisplayAircraft extends AircraftState implements Disposable, ModelInstanceProviderMultiplexer {
+public class DisplayAircraft extends AircraftState implements Disposable, DisplayRenderableProviderMultiplexer {
     private Track track;
     private DisplayPrediction prediction = null;
-    private HashMap<String, ModelInstanceProvider> models;
+    private HashMap<String, DisplayRenderableProvider> models;
+    private Display display;
 
-    private DisplayAircraft(AircraftState aircraftState)
+    private DisplayAircraft(Display display, AircraftState aircraftState)
     {
         super(aircraftState.getAircraftID(),
                 aircraftState.getTime(),
                 aircraftState.getPosition(),
                 aircraftState.getVelocity(),
                 aircraftState.getHeading());
+        this.display = display;
     }
 
-    public DisplayAircraft(Track track)
+    public DisplayAircraft(Display display, Track track)
     {
-        this(track.getLatest());
+        this(display, track.getLatest());
         this.track = track;
-        models = new HashMap<String, ModelInstanceProvider>();
+        models = new HashMap<String, DisplayRenderableProvider>();
         createModels();
 
 
@@ -62,12 +65,12 @@ public class DisplayAircraft extends AircraftState implements Disposable, ModelI
     }
 
     /**
-     * Call to update the instances provided by this multiplexer.
+     * Call to update the gdxRenderableProviders provided by this multiplexer.
      */
     public void update()
     {
         this.copyData(track.getLatest());
-        for (ModelInstanceProvider model : models.values())
+        for (DisplayRenderableProvider model : models.values())
         {
             model.update();
         }
@@ -80,7 +83,15 @@ public class DisplayAircraft extends AircraftState implements Disposable, ModelI
 
     private void createModels()
     {
-        models.put("Aircraft", new AircraftModel(this));
+        AircraftModel aircraftModel = new AircraftModel(display.getCamera("perspective"), this);
+        models.put("Aircraft", aircraftModel);
+        display.addCameraListener(aircraftModel.getCamera(), aircraftModel);
+//        AircraftInfoModel infoModel = new AircraftInfoModel(display.getCamera("ortho"), display, this);
+//        display.addCameraListener(infoModel.getCamera(), infoModel);
+//        models.put("AircraftInfo", infoModel);
+        BreadCrumbModel breadcrumbModel = new BreadCrumbModel(display.getCamera("perspective"), this);
+        models.put("AircraftBreadcrumbs", breadcrumbModel);
+        display.addCameraListener(breadcrumbModel.getCamera(), breadcrumbModel);
     }
 
     /**
@@ -113,14 +124,17 @@ public class DisplayAircraft extends AircraftState implements Disposable, ModelI
      */
     @Override
     public void dispose() {
-        for (ModelInstanceProvider model : models.values())
+        for (DisplayRenderableProvider model : models.values())
         {
             model.dispose();
         }
+
+        AircraftInfoModel infoModel = (AircraftInfoModel) models.get("AircraftInfo");
+        display.removeCameraListener(infoModel.getCamera(), infoModel);
     }
 
     @Override
-    public Collection<ModelInstanceProvider> getInstanceProviders() {
+    public Collection<DisplayRenderableProvider> getDisplayRenderableProviders() {
         return models.values();
     }
 }
