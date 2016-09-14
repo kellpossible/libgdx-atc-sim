@@ -9,7 +9,8 @@ import com.badlogic.gdx.graphics.Camera;
 import java.util.*;
 
 /**
- *
+ * Represents a layer in the display, a collection of items which
+ * get rendered together. Either due to draw order, or shader requirements.
  * @author Luke Frisken
  */
 class RenderLayer implements Comparable, DisplayRenderableProviderListener {
@@ -24,8 +25,8 @@ class RenderLayer implements Comparable, DisplayRenderableProviderListener {
 
     /**
      * Default constructor for RenderLayer
-     * @param priority priority/order of render layer.
-     * @param name name of render layer
+     * @param priority priority/order of buildMesh layer.
+     * @param name name of buildMesh layer
      */
     public RenderLayer(int priority, String name)
     {
@@ -129,7 +130,7 @@ class RenderLayer implements Comparable, DisplayRenderableProviderListener {
     }
 
     /**
-     * Add a new instance provider to this render layer.
+     * Add a new instance provider to this buildMesh layer.
      *
      * @param provider of type DisplayRenderableProvider
      */
@@ -143,7 +144,7 @@ class RenderLayer implements Comparable, DisplayRenderableProviderListener {
     }
 
     /**
-     * Add new instance provider multiplexer to this render layer.
+     * Add new instance provider multiplexer to this buildMesh layer.
      *
      * @param multiplexer of type DisplayRenderableProviderMultiplexer
      */
@@ -157,7 +158,7 @@ class RenderLayer implements Comparable, DisplayRenderableProviderListener {
 
 
     /**
-     * Get the name of this render layer
+     * Get the name of this buildMesh layer
      * @return String
      */
     public String getName()
@@ -166,7 +167,7 @@ class RenderLayer implements Comparable, DisplayRenderableProviderListener {
     }
 
     /**
-     * Get the priority of this render layer
+     * Get the priority of this buildMesh layer
      * @return int
      */
     public int getPriority()
@@ -176,7 +177,7 @@ class RenderLayer implements Comparable, DisplayRenderableProviderListener {
 
     /**
      * Implementation of the compareTo interface,
-     * used by the LayerManager to sort the render layers.
+     * used by the LayerManager to sort the buildMesh layers.
      * @param o object to compare to
      * @return -1 if o is greater than this, 0 if same, and 1 if o less than this.
      */

@@ -3,31 +3,59 @@ package com.atc.simulator.Display.VectorText;
 import com.badlogic.gdx.math.Vector2;
 
 /**
- * Created by luke on 9/09/16.
+ * Represents a visual character which can be rendered.
+ * @author Luke Frisken
  */
 public class Glyph {
-    int charcode; // Hershey (not ascii) character code
-    int left; // left bearing X coordinate
-    int right; // right bearing X coordinate
-    int[][][] lines; // array of array of arrays (array of lines of points)
-    int[][] bbox; // glyph bounding box
-    int verticies; // number of vertices?
-    float maxSize = 32;
+    private int charcode; // Hershey (not ascii) character code
+    private int left; // left bearing X coordinate
+    private int right; // right bearing X coordinate
+    private int[][][] lines; // array of array of arrays (array of lines of points)
+    private int[][] bbox; // glyph bounding box
+    private int verticies; // number of vertices?
+    private static final float maxSize = 32;
 
-    public String toString()
+    /**
+     *
+     * @param charcode Hershey keycode
+     * @param bbox bounding box
+     * @param lines lines of which the character comprises of (array of lines consisting of coordinates)
+     * @param left left x coordinate of the character
+     * @param right right x coordinate of the character
+     * @param verticies number of verticies in the character
+     */
+    public Glyph(int charcode, int[][] bbox, int[][][] lines, int left, int right, int verticies)
     {
-        return "Hershey " + charcode;
+        this.charcode = charcode;
+        this.bbox = bbox;
+        this.lines = lines;
+        this.left = left;
+        this.right = right;
+        this.verticies = verticies;
     }
 
-    public Vector2[][] linesToVector()
+    /**
+     * Method toString represents this character as a string.
+     * @return String
+     */
+    public String toString()
+    {
+        return "Hershey " + getCharcode();
+    }
+
+    /**
+     * Convert integer lines to a floating point vector representation
+     * @return
+     */
+    private Vector2[][] linesToVector()
     {
 
 
-        Vector2[][] newLines = new Vector2[lines.length][];
+        Vector2[][] newLines = new Vector2[getLines().length][];
 
-        for (int i = 0; i < lines.length; i++)
+        for (int i = 0; i < getLines().length; i++)
         {
-            int[][] line = lines[i];
+            int[][] line = getLines()[i];
             newLines[i] = new Vector2[line.length];
 
             for(int j=0; j<line.length; j++)
@@ -36,36 +64,100 @@ public class Glyph {
                 int x = point[0];
                 int y = point[1];
 
-                newLines[i][j] = new Vector2(((float) x)/ maxSize, ((float) -y)/ maxSize);
+                newLines[i][j] = new Vector2(((float) x)/ getMaxSize(), ((float) -y)/ getMaxSize());
             }
         }
 
         return newLines;
     }
 
+    /**
+     * Get the maximum size of this glyph.
+     * @return maximum size.
+     */
     public int getMaxSize()
     {
-        return (right - left)*2;
+        return (getRight() - getLeft())*2;
     }
 
     public Vector2[] boundsToVector()
     {
         float size = getMaxSize();
         Vector2[] newBbox = new Vector2[2];
-        newBbox[0] = new Vector2(((float) bbox[0][0])/size, ((float) bbox[0][1])/size);
-        newBbox[1] = new Vector2(((float) bbox[1][0])/size, ((float) bbox[1][1])/size);
+        newBbox[0] = new Vector2(((float) getBbox()[0][0])/size, ((float) getBbox()[0][1])/size);
+        newBbox[1] = new Vector2(((float) getBbox()[1][0])/size, ((float) getBbox()[1][1])/size);
         return newBbox;
     }
 
+    /**
+     * Convert this Glyph to a float glyph.
+     * @return
+     */
     public FloatGlyph toFloatGlyph()
     {
-        FloatGlyph newGlyph = new FloatGlyph();
-        newGlyph.bbox = boundsToVector();
-        newGlyph.lines = linesToVector();
-        newGlyph.charcode = charcode;
-        newGlyph.left = ((float) left)/ maxSize;
-        newGlyph.right = ((float) right)/maxSize;
+        FloatGlyph newGlyph = new FloatGlyph(
+                getCharcode(),
+                boundsToVector(),
+                linesToVector(),
+                ((float) getLeft())/ getMaxSize(),
+                ((float) getRight())/ getMaxSize()
+                );
 
         return newGlyph;
+    }
+
+    /**
+     * Method getCharcode returns the Hershey charcode of this Glyph object.
+     * @return the charcode (type int) of this Glyph object.
+     */
+    public int getCharcode() {
+        return charcode;
+    }
+
+    /**
+     * Method getLeft returns the x coordinate of the left side of this GGlyph object.
+     *
+     * @return the left (type int) of this Glyph object.
+     */
+    public int getLeft() {
+        return left;
+    }
+
+
+    /**
+     * Method getRight returns the x coordinate of the right side of this Glyph object.
+     *
+     * @return the right (type int) of this Glyph object.
+     */
+    public int getRight() {
+        return right;
+    }
+
+
+    /**
+     * Method getLines returns the lines of this Glyph object.
+     * (array of lines consisting of coordinates)
+     * @return the lines (type int[][][]) of this Glyph object.
+     */
+    public int[][][] getLines() {
+        return lines;
+    }
+
+    /**
+     * Method getBbox returns the bounding box of this Glyph object.
+     *
+     * @return the bbox (type int[][]) of this Glyph object.
+     */
+    public int[][] getBbox() {
+        return bbox;
+    }
+
+    /**
+     * Method getVerticies returns the number of verticies in this Glyph object.
+     *
+     * @return the verticies (type int) of this Glyph object.
+     */
+    public int getVerticies() {
+        return verticies;
     }
 }

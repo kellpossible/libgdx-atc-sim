@@ -9,7 +9,8 @@ import java.util.Collection;
 import java.util.HashMap;
 
 /**
- * Created by luke on 8/09/16.
+ * 
+ * @author Luke Frisken
  */
 public class CameraBatch extends HashMap<DisplayRenderableProvider, RenderableProvider>
 {
