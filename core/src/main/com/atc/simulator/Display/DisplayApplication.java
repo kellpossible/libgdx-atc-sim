@@ -161,6 +161,9 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
      * Private camera controller class to allow us to zoom and pan the map.
      */
     private class MyCameraController extends CameraInputController {
+        private static final float MIN_FOV = 0.01f;
+        private static final float MAX_FOV = 179f;
+
 
 		public MyCameraController(Camera camera) {
 			super(camera);
@@ -173,7 +176,7 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
 		{
 		    //some magic numbers for zooming and panning.
 			float newFieldOfView = perspectiveCamera.fieldOfView - (amount * (perspectiveCamera.fieldOfView/15f));
-			if (newFieldOfView < 0.01 || newFieldOfView > 179)
+			if (newFieldOfView < MIN_FOV || newFieldOfView > MAX_FOV)
 			{
 				return false;
 			}
@@ -423,6 +426,11 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
      */
     private class SimulationController extends InputAdapter
     {
+        /**
+         * Implementation of the keyDown listener
+         * @param keycode key that was pressed
+         * @return whether the input was handled
+         */
         @Override
         public boolean keyDown(int keycode)
         {

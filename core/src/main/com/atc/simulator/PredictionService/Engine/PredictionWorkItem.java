@@ -20,14 +20,17 @@ public class PredictionWorkItem implements Comparator<PredictionWorkItem>{
     private PredictionWorkerThread worker;
     private PredictionAlgorithmType algorithmType;
 
-
+    /**
+     * Creates an empty prediction work item, for use specifically
+     * in the sorter.
+     */
     public PredictionWorkItem()
     {
         this(null, null, null);
     }
 
     /**
-     *
+     * Constructor for PredictionWorkItem
      * @param aircraftID
      * @param aircraftTrack
      * @param algorithmType the type of algorithm to be used to perform this work
@@ -59,7 +62,12 @@ public class PredictionWorkItem implements Comparator<PredictionWorkItem>{
         return 0;//if it was created earlier then it should be higher
     }
 
-    public void startWorking(PredictionWorkerThread worker)
+    /**
+     * Tell this object that work has begun on its contents,
+     * being done by the worker specified.
+     * @param worker the worker which has started working on this work item.
+     */
+    public void setWorkStarted(PredictionWorkerThread worker)
     {
         if (started == false && this.worker == null)
         {

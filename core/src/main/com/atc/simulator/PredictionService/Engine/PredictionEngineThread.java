@@ -83,7 +83,7 @@ public class PredictionEngineThread implements RunnableThread, SystemStateDataba
     {
         //there is a potential here for orphan threads to be created that never get killed...
         PredictionWorkItem workItem = todoQueue.take();
-        workItem.startWorking(worker);
+        workItem.setWorkStarted(worker);
         return  workItem;
     }
 
