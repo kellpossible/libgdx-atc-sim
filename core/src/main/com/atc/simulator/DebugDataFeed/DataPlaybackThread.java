@@ -8,11 +8,14 @@ import com.atc.simulator.flightdata.SystemState;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Created by luke on 24/05/16.
  *
  * @author Luke Frisken
+ * @modified Chris Coleman, 14/9/16 - Added pause functionality
  */
 public class DataPlaybackThread implements RunnableThread {
     private ArrayList<DataPlaybackListener> listeners;
@@ -24,6 +27,11 @@ public class DataPlaybackThread implements RunnableThread {
     private boolean continueThread;
     private boolean running;
     private static final int speed = ApplicationConfig.getInstance().getInt("settings.debug-data-feed.speed");
+
+    // for thread pausing
+    private volatile boolean paused;
+    private final ReentrantLock pauseLock = new ReentrantLock();
+    private final Condition unpaused = pauseLock.newCondition();
 
     /**
      * Constructor for DataPlaybackThread
@@ -39,6 +47,7 @@ public class DataPlaybackThread implements RunnableThread {
         currentTime = scenario.getStartTime();
         continueThread = true;
         running = false;
+        paused = false;
     }
 
     /**
@@ -79,6 +88,15 @@ public class DataPlaybackThread implements RunnableThread {
         long endTime = scenario.getEndTime();
         while(continueThread)
         {
+            pauseLock.lock(); //Lock the unpausing to this Thread so others can't change it during this test
+            if(paused)
+            {
+                try{
+                    unpaused.await(); //Thread has been told to wait, so stop doing anything
+                }catch (InterruptedException ex){break;}
+            }
+            pauseLock.unlock();
+
             try {
                 //sleep for the desired update rate.
                 //TODO: beware this is not precise tracking 1:1 of the time in the track
@@ -135,5 +153,28 @@ public class DataPlaybackThread implements RunnableThread {
     @Override
     public void join() throws InterruptedException {
         thread.join();
+    }
+
+    /**
+     * Set whether or not the playback thread is paused.
+     * @param paused whether or not the playback thread is paused.
+     */
+    public void setPaused(boolean paused)
+    {
+        pauseLock.lock();
+        this.paused = paused;
+        if (!paused)
+        {
+            unpaused.signalAll();
+        }
+        pauseLock.unlock();
+    }
+
+    /**
+     * Get whether or not this playback thread is paused
+     */
+    public boolean getPaused()
+    {
+        return paused;
     }
 }

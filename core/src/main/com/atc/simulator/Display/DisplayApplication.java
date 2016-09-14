@@ -2,6 +2,7 @@ package com.atc.simulator.Display;
 
 import com.atc.simulator.Config.ApplicationConfig;
 import com.atc.simulator.DebugDataFeed.DataPlaybackListener;
+import com.atc.simulator.DebugDataFeed.DataPlaybackThread;
 import com.atc.simulator.DebugDataFeed.Scenarios.Scenario;
 import com.atc.simulator.Display.DisplayData.*;
 import com.atc.simulator.Display.DisplayData.DisplayAircraft;
@@ -11,8 +12,7 @@ import com.atc.simulator.Display.DisplayData.ModelInstanceProviders.TracksModel;
 import com.atc.simulator.flightdata.*;
 import com.atc.simulator.flightdata.SystemStateDatabase.SystemStateDatabase;
 import com.atc.simulator.flightdata.SystemStateDatabase.SystemStateDatabaseListener;
-import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.*;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -63,6 +63,9 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
     private HudModel hud;
     private Environment environment;
 
+    private DataPlaybackThread playbackThread;
+    private InputMultiplexer inputMultiplexer;
+
     Vector2 textPosition;
 
     private SystemState currentSystemState = null;
@@ -72,9 +75,11 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
      * private class for storing DisplayAircraft associated with the SystemStateDatabase,
      * and to keep them in sync with the systemstatedatabase.
      *
+     *
      * May have been better to subclass SystemStateDatabase...
      *
      * @author Luke Frisken
+     * @modified Chris Coleman, 14/9/16 - Added pause functionality
      * Created on 6/09/16
      */
     private class AircraftDatabase extends HashMap<String, DisplayAircraft> implements SystemStateDatabaseListener
@@ -111,8 +116,9 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
      * Constructor for the DisplayApplication
      *
      * @param scenario the scenario going to be displayed.
+     * @param playbackThread The thread we need to pause if requested
      */
-    public DisplayApplication(Scenario scenario)
+    public DisplayApplication(Scenario scenario, DataPlaybackThread playbackThread)
     {
         this.scenario = scenario;
         systemStateUpdateQueue = new ArrayBlockingQueue<SystemState>(100);
@@ -121,7 +127,8 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
         stateDatabase = new SystemStateDatabase();
         aircraftDatabase = new AircraftDatabase();
         stateDatabase.addListener(aircraftDatabase);
-
+        this.playbackThread = playbackThread;
+        inputMultiplexer = new InputMultiplexer();
         display = new Display();
         display.setLayerManager(layerManager);
 
@@ -274,6 +281,11 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
         hud = new HudModel(orthoCamera, display);
         hudLayer.addDisplayRenderableProvider(hud);
         display.addCameraListener(orthoCamera, hud);
+
+        inputMultiplexer.addProcessor(camController);
+        inputMultiplexer.addProcessor(new SimulationController());
+
+        Gdx.input.setInputProcessor(inputMultiplexer);
     }
 
     /**
@@ -399,5 +411,24 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
         orthoCamera.update();
         display.triggerCameraOnUpdate(perspectiveCamera, DisplayCameraListener.UpdateType.RESIZE);
         display.triggerCameraOnUpdate(orthoCamera, DisplayCameraListener.UpdateType.RESIZE);
+    }
+
+    /**
+     * Private class that handles the Input from User
+     */
+    private class SimulationController extends InputAdapter
+    {
+        @Override
+        public boolean keyDown(int keycode)
+        {
+            switch (keycode)
+            {
+                case Input.Keys.SPACE:
+                    playbackThread.setPaused(!playbackThread.getPaused());
+                    break;
+            }
+
+            return true;
+        }
     }
 }

@@ -29,7 +29,7 @@ public class DesktopLauncher {
 		Scenario.setCurrentScenario(scenario);
 
 		DataPlaybackThread dataPlaybackThread = new DataPlaybackThread(scenario, scenario.getRecommendedUpdateRate());
-		DisplayApplication display =  new DisplayApplication(scenario);
+		DisplayApplication display =  new DisplayApplication(scenario, dataPlaybackThread);
 		DebugDataFeedServerThread debugDataFeedServerThread = new DebugDataFeedServerThread();
 
 		SystemStateDatabase systemStateDatabase = new SystemStateDatabase();
