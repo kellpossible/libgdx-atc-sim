@@ -92,11 +92,10 @@ public class AircraftModel extends SimpleDisplayRenderableProvider implements Di
     }
 
     @Override
-    public void onUpdate(Camera camera, UpdateType updateType) {
-        switch (updateType)
+    public void onUpdate(CameraUpdate cameraUpdate) {
+        switch (cameraUpdate.updateType)
         {
             case ZOOM:
-//                System.out.println("updating" + aircraft.getAircraftID());
                 update();
 //                System.out.println("finished" + aircraft.getAircraftID());
                 break;

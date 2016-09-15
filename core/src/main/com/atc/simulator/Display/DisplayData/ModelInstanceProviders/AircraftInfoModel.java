@@ -74,7 +74,7 @@ public class AircraftInfoModel extends SimpleDisplayRenderableProvider implement
     }
 
     @Override
-    public void onUpdate(Camera camera, UpdateType updateType) {
+    public void onUpdate(CameraUpdate cameraUpdate) {
         update();
     }
 }

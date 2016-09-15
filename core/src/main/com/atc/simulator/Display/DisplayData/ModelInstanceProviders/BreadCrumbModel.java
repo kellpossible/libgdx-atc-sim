@@ -126,8 +126,8 @@ public class BreadCrumbModel extends SimpleDisplayRenderableProvider implements 
     }
 
     @Override
-    public void onUpdate(Camera camera, UpdateType updateType) {
-        switch (updateType)
+    public void onUpdate(CameraUpdate cameraUpdate) {
+        switch (cameraUpdate.updateType)
         {
             case ZOOM:
 //                System.out.println("lock length" + updateLock.getQueueLength());

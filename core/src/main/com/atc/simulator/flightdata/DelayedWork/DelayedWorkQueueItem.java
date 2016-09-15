@@ -37,12 +37,7 @@ public class DelayedWorkQueueItem implements Comparator<DelayedWorkQueueItem>{
 
     public boolean equals(Object item)
     {
-        if (item instanceof DelayedWorkQueueItem)
-        {
-            return compare(this, (DelayedWorkQueueItem) item) == 0;
-        } else {
-            return false;
-        }
+        return this == item;
     }
 
     public int getPriority() {

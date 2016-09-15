@@ -28,20 +28,20 @@ public class DelayedWorker {
         {
             expenditure += workItem.getCost();
 
-            DelayedWorkQueueItemType consumer = workItem.getType();
-            workBufferMap.get(consumer).remove(workItem, false);
+            DelayedWorkQueueItemType workItemType = workItem.getType();
+            workBufferMap.get(workItemType).remove(workItem, false);
             workItem.run();
 
             workItem = workQueue.poll();
         }
     }
 
-    public void addConsumer(DelayedWorkQueueItemType consumer)
+    public void addWorkItemType(DelayedWorkQueueItemType consumer)
     {
         workBufferMap.put(consumer, new DelayedWorkBuffer(WORK_BUFFER_SIZE, workQueue));
     }
 
-    public void removeConsumer(DelayedWorkQueueItemType consumer)
+    public void removeWorkItemType(DelayedWorkQueueItemType consumer)
     {
         workBufferMap.remove(consumer);
     }

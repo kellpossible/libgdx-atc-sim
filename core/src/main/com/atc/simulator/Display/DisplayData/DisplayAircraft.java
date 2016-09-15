@@ -85,13 +85,13 @@ public class DisplayAircraft extends AircraftState implements Disposable, Displa
     {
         AircraftModel aircraftModel = new AircraftModel(display.getCamera("perspective"), this);
         models.put("Aircraft", aircraftModel);
-        display.addCameraListener(aircraftModel.getCamera(), aircraftModel);
+        display.addDelayedCameraListener(aircraftModel.getCamera(), aircraftModel, 1, 10);
 //        AircraftInfoModel infoModel = new AircraftInfoModel(display.getCamera("ortho"), display, this);
 //        display.addCameraListener(infoModel.getCamera(), infoModel);
 //        models.put("AircraftInfo", infoModel);
         BreadCrumbModel breadcrumbModel = new BreadCrumbModel(display.getCamera("perspective"), this);
         models.put("AircraftBreadcrumbs", breadcrumbModel);
-        display.addCameraListener(breadcrumbModel.getCamera(), breadcrumbModel);
+        display.addDelayedCameraListener(breadcrumbModel.getCamera(), breadcrumbModel, 1, 20);
     }
 
     /**

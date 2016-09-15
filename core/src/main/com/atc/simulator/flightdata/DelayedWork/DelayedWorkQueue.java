@@ -31,8 +31,9 @@ public class DelayedWorkQueue extends SortableOrderedQueue<DelayedWorkQueueItem>
     }
 
     @Override
-    public void onItemReplaced(DelayedWorkQueueItem replacedItem, DelayedWorkQueueItem item) {
-        this.remove(replacedItem);
+    public void onItemReplaced(DelayedWorkQueueItem oldItem, DelayedWorkQueueItem newItem) {
+        this.remove(oldItem);
+        this.add(newItem);
     }
 
     @Override

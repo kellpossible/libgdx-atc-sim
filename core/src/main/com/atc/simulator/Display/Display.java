@@ -1,5 +1,6 @@
 package com.atc.simulator.Display;
 
+import com.atc.simulator.Display.DisplayData.DisplayHud;
 import com.atc.simulator.flightdata.DelayedWork.DelayedWorkQueueItem;
 import com.atc.simulator.flightdata.DelayedWork.DelayedWorkQueueItemType;
 import com.atc.simulator.flightdata.DelayedWork.DelayedWorker;
@@ -18,7 +19,10 @@ public class Display {
     private LayerManager layerManager;
     private HashMap<String, Camera> cameras;
     private ArrayList<ObjectMap.Entry<DisplayCameraListener, Camera>> cameraListeners;
+    private HashMap<DisplayCameraListener, DelayedCameraListener> delayedCameraListenerHashMap;
     private DelayedWorker delayedWorker;
+    private static final int WORK_UNITS_PER_FRAME = 100;
+    private DisplayHud displayHud;
 
     /**
      * Constructor for Display
@@ -27,7 +31,9 @@ public class Display {
     {
         cameras = new HashMap<String, Camera>();
         cameraListeners = new ArrayList<ObjectMap.Entry<DisplayCameraListener, Camera>>();
-        delayedWorker = new DelayedWorker(100);
+        delayedCameraListenerHashMap = new HashMap<DisplayCameraListener, DelayedCameraListener>();
+        delayedWorker = new DelayedWorker(WORK_UNITS_PER_FRAME);
+        displayHud = new DisplayHud();
     }
 
     /**
@@ -66,6 +72,10 @@ public class Display {
         return cameras.get(cameraName);
     }
 
+    public DisplayHud getDisplayHud() {
+        return displayHud;
+    }
+
 
     private class DelayedCameraListener extends DelayedWorkQueueItemType implements DisplayCameraListener
     {
@@ -74,11 +84,13 @@ public class Display {
         public DelayedCameraListener(DisplayCameraListener originalListener, int priority, int cost)
         {
             super(priority, cost);
+            this.originalListener = originalListener;
         }
 
         @Override
         public void run(DelayedWorkQueueItem workItem) {
-            CameraUpdate cameraUpdate = (CameraUpdate) workItem.getData();
+            Object data = workItem.getData();
+            CameraUpdate cameraUpdate = (CameraUpdate) data;
             originalListener.onUpdate(cameraUpdate);
         }
 
@@ -89,13 +101,16 @@ public class Display {
          */
         @Override
         public void onUpdate(CameraUpdate cameraUpdate) {
-            createWorkItem(cameraUpdate);
+            delayedWorker.addWorkItem(createWorkItem(cameraUpdate));
         }
     }
 
     public void addDelayedCameraListener(Camera camera, DisplayCameraListener listener, int priority, int cost)
     {
-
+        DelayedCameraListener delayedCameraListener = new DelayedCameraListener(listener, priority, cost);
+        delayedWorker.addWorkItemType(delayedCameraListener);
+        delayedCameraListenerHashMap.put(listener, delayedCameraListener);
+        addCameraListener(camera, delayedCameraListener);
     }
 
     /**
@@ -115,8 +130,9 @@ public class Display {
      * Remove a camera listener from this display.
      * @param camera camera that the listener was listening to.
      * @param listener listener to remove.
+     * @return boolean whether or not a camera listener was removed.
      */
-    public void removeCameraListener(Camera camera, DisplayCameraListener listener)
+    public boolean removeCameraListener(Camera camera, DisplayCameraListener listener)
     {
         ArrayList<ObjectMap.Entry> removeEntries = new ArrayList<ObjectMap.Entry>();
         for (ObjectMap.Entry<DisplayCameraListener, Camera> entry : cameraListeners)
@@ -131,6 +147,15 @@ public class Display {
         {
             cameraListeners.remove(entry);
         }
+
+        DelayedCameraListener delayedCameraListener = delayedCameraListenerHashMap.get(listener);
+        if (delayedCameraListener != null)
+        {
+            delayedWorker.removeWorkItemType(delayedCameraListener);
+            delayedCameraListenerHashMap.remove(listener);
+        }
+
+        return removeEntries.size() > 0;
     }
 
     /**

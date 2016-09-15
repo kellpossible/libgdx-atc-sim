@@ -185,7 +185,7 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
 			perspectiveCamera.update();
 
 			this.rotateAngle = perspectiveCamera.fieldOfView;
-            display.triggerCameraOnUpdate(perspectiveCamera, DisplayCameraListener.UpdateType.ZOOM);
+            display.triggerCameraOnUpdate(new DisplayCameraListener.CameraUpdate(perspectiveCamera, DisplayCameraListener.UpdateType.ZOOM));
             return true;
 		}
 
@@ -281,7 +281,7 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
 
         hudLayer = new RenderLayer(6, "hud");
         layerManager.addRenderLayer(hudLayer);
-        hud = new HudModel(orthoCamera, display);
+        hud = new HudModel(orthoCamera, display.getDisplayHud());
         hudLayer.addDisplayRenderableProvider(hud);
         display.addCameraListener(orthoCamera, hud);
 
@@ -372,6 +372,8 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
         //with the correct camera.
         Collection<CameraBatch> cameraBatches = layerManager.getRenderInstances();
 
+        int nInstances = 0;
+
         for(CameraBatch cameraBatch: cameraBatches)
         {
             modelBatch.flush(); //buildMesh everything before switching to the new camera.
@@ -381,8 +383,11 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
             for(RenderableProvider gdxRenderableProvider : cameraBatch.gdxRenderableProviders())
             {
                 modelBatch.render(gdxRenderableProvider);
+                nInstances++;
             }
         }
+
+        display.getDisplayHud().setNumInstances(nInstances);
         modelBatch.flush();
 		modelBatch.end();
 
@@ -419,8 +424,8 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
 
         orthoCamera.setToOrtho(true, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         orthoCamera.update();
-        display.triggerCameraOnUpdate(perspectiveCamera, DisplayCameraListener.UpdateType.RESIZE);
-        display.triggerCameraOnUpdate(orthoCamera, DisplayCameraListener.UpdateType.RESIZE);
+        display.triggerCameraOnUpdate(new DisplayCameraListener.CameraUpdate(perspectiveCamera, DisplayCameraListener.UpdateType.RESIZE));
+        display.triggerCameraOnUpdate(new DisplayCameraListener.CameraUpdate(orthoCamera, DisplayCameraListener.UpdateType.RESIZE));
     }
 
     /**

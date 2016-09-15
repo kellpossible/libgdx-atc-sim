@@ -2,6 +2,7 @@ package com.atc.simulator.Display.DisplayData.ModelInstanceProviders;
 
 import com.atc.simulator.Display.Display;
 import com.atc.simulator.Display.DisplayCameraListener;
+import com.atc.simulator.Display.DisplayData.DisplayHud;
 import com.atc.simulator.Display.VectorText.HersheyFont;
 import com.atc.simulator.Display.VectorText.HersheyText;
 import com.badlogic.gdx.Gdx;
@@ -23,16 +24,17 @@ import com.badlogic.gdx.math.Vector3;
 public class HudModel extends SimpleDisplayRenderableProvider implements DisplayCameraListener {
     private Display display;
     private HersheyFont font;
+    private DisplayHud displayHud;
     /**
      * Cnstructor of TracksModel
      * @param camera the camera used to draw this model
-     * @param display the display this model is being rendered on.
+     * @param displayHud the data for the display hud
      */
-    public HudModel(Camera camera, Display display)
+    public HudModel(Camera camera, DisplayHud displayHud)
     {
         super(camera);
         font = new HersheyFont(HersheyFont.CharacterSet.SIMPLEX);
-        this.display = display;
+        this.displayHud = displayHud;
         update();
     }
 
@@ -65,6 +67,10 @@ public class HudModel extends SimpleDisplayRenderableProvider implements Display
                 font, new Vector3(0, 20, 0), frameRateScale, 0f);
         fpsText.buildMesh(builder);
 
+        HersheyText nInstancesText = new HersheyText("Instances: " + displayHud.getNumInstances(),
+                font, new Vector3(0, 40, 0), frameRateScale, 0f);
+        nInstancesText.buildMesh(builder);
+
         Vector3 crossHairTop = new Vector3(centre).add(new Vector3(0f, crossHairSize, 0f));
         Vector3 crossHairBottom = new Vector3(centre).add(new Vector3(0f, -crossHairSize, 0f));
         Vector3 crossHairLeft = new Vector3(centre).add(new Vector3(-crossHairSize, 0f, 0f));
@@ -81,8 +87,8 @@ public class HudModel extends SimpleDisplayRenderableProvider implements Display
     }
 
     @Override
-    public void onUpdate(Camera camera, UpdateType updateType) {
-        System.out.println("update" + updateType.name());
+    public void onUpdate(CameraUpdate cameraUpdate) {
+        System.out.println("update" + cameraUpdate.updateType.name());
         update();
     }
 }
