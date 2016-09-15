@@ -48,6 +48,10 @@ public class DelayedWorker {
 
     public void addWorkItem(DelayedWorkQueueItem item)
     {
+        if (item == null)
+        {
+            System.out.println("oh no");
+        }
         DelayedWorkBuffer buffer = workBufferMap.get(item.getType());
         buffer.add(item);
     }

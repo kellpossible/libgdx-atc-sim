@@ -18,6 +18,9 @@ public class DisplayRenderable {
         HIDDEN
     }
 
+    /**
+     * Create a hidden/empty display renderable
+     */
     public DisplayRenderable()
     {
         renderable = null;

@@ -57,7 +57,7 @@ public class HudModel extends SimpleDisplayRenderableProvider implements Display
                 new Material());
         builder.setColor(Color.WHITE);
 
-        float crossHairSize = 10;
+        float crossHairSize = displayHud.getCrossHairSize();
         float frameRateSize = 20f;
         Vector3 frameRateScale = new Vector3(frameRateSize, -frameRateSize, frameRateSize);
 

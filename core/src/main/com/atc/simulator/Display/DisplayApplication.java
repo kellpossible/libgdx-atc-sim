@@ -93,6 +93,7 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
         /** @see SystemStateDatabaseListener#onNewAircraft(SystemStateDatabase, String) */
         @Override
         public void onNewAircraft(SystemStateDatabase stateDatabase, String aircraftID) {
+            System.out.println("New Aircraft " + aircraftID);
             DisplayAircraft newAircraft = new DisplayAircraft(display, stateDatabase.getTrack(aircraftID));
             aircraftLayer.addDisplayRenderableProvider(newAircraft);
             this.put(aircraftID, newAircraft);
@@ -101,7 +102,9 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
         /** @see SystemStateDatabaseListener#onRemoveAircraft(SystemStateDatabase, String) */
         @Override
         public void onRemoveAircraft(SystemStateDatabase stateDatabase, String aircraftID) {
-            this.get(aircraftID).dispose();
+            DisplayAircraft displayAircraft = this.get(aircraftID);
+            displayAircraft.dispose();
+            aircraftLayer.removeDisplayRenderableProvider(displayAircraft);
             this.remove(aircraftID);
         }
 
@@ -124,7 +127,7 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
         systemStateUpdateQueue = new ArrayBlockingQueue<SystemState>(100);
         predictionUpdateQueue = new ArrayBlockingQueue<Prediction>(300);
         layerManager = new LayerManager();
-        stateDatabase = new SystemStateDatabase();
+        stateDatabase = new SystemStateDatabase(playbackThread);
         aircraftDatabase = new AircraftDatabase();
         stateDatabase.addListener(aircraftDatabase);
         this.playbackThread = playbackThread;
@@ -273,9 +276,6 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
             tracksLayer.addDisplayRenderableProvider(tracks);
         }
 
-        predictionLayer = new RenderLayer(8, "predictions");
-        layerManager.addRenderLayer(predictionLayer);
-
         aircraftLayer = new RenderLayer(7, "aircraft");
         layerManager.addRenderLayer(aircraftLayer);
 
@@ -319,7 +319,6 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
                     displayPrediction.update(prediction);
                 } else {
                     displayPrediction = new DisplayPrediction(display, aircraft, prediction);
-                    predictionLayer.addDisplayRenderableProvider(displayPrediction);
                     aircraft.setPrediction(displayPrediction);
                 }
             }

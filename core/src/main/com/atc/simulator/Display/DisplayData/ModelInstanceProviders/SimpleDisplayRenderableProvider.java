@@ -44,11 +44,24 @@ public abstract class SimpleDisplayRenderableProvider implements DisplayRenderab
     }
 
     /**
+     * Remove a DisplayRenderableProviderListener listener from this class.
+     * @param listener the listener to be removed
+     */
+    @Override
+    public void removeDisplayRenderableProviderListener(DisplayRenderableProviderListener listener) {
+        modelInstanceListeners.remove(listener);
+//        listener.onDisplayRenderableUpdate(this, renderable);
+    }
+
+    /**
      * Call to dispose of this class, and its resources.
      */
     @Override
     public void dispose() {
-        model.dispose();
+        if (model != null)
+        {
+            model.dispose();
+        }
         triggerOnInstanceDispose();
     }
 

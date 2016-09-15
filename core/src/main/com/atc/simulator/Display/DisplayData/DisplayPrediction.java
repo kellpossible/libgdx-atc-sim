@@ -16,8 +16,7 @@ import java.util.HashMap;
  * With display specific extensions.
  * @author Luke Frisken
  */
-public class DisplayPrediction extends Prediction implements Disposable, DisplayRenderableProviderMultiplexer {
-    private HashMap<String, DisplayRenderableProvider> models;
+public class DisplayPrediction extends Prediction implements Disposable {
     private DisplayAircraft aircraft;
     private Display display;
     /**
@@ -29,17 +28,7 @@ public class DisplayPrediction extends Prediction implements Disposable, Display
     public DisplayPrediction(Display display, DisplayAircraft aircraft, Prediction prediction) {
         super(prediction.getAircraftID(), prediction.getPredictionTime(), prediction.getAircraftStates());
         this.aircraft = aircraft;
-        models = new HashMap<String, DisplayRenderableProvider>();
         this.display = display;
-
-        createModels();
-    }
-
-    private void createModels()
-    {
-        Camera perspectiveCamera = display.getCamera("perspective");
-        models.put("PredictionLine", new PredictionModel(perspectiveCamera, this));
-        models.put("VelocityLine", new VelocityModel(perspectiveCamera, aircraft));
     }
 
     public DisplayAircraft getAircraft()
@@ -47,21 +36,6 @@ public class DisplayPrediction extends Prediction implements Disposable, Display
         return aircraft;
     }
 
-    /**
-     * Releases all resources of this object.
-     */
-    @Override
-    public void dispose() {
-        for (DisplayRenderableProvider model : models.values())
-        {
-            model.dispose();
-        }
-    }
-
-    @Override
-    public Collection<DisplayRenderableProvider> getDisplayRenderableProviders() {
-        return models.values();
-    }
 
     /**
      * Update this prediction with new prediction values.
@@ -71,17 +45,14 @@ public class DisplayPrediction extends Prediction implements Disposable, Display
     public void update(Prediction newPrediction)
     {
         this.copyData(newPrediction);
-        update();
+        aircraft.update();
     }
 
     /**
-     * Call to update the gdxRenderableProviders provided by this multiplexer.
+     * Releases all resources of this object.
      */
     @Override
-    public void update() {
-        for (DisplayRenderableProvider model : models.values())
-        {
-            model.update();
-        }
+    public void dispose() {
+
     }
 }

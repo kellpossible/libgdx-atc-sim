@@ -5,6 +5,7 @@ import com.atc.simulator.Display.DisplayData.ModelInstanceProviders.*;
 import com.atc.simulator.Display.LayerManager;
 import com.atc.simulator.flightdata.AircraftState;
 import com.atc.simulator.flightdata.Track;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.utils.Disposable;
 
 import java.util.Collection;
@@ -20,6 +21,8 @@ public class DisplayAircraft extends AircraftState implements Disposable, Displa
     private DisplayPrediction prediction = null;
     private HashMap<String, DisplayRenderableProvider> models;
     private Display display;
+    private AircraftModel aircraftModel;
+    private BreadCrumbModel breadCrumbModel;
 
     private DisplayAircraft(Display display, AircraftState aircraftState)
     {
@@ -74,24 +77,23 @@ public class DisplayAircraft extends AircraftState implements Disposable, Displa
         {
             model.update();
         }
-
-        if (prediction != null)
-        {
-            prediction.update();
-        }
     }
 
     private void createModels()
     {
-        AircraftModel aircraftModel = new AircraftModel(display.getCamera("perspective"), this);
+        Camera perspectiveCamera = display.getCamera("perspective");
+        aircraftModel = new AircraftModel(perspectiveCamera, this);
         models.put("Aircraft", aircraftModel);
         display.addDelayedCameraListener(aircraftModel.getCamera(), aircraftModel, 1, 10);
 //        AircraftInfoModel infoModel = new AircraftInfoModel(display.getCamera("ortho"), display, this);
 //        display.addCameraListener(infoModel.getCamera(), infoModel);
 //        models.put("AircraftInfo", infoModel);
-        BreadCrumbModel breadcrumbModel = new BreadCrumbModel(display.getCamera("perspective"), this);
-        models.put("AircraftBreadcrumbs", breadcrumbModel);
-        display.addDelayedCameraListener(breadcrumbModel.getCamera(), breadcrumbModel, 1, 20);
+        breadCrumbModel = new BreadCrumbModel(display.getCamera("perspective"), this);
+        models.put("AircraftBreadcrumbs", breadCrumbModel);
+        display.addDelayedCameraListener(breadCrumbModel.getCamera(), breadCrumbModel, 1, 20);
+
+        models.put("PredictionLine", new PredictionModel(perspectiveCamera, this));
+        models.put("VelocityLine", new VelocityModel(perspectiveCamera, this));
     }
 
     /**
@@ -129,8 +131,11 @@ public class DisplayAircraft extends AircraftState implements Disposable, Displa
             model.dispose();
         }
 
-        AircraftInfoModel infoModel = (AircraftInfoModel) models.get("AircraftInfo");
-        display.removeCameraListener(infoModel.getCamera(), infoModel);
+//        AircraftInfoModel infoModel = (AircraftInfoModel) models.get("AircraftInfo");
+//        display.removeCameraListener(infoModel.getCamera(), infoModel);
+
+        display.removeCameraListener(aircraftModel.getCamera(), aircraftModel);
+        display.removeCameraListener(breadCrumbModel.getCamera(), breadCrumbModel);
     }
 
     @Override

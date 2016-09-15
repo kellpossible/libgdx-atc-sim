@@ -2,6 +2,7 @@ package com.atc.simulator.Display.DisplayData.ModelInstanceProviders;
 
 import com.atc.simulator.Display.DisplayData.DisplayAircraft;
 import com.atc.simulator.Display.DisplayData.DisplayPrediction;
+import com.atc.simulator.Display.DisplayData.DisplayRenderable;
 import com.atc.simulator.flightdata.AircraftState;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
@@ -20,11 +21,10 @@ import java.util.ArrayList;
  * @author Luke Frisken
  */
 public class PredictionModel extends SimpleDisplayRenderableProvider {
-    private DisplayPrediction prediction;
-
-    public PredictionModel(Camera camera, DisplayPrediction prediction) {
+    DisplayAircraft aircraft;
+    public PredictionModel(Camera camera, DisplayAircraft aircraft) {
         super(camera);
-        this.prediction = prediction;
+        this.aircraft = aircraft;
         update();
     }
 
@@ -35,6 +35,15 @@ public class PredictionModel extends SimpleDisplayRenderableProvider {
     public void update()
     {
         super.update();
+
+        DisplayPrediction prediction = aircraft.getPrediction();
+
+        if (prediction == null)
+        {
+            setDisplayRenderable(new DisplayRenderable());
+            return;
+        }
+
 
         DisplayAircraft aircraft = prediction.getAircraft();
         ModelBuilder modelBuilder = new ModelBuilder();

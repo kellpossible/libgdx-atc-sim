@@ -32,7 +32,7 @@ public class DesktopLauncher {
 		DisplayApplication display =  new DisplayApplication(scenario, dataPlaybackThread);
 		DebugDataFeedServerThread debugDataFeedServerThread = new DebugDataFeedServerThread();
 
-		SystemStateDatabase systemStateDatabase = new SystemStateDatabase();
+		SystemStateDatabase systemStateDatabase = new SystemStateDatabase(dataPlaybackThread);
 
 
 		PredictionFeedClientThread predictionFeedClientThread = new PredictionFeedClientThread();

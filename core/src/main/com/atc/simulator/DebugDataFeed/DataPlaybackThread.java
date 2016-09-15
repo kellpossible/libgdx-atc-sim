@@ -3,11 +3,10 @@ package com.atc.simulator.DebugDataFeed;
 import com.atc.simulator.Config.ApplicationConfig;
 import com.atc.simulator.DebugDataFeed.Scenarios.Scenario;
 import com.atc.simulator.RunnableThread;
-import com.atc.simulator.flightdata.ISO8601;
 import com.atc.simulator.flightdata.SystemState;
+import com.atc.simulator.flightdata.TimeSource;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -17,7 +16,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * @author Luke Frisken
  * @modified Chris Coleman, 14/9/16 - Added pause functionality
  */
-public class DataPlaybackThread implements RunnableThread {
+public class DataPlaybackThread implements RunnableThread, TimeSource {
     private ArrayList<DataPlaybackListener> listeners;
     private int updateRate;
     private Scenario scenario;
@@ -107,11 +106,11 @@ public class DataPlaybackThread implements RunnableThread {
                 e.printStackTrace();
             }
 
-            currentTime += updateRate; //20 times speedup TODO: remove
+            currentTime = getCurrentTime() + updateRate; //20 times speedup TODO: remove
 
 
             //finish if we have passed the end time
-            if (currentTime > endTime)
+            if (getCurrentTime() > endTime)
             {
                 return;
             }
@@ -119,7 +118,7 @@ public class DataPlaybackThread implements RunnableThread {
 //            System.out.println("Debug CurrentTime");
 //            System.out.println("CurrentTime: " + ISO8601.fromCalendar(currentTime));
 
-            SystemState state = scenario.getState(currentTime);
+            SystemState state = scenario.getState(getCurrentTime());
 //            System.out.println("StateTime: " + ISO8601.fromCalendar(state.getTime()));
 
             triggerOnSystemUpdate(state);
@@ -176,5 +175,13 @@ public class DataPlaybackThread implements RunnableThread {
     public boolean getPaused()
     {
         return paused;
+    }
+
+    /**
+     * Get the current time according to the simulation playback thread.
+     * @return current time in milliseconds from epoch.
+     */
+    public long getCurrentTime() {
+        return currentTime;
     }
 }

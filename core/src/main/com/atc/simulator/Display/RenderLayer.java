@@ -78,7 +78,7 @@ class RenderLayer implements Comparable, DisplayRenderableProviderListener {
     public void onDisplayRenderableUpdate(DisplayRenderableProvider provider, DisplayRenderable displayRenderable) {
         if (displayRenderable == null)
         {
-            throw new NullPointerException(provider.getClass().getName() + " provided a null model instance");
+//            throw new NullPointerException(provider.getClass().getName() + " provided a null model instance");
         }
         storeDisplayRenderable(provider, displayRenderable);
     }
@@ -103,6 +103,26 @@ class RenderLayer implements Comparable, DisplayRenderableProviderListener {
         }
     }
 
+    /**
+     * Removea a DisplayRenderable and it's provider from the appropriate
+     * locations.
+     *
+     * @param provider the provider of the renderab
+     * @param renderable of type DisplayRenderable
+     */
+    private void removeDisplayRenderable(DisplayRenderableProvider provider, DisplayRenderable renderable)
+    {
+        switch (renderable.getType())
+        {
+            case DISPLAYTEXT:
+                //TODO
+                break;
+            case GDX_RENDERABLE_PROVIDER:
+                removeModelInstance(provider, renderable);
+                break;
+        }
+    }
+
     private void storeModelInstance(DisplayRenderableProvider provider, DisplayRenderable renderable)
     {
         Camera camera = renderable.getCamera();
@@ -114,6 +134,16 @@ class RenderLayer implements Comparable, DisplayRenderableProviderListener {
         }
 
         batch.put(provider, renderable.getRenderableProvider());
+    }
+
+    private void removeModelInstance(DisplayRenderableProvider provider, DisplayRenderable renderable)
+    {
+        Camera camera = renderable.getCamera();
+        CameraBatch batch = cameraBatches.get(camera);
+        if (batch != null)
+        {
+            batch.remove(provider);
+        }
     }
 
     /**
@@ -153,6 +183,33 @@ class RenderLayer implements Comparable, DisplayRenderableProviderListener {
         for(DisplayRenderableProvider provider : multiplexer.getDisplayRenderableProviders())
         {
             addDisplayRenderableProvider(provider);
+        }
+    }
+
+    /**
+     * removes a display renderable provider
+     *
+     * @param provider of type DisplayRenderableProvider
+     */
+    public void removeDisplayRenderableProvider(DisplayRenderableProvider provider)
+    {
+        provider.removeDisplayRenderableProviderListener(this);
+        DisplayRenderable renderable = provider.getDisplayRenderable();
+
+        removeDisplayRenderable(provider, renderable);
+
+    }
+
+    /**
+     * removes a display renderable provider multiplexor
+     *
+     * @param multiplexer of type DisplayRenderableProviderMultiplexer
+     */
+    public void removeDisplayRenderableProvider(DisplayRenderableProviderMultiplexer multiplexer)
+    {
+        for(DisplayRenderableProvider provider : multiplexer.getDisplayRenderableProviders())
+        {
+            removeDisplayRenderableProvider(provider);
         }
     }
 

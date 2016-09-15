@@ -23,6 +23,12 @@ public interface DisplayRenderableProvider extends Disposable {
     void addDisplayRenderableProviderListener(DisplayRenderableProviderListener listener);
 
     /**
+     * Remove a DisplayRenderableProviderListener listener from this class.
+     * @param listener the listener to be removed
+     */
+    void removeDisplayRenderableProviderListener(DisplayRenderableProviderListener listener);
+
+    /**
      * Call to update the instance provided by this class.
      */
     void update();

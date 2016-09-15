@@ -134,10 +134,21 @@ public class Display {
      */
     public boolean removeCameraListener(Camera camera, DisplayCameraListener listener)
     {
+        DisplayCameraListener removeListener = listener;
+        DelayedCameraListener delayedCameraListener = delayedCameraListenerHashMap.get(removeListener);
+
+        if (delayedCameraListener != null)
+        {
+            delayedWorker.removeWorkItemType(delayedCameraListener);
+            delayedCameraListenerHashMap.remove(removeListener);
+            removeListener = delayedCameraListener.originalListener;
+        }
+
+
         ArrayList<ObjectMap.Entry> removeEntries = new ArrayList<ObjectMap.Entry>();
         for (ObjectMap.Entry<DisplayCameraListener, Camera> entry : cameraListeners)
         {
-            if (entry.key == listener && entry.value == camera)
+            if (entry.key == removeListener && entry.value == camera)
             {
                 removeEntries.add(entry);
             }
@@ -148,12 +159,8 @@ public class Display {
             cameraListeners.remove(entry);
         }
 
-        DelayedCameraListener delayedCameraListener = delayedCameraListenerHashMap.get(listener);
-        if (delayedCameraListener != null)
-        {
-            delayedWorker.removeWorkItemType(delayedCameraListener);
-            delayedCameraListenerHashMap.remove(listener);
-        }
+
+
 
         return removeEntries.size() > 0;
     }
