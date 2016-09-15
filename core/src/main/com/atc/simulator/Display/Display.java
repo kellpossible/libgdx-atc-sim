@@ -1,7 +1,11 @@
 package com.atc.simulator.Display;
 
+import com.atc.simulator.flightdata.DelayedWork.DelayedWorkQueueItem;
+import com.atc.simulator.flightdata.DelayedWork.DelayedWorkQueueItemType;
+import com.atc.simulator.flightdata.DelayedWork.DelayedWorker;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.utils.ObjectMap;
+import com.badlogic.gdx.utils.Timer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,6 +18,7 @@ public class Display {
     private LayerManager layerManager;
     private HashMap<String, Camera> cameras;
     private ArrayList<ObjectMap.Entry<DisplayCameraListener, Camera>> cameraListeners;
+    private DelayedWorker delayedWorker;
 
     /**
      * Constructor for Display
@@ -22,6 +27,7 @@ public class Display {
     {
         cameras = new HashMap<String, Camera>();
         cameraListeners = new ArrayList<ObjectMap.Entry<DisplayCameraListener, Camera>>();
+        delayedWorker = new DelayedWorker(100);
     }
 
     /**
@@ -58,6 +64,33 @@ public class Display {
     public Camera getCamera(String cameraName)
     {
         return cameras.get(cameraName);
+    }
+
+
+    private class DelayedCameraListener extends DelayedWorkQueueItemType implements DisplayCameraListener
+    {
+        private DisplayCameraListener originalListener;
+
+        public DelayedCameraListener(DisplayCameraListener originalListener, int priority, int cost)
+        {
+            super(priority, cost);
+        }
+
+        @Override
+        public void run(DelayedWorkQueueItem workItem) {
+            CameraUpdate cameraUpdate = (CameraUpdate) workItem.getData();
+            originalListener.onUpdate(cameraUpdate);
+        }
+
+        /**
+         * Called when the camera has been updated.
+         *
+         * @param cameraUpdate the data for the camera update
+         */
+        @Override
+        public void onUpdate(CameraUpdate cameraUpdate) {
+            createWorkItem(cameraUpdate);
+        }
     }
 
     public void addDelayedCameraListener(Camera camera, DisplayCameraListener listener, int priority, int cost)
@@ -102,18 +135,22 @@ public class Display {
 
     /**
      * Trigger an update event on a camera in the display.
-     * @param camera camera that was updated
-     * @param updateType type of update
+     * @param cameraUpdate the data for the camera update
      */
-    public void triggerCameraOnUpdate(Camera camera, DisplayCameraListener.UpdateType updateType)
+    public void triggerCameraOnUpdate(DisplayCameraListener.CameraUpdate cameraUpdate)
     {
         for (ObjectMap.Entry<DisplayCameraListener, Camera> entry : cameraListeners)
         {
-            if (entry.value == camera)
+            if (entry.value == cameraUpdate.camera)
             {
-                entry.key.onUpdate(camera, updateType);
+                entry.key.onUpdate(cameraUpdate);
             }
         }
+    }
+
+    public void update()
+    {
+        delayedWorker.run();
     }
 
 }

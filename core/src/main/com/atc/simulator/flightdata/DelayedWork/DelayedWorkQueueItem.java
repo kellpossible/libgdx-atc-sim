@@ -11,21 +11,23 @@ import java.util.Comparator;
  *
  * @author Luke Frisken
  */
-public abstract class DelayedWorkQueueItem implements Comparator<DelayedWorkQueueItem>{
+public class DelayedWorkQueueItem implements Comparator<DelayedWorkQueueItem>{
     private int priority;
     private int cost;
-    private DelayedWorkQueueConsumer consumer;
+    private DelayedWorkQueueItemType type;
+    private Object data;
 
-    public DelayedWorkQueueItem(int priority, int cost, DelayedWorkQueueConsumer consumer)
+    public DelayedWorkQueueItem(Object data, int priority, int cost, DelayedWorkQueueItemType type)
     {
+        this.data = data;
         this.priority = priority;
         this.cost = cost;
-        this.consumer = consumer;
+        this.type = type;
     }
 
-    public DelayedWorkQueueConsumer getConsumer()
+    public DelayedWorkQueueItemType getType()
     {
-        return consumer;
+        return type;
     }
 
     public int compare(DelayedWorkQueueItem item1, DelayedWorkQueueItem item2)
@@ -49,6 +51,16 @@ public abstract class DelayedWorkQueueItem implements Comparator<DelayedWorkQueu
 
     public int getCost() {
         return cost;
+    }
+
+    public void run()
+    {
+        type.run(this);
+    }
+
+    public Object getData()
+    {
+        return data;
     }
 
 }

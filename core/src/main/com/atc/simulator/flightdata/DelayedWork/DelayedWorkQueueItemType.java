@@ -6,21 +6,23 @@ import com.badlogic.gdx.graphics.Camera;
 /**
  * Created by luke on 9/09/16.
  *
- * DelayedWorkQueueItems call the run method on this class.
- * DelayedWorkQueueItems are generated from instances of this
- * class being present in the DelayedWorkQueue's list of consumers.
  *
  * @author Luke Frisken
  */
-public abstract class DelayedWorkQueueConsumer {
+public abstract class DelayedWorkQueueItemType {
     private int priority;
     private int cost;
 
-    public DelayedWorkQueueConsumer(int priority, int cost)
+    public DelayedWorkQueueItemType(int priority, int cost)
     {
         this.priority = priority;
         this.cost = cost;
     }
 
-    public abstract void run();
+    public abstract void run(DelayedWorkQueueItem workItem);
+
+    protected DelayedWorkQueueItem createWorkItem(Object data)
+    {
+        return new DelayedWorkQueueItem(data, this.priority, this.cost, this);
+    }
 }

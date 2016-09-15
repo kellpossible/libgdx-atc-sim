@@ -206,7 +206,7 @@ public class PredictionFeedServerThread implements RunnableThread{
     }
 
     /**
-     * Small method called too kill the server's threads when the have run through
+     * Small method called too kill the server's threads when the have update through
      */
     public void kill()
     {

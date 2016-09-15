@@ -22,16 +22,44 @@ public class DelayedWorkBuffer {
         this.bufferLength = bufferLength;
     }
 
-    public void add(DelayedWorkQueueItem newItem)
+    public void add(DelayedWorkQueueItem item, boolean triggerListener)
     {
         if (buffer.size == bufferLength)
         {
             DelayedWorkQueueItem replacedItem = buffer.removeLast();
-            listener.onItemReplaced(replacedItem, newItem);
+
+            if (triggerListener)
+            {
+                listener.onItemReplaced(replacedItem, item);
+            }
+
         } else {
-            listener.onItemAdded(newItem);
+            if (triggerListener)
+            {
+                listener.onItemAdded(item);
+            }
         }
-        buffer.addLast(newItem);
+        buffer.addLast(item);
+    }
+
+    public void add(DelayedWorkQueueItem item)
+    {
+        this.add(item, true);
+    }
+
+    public boolean remove(DelayedWorkQueueItem item, boolean triggerListener)
+    {
+        boolean removed = buffer.removeValue(item, true);
+        if (triggerListener && removed)
+        {
+            listener.onItemRemoved(item);
+        }
+        return removed;
+    }
+
+    public boolean remove(DelayedWorkQueueItem item)
+    {
+        return remove(item, true);
     }
 
     public DelayedWorkQueueItem poll()

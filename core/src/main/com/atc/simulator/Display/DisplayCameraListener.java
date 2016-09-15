@@ -9,6 +9,18 @@ import com.badlogic.gdx.graphics.Camera;
  */
 public interface DisplayCameraListener {
 
+    class CameraUpdate
+    {
+        public Camera camera;
+        public DisplayCameraListener.UpdateType updateType;
+
+        public CameraUpdate(Camera camera, DisplayCameraListener.UpdateType updateType)
+        {
+            this.camera = camera;
+            this.updateType = updateType;
+        }
+    }
+
     /**
      * Enum UpdateType ...
      * The types of updates that this listener can choose to listen to.
@@ -31,8 +43,7 @@ public interface DisplayCameraListener {
 
     /**
      * Called when the camera has been updated.
-     * @param camera the camera providing the update
-     * @param updateType the type of update that happened
+     * @param cameraUpdate the data for the camera update
      */
-    void onUpdate(Camera camera, UpdateType updateType);
+    void onUpdate(CameraUpdate cameraUpdate);
 }

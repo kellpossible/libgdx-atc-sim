@@ -8,7 +8,7 @@ import com.atc.simulator.flightdata.SortableOrderedQueue;
  * Whenever work is triggered for the consumer,
  * new workqueue items are added to the queue.
  *
- * each call of the run method first sorts the queue,
+ * each call of the update method first sorts the queue,
  * according to priority.
  * then proceeds to execute the jobs/items in the queue
  * up until an allotted size has been reached, it then returns.
@@ -26,17 +26,17 @@ public class DelayedWorkQueue extends SortableOrderedQueue<DelayedWorkQueueItem>
     }
 
     @Override
-    public void onItemAdded(DelayedWorkQueueItem newItem) {
-        this.add(newItem);
+    public void onItemAdded(DelayedWorkQueueItem item) {
+        this.add(item);
     }
 
     @Override
-    public void onItemReplaced(DelayedWorkQueueItem replacedItem, DelayedWorkQueueItem newItem) {
+    public void onItemReplaced(DelayedWorkQueueItem replacedItem, DelayedWorkQueueItem item) {
         this.remove(replacedItem);
     }
 
     @Override
-    public void onItemRemoved(DelayedWorkQueueItem removedItem) {
+    public void onItemRemoved(DelayedWorkQueueItem item) {
         //this.remove(removedItem);
     }
 }
