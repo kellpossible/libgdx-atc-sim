@@ -412,19 +412,19 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
 //        spriteBatch.end();
 
 
-        if (frameCounter%60 == 0)
-        {
-            pollSystemUpdatePerformance.tick();
-            renderInstancesPerformance.tick();
-            displayUpdatePerformance.tick();
-            pollPredictionUpdatePerformance.tick();
-            System.out.println(
-                    Gdx.graphics.getFramesPerSecond() + ", "
-                    + pollSystemUpdatePerformance.time.latest + ", "
-                    + pollPredictionUpdatePerformance.time.latest + ", "
-                    + renderInstancesPerformance.time.latest + ", "
-                    + displayUpdatePerformance.time.latest);
-        }
+//        if (frameCounter%60 == 0)
+//        {
+//            pollSystemUpdatePerformance.tick();
+//            renderInstancesPerformance.tick();
+//            displayUpdatePerformance.tick();
+//            pollPredictionUpdatePerformance.tick();
+//            System.out.println(
+//                    Gdx.graphics.getFramesPerSecond() + ", "
+//                    + pollSystemUpdatePerformance.time.latest + ", "
+//                    + pollPredictionUpdatePerformance.time.latest + ", "
+//                    + renderInstancesPerformance.time.latest + ", "
+//                    + displayUpdatePerformance.time.latest);
+//        }
 	}
 
 
