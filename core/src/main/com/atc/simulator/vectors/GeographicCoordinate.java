@@ -141,7 +141,7 @@ public class GeographicCoordinate extends SphericalCoordinate
      */
     public double arcDistance(GeographicCoordinate other)
     {
-        return this.getAltitude() * Math.acos(Math.sin(Math.toRadians(this.getLatitude()))*Math.sin(Math.toRadians(other.getLatitude()))
+        return this.x * Math.acos(Math.sin(Math.toRadians(this.getLatitude()))*Math.sin(Math.toRadians(other.getLatitude()))
                 + Math.cos(Math.toRadians(this.getLatitude()))*Math.cos(Math.toRadians(other.getLatitude()))*Math.cos(Math.toRadians(this.getLongitude() - other.getLongitude())));
     }
 
