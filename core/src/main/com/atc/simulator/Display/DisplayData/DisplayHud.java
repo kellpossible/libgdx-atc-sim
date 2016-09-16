@@ -1,14 +1,22 @@
 package com.atc.simulator.Display.DisplayData;
 
+import com.atc.simulator.Display.Display;
+
 /**
  * @author Luke Frisken
  */
 public class DisplayHud {
     private int numInstances = 0;
     private float crossHairSize = 10f;
-    public DisplayHud()
-    {
+    private Display display;
 
+    /**
+     * Constructor for DisplayHUD
+     * @param display
+     */
+    public DisplayHud(Display display)
+    {
+        this.display = display;
     }
 
     /**
@@ -41,5 +49,13 @@ public class DisplayHud {
      */
     public void setCrossHairSize(float crossHairSize) {
         this.crossHairSize = crossHairSize;
+    }
+
+    /**
+     * Get the display object.
+     * @return
+     */
+    public Display getDisplay() {
+        return display;
     }
 }

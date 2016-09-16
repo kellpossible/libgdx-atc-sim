@@ -155,13 +155,13 @@ public class PredictionEngineThread implements RunnableThread, SystemStateDataba
                         {
                             if (previousTodoList.contains(item))
                             {
-                                System.err.println("ERROR: "
-                                        + threadName
-                                        + " item "
-                                        + item
-                                        + " is taking too long to complete (>"
-                                        + (currentTime-lastTime)
-                                        + "ms)and is exceeding latency constraints");
+//                                System.err.println("ERROR: "
+//                                        + threadName
+//                                        + " item "
+//                                        + item
+//                                        + " is taking too long to complete (>"
+//                                        + (currentTime-lastTime)
+//                                        + "ms)and is exceeding latency constraints");
                             }
 
                             previousTodoList.clear();

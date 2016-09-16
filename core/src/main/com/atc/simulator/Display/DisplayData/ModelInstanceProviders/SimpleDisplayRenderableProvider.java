@@ -70,11 +70,7 @@ public abstract class SimpleDisplayRenderableProvider implements DisplayRenderab
      */
     public void update()
     {
-        if (model != null)
-        {
-            model.dispose();
-            triggerOnInstanceDispose();
-        }
+        dispose();
     }
 
     /**

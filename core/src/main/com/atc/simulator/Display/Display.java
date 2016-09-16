@@ -4,8 +4,10 @@ import com.atc.simulator.Display.DisplayData.DisplayHud;
 import com.atc.simulator.flightdata.DelayedWork.DelayedWorkQueueItem;
 import com.atc.simulator.flightdata.DelayedWork.DelayedWorkQueueItemType;
 import com.atc.simulator.flightdata.DelayedWork.DelayedWorker;
+import com.atc.simulator.flightdata.TimeSource;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.utils.ObjectMap;
+import com.badlogic.gdx.utils.PerformanceCounter;
 import com.badlogic.gdx.utils.Timer;
 
 import java.util.ArrayList;
@@ -23,17 +25,20 @@ public class Display {
     private DelayedWorker delayedWorker;
     private static final int WORK_UNITS_PER_FRAME = 100;
     private DisplayHud displayHud;
+    private TimeSource timeSource;
 
     /**
      * Constructor for Display
      */
-    public Display()
+    public Display(TimeSource timeSource)
     {
+        this.timeSource = timeSource;
         cameras = new HashMap<String, Camera>();
         cameraListeners = new ArrayList<ObjectMap.Entry<DisplayCameraListener, Camera>>();
         delayedCameraListenerHashMap = new HashMap<DisplayCameraListener, DelayedCameraListener>();
         delayedWorker = new DelayedWorker(WORK_UNITS_PER_FRAME);
-        displayHud = new DisplayHud();
+        displayHud = new DisplayHud(this);
+
     }
 
     /**
@@ -76,6 +81,13 @@ public class Display {
         return displayHud;
     }
 
+    /**
+     * Get the display's time source
+     * @return TimeSource the display's time source
+     */
+    public TimeSource getTimeSource() {
+        return timeSource;
+    }
 
     private class DelayedCameraListener extends DelayedWorkQueueItemType implements DisplayCameraListener
     {
@@ -141,7 +153,7 @@ public class Display {
         {
             delayedWorker.removeWorkItemType(delayedCameraListener);
             delayedCameraListenerHashMap.remove(removeListener);
-            removeListener = delayedCameraListener.originalListener;
+            removeListener = delayedCameraListener;
         }
 
 

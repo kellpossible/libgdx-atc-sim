@@ -188,7 +188,6 @@ public class SystemStateDatabase {
         {
             tracks.remove(aircraftID);
             triggerOnRemoveAircraft(aircraftID);
-            System.out.println("culling" + aircraftID);
         }
     }
 }

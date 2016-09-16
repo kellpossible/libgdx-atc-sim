@@ -22,6 +22,7 @@ import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
 import com.badlogic.gdx.graphics.g3d.utils.CameraInputController;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.PerformanceCounter;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -36,6 +37,7 @@ import java.util.concurrent.ArrayBlockingQueue;
  * @author Luke Frisken
  */
 public class DisplayApplication extends ApplicationAdapter implements DataPlaybackListener, PredictionListener {
+    private static final boolean enableTimer = true;
     private static final boolean enableDebugPrint = ApplicationConfig.getInstance().getBoolean("settings.debug.print-display");
     private static final boolean showTracks = ApplicationConfig.getInstance().getBoolean("settings.display.show-tracks");
 
@@ -66,9 +68,15 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
     private DataPlaybackThread playbackThread;
     private InputMultiplexer inputMultiplexer;
 
-    Vector2 textPosition;
+    private Vector2 textPosition;
 
     private SystemState currentSystemState = null;
+
+    private PerformanceCounter pollSystemUpdatePerformance = new PerformanceCounter("System Update");
+    private PerformanceCounter pollPredictionUpdatePerformance = new PerformanceCounter("Prediction Update");
+    private PerformanceCounter renderInstancesPerformance = new PerformanceCounter("Render Instances");
+    private PerformanceCounter displayUpdatePerformance = new PerformanceCounter("Display Update");
+    private long frameCounter = 0;
 
 
     /**
@@ -93,7 +101,6 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
         /** @see SystemStateDatabaseListener#onNewAircraft(SystemStateDatabase, String) */
         @Override
         public void onNewAircraft(SystemStateDatabase stateDatabase, String aircraftID) {
-            System.out.println("New Aircraft " + aircraftID);
             DisplayAircraft newAircraft = new DisplayAircraft(display, stateDatabase.getTrack(aircraftID));
             aircraftLayer.addDisplayRenderableProvider(newAircraft);
             this.put(aircraftID, newAircraft);
@@ -132,7 +139,7 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
         stateDatabase.addListener(aircraftDatabase);
         this.playbackThread = playbackThread;
         inputMultiplexer = new InputMultiplexer();
-        display = new Display();
+        display = new Display(playbackThread);
         display.setLayerManager(layerManager);
 
     }
@@ -341,8 +348,11 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
 
         while (systemState != null)
         {
+            pollSystemUpdatePerformance.start();
             stateDatabase.systemStateUpdate(systemState);
+            pollSystemUpdatePerformance.stop();
             systemState = systemStateUpdateQueue.poll();
+
         }
     }
 
@@ -351,7 +361,10 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
      */
 	@Override
 	public void render () {
+        frameCounter++;
+        displayUpdatePerformance.start();
         display.update();
+        displayUpdatePerformance.stop();
 
 		Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
@@ -359,11 +372,14 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
         hud.update();
 
         camController.update();
+
         pollSystemUpdateQueue();
+        pollPredictionUpdatePerformance.start();
         pollPredictionUpdateQueue();
+        pollPredictionUpdatePerformance.stop();
 
 
-
+        renderInstancesPerformance.start();
         modelBatch.begin(perspectiveCamera);
 
         //Render all the gdxRenderableProviders in the layerManager.
@@ -389,10 +405,26 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
         display.getDisplayHud().setNumInstances(nInstances);
         modelBatch.flush();
 		modelBatch.end();
+        renderInstancesPerformance.stop();
 
 //        spriteBatch.begin();
 ////        font.draw(spriteBatch, "Hello World", textPosition.x, textPosition.y);
 //        spriteBatch.end();
+
+
+        if (frameCounter%60 == 0)
+        {
+            pollSystemUpdatePerformance.tick();
+            renderInstancesPerformance.tick();
+            displayUpdatePerformance.tick();
+            pollPredictionUpdatePerformance.tick();
+            System.out.println(
+                    Gdx.graphics.getFramesPerSecond() + ", "
+                    + pollSystemUpdatePerformance.time.latest + ", "
+                    + pollPredictionUpdatePerformance.time.latest + ", "
+                    + renderInstancesPerformance.time.latest + ", "
+                    + displayUpdatePerformance.time.latest);
+        }
 	}
 
 

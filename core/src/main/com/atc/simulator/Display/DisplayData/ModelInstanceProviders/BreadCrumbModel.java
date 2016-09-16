@@ -17,18 +17,24 @@ import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.badlogic.gdx.math.Vector3;
 
+import java.util.ArrayList;
+
 /**
  * @author Luke Frisken
  * Created by luke on 9/09/16.
  */
 public class BreadCrumbModel extends SimpleDisplayRenderableProvider implements DisplayCameraListener {
     private DisplayAircraft aircraft;
+    private ArrayList<Model> models;
+    private ModelCache modelCache;
+
 
 
     public BreadCrumbModel(Camera camera, DisplayAircraft aircraft)
     {
         super(camera);
         this.aircraft = aircraft;
+        models = new ArrayList<Model>();
         update();
 
 
@@ -91,14 +97,16 @@ public class BreadCrumbModel extends SimpleDisplayRenderableProvider implements 
 
         track.get(track.size()-1);
 
-        ModelCache modelCache = new ModelCache();
+
+        modelCache = new ModelCache();
         modelCache.begin();
 
 
         int n = 1;
         for (int i = track.size()-1-stepSize; i > Math.max(0, track.size()-1-lookback); i-=stepSize)
         {
-            float colorBrightness = 1.0f * ((float) Math.exp(-((double) n)/15.0f));
+//            float colorBrightness = 1.0f * ((float) Math.exp(-((double) n)/15.0f));
+            float colorBrightness = 1.0f;
             float intermediateScale = (float) (scale * Math.exp(((double) -(n+3))/(lookback/2)));
 
             GeographicCoordinate position = track.get(i).getPosition();
@@ -112,10 +120,11 @@ public class BreadCrumbModel extends SimpleDisplayRenderableProvider implements 
                     new Material(ColorAttribute.createDiffuse(newColor)),
                     VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal);
             ModelInstance modelInstance = new ModelInstance(newModel);
-            modelInstance.transform.setToScaling(intermediateScale, intermediateScale, intermediateScale);
+//            modelInstance.transform.setToScaling(intermediateScale, intermediateScale, intermediateScale);
             modelInstance.calculateTransforms();
             modelInstance.transform.setTranslation(modelDrawVector.x, modelDrawVector.y, modelDrawVector.z);
             modelCache.add(modelInstance);
+            models.add(newModel);
 
             n++;
         }
@@ -134,5 +143,24 @@ public class BreadCrumbModel extends SimpleDisplayRenderableProvider implements 
                 update();
                 break;
         }
+    }
+
+
+    @Override
+    public void dispose()
+    {
+        if (modelCache != null)
+        {
+            modelCache.dispose();
+            modelCache = null;
+        }
+
+        for(Model model : models)
+        {
+            model.dispose();
+        }
+
+        models.clear();
+        super.dispose();
     }
 }

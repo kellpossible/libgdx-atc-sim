@@ -5,6 +5,7 @@ import com.atc.simulator.Display.DisplayCameraListener;
 import com.atc.simulator.Display.DisplayData.DisplayHud;
 import com.atc.simulator.Display.VectorText.HersheyFont;
 import com.atc.simulator.Display.VectorText.HersheyText;
+import com.atc.simulator.flightdata.TimeSource;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
@@ -17,12 +18,13 @@ import com.badlogic.gdx.graphics.g3d.utils.MeshPartBuilder;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.badlogic.gdx.math.Vector3;
 
+import java.util.Calendar;
+
 /**
  * @author Luke Frisken
  * Created by luke on 8/09/16.
  */
 public class HudModel extends SimpleDisplayRenderableProvider implements DisplayCameraListener {
-    private Display display;
     private HersheyFont font;
     private DisplayHud displayHud;
     /**
@@ -68,8 +70,18 @@ public class HudModel extends SimpleDisplayRenderableProvider implements Display
         fpsText.buildMesh(builder);
 
         HersheyText nInstancesText = new HersheyText("Instances: " + displayHud.getNumInstances(),
-                font, new Vector3(0, 40, 0), frameRateScale, 0f);
+                font, new Vector3(0, 50, 0), frameRateScale, 0f);
         nInstancesText.buildMesh(builder);
+
+        Display display = displayHud.getDisplay();
+        TimeSource timeSource = display.getTimeSource();
+        long currentTime = timeSource.getCurrentTime();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(currentTime);
+
+        HersheyText timeText = new HersheyText("Time: " + calendar.get(Calendar.HOUR) + ":" + calendar.get(Calendar.MINUTE) + ":" + calendar.get(Calendar.SECOND),
+                font, new Vector3(0, 80, 0), frameRateScale, 0f);
+        timeText.buildMesh(builder);
 
         Vector3 crossHairTop = new Vector3(centre).add(new Vector3(0f, crossHairSize, 0f));
         Vector3 crossHairBottom = new Vector3(centre).add(new Vector3(0f, -crossHairSize, 0f));

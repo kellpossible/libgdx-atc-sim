@@ -38,6 +38,6 @@ public class DelayedWorkQueue extends SortableOrderedQueue<DelayedWorkQueueItem>
 
     @Override
     public void onItemRemoved(DelayedWorkQueueItem item) {
-        //this.remove(removedItem);
+//        this.remove(item);
     }
 }
