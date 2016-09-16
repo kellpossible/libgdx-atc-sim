@@ -20,6 +20,8 @@ import com.badlogic.gdx.math.Vector3;
 import java.util.ArrayList;
 
 /**
+ * A model of the breadcrumb trail left behind by an aircraft on the display as it
+ * travels.
  * @author Luke Frisken
  * Created by luke on 9/09/16.
  */
@@ -29,38 +31,17 @@ public class BreadCrumbModel extends SimpleDisplayRenderableProvider implements 
     private ModelCache modelCache;
 
 
-
+    /**
+     * Constructor for BreadCrumbModel
+     * @param camera the camera which will render this model
+     * @param aircraft the aircraft to which this model belongs
+     */
     public BreadCrumbModel(Camera camera, DisplayAircraft aircraft)
     {
         super(camera);
         this.aircraft = aircraft;
         models = new ArrayList<Model>();
         update();
-
-
-//        Vector3 screenPosition = cam.project(new Vector3(modelDrawVector));
-//
-//
-//        String aircraftID = aircraftState.getAircraftID();
-////                System.out.println("Screen Position: " + screenPosition + ", DisplayAircraft ID: " + aircraftID);
-//
-//        if (aircraftID.equals("QFA489"))
-//        {
-//            textPosition.x = screenPosition.x;
-//            textPosition.y = screenPosition.y;
-//        }
-//
-//        //if the aircraft is moving
-//        if (velocity.length() > 0.00001)
-//        {
-//            GeographicCoordinate velocityEndPos = new GeographicCoordinate(position.add(velocity.mult(120))); //two minute velocity vector
-//            aircraftStateVelocityModel = modelBuilder.createArrow(
-//                    modelDrawVector,
-//                    velocityEndPos.getModelDrawVector(depthAdjustment),
-//                    new Material(ColorAttribute.createDiffuse(Color.GREEN)),
-//                    VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal);
-//            aircraftStateVelocityModelInstance = new ModelInstance(aircraftStateVelocityModel);
-
     }
 
     /**
@@ -105,8 +86,7 @@ public class BreadCrumbModel extends SimpleDisplayRenderableProvider implements 
         int n = 1;
         for (int i = track.size()-1-stepSize; i > Math.max(0, track.size()-1-lookback); i-=stepSize)
         {
-//            float colorBrightness = 1.0f * ((float) Math.exp(-((double) n)/15.0f));
-            float colorBrightness = 1.0f;
+            float colorBrightness = 1.0f * ((float) Math.exp(-((double) n)/15.0f));
             float intermediateScale = (float) (scale * Math.exp(((double) -(n+3))/(lookback/2)));
 
             GeographicCoordinate position = track.get(i).getPosition();
@@ -120,7 +100,7 @@ public class BreadCrumbModel extends SimpleDisplayRenderableProvider implements 
                     new Material(ColorAttribute.createDiffuse(newColor)),
                     VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal);
             ModelInstance modelInstance = new ModelInstance(newModel);
-//            modelInstance.transform.setToScaling(intermediateScale, intermediateScale, intermediateScale);
+            modelInstance.transform.setToScaling(intermediateScale, intermediateScale, intermediateScale);
             modelInstance.calculateTransforms();
             modelInstance.transform.setTranslation(modelDrawVector.x, modelDrawVector.y, modelDrawVector.z);
             modelCache.add(modelInstance);
@@ -134,6 +114,10 @@ public class BreadCrumbModel extends SimpleDisplayRenderableProvider implements 
         setDisplayRenderable(new DisplayRenderable(modelCache, camera));
     }
 
+    /**
+     * Called when the camera has been updated.
+     * @param cameraUpdate the data for the camera update
+     */
     @Override
     public void onUpdate(CameraUpdate cameraUpdate) {
         switch (cameraUpdate.updateType)
@@ -146,6 +130,9 @@ public class BreadCrumbModel extends SimpleDisplayRenderableProvider implements 
     }
 
 
+    /**
+     * Call to dispose of this class, and its resources.
+     */
     @Override
     public void dispose()
     {

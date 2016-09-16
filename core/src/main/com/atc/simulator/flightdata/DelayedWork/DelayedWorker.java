@@ -5,6 +5,12 @@ import com.badlogic.gdx.utils.Timer;
 import java.util.HashMap;
 
 /**
+ * This class is designed to be run periodically using the run method in order
+ * to work on a backlog of work that has been placed in the workQueue. It operates
+ * on a set budget of "work points" each time the run method is called. This is to prevent
+ * too much work being done in any given frame that the run method is called, causing a loss
+ * in framerate.
+ * @see #run()
  * @author Luke Frisken
  */
 public class DelayedWorker {
@@ -13,6 +19,10 @@ public class DelayedWorker {
     private int budgetPerFrame;
     private static final int WORK_BUFFER_SIZE = 1;
 
+    /**
+     * Constructor for DelayedWorker
+     * @param budgetPerFrame number of work points to process per frame.
+     */
     public DelayedWorker(int budgetPerFrame)
     {
         workBufferMap = new HashMap<DelayedWorkQueueItemType, DelayedWorkBuffer>();
@@ -20,6 +30,9 @@ public class DelayedWorker {
         this.budgetPerFrame = budgetPerFrame;
     }
 
+    /**
+     * Process items in the workQueue
+     */
     public void run() {
         DelayedWorkQueueItem workItem = workQueue.poll();
         int expenditure = 0;
@@ -36,16 +49,28 @@ public class DelayedWorker {
         }
     }
 
-    public void addWorkItemType(DelayedWorkQueueItemType consumer)
+    /**
+     * Add a new type of work item.
+     * @param workItemType the new type of work item to be added
+     */
+    public void addWorkItemType(DelayedWorkQueueItemType workItemType)
     {
-        workBufferMap.put(consumer, new DelayedWorkBuffer(WORK_BUFFER_SIZE, workQueue));
+        workBufferMap.put(workItemType, new DelayedWorkBuffer(WORK_BUFFER_SIZE, workQueue));
     }
 
-    public void removeWorkItemType(DelayedWorkQueueItemType consumer)
+    /**
+     * Remove a work item type
+     * @param workItemType the work item type to be removed
+     */
+    public void removeWorkItemType(DelayedWorkQueueItemType workItemType)
     {
-        workBufferMap.remove(consumer);
+        workBufferMap.remove(workItemType);
     }
 
+    /**
+     * Add a new work item to the queue.
+     * @param item
+     */
     public void addWorkItem(DelayedWorkQueueItem item)
     {
         if (item == null)
