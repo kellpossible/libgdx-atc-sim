@@ -8,7 +8,9 @@ import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.Pool;
 
 /**
- * Created by luke on 16/09/16.
+ * A libGDX renderable provider DisplayRenderable
+ * @see RenderableProvider
+ * @author Luke Frisken
  */
 public class GDXDisplayRenderable extends DisplayRenderable implements RenderableProvider{
     private Array<Disposable> disposables;

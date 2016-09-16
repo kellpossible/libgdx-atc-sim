@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g3d.RenderableProvider;
 import com.badlogic.gdx.utils.Disposable;
 
 /**
+ * An object which is renderable by the display
  * @author Luke Frisken
  */
 public abstract class DisplayRenderable implements Disposable {

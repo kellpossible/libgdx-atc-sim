@@ -1,7 +1,8 @@
 package com.atc.simulator.Display.DisplayData.DisplayRenderable;
 
 /**
- * Created by luke on 16/09/16.
+ * A hidden renderable, which surprisingly enough, does not get rendered.
+ * @author Luke Frisken
  */
 public class HiddenDisplayRenderable extends DisplayRenderable {
     /**
