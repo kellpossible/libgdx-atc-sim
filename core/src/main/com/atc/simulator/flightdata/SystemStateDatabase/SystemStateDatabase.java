@@ -1,6 +1,5 @@
-package com.atc.simulator.PredictionService;
+package com.atc.simulator.flightdata.SystemStateDatabase;
 
-import com.atc.simulator.DebugDataFeed.DataPlaybackListener;
 import com.atc.simulator.flightdata.AircraftState;
 import com.atc.simulator.flightdata.SystemState;
 import com.atc.simulator.flightdata.Track;
@@ -44,10 +43,12 @@ public class SystemStateDatabase {
             track = new Track();
             track.add(aircraftState);
             tracks.put(aircraftID, track);
+            triggerOnNewAircraft(aircraftID);
         }
         ArrayList<String> aircraftIDs = new ArrayList<String>();
         aircraftIDs.add(aircraftID);
         triggerOnSystemStateUpdate(aircraftIDs);
+        triggerOnUpdateAircraft(aircraftID);
     }
 
     /**
@@ -136,7 +137,23 @@ public class SystemStateDatabase {
     {
         for (SystemStateDatabaseListener listener : listeners)
         {
-            listener.onSystemStateUpdate(aircraftIDs);
+            listener.onSystemStateUpdate(this, aircraftIDs);
+        }
+    }
+
+    private void triggerOnNewAircraft(String aircraftID)
+    {
+        for (SystemStateDatabaseListener listener : listeners)
+        {
+            listener.onNewAircraft(this, aircraftID);
+        }
+    }
+
+    private void triggerOnUpdateAircraft(String aircraftID)
+    {
+        for (SystemStateDatabaseListener listener : listeners)
+        {
+            listener.onUpdateAircraft(this, aircraftID);
         }
     }
 }

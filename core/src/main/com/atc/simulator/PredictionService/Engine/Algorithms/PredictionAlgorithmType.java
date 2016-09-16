@@ -1,7 +1,8 @@
 package com.atc.simulator.PredictionService.Engine.Algorithms;
 
 /**
- * Created by luke on 7/06/16.
+ * Enumerator for the different types of algorithms available for use
+ * in the prediction service.
  * @author Luke Frisken
  */
 public enum PredictionAlgorithmType {

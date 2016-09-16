@@ -5,8 +5,8 @@ import com.atc.simulator.PredictionService.Engine.Algorithms.PredictionAlgorithm
 import com.atc.simulator.PredictionService.Engine.Workers.JavaPredictionWorkerThread;
 import com.atc.simulator.PredictionService.Engine.Workers.PredictionWorkerThread;
 import com.atc.simulator.PredictionService.PredictionFeedServerThread;
-import com.atc.simulator.PredictionService.SystemStateDatabase;
-import com.atc.simulator.PredictionService.SystemStateDatabaseListener;
+import com.atc.simulator.flightdata.SystemStateDatabase.SystemStateDatabase;
+import com.atc.simulator.flightdata.SystemStateDatabase.SystemStateDatabaseListener;
 import com.atc.simulator.RunnableThread;
 import com.atc.simulator.flightdata.Prediction;
 import com.atc.simulator.flightdata.Track;
@@ -83,7 +83,7 @@ public class PredictionEngineThread implements RunnableThread, SystemStateDataba
     {
         //there is a potential here for orphan threads to be created that never get killed...
         PredictionWorkItem workItem = todoQueue.take();
-        workItem.startWorking(worker);
+        workItem.setWorkStarted(worker);
         return  workItem;
     }
 
@@ -229,36 +229,52 @@ public class PredictionEngineThread implements RunnableThread, SystemStateDataba
         }
     }
 
-     /**
-      * This method is called by the SystemStateDataBase on its listeners
-      * whenever the SystemStateDatabase receives updated information.
-      *
-      * @param aircraftIDs of type ArrayList<String>
-      */
-     @Override
-     public void onSystemStateUpdate(ArrayList<String> aircraftIDs) {
-         for (String aircraftID: aircraftIDs)
-         {
-             Track aircraftTrack = systemStateDatabase.copyTrack(aircraftID);
-             PredictionWorkItem workItem = new PredictionWorkItem(
-                     aircraftID,
-                     aircraftTrack,
-                     PredictionAlgorithmType.valueOf(algorithmType));
-             //TODO: make a seperate buffer for this so it doesn't block while todoQueue is being reordered?
-             if(enableDebugPrintQueues){System.out.println(threadName + " Adding to queue which has a current size of " + todoQueue.size());}
+    /**
+     * This method is called by the SystemStateDataBase on its listeners
+     * whenever the SystemStateDatabase receives updated information.
+     *
+     * @param stateDatabase
+     * @param aircraftIDs   of type ArrayList<String>
+     */
+    @Override
+    public void onSystemStateUpdate(SystemStateDatabase stateDatabase, ArrayList<String> aircraftIDs) {
+        for (String aircraftID: aircraftIDs)
+        {
+            Track aircraftTrack = stateDatabase.copyTrack(aircraftID);
+            PredictionWorkItem workItem = new PredictionWorkItem(
+                    aircraftID,
+                    aircraftTrack,
+                    PredictionAlgorithmType.valueOf(algorithmType));
+            //TODO: make a seperate buffer for this so it doesn't block while todoQueue is being reordered?
+            if(enableDebugPrintQueues){System.out.println(threadName + " Adding to queue which has a current size of " + todoQueue.size());}
 
-             todoQueueLock.lock();
-             try {
-                 todoQueue.add(workItem); //TODO: make this an addinorder call
-                 todoQueueChangedCondition.signalAll();
-             } finally {
-                 todoQueueLock.unlock();
-             }
+            todoQueueLock.lock();
+            try {
+                todoQueue.add(workItem); //TODO: make this an addinorder call
+                todoQueueChangedCondition.signalAll();
+            } finally {
+                todoQueueLock.unlock();
+            }
 
-             synchronized (todoList)
-             {
-                 todoList.add(workItem);
-             }
-         }
-     }
- }
+            synchronized (todoList)
+            {
+                todoList.add(workItem);
+            }
+        }
+    }
+
+    @Override
+    public void onNewAircraft(SystemStateDatabase stateDatabase, String aircraftID) {
+
+    }
+
+    @Override
+    public void onRemoveAircraft(SystemStateDatabase stateDatabase, String aircraftID) {
+
+    }
+
+    @Override
+    public void onUpdateAircraft(SystemStateDatabase stateDatabase, String aircraftID) {
+
+    }
+}

@@ -6,14 +6,14 @@ import com.atc.simulator.DebugDataFeed.DataPlaybackThread;
 import com.atc.simulator.DebugDataFeed.Scenarios.ADSBRecordingScenario;
 import com.atc.simulator.DebugDataFeed.Scenarios.Scenario;
 import com.atc.simulator.DebugDataFeed.DebugDataFeedServerThread;
+import com.atc.simulator.Display.DisplayApplication;
 import com.atc.simulator.Display.PredictionFeedClientThread;
 import com.atc.simulator.PredictionService.Engine.PredictionEngineThread;
 import com.atc.simulator.PredictionService.PredictionFeedServerThread;
-import com.atc.simulator.PredictionService.SystemStateDatabase;
+import com.atc.simulator.flightdata.SystemStateDatabase.SystemStateDatabase;
 import com.atc.simulator.PredictionService.DebugDataFeedClientThread;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import com.atc.simulator.Display.SimulatorDisplay;
 
 public class DesktopLauncher {
 	private static final String recordingFile = ApplicationConfig.getInstance().getString("settings.debug-data-feed.adsb-recording-scenario.file");
@@ -30,7 +30,7 @@ public class DesktopLauncher {
 		Scenario.setCurrentScenario(scenario);
 
 		DataPlaybackThread dataPlaybackThread = new DataPlaybackThread(scenario, scenario.getRecommendedUpdateRate());
-		SimulatorDisplay display =  new SimulatorDisplay(scenario);
+		DisplayApplication display =  new DisplayApplication(scenario, dataPlaybackThread);
 		DebugDataFeedServerThread debugDataFeedServerThread = new DebugDataFeedServerThread();
 		/****/
 		TestAccuracy accuracyTester = new TestAccuracy(scenario);

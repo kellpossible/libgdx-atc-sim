@@ -1,6 +1,5 @@
 package com.atc.simulator.Display;
 import com.atc.simulator.Config.ApplicationConfig;
-import com.atc.simulator.PredictionService.SystemStateDatabase;
 import com.atc.simulator.ProtocolBuffers.PredictionFeedServe;
 import com.atc.simulator.RunnableThread;
 import com.atc.simulator.flightdata.AircraftState;
@@ -12,7 +11,6 @@ import java.net.Socket;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 
 /**
  * PredictionFeedClientThread connects to and receives messages from a PredictionFeedServerThread, feeding the received messages onto its display
@@ -117,7 +115,7 @@ public class PredictionFeedClientThread implements RunnableThread {
                     //Made a new Prediction with ID and Time
                     Prediction newPred = new Prediction(predictionMessage.getAircraftID(), System.currentTimeMillis(), aircraftStates);
 
-                    if(enableDebugPrint){ System.out.println("PredictionFeedClient has received Aircraft " + newPred.getAircraftID()); }
+                    if(enableDebugPrint){ System.out.println("PredictionFeedClient has received DisplayAircraft " + newPred.getAircraftID()); }
 
                     notifyAllListeners(newPred);
 

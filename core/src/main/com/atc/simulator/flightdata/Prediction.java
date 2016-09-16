@@ -48,4 +48,15 @@ public class Prediction {
         return predictedStates;
     }
 
+    /**
+     * Shallow copy prediction data from another prediction
+     * @param other prediction to copy data from.
+     */
+    public void copyData(Prediction other)
+    {
+        aircraftID = other.aircraftID;
+        time = other.time;
+        predictedStates = other.predictedStates;
+    }
+
 }

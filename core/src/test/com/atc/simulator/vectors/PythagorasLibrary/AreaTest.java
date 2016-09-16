@@ -23,6 +23,7 @@ public class AreaTest
         Assert.assertEquals(v2, v1.add(v2)); //<(0+1),(0+1),(0+1)> = <1,1,1>
         Assert.assertEquals(v1, v2.add(new Vector3(-1,-1,-1))); //<(1-1),(1-1),(1-1)> = <0,0,0>
         Assert.assertEquals(new Vector3(2,2,2), v2.add(v2)); //<(1+1),(1+1),(1+1)> = <2,2,2>
+
     }
 
     @Test public void subtract(){
@@ -78,6 +79,23 @@ public class AreaTest
         Assert.assertEquals(new Vector3(2.5,0,7.5),v2.lerp(v4, 0.75));
     }
 
+    @Test public void distance(){
+        Vector3 v1 = new Vector3(0,0,0);
+        Vector3 v2 = new Vector3(5,5,5);
+
+        Vector3 v3 = new Vector3(10,11,12);
+        Vector3 v4 = new Vector3(1,4,6);
+
+        Vector3 v5 = new Vector3(4,17,9);
+        Vector3 v6 = new Vector3(23,11,14);
+
+        Assert.assertEquals(8.66025,v1.distance(v2),0.001);
+        Assert.assertEquals(12.8841,v3.distance(v4),0.001);
+        Assert.assertEquals(20.5426,v5.distance(v6),0.001);
+
+
+        //Also manually stepped through the code and compared values.
+    }
     @Test public void areaWithPath() {
         Path path = new Path();
         path.moveTo(0d, 0d);

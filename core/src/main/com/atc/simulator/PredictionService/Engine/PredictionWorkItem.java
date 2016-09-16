@@ -20,14 +20,17 @@ public class PredictionWorkItem implements Comparator<PredictionWorkItem>{
     private PredictionWorkerThread worker;
     private PredictionAlgorithmType algorithmType;
 
-
+    /**
+     * Creates an empty prediction work item, for use specifically
+     * in the sorter.
+     */
     public PredictionWorkItem()
     {
         this(null, null, null);
     }
 
     /**
-     *
+     * Constructor for PredictionWorkItem
      * @param aircraftID
      * @param aircraftTrack
      * @param algorithmType the type of algorithm to be used to perform this work
@@ -59,7 +62,12 @@ public class PredictionWorkItem implements Comparator<PredictionWorkItem>{
         return 0;//if it was created earlier then it should be higher
     }
 
-    public void startWorking(PredictionWorkerThread worker)
+    /**
+     * Tell this object that work has begun on its contents,
+     * being done by the worker specified.
+     * @param worker the worker which has started working on this work item.
+     */
+    public void setWorkStarted(PredictionWorkerThread worker)
     {
         if (started == false && this.worker == null)
         {
@@ -81,32 +89,62 @@ public class PredictionWorkItem implements Comparator<PredictionWorkItem>{
 
     }
 
+    /**
+     * Get the id of the aircraft who's track is being used for the
+     * prediction in this work item.
+     * @return
+     */
     public String getAircraftID() {
         return aircraftID;
     }
 
 
+    /**
+     * Get the track which is being used for the prediction in this work item.
+     * @return
+     */
     public Track getTrack() {
         return aircraftTrack;
     }
 
+
+    /**
+     * Get the prediction created by and belonging to this work item.
+     * @return
+     */
     public Prediction getPrediction() {
         return prediction;
     }
 
 
+    /**
+     * Whether or not processing has started on this work item.
+     * @return
+     */
     public boolean isStarted() {
         return started;
     }
 
+    /**
+     * Whether or not processing has completed on this work item.
+     * @return
+     */
     public boolean isCompleted() {
         return completed;
     }
 
+    /**
+     * Get the worker currently assigned to this work item.
+     * @return
+     */
     public PredictionWorkerThread getWorker() {
         return worker;
     }
 
+    /**
+     * Get the type of algorithm being used for the prediction in this work item.
+     * @return
+     */
     public PredictionAlgorithmType getAlgorithmType() {
         return algorithmType;
     }

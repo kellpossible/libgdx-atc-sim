@@ -3,7 +3,7 @@ import com.atc.simulator.Display.PredictionFeedClientThread;
 import com.atc.simulator.PredictionService.DebugDataFeedClientThread;
 import com.atc.simulator.PredictionService.Engine.PredictionEngineThread;
 import com.atc.simulator.PredictionService.PredictionFeedServerThread;
-import com.atc.simulator.PredictionService.SystemStateDatabase;
+import com.atc.simulator.flightdata.SystemStateDatabase.SystemStateDatabase;
 import com.atc.simulator.flightdata.AircraftState;
 import com.atc.simulator.flightdata.SystemState;
 import com.atc.simulator.vectors.GeographicCoordinate;
@@ -11,7 +11,6 @@ import com.atc.simulator.vectors.SphericalVelocity;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 /**
  * Modified by Chris, 30/05/16 -> Added the whole data->prediction->display feed through
@@ -33,7 +32,7 @@ public class DebugServerTest
             AircraftState testAircraftState = new AircraftState(lName, System.currentTimeMillis(), new GeographicCoordinate(i,i,i), new SphericalVelocity(i,i,i), i);
             aircraftStateArray.add(testAircraftState);
         }
-        //Make a new SystemState with the above Aircraft States array
+        //Make a new SystemState with the above DisplayAircraft States array
         SystemState testState = new SystemState(System.currentTimeMillis(),aircraftStateArray);
         SystemStateDatabase systemStateDatabase = new SystemStateDatabase();
 

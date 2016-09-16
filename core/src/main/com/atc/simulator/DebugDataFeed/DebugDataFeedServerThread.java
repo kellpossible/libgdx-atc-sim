@@ -68,27 +68,21 @@ public class DebugDataFeedServerThread implements RunnableThread, DataPlaybackLi
         serverThread.start();
         try {
             while (continueThread) {
-                if (toBeSentBuffer.size() > 0) {
-                    if (!clientSocket.isConnected()) //If nothing is connected
+                if (!clientSocket.isConnected()) //If nothing is connected
+                {
+                    toBeSentBuffer.clear(); //Delete the data
+                    System.out.println("No client, data deleted");
+                } else
+                {
+                    try
                     {
-                        toBeSentBuffer.clear(); //Delete the data
-                        System.out.println("No client, data deleted");
-                    } else
-                    {
-                        try
-                        {
-                            toBeSentBuffer.take().writeDelimitedTo(clientSocket.getOutputStream()); //Try to send message
-                        } catch ( InterruptedException e) {System.err.println("Interrupted process");
-                            e.printStackTrace();
-                        } catch (IOException i ) {
-                            System.err.println("Send to DebugDataFeed Client failed");
-                            i.printStackTrace();
-                        }
+                        toBeSentBuffer.take().writeDelimitedTo(clientSocket.getOutputStream()); //Try to send message
+                    } catch ( InterruptedException e) {System.err.println("Interrupted process");
+                        e.printStackTrace();
+                    } catch (IOException i ) {
+                        System.err.println("Send to DebugDataFeed Client failed");
+                        i.printStackTrace();
                     }
-                }
-                try {
-                    Thread.sleep(50);
-                } catch (InterruptedException i) {
                 }
             }
         } finally {
