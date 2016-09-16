@@ -1,11 +1,9 @@
 package com.atc.simulator.Display.DisplayData.ModelInstanceProviders;
 
-import com.atc.simulator.Display.DisplayData.DisplayRenderable;
+import com.atc.simulator.Display.DisplayData.DisplayRenderable.DisplayRenderable;
 import com.atc.simulator.Display.DisplayData.DisplayRenderableProvider;
 import com.atc.simulator.Display.DisplayData.DisplayRenderableProviderListener;
 import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.g3d.Model;
-import com.badlogic.gdx.graphics.g3d.ModelInstance;
 
 import java.util.ArrayList;
 
@@ -16,9 +14,12 @@ import java.util.ArrayList;
 public abstract class SimpleDisplayRenderableProvider implements DisplayRenderableProvider {
     private ArrayList<DisplayRenderableProviderListener> modelInstanceListeners = new ArrayList<DisplayRenderableProviderListener>();
     private DisplayRenderable renderable;
-    private Model model;
     private Camera camera;
 
+    /**
+     * Constructor for {@link SimpleDisplayRenderableProvider}
+     * @param camera camera rendering renderables provided by this provider
+     */
     public SimpleDisplayRenderableProvider(Camera camera)
     {
         this.camera = camera;
@@ -58,9 +59,9 @@ public abstract class SimpleDisplayRenderableProvider implements DisplayRenderab
      */
     @Override
     public void dispose() {
-        if (model != null)
+        if (renderable != null)
         {
-            model.dispose();
+            renderable.dispose();
         }
         triggerOnInstanceDispose();
     }
@@ -70,7 +71,7 @@ public abstract class SimpleDisplayRenderableProvider implements DisplayRenderab
      */
     public void update()
     {
-        dispose();
+        dispose(); //any update will need to dispose of its models etc
     }
 
     /**
@@ -85,6 +86,9 @@ public abstract class SimpleDisplayRenderableProvider implements DisplayRenderab
         }
     }
 
+    /**
+     * Trigger a dispose event on this class's listeners
+     */
     public void triggerOnInstanceDispose()
     {
         for (DisplayRenderableProviderListener listener : modelInstanceListeners)
@@ -93,11 +97,20 @@ public abstract class SimpleDisplayRenderableProvider implements DisplayRenderab
         }
     }
 
+    /**
+     * Set the renderable for this class
+     * @param newRenderable new renderable to set
+     */
     public void setDisplayRenderable(DisplayRenderable newRenderable)
     {
         setDisplayRenderable(newRenderable, true);
     }
 
+    /**
+     * Set the renderable for this class
+     * @param newRenderable new renderable to set
+     * @param triggerUpdate whether or not to trigger a {@link #triggerOnRenderableUpdate(DisplayRenderable)}
+     */
     public void setDisplayRenderable(DisplayRenderable newRenderable, boolean triggerUpdate)
     {
         renderable = newRenderable;
@@ -106,25 +119,6 @@ public abstract class SimpleDisplayRenderableProvider implements DisplayRenderab
         {
             triggerOnRenderableUpdate(renderable);
         }
-    }
-
-    //todo remove setModel, because it's superceded by setrenderable
-    protected ModelInstance setModel(Model newModel)
-    {
-        return setModel(newModel, true);
-    }
-
-    protected ModelInstance setModel(Model newModel, boolean triggerUpdate)
-    {
-        ModelInstance instance = new ModelInstance(newModel);
-        model = newModel;
-        setDisplayRenderable(new DisplayRenderable(instance, camera), triggerUpdate);
-        return instance;
-    }
-
-    public Model getModel()
-    {
-        return model;
     }
 
     /**

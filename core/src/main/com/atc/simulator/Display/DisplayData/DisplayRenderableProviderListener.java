@@ -1,7 +1,6 @@
 package com.atc.simulator.Display.DisplayData;
 
-import com.atc.simulator.Display.DisplayData.DisplayRenderableProvider;
-import com.badlogic.gdx.graphics.g3d.ModelInstance;
+import com.atc.simulator.Display.DisplayData.DisplayRenderable.DisplayRenderable;
 
 /**
  * A listener interface to allow objects to listen to ModelInstanceProviders.

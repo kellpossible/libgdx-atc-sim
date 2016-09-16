@@ -2,7 +2,9 @@ package com.atc.simulator.Display.DisplayData.ModelInstanceProviders;
 
 import com.atc.simulator.Display.DisplayCameraListener;
 import com.atc.simulator.Display.DisplayData.DisplayAircraft;
-import com.atc.simulator.Display.DisplayData.DisplayRenderable;
+import com.atc.simulator.Display.DisplayData.DisplayRenderable.DisplayRenderable;
+import com.atc.simulator.Display.DisplayData.DisplayRenderable.GDXDisplayRenderable;
+import com.atc.simulator.Display.DisplayData.DisplayRenderable.HiddenDisplayRenderable;
 import com.atc.simulator.flightdata.Track;
 import com.atc.simulator.vectors.GeographicCoordinate;
 import com.badlogic.gdx.graphics.Camera;
@@ -16,6 +18,8 @@ import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Disposable;
 
 import java.util.ArrayList;
 
@@ -27,8 +31,6 @@ import java.util.ArrayList;
  */
 public class BreadCrumbModel extends SimpleDisplayRenderableProvider implements DisplayCameraListener {
     private DisplayAircraft aircraft;
-    private ArrayList<Model> models;
-    private ModelCache modelCache;
 
 
     /**
@@ -40,7 +42,6 @@ public class BreadCrumbModel extends SimpleDisplayRenderableProvider implements 
     {
         super(camera);
         this.aircraft = aircraft;
-        models = new ArrayList<Model>();
         update();
     }
 
@@ -69,7 +70,7 @@ public class BreadCrumbModel extends SimpleDisplayRenderableProvider implements 
 
         if (track.size() < 1+stepSize)
         {
-            setDisplayRenderable(new DisplayRenderable());
+            setDisplayRenderable(new HiddenDisplayRenderable());
             return;
         }
 
@@ -78,8 +79,9 @@ public class BreadCrumbModel extends SimpleDisplayRenderableProvider implements 
 
         track.get(track.size()-1);
 
+        Array<Disposable> disposables = new Array<Disposable>();
 
-        modelCache = new ModelCache();
+        ModelCache modelCache = new ModelCache();
         modelCache.begin();
 
 
@@ -104,14 +106,15 @@ public class BreadCrumbModel extends SimpleDisplayRenderableProvider implements 
             modelInstance.calculateTransforms();
             modelInstance.transform.setTranslation(modelDrawVector.x, modelDrawVector.y, modelDrawVector.z);
             modelCache.add(modelInstance);
-            models.add(newModel);
+            disposables.add(newModel);
 
             n++;
         }
 
         modelCache.end();
+        disposables.add(modelCache);
 
-        setDisplayRenderable(new DisplayRenderable(modelCache, camera));
+        setDisplayRenderable(new GDXDisplayRenderable(modelCache, camera, disposables));
     }
 
     /**
@@ -127,27 +130,5 @@ public class BreadCrumbModel extends SimpleDisplayRenderableProvider implements 
                 update();
                 break;
         }
-    }
-
-
-    /**
-     * Call to dispose of this class, and its resources.
-     */
-    @Override
-    public void dispose()
-    {
-        if (modelCache != null)
-        {
-            modelCache.dispose();
-            modelCache = null;
-        }
-
-        for(Model model : models)
-        {
-            model.dispose();
-        }
-
-        models.clear();
-        super.dispose();
     }
 }

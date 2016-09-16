@@ -3,6 +3,7 @@ package com.atc.simulator.Display.DisplayData.ModelInstanceProviders;
 import com.atc.simulator.Display.Display;
 import com.atc.simulator.Display.DisplayCameraListener;
 import com.atc.simulator.Display.DisplayData.DisplayAircraft;
+import com.atc.simulator.Display.DisplayData.DisplayRenderable.GDXDisplayRenderable;
 import com.atc.simulator.vectors.GeographicCoordinate;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
@@ -58,7 +59,7 @@ public class AircraftInfoModel extends SimpleDisplayRenderableProvider implement
 //        builder.line(new Vector3(0, 0, -1), new Vector3(0, 0, 1));
 
         Model newModel = modelBuilder.end();
-        ModelInstance modelInstance = setModel(newModel, false);
+        ModelInstance modelInstance = new ModelInstance(newModel);
 
         GeographicCoordinate position = aircraft.getPosition();
         Vector3 modelDrawVector = position.getModelDrawVector(depthAdjustment);
@@ -70,7 +71,7 @@ public class AircraftInfoModel extends SimpleDisplayRenderableProvider implement
 //        modelInstance.transform.setTranslation(modelDrawVector.x, modelDrawVector.y, modelDrawVector.z);
 
 
-        triggerOnRenderableUpdate(getDisplayRenderable());
+        setDisplayRenderable(new GDXDisplayRenderable(modelInstance, getCamera(), newModel));
     }
 
     @Override

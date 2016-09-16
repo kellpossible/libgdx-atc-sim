@@ -2,6 +2,7 @@ package com.atc.simulator.Display.DisplayData.ModelInstanceProviders;
 
 import com.atc.simulator.Display.DisplayCameraListener;
 import com.atc.simulator.Display.DisplayData.DisplayAircraft;
+import com.atc.simulator.Display.DisplayData.DisplayRenderable.GDXDisplayRenderable;
 import com.atc.simulator.flightdata.Track;
 import com.atc.simulator.vectors.GeographicCoordinate;
 import com.badlogic.gdx.graphics.Camera;
@@ -83,12 +84,12 @@ public class AircraftModel extends SimpleDisplayRenderableProvider implements Di
                 0.0005f, 0.0005f, 0.0005f, 7, 7,
                 new Material(ColorAttribute.createDiffuse(new Color(0, 1, 0, 1))),
                 VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal);
-        ModelInstance modelInstance = setModel(newModel, false);
+        ModelInstance modelInstance = new ModelInstance(newModel);
         modelInstance.transform.setToScaling(scale, scale, scale);
         modelInstance.calculateTransforms();
         modelInstance.transform.setTranslation(modelDrawVector.x, modelDrawVector.y, modelDrawVector.z);
 
-        triggerOnRenderableUpdate(getDisplayRenderable());
+        setDisplayRenderable(new GDXDisplayRenderable(modelInstance, getCamera(), newModel));
     }
 
     @Override

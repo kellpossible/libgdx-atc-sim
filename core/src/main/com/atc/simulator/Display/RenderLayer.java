@@ -1,6 +1,7 @@
 package com.atc.simulator.Display;
 
-import com.atc.simulator.Display.DisplayData.DisplayRenderable;
+import com.atc.simulator.Display.DisplayData.DisplayRenderable.DisplayRenderable;
+import com.atc.simulator.Display.DisplayData.DisplayRenderable.GDXDisplayRenderable;
 import com.atc.simulator.Display.DisplayData.DisplayRenderableProvider;
 import com.atc.simulator.Display.DisplayData.DisplayRenderableProviderListener;
 import com.atc.simulator.Display.DisplayData.DisplayRenderableProviderMultiplexer;
@@ -92,14 +93,9 @@ class RenderLayer implements Comparable, DisplayRenderableProviderListener {
      */
     private void storeDisplayRenderable(DisplayRenderableProvider provider, DisplayRenderable renderable)
     {
-        switch (renderable.getType())
+        if (renderable instanceof GDXDisplayRenderable)
         {
-            case DISPLAYTEXT:
-                renderable.getDisplayText();
-                break;
-            case GDX_RENDERABLE_PROVIDER:
-                storeModelInstance(provider, renderable);
-                break;
+            storeGDXRenderable(provider, (GDXDisplayRenderable) renderable);
         }
     }
 
@@ -112,18 +108,14 @@ class RenderLayer implements Comparable, DisplayRenderableProviderListener {
      */
     private void removeDisplayRenderable(DisplayRenderableProvider provider, DisplayRenderable renderable)
     {
-        switch (renderable.getType())
+
+        if (renderable instanceof GDXDisplayRenderable)
         {
-            case DISPLAYTEXT:
-                //TODO
-                break;
-            case GDX_RENDERABLE_PROVIDER:
-                removeModelInstance(provider, renderable);
-                break;
+            removeGDXRenderable(provider, (GDXDisplayRenderable) renderable);
         }
     }
 
-    private void storeModelInstance(DisplayRenderableProvider provider, DisplayRenderable renderable)
+    private void storeGDXRenderable(DisplayRenderableProvider provider, GDXDisplayRenderable renderable)
     {
         Camera camera = renderable.getCamera();
         CameraBatch batch = cameraBatches.get(camera);
@@ -133,10 +125,10 @@ class RenderLayer implements Comparable, DisplayRenderableProviderListener {
             cameraBatches.put(camera, batch);
         }
 
-        batch.put(provider, renderable.getRenderableProvider());
+        batch.put(provider, renderable);
     }
 
-    private void removeModelInstance(DisplayRenderableProvider provider, DisplayRenderable renderable)
+    private void removeGDXRenderable(DisplayRenderableProvider provider, GDXDisplayRenderable renderable)
     {
         Camera camera = renderable.getCamera();
         CameraBatch batch = cameraBatches.get(camera);

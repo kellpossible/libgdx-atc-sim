@@ -3,6 +3,7 @@ package com.atc.simulator.Display.DisplayData.ModelInstanceProviders;
 import com.atc.simulator.Display.Display;
 import com.atc.simulator.Display.DisplayCameraListener;
 import com.atc.simulator.Display.DisplayData.DisplayHud;
+import com.atc.simulator.Display.DisplayData.DisplayRenderable.GDXDisplayRenderable;
 import com.atc.simulator.Display.VectorText.HersheyFont;
 import com.atc.simulator.Display.VectorText.HersheyText;
 import com.atc.simulator.flightdata.TimeSource;
@@ -48,8 +49,6 @@ public class HudModel extends SimpleDisplayRenderableProvider implements Display
     {
         super.update();
 
-
-
         ModelBuilder modelBuilder = new ModelBuilder();
         modelBuilder.begin();
         MeshPartBuilder builder = modelBuilder.part(
@@ -93,9 +92,9 @@ public class HudModel extends SimpleDisplayRenderableProvider implements Display
 //        builder.line(new Vector3(0, 0, -1), new Vector3(0, 0, 1));
 
         Model newModel = modelBuilder.end();
-        ModelInstance modelInstance = setModel(newModel, false);
+        ModelInstance modelInstance = new ModelInstance(newModel);
 
-        triggerOnRenderableUpdate(getDisplayRenderable());
+        setDisplayRenderable(new GDXDisplayRenderable(modelInstance, getCamera(), newModel));
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.atc.simulator.Display.DisplayData.ModelInstanceProviders;
 
 import com.atc.simulator.Display.DisplayData.DisplayAircraft;
+import com.atc.simulator.Display.DisplayData.DisplayRenderable.GDXDisplayRenderable;
 import com.atc.simulator.PredictionService.Engine.Algorithms.Java.JavaLinearAlgorithm;
 import com.atc.simulator.flightdata.AircraftState;
 import com.atc.simulator.flightdata.Prediction;
@@ -11,6 +12,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.VertexAttributes;
 import com.badlogic.gdx.graphics.g3d.Material;
 import com.badlogic.gdx.graphics.g3d.Model;
+import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.graphics.g3d.utils.MeshPartBuilder;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.badlogic.gdx.math.Vector3;
@@ -73,6 +75,7 @@ public class VelocityModel extends SimpleDisplayRenderableProvider {
         }
 
         Model newModel = modelBuilder.end();
-        setModel(newModel);
+        ModelInstance modelInstance = new ModelInstance(newModel);
+        setDisplayRenderable(new GDXDisplayRenderable(modelInstance, getCamera(), newModel));
     }
 }

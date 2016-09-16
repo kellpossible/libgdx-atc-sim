@@ -1,6 +1,6 @@
 package com.atc.simulator.Display.DisplayData;
 
-import com.badlogic.gdx.graphics.g3d.ModelInstance;
+import com.atc.simulator.Display.DisplayData.DisplayRenderable.DisplayRenderable;
 import com.badlogic.gdx.utils.Disposable;
 
 /**
