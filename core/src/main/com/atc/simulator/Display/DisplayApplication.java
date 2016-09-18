@@ -478,7 +478,8 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
                     playbackThread.setPaused(!playbackThread.getPaused());
                     break;
                 case Input.Keys.T:
-                    tracks.toggleTrackVisibility();
+                    if(showTracks)
+                        tracks.toggleTrackVisibility();
                     break;
             }
 
