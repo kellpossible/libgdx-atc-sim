@@ -2,6 +2,7 @@ package com.atc.simulator.Display.DisplayData.ModelInstanceProviders;
 
 import com.atc.simulator.DebugDataFeed.Scenarios.Scenario;
 import com.atc.simulator.Display.DisplayData.DisplayRenderable.GDXDisplayRenderable;
+import com.atc.simulator.Display.DisplayData.DisplayRenderable.HiddenDisplayRenderable;
 import com.atc.simulator.flightdata.AircraftState;
 import com.atc.simulator.flightdata.Track;
 import com.badlogic.gdx.graphics.Camera;
@@ -23,6 +24,7 @@ import java.util.ArrayList;
  */
 public class TracksModel extends SimpleDisplayRenderableProvider {
     private Scenario scenario;
+    private Boolean visible = true;
 
     /**
      * Cnstructor of TracksModel
@@ -45,6 +47,11 @@ public class TracksModel extends SimpleDisplayRenderableProvider {
 
         super.update();
 
+        if (!visible)
+        {
+            setDisplayRenderable(new HiddenDisplayRenderable());
+            return;
+        }
         ArrayList<Track> tracks = scenario.getTracks();
 
         ModelBuilder modelBuilder = new ModelBuilder();
@@ -74,5 +81,11 @@ public class TracksModel extends SimpleDisplayRenderableProvider {
         Model newModel = modelBuilder.end();
         ModelInstance modelInstance = new ModelInstance(newModel);
         setDisplayRenderable(new GDXDisplayRenderable(modelInstance, getCamera(), newModel));
+    }
+
+    public void toggleTrackVisibility()
+    {
+        visible = !visible;
+        update();
     }
 }
