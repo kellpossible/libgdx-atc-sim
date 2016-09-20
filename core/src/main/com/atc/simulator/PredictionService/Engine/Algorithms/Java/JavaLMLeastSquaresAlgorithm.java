@@ -215,9 +215,38 @@ public class JavaLMLeastSquaresAlgorithm extends JavaPredictionAlgorithm {
             }
         }
 
-        Track predictedTrack = new Track(predictedStates);
+        Track rightTrack = new Track(predictedStates);
 
-        Prediction prediction = new Prediction(state.getAircraftID(), startTime, null, predictedTrack, null);
+        Prediction linearPrediction = new JavaLinearAlgorithm().makePrediction(aircraftTrack);
+        Track leftTrack = linearPrediction.getCentreTrack();
+
+        Track centreTrack = new Track();
+
+        if (leftTrack.size() != rightTrack.size())
+        {
+            try {
+                throw new Exception("Tracks don't match sizes");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        for(int i = 0; i < leftTrack.size(); i++)
+        {
+            AircraftState leftState = leftTrack.get(i);
+            AircraftState rightState = rightTrack.get(i);
+
+            GeographicCoordinate leftPosition = leftState.getPosition();
+            GeographicCoordinate rightPosition = rightState.getPosition();
+
+            GeographicCoordinate centrePosition = new GeographicCoordinate(leftPosition.lerp(rightPosition, 0.5));
+
+            AircraftState centreState = new AircraftState(leftState);
+            centreState.setPosition(centrePosition);
+            centreTrack.add(centreState);
+        }
+
+        Prediction prediction = new Prediction(state.getAircraftID(), startTime, leftTrack, centreTrack, rightTrack);
         return prediction;
     }
 }
