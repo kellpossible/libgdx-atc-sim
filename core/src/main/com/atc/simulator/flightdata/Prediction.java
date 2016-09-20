@@ -139,4 +139,28 @@ public class Prediction {
         this.rightTrack = other.rightTrack;
     }
 
+    /**
+     * Get the number of predicted positions in this prediction
+     * @return number of predicted positions
+     */
+    public int size()
+    {
+        if(hasCentreTrack())
+        {
+            return centreTrack.size();
+        }
+
+        if(hasRightTrack())
+        {
+            return rightTrack.size();
+        }
+
+        if (hasLeftTrack())
+        {
+            return leftTrack.size();
+        }
+
+        return 0;
+    }
+
 }
