@@ -18,6 +18,7 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 public class DesktopLauncher {
 	private static final String recordingFile = ApplicationConfig.getInstance().getString("settings.debug-data-feed.adsb-recording-scenario.file");
 	private static final int javaWorkerThreads = ApplicationConfig.getInstance().getInt("settings.prediction-service.prediction-engine.java-worker-threads");
+	private static final Boolean accuracyTest = ApplicationConfig.getInstance().getBoolean("settings.testing.run-accuracy-daemon");
 
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
@@ -32,9 +33,8 @@ public class DesktopLauncher {
 		DataPlaybackThread dataPlaybackThread = new DataPlaybackThread(scenario, scenario.getRecommendedUpdateRate());
 		DisplayApplication display =  new DisplayApplication(scenario, dataPlaybackThread);
 		DebugDataFeedServerThread debugDataFeedServerThread = new DebugDataFeedServerThread();
-		/****/
-		TestAccuracy accuracyTester = new TestAccuracy(scenario);
-		/****/
+
+
 		SystemStateDatabase systemStateDatabase = new SystemStateDatabase();
 
 
@@ -49,9 +49,6 @@ public class DesktopLauncher {
 		DebugDataFeedClientThread debugDataFeedClientThread = new DebugDataFeedClientThread(systemStateDatabase);
 
 		predictionFeedClientThread.addListener(display);
-		/****/
-		predictionFeedClientThread.addListener(accuracyTester);
-		/****/
 		dataPlaybackThread.addListener(display);
 		dataPlaybackThread.addListener(debugDataFeedServerThread);
 
@@ -59,9 +56,12 @@ public class DesktopLauncher {
 //		dataPlaybackThread.addListener(systemStateDatabase);
 		systemStateDatabase.addListener(predictionEngine);
 
-		/****/
-		accuracyTester.start();
-		/****/
+		if(accuracyTest) {
+			TestAccuracy accuracyTester = new TestAccuracy(scenario);
+			predictionFeedClientThread.addListener(accuracyTester);
+			accuracyTester.start();
+		}
+
 		predictionFeedServerThread.start();
 		predictionFeedClientThread.start();
 		predictionEngine.start();
