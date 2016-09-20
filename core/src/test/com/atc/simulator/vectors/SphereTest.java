@@ -13,17 +13,25 @@ import pythagoras.d.Vector3;
 * @author Luke Frisken
 */ 
 public class SphereTest {
-    Sphere sphere1;
-    Sphere sphere2;
+    private Sphere sphere1;
+    private Sphere sphere2;
 
-    static double EPSILON = 0.0001;
+    private static double EPSILON = 0.0001;
 
+    /**
+     * Before the tests.
+     * @throws Exception exception thrown
+     */
     @Before
     public void before() throws Exception {
         sphere1 = new Sphere(1.0, Vector3.ZERO);
         sphere2 = new Sphere(0.1, new Vector3(0, 0, 1));
     }
 
+    /**
+     * After the tests
+     * @throws Exception exception thrown
+     */
     @After
     public void after() throws Exception {
     }
@@ -64,7 +72,6 @@ public class SphereTest {
     /**
     *
     * Method: setPosition(Vector3 position)
-    *
     */
     @Test
     public void testSetPosition() throws Exception {
@@ -75,7 +82,8 @@ public class SphereTest {
     /**
     *
     * Method: intersect(Ray3 ray)
-    *
+    * Test a ray shooting up in the z direction from the inside of the sphere,
+     * which should intersect.
     */
     @Test
     public void testIntersect1() throws Exception {
@@ -86,7 +94,8 @@ public class SphereTest {
     /**
      *
      * Method: intersect(Ray3 ray)
-     *
+     * test a ray shooting up in the z direction from outside the sphere,
+     * which should not intersect with the spot if ray origin translation did not work.
      */
     @Test
     public void testIntersect2() throws Exception {
@@ -97,7 +106,8 @@ public class SphereTest {
     /**
      *
      * Method: intersect(Ray3 ray)
-     *
+     * Test a ray shooting up in the y direction from outside the sphere,
+     * which should not intersect.
      */
     @Test
     public void testIntersect3() throws Exception {
@@ -108,7 +118,8 @@ public class SphereTest {
     /**
      *
      * Method: intersect(Ray3 ray)
-     *
+     * Test a ray shooting out in the x direction from inside the sphere,
+     * which should intersect.
      */
     @Test
     public void testIntersect4() throws Exception {
@@ -119,7 +130,8 @@ public class SphereTest {
     /**
      *
      * Method: intersect(Ray3 ray)
-     *
+     * Test a ray shooting out in the z direction intersects in the correct spot
+     * on the inside of a sphere with a different size.
      */
     @Test
     public void testIntersect5() throws Exception {
@@ -130,7 +142,8 @@ public class SphereTest {
     /**
      *
      * Method: intersect(Ray3 ray)
-     *
+     * Test a ray shooting off in the negative x direction from outside the sphere
+     * intersects with the sphere in the correct location.
      */
     @Test
     public void testIntersect6() throws Exception {
