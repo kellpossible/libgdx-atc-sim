@@ -36,7 +36,8 @@ public class JavaPassthroughAlgorithm extends JavaPredictionAlgorithm {
 //        double tempLon = state.getPosition().getLongitude()+0.5;
         //Add it to the prediction
 //        predictionPositions.add(new GeographicCoordinate(tempAlt,tempLat,tempLon));
-        Prediction prediction = new Prediction(state.getAircraftID(), state.getTime(), predictedStates);
+        Track predictedTrack = new Track(predictedStates);
+        Prediction prediction = new Prediction(state.getAircraftID(), state.getTime(), null, predictedTrack, null);
         if(enableTimer)
         {
             long stop = System.nanoTime();

@@ -36,7 +36,7 @@ allprojects {
         ashleyVersion = '1.7.0'
         aiVersion = '1.8.0'
         gsonVersion = '2.6.2'
-        protobufVersion = '2.6.1'
+        protobufVersion = '3.0.2'
         pythagorasVersion = '1.4.1'
         typesafeConfigVersion = '1.2.1'
         jmhVersion = '1.12'

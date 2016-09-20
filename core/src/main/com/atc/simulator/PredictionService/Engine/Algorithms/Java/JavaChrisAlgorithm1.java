@@ -74,7 +74,8 @@ public class JavaChrisAlgorithm1 extends JavaPredictionAlgorithm {
 
             }
 
-            Prediction prediction = new Prediction(state.getAircraftID(), startTime, predictedStates);
+            Track predictedTrack = new Track(predictedStates);
+            Prediction prediction = new Prediction(state.getAircraftID(), startTime, null, predictedTrack, null);
             return prediction;
         }
         else //otherwise, we can try my algorithm!!
@@ -112,7 +113,8 @@ public class JavaChrisAlgorithm1 extends JavaPredictionAlgorithm {
                         0);
                 predictedStates.add(predictedState);
             }
-            Prediction prediction = new Prediction(state.getAircraftID(), startTime, predictedStates);
+            Track predictedTrack = new Track(predictedStates);
+            Prediction prediction = new Prediction(state.getAircraftID(), startTime, null, predictedTrack, null);
             return prediction;
 
         }

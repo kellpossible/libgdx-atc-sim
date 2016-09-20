@@ -1,11 +1,11 @@
 package com.atc.simulator.PredictionService;
 
 import com.atc.simulator.Config.ApplicationConfig;
-import com.atc.simulator.ProtocolBuffers.DebugDataFeedServe;
 import com.atc.simulator.ProtocolBuffers.PredictionFeedServe;
 import com.atc.simulator.RunnableThread;
 import com.atc.simulator.flightdata.AircraftState;
 import com.atc.simulator.flightdata.Prediction;
+import com.atc.simulator.flightdata.Track;
 import com.atc.simulator.vectors.GeographicCoordinate;
 import com.atc.simulator.vectors.SphericalVelocity;
 
@@ -66,37 +66,16 @@ public class PredictionFeedServerThread implements RunnableThread{
     }
 
     /**
-     * Creates a new AircraftPredictionMessage. Is given a Prediction, takes the ID and Time, and then loops through
-     * all the positions and builds GeographicCoordinateMessages. Once finished, wraps it all up nicely and places the
-     * new message in the buffer, ready to be sent
-     * @param newPrediction : The prediction datatype created by the Engine
+     * Build a {@link com.atc.simulator.ProtocolBuffers.PredictionFeedServe.Track} message from a {@link Track}
+     * @param track track to use to build the message
+     * @return new message
      */
-    public synchronized void sendPrediction(Prediction newPrediction)
+    private PredictionFeedServe.Track buildTrackMessage(Track track)
     {
-        long start1=0, start2=0;
-        PredictionFeedServe.AircraftPredictionMessage.Builder predictionMessageBuilder =
-                PredictionFeedServe.AircraftPredictionMessage.newBuilder(); //PredictionMessage Builder
-
-        predictionMessageBuilder.setAircraftID(newPrediction.getAircraftID()); //Add the AircraftID to the Message
-
-        long time = newPrediction.getPredictionTime();
-        if(enableTimer)
-        {
-            start1 = System.nanoTime();
-            // maybe add here a call to a return to remove call up time, too.
-            // Avoid optimization
-            start2 = System.nanoTime();
-        }
-        predictionMessageBuilder.setTime(time); //Set the time
-        if(enableTimer)
-        {
-            long stop = System.nanoTime();
-            long diff = stop - 2*start2 + start1;
-            System.out.println(threadName + " message builder setTime " + (((double) diff)/1000000.0) + " ms");
-        }
+        PredictionFeedServe.Track.Builder trackMessageBuilder = PredictionFeedServe.Track.newBuilder();
 
         //Now, loop through all the positions, Build Coordinates and add them to the Message
-        for (AircraftState aircraftState : newPrediction.getAircraftStates()) {
+        for (AircraftState aircraftState : track) {
             PredictionFeedServe.PredictionAircraftStateMessage.Builder aircraftStateMessageBuilder =
                     PredictionFeedServe.PredictionAircraftStateMessage.newBuilder();
 
@@ -118,45 +97,64 @@ public class PredictionFeedServerThread implements RunnableThread{
                             .setDtheta(velocity.getDTheta())
                             .setDphi(velocity.getDPhi())
             );
-            //Add the new AircraftState message to the big system message
-            predictionMessageBuilder.addAircraftState(aircraftStateMessageBuilder);
+
+            trackMessageBuilder.addAircraftState(aircraftStateMessageBuilder);
         }
 
-        if(enableTimer)
+        return trackMessageBuilder.build();
+    }
+
+    /**
+     * Build an {@link PredictionFeedServe.AircraftPredictionMessage} from a {@link Prediction}
+     * @param newPrediction prediction to use to build the message
+     * @return new message
+     */
+    private PredictionFeedServe.AircraftPredictionMessage buildMessage(Prediction newPrediction)
+    {
+        PredictionFeedServe.AircraftPredictionMessage.Builder predictionMessageBuilder =
+                PredictionFeedServe.AircraftPredictionMessage.newBuilder(); //PredictionMessage Builder
+
+        predictionMessageBuilder.setAircraftID(newPrediction.getAircraftID()); //Add the AircraftID to the Message
+
+        long time = newPrediction.getPredictionTime();
+        predictionMessageBuilder.setTime(time); //Set the time
+
+        //left track is optional
+        if (newPrediction.hasLeftTrack())
         {
-            start1 = System.nanoTime();
-            // maybe add here a call to a return to remove call up time, too.
-            // Avoid optimization
-            start2 = System.nanoTime();
+            predictionMessageBuilder.setLeftTrack(buildTrackMessage(newPrediction.getLeftTrack()));
         }
-        com.atc.simulator.ProtocolBuffers.PredictionFeedServe.AircraftPredictionMessage message = predictionMessageBuilder.build();
-        if(enableTimer)
+
+        //centre track is required
+        predictionMessageBuilder.setCentreTrack(buildTrackMessage(newPrediction.getCentreTrack()));
+
+        //right track is optional
+        if (newPrediction.hasRightTrack())
         {
-            long stop = System.nanoTime();
-            long diff = stop - 2*start2 + start1;
-            System.out.println(threadName + " build message " + (((double) diff)/1000000.0) + " ms");
+            predictionMessageBuilder.setRightTrack(buildTrackMessage(newPrediction.getRightTrack()));
         }
+
+
+        return predictionMessageBuilder.build();
+
+    }
+
+    /**
+     * Creates a new AircraftPredictionMessage. Is given a Prediction, takes the ID and Time, and then loops through
+     * all the positions and builds GeographicCoordinateMessages. Once finished, wraps it all up nicely and places the
+     * new message in the buffer, ready to be sent
+     * @param newPrediction : The prediction datatype created by the Engine
+     */
+    public synchronized void sendPrediction(Prediction newPrediction)
+    {
+        com.atc.simulator.ProtocolBuffers.PredictionFeedServe.AircraftPredictionMessage message = buildMessage(newPrediction);
 
         if (enableDebugPrint)
         {
             System.out.println(threadName + " adding to toBeSentBuffer which has a size of " + toBeSentBuffer.size());
         }
 
-
-        if(enableTimer)
-        {
-            start1 = System.nanoTime();
-            // maybe add here a call to a return to remove call up time, too.
-            // Avoid optimization
-            start2 = System.nanoTime();
-        }
         toBeSentBuffer.add(message); //Build message and add to buffer
-        if(enableTimer)
-        {
-            long stop = System.nanoTime();
-            long diff = stop - 2*start2 + start1;
-            System.out.println(threadName + " add to toBeSentBuffer " + (((double) diff)/1000000.0) + " ms");
-        }
     }
 
     /**

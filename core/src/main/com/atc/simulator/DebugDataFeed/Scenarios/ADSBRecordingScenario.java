@@ -82,7 +82,7 @@ public class ADSBRecordingScenario extends Scenario {
 
             for (JsonElement aircraftStateElement : aircraftStatesJS) {
                 JsonObject aircraftStateJS = aircraftStateElement.getAsJsonObject();
-                String callsign = aircraftStateJS.get("callsign").getAsString();
+                String aircraftID = aircraftStateJS.get("mode_s_code").getAsString();
 
 //                if (!callsign.equals("QFA7373"))
 //                {
@@ -113,10 +113,10 @@ public class ADSBRecordingScenario extends Scenario {
 
 
 
-                Track track = tracksDictionary.get(callsign);
+                Track track = tracksDictionary.get(aircraftID);
                 if (track == null) {
                     track = new Track();
-                    tracksDictionary.put(callsign, track);
+                    tracksDictionary.put(aircraftID, track);
                 }
                 SphericalVelocity velocity;
                 SphericalVelocity previousNonZeroVelocity;
@@ -174,7 +174,7 @@ public class ADSBRecordingScenario extends Scenario {
 
                 //TODO: callsign might not actually be the best thing to use for aircraft ID, looks like there might be duplicates?
                 //mode_s_code seems to get used more instead.
-                AircraftState aircraftState = new AircraftState(callsign, aircraftStateTime, position, velocity, heading);
+                AircraftState aircraftState = new AircraftState(aircraftID, aircraftStateTime, position, velocity, heading);
                 track.add(aircraftState);
 
 

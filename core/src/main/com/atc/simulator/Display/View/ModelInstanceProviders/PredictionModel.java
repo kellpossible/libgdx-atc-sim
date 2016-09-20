@@ -57,7 +57,7 @@ public class PredictionModel extends SimpleDisplayRenderableProvider {
                 new Material());
         builder.setColor(Color.YELLOW);
 
-        ArrayList<AircraftState> states = prediction.getAircraftStates();
+        ArrayList<AircraftState> states = prediction.getCentreTrack();
 
         //start of prediction line is the current aircraft position.
         Vector3 previousPositionDrawVector = aircraft.getPosition().getModelDrawVector();
