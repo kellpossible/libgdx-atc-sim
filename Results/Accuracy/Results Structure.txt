@@ -1,0 +1,11 @@
+Results are written to file in the following format:
+
+
+PlaneID, Prediction1TimeStamp, Prediction1 Error, Prediction2TimeStamp, Prediction2 Error, etc
+
+
+
+
+
+This allows the file to be copied directly to excel (or resaved as a .csv) and have a variety of analysis methods used.
+Changes to this format will require rework of the TestAccuracy.java flow

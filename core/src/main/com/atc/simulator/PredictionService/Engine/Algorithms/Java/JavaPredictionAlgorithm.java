@@ -31,12 +31,12 @@ public abstract class JavaPredictionAlgorithm {
                 return new JavaLinearAlgorithm();
             case LINEAR2D:
                 return new JavaLinear2dAlgorithm();
-            case CURVILINEAR2D:
-                return new JavaCurvilinear2dAlgorithm();
+           // case CURVILINEAR2D:
+             //   return new JavaCurvilinear2dAlgorithm();
             case CHRIS:
                 return new JavaChrisAlgorithm1();
-            case LMLEASTSQUARES:
-                return new JavaLMLeastSquaresAlgorithm();
+           // case LMLEASTSQUARES:
+             //   return new JavaLMLeastSquaresAlgorithm();
 
         }
         return null;

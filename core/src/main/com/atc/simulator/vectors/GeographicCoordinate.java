@@ -7,6 +7,7 @@ import pythagoras.d.Vector3;
  * See https://en.wikipedia.org/wiki/Geographic_coordinate_system
  *
  * @author Luke Frisken
+ * @modified Chris Coleman 10/9/16
  */
 public class GeographicCoordinate extends SphericalCoordinate
 {
@@ -129,6 +130,36 @@ public class GeographicCoordinate extends SphericalCoordinate
     {
         this.x = EARTH_MSL_RADIUS + altitude;
     }
+
+    /**
+     * REQUIRES TESTING
+     * Arc Distance between two Geographic Coordinates.
+     *  https://en.wikipedia.org/wiki/Great-circle_distance
+     *
+     * @param other The GeographicCoordinate we are comparing this Coord to
+     * @return double The distance in Metres (or whatever your altitude was written in)
+     */
+    public double arcDistance(GeographicCoordinate other)
+    {
+        return this.x * Math.acos(Math.sin(Math.toRadians(this.getLatitude()))*Math.sin(Math.toRadians(other.getLatitude()))
+                + Math.cos(Math.toRadians(this.getLatitude()))*Math.cos(Math.toRadians(other.getLatitude()))*Math.cos(Math.toRadians(this.getLongitude() - other.getLongitude())));
+    }
+
+    /**
+     * Linear interpolation between two Geographic coordinates. Going from this Coord to the supplied coordinate
+     *
+     * @param toCoord   The coordinate we are interpolating towards
+     * @param interpolant   The interpolant, ratio between the two coordinates
+     * @return
+     */
+    public GeographicCoordinate linearIntepolate(GeographicCoordinate toCoord, float interpolant)
+    {
+        double newLat = this.getLatitude() + Math.abs(this.getLatitude() - toCoord.getLatitude()) * interpolant;
+        double newLong = this.getLongitude() + Math.abs(this.getLongitude() - toCoord.getLongitude()) * interpolant;
+        double newAlt = this.getAltitude() + Math.abs(this.getAltitude() - toCoord.getAltitude()) * interpolant;
+        return new GeographicCoordinate(newLat,newLong,newAlt);
+    }
+
 
     @Override
     public String toString()

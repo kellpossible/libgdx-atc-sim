@@ -42,6 +42,9 @@
         "port-number": 6789,
         "server-ip": "localhost"
       }
+    },
+    "testing": {
+      "run-accuracy-daemon": true
     }
   }
 }

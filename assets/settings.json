@@ -2,7 +2,7 @@
   "settings": {
     "prediction-service": {
       "prediction-engine": {
-        "algorithm-type": "LMLEASTSQUARES",
+        "algorithm-type": "LINEAR",
         "java-worker-threads": 4
       },
       "debug-data-feed-client": {
@@ -18,7 +18,7 @@
         "port-number": 6989
       },
       "adsb-recording-scenario": {
-        "file": "assets/flight_data/YMML_26_05_2016/database.json"
+        "file": "assets/flight_data/YMML_18_8_2016_QFA696/database.json"
       },
       "speed": 10
     },
@@ -28,6 +28,9 @@
         "port-number": 6789,
         "server-ip": "localhost"
       }
+    },
+    "testing": {
+      "run-accuracy-daemon": true
     }
   }
 }
