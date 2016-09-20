@@ -37,8 +37,6 @@ public class Display {
         cameraListeners = new ArrayList<ObjectMap.Entry<DisplayCameraListener, Camera>>();
         delayedCameraListenerHashMap = new HashMap<DisplayCameraListener, DelayedCameraListener>();
         delayedWorker = new DelayedWorker(WORK_UNITS_PER_FRAME);
-        displayHud = new DisplayHud(this);
-
     }
 
     /**
@@ -83,6 +81,15 @@ public class Display {
      */
     public DisplayHud getDisplayHud() {
         return displayHud;
+    }
+
+    /**
+     * Set the display hud
+     * @param displayHud the new value for displayHud
+     */
+    public void setDisplayHud(DisplayHud displayHud)
+    {
+        this.displayHud = displayHud;
     }
 
     /**

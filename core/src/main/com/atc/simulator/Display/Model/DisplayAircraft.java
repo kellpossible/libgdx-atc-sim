@@ -22,24 +22,37 @@ public class DisplayAircraft extends AircraftState implements Disposable {
     private Display display;
     private AircraftModel model;
 
-    private DisplayAircraft(Display display, AircraftState aircraftState)
+    /**
+     * Private constructor to initialize the parent by copying the aircraft state.
+     * @param aircraftState
+     */
+    private DisplayAircraft(AircraftState aircraftState)
     {
         super(aircraftState.getAircraftID(),
                 aircraftState.getTime(),
                 aircraftState.getPosition(),
                 aircraftState.getVelocity(),
                 aircraftState.getHeading());
-        this.display = display;
     }
 
+    /**
+     * Constructor for DisplayAircraft
+     * @param display
+     * @param track
+     */
     public DisplayAircraft(Display display, Track track)
     {
-        this(display, track.getLatest());
+        this(track.getLatest());
+        this.display = display;
         this.track = track;
         model = new AircraftModel(display, this);
 
     }
 
+    /**
+     * Get renderable associated with this {@link DisplayAircraft}
+     * @return
+     */
     public DisplayRenderableProviderMultiplexer getRenderable() {
         return model;
     }
@@ -75,6 +88,10 @@ public class DisplayAircraft extends AircraftState implements Disposable {
         return prediction;
     }
 
+    /**
+     * Get the track associated with this aircraft
+     * @return
+     */
     public Track getTrack()
     {
         return track;

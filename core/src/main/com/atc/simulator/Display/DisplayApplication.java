@@ -6,6 +6,7 @@ import com.atc.simulator.DebugDataFeed.DataPlaybackThread;
 import com.atc.simulator.DebugDataFeed.Scenarios.Scenario;
 import com.atc.simulator.Display.Model.Display;
 import com.atc.simulator.Display.Model.DisplayAircraft;
+import com.atc.simulator.Display.Model.DisplayHud;
 import com.atc.simulator.Display.Model.DisplayPrediction;
 import com.atc.simulator.Display.View.ModelInstanceProviders.HudModel;
 import com.atc.simulator.Display.View.ModelInstanceProviders.WorldMapModel;
@@ -289,10 +290,13 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
 
         hudLayer = new RenderLayer(6, "hud");
         layerManager.addRenderLayer(hudLayer);
-        hud = new HudModel(orthoCamera, display.getDisplayHud());
+        //a circular dependency requires this to happen :(
+        DisplayHud displayHud = new DisplayHud(display, null);
+        hud = new HudModel(orthoCamera, displayHud);
+        displayHud.setHudModel(hud);
         hudLayer.addDisplayRenderableProvider(hud);
         display.addCameraListener(orthoCamera, hud);
-
+        display.setDisplayHud(displayHud);
         inputMultiplexer.addProcessor(camController);
         inputMultiplexer.addProcessor(new SimulationController());
 
@@ -369,8 +373,6 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
 
 		Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
-
-        hud.update();
 
         camController.update();
 

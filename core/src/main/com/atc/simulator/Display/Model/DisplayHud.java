@@ -1,5 +1,7 @@
 package com.atc.simulator.Display.Model;
 
+import com.atc.simulator.Display.View.ModelInstanceProviders.HudModel;
+
 /**
  * @author Luke Frisken
  */
@@ -7,14 +9,25 @@ public class DisplayHud {
     private int numInstances = 0;
     private float crossHairSize = 10f;
     private Display display;
+    private HudModel hudModel;
 
     /**
      * Constructor for DisplayHUD
      * @param display
      */
-    public DisplayHud(Display display)
+    public DisplayHud(Display display, HudModel hudModel)
     {
         this.display = display;
+        this.hudModel = hudModel;
+    }
+
+    /**
+     * Set the hud model
+     * @param hudModel
+     */
+    public void setHudModel(HudModel hudModel)
+    {
+        this.hudModel = hudModel;
     }
 
     /**
@@ -31,6 +44,7 @@ public class DisplayHud {
      */
     public void setNumInstances(int numInstances) {
         this.numInstances = numInstances;
+        update();
     }
 
     /**
@@ -47,6 +61,7 @@ public class DisplayHud {
      */
     public void setCrossHairSize(float crossHairSize) {
         this.crossHairSize = crossHairSize;
+        update();
     }
 
     /**
@@ -55,5 +70,13 @@ public class DisplayHud {
      */
     public Display getDisplay() {
         return display;
+    }
+
+    /**
+     * Update the model
+     */
+    public void update()
+    {
+        hudModel.update();
     }
 }
