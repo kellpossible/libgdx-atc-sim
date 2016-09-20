@@ -1,10 +1,10 @@
 package com.atc.simulator.Display;
 
-import com.atc.simulator.Display.DisplayData.DisplayRenderable.DisplayRenderable;
-import com.atc.simulator.Display.DisplayData.DisplayRenderable.GDXDisplayRenderable;
-import com.atc.simulator.Display.DisplayData.DisplayRenderableProvider;
-import com.atc.simulator.Display.DisplayData.DisplayRenderableProviderListener;
-import com.atc.simulator.Display.DisplayData.DisplayRenderableProviderMultiplexer;
+import com.atc.simulator.Display.View.DisplayRenderable.DisplayRenderable;
+import com.atc.simulator.Display.View.DisplayRenderable.GDXDisplayRenderable;
+import com.atc.simulator.Display.View.DisplayRenderableProvider;
+import com.atc.simulator.Display.View.DisplayRenderableProviderListener;
+import com.atc.simulator.Display.View.DisplayRenderableProviderMultiplexer;
 import com.badlogic.gdx.graphics.Camera;
 
 import java.util.*;

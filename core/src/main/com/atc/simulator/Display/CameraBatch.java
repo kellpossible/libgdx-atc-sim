@@ -1,8 +1,7 @@
 package com.atc.simulator.Display;
 
-import com.atc.simulator.Display.DisplayData.DisplayRenderableProvider;
+import com.atc.simulator.Display.View.DisplayRenderableProvider;
 import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.graphics.g3d.RenderableProvider;
 
 import java.util.Collection;
