@@ -115,7 +115,7 @@ public class PredictionFeedClientThread implements RunnableThread {
                     //Made a new Prediction with ID and Time
                     Prediction newPred = new Prediction(predictionMessage.getAircraftID(), System.currentTimeMillis(), aircraftStates);
 
-                    if(enableDebugPrint){ System.out.println("PredictionFeedClient has received DisplayAircraft " + newPred.getAircraftID()); }
+                    if(enableDebugPrint){ System.out.println("PredictionFeedClient has received AircraftModel " + newPred.getAircraftID()); }
 
                     notifyAllListeners(newPred);
 

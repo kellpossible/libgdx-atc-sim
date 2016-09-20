@@ -81,7 +81,7 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
 
 
     /**
-     * private class for storing DisplayAircraft associated with the SystemStateDatabase,
+     * private class for storing AircraftModel associated with the SystemStateDatabase,
      * and to keep them in sync with the systemstatedatabase.
      *
      *
@@ -103,7 +103,7 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
         @Override
         public void onNewAircraft(SystemStateDatabase stateDatabase, String aircraftID) {
             DisplayAircraft newAircraft = new DisplayAircraft(display, stateDatabase.getTrack(aircraftID));
-            aircraftLayer.addDisplayRenderableProvider(newAircraft);
+            aircraftLayer.addDisplayRenderableProvider(newAircraft.getRenderable());
             this.put(aircraftID, newAircraft);
         }
 
@@ -112,7 +112,7 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
         public void onRemoveAircraft(SystemStateDatabase stateDatabase, String aircraftID) {
             DisplayAircraft displayAircraft = this.get(aircraftID);
             displayAircraft.dispose();
-            aircraftLayer.removeDisplayRenderableProvider(displayAircraft);
+            aircraftLayer.removeDisplayRenderableProvider(displayAircraft.getRenderable());
             this.remove(aircraftID);
         }
 

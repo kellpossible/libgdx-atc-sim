@@ -29,7 +29,7 @@ public class VelocityModel extends SimpleDisplayRenderableProvider {
     /**
      * Constructor VelocityModel creates a new VelocityModel instance.
      *
-     * @param aircraft of type DisplayAircraft
+     * @param aircraft of type AircraftModel
      */
     public VelocityModel(Camera camera, DisplayAircraft aircraft)
     {

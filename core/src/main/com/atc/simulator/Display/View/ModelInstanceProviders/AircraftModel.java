@@ -1,103 +1,95 @@
 package com.atc.simulator.Display.View.ModelInstanceProviders;
 
-import com.atc.simulator.Display.DisplayCameraListener;
+import com.atc.simulator.Display.Model.Display;
 import com.atc.simulator.Display.Model.DisplayAircraft;
-import com.atc.simulator.Display.View.DisplayRenderable.GDXDisplayRenderable;
-import com.atc.simulator.vectors.GeographicCoordinate;
+import com.atc.simulator.Display.View.DisplayRenderableProvider;
+import com.atc.simulator.Display.View.DisplayRenderableProviderMultiplexer;
 import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.PerspectiveCamera;
-import com.badlogic.gdx.graphics.VertexAttributes;
-import com.badlogic.gdx.graphics.g3d.Material;
-import com.badlogic.gdx.graphics.g3d.Model;
-import com.badlogic.gdx.graphics.g3d.ModelInstance;
-import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
-import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
-import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.Disposable;
+
+import java.util.Collection;
+import java.util.HashMap;
 
 /**
- * Green dot representing the aircraft
+ * Created by luke on 20/09/16.
+ *
  * @author Luke Frisken
  */
-public class AircraftModel extends SimpleDisplayRenderableProvider implements DisplayCameraListener {
+public class AircraftModel implements Disposable, DisplayRenderableProviderMultiplexer {
+    private Display display;
     private DisplayAircraft aircraft;
+    private HashMap<String, DisplayRenderableProvider> models;
+    private AircraftDotModel aircraftDotModel;
+    private BreadCrumbModel breadCrumbModel;
 
 
-    public AircraftModel(Camera camera, DisplayAircraft aircraft)
+    /**
+     * Constructor for AircraftModel
+     * @param display
+     * @param aircraft
+     */
+    public AircraftModel(Display display, DisplayAircraft aircraft)
     {
-        super(camera);
+        this.display = display;
         this.aircraft = aircraft;
-        update();
-
-
-//        Vector3 screenPosition = cam.project(new Vector3(modelDrawVector));
-//
-//
-//        String aircraftID = aircraftState.getAircraftID();
-////                System.out.println("Screen Position: " + screenPosition + ", DisplayAircraft ID: " + aircraftID);
-//
-//        if (aircraftID.equals("QFA489"))
-//        {
-//            textPosition.x = screenPosition.x;
-//            textPosition.y = screenPosition.y;
-//        }
-//
-//        //if the aircraft is moving
-//        if (velocity.length() > 0.00001)
-//        {
-//            GeographicCoordinate velocityEndPos = new GeographicCoordinate(position.add(velocity.mult(120))); //two minute velocity vector
-//            aircraftStateVelocityModel = modelBuilder.createArrow(
-//                    modelDrawVector,
-//                    velocityEndPos.getModelDrawVector(depthAdjustment),
-//                    new Material(ColorAttribute.createDiffuse(Color.GREEN)),
-//                    VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal);
-//            aircraftStateVelocityModelInstance = new ModelInstance(aircraftStateVelocityModel);
-
+        models = new HashMap<String, DisplayRenderableProvider>();
+        createModels();
     }
 
     /**
-     * Call to update the instance provided by this class.
+     * Get the instance providers provided by this multiplexer
+     * @return
      */
     @Override
-    public void update() {
-        super.update();
-
-        GeographicCoordinate position = aircraft.getPosition();
-
-        float scale = 1f;
-
-        PerspectiveCamera camera = (PerspectiveCamera) getCamera();
-        scale = camera.fieldOfView/2;
-
-        if (scale > 2f)
-        {
-            scale = 2;
-        }
-
-        double depthAdjustment = -0.01;
-        Vector3 modelDrawVector = position.getModelDrawVector(depthAdjustment);
-
-        ModelBuilder modelBuilder = new ModelBuilder();
-        Model newModel = modelBuilder.createSphere(
-                0.0005f, 0.0005f, 0.0005f, 7, 7,
-                new Material(ColorAttribute.createDiffuse(new Color(0, 1, 0, 1))),
-                VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal);
-        ModelInstance modelInstance = new ModelInstance(newModel);
-        modelInstance.transform.setToScaling(scale, scale, scale);
-        modelInstance.calculateTransforms();
-        modelInstance.transform.setTranslation(modelDrawVector.x, modelDrawVector.y, modelDrawVector.z);
-
-        setDisplayRenderable(new GDXDisplayRenderable(modelInstance, getCamera(), newModel));
+    public Collection<DisplayRenderableProvider> getDisplayRenderableProviders() {
+        return models.values();
     }
 
-    @Override
-    public void onUpdate(CameraUpdate cameraUpdate) {
-        switch (cameraUpdate.updateType)
+    /**
+     * Create models
+     */
+    private void createModels()
+    {
+        Camera perspectiveCamera = display.getCamera("perspective");
+        aircraftDotModel = new AircraftDotModel(perspectiveCamera, aircraft);
+        models.put("Aircraft", aircraftDotModel);
+        display.addDelayedCameraListener(aircraftDotModel.getCamera(), aircraftDotModel, 1, 10);
+//        AircraftInfoModel infoModel = new AircraftInfoModel(display.getCamera("ortho"), display, this);
+//        display.addCameraListener(infoModel.getCamera(), infoModel);
+//        models.put("AircraftInfo", infoModel);
+        breadCrumbModel = new BreadCrumbModel(display.getCamera("perspective"), aircraft);
+        models.put("AircraftBreadcrumbs", breadCrumbModel);
+        display.addDelayedCameraListener(breadCrumbModel.getCamera(), breadCrumbModel, 1, 20);
+
+        models.put("PredictionLine", new PredictionModel(perspectiveCamera, aircraft));
+        models.put("VelocityLine", new VelocityModel(perspectiveCamera, aircraft));
+    }
+
+    /**
+     * Call to update the gdxRenderableProviders provided by this multiplexer.
+     */
+    public void update()
+    {
+        for (DisplayRenderableProvider model : models.values())
         {
-            case ZOOM:
-                update();
-//                System.out.println("finished" + aircraft.getAircraftID());
-                break;
+            model.update();
         }
+    }
+
+    /**
+     * Releases all resources of this object.
+     */
+    @Override
+    public void dispose() {
+        for (DisplayRenderableProvider model : models.values())
+        {
+            model.dispose();
+        }
+
+//        AircraftInfoModel infoModel = (AircraftInfoModel) models.get("AircraftInfo");
+//        display.removeCameraListener(infoModel.getCamera(), infoModel);
+
+        display.removeCameraListener(aircraftDotModel.getCamera(), aircraftDotModel);
+        display.removeCameraListener(breadCrumbModel.getCamera(), breadCrumbModel);
     }
 }

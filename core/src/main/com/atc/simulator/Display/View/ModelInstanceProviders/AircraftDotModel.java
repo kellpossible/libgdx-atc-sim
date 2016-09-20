@@ -1,48 +1,36 @@
 package com.atc.simulator.Display.View.ModelInstanceProviders;
 
-import com.atc.simulator.Display.Model.Display;
 import com.atc.simulator.Display.DisplayCameraListener;
 import com.atc.simulator.Display.Model.DisplayAircraft;
 import com.atc.simulator.Display.View.DisplayRenderable.GDXDisplayRenderable;
 import com.atc.simulator.vectors.GeographicCoordinate;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.graphics.VertexAttributes;
 import com.badlogic.gdx.graphics.g3d.Material;
 import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
-import com.badlogic.gdx.graphics.g3d.utils.MeshPartBuilder;
+import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.badlogic.gdx.math.Vector3;
 
 /**
- * Created by luke on 8/09/16.
+ * Green dot representing the aircraft
+ * @author Luke Frisken
  */
-public class AircraftInfoModel extends SimpleDisplayRenderableProvider implements DisplayCameraListener {
-    private Display display;
+public class AircraftDotModel extends SimpleDisplayRenderableProvider implements DisplayCameraListener {
     private DisplayAircraft aircraft;
-    /**
-     * Cnstructor of TracksModel
-     * @param camera the camera used to draw this model
-     * @param display the display this model is being rendered on.
-     */
-    public AircraftInfoModel(Camera camera, Display display, DisplayAircraft aircraft)
+
+
+    public AircraftDotModel(Camera camera, DisplayAircraft aircraft)
     {
         super(camera);
-        this.display = display;
         this.aircraft = aircraft;
         update();
-    }
 
-    /**
-     * Call to update the instance provided by this class.
-     */
-    @Override
-    public void update()
-    {
 
-        //        Vector3 screenPosition = cam.project(new Vector3(modelDrawVector));
+//        Vector3 screenPosition = cam.project(new Vector3(modelDrawVector));
 //
 //
 //        String aircraftID = aircraftState.getAircraftID();
@@ -65,41 +53,51 @@ public class AircraftInfoModel extends SimpleDisplayRenderableProvider implement
 //                    VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal);
 //            aircraftStateVelocityModelInstance = new ModelInstance(aircraftStateVelocityModel);
 
-        double depthAdjustment = -0.01;
+    }
 
+    /**
+     * Call to update the instance provided by this class.
+     */
+    @Override
+    public void update() {
         super.update();
 
-        ModelBuilder modelBuilder = new ModelBuilder();
-        modelBuilder.begin();
-        MeshPartBuilder builder = modelBuilder.part(
-                "aircraft_info",
-                GL20.GL_LINES,
-                VertexAttributes.Usage.Position | VertexAttributes.Usage.ColorUnpacked,
-                new Material());
-        builder.setColor(Color.GREEN);
-
-        float size = 1000f;
-//        builder.line(new Vector3(0, 0, 0), new Vector3(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), 0));
-//        builder.line(new Vector3(0, 0, -1), new Vector3(0, 0, 1));
-
-        Model newModel = modelBuilder.end();
-        ModelInstance modelInstance = new ModelInstance(newModel);
-
         GeographicCoordinate position = aircraft.getPosition();
+
+        float scale = 1f;
+
+        PerspectiveCamera camera = (PerspectiveCamera) getCamera();
+        scale = camera.fieldOfView/2;
+
+        if (scale > 2f)
+        {
+            scale = 2;
+        }
+
+        double depthAdjustment = -0.01;
         Vector3 modelDrawVector = position.getModelDrawVector(depthAdjustment);
 
-//        modelInstance.transform.setToRotation(getCamera().up, 30);
-//        modelInstance.calculateTransforms();
-//        modelInstance.transform.setToScaling(size, size, size);
-//        modelInstance.calculateTransforms();
-//        modelInstance.transform.setTranslation(modelDrawVector.x, modelDrawVector.y, modelDrawVector.z);
-
+        ModelBuilder modelBuilder = new ModelBuilder();
+        Model newModel = modelBuilder.createSphere(
+                0.0005f, 0.0005f, 0.0005f, 7, 7,
+                new Material(ColorAttribute.createDiffuse(new Color(0, 1, 0, 1))),
+                VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal);
+        ModelInstance modelInstance = new ModelInstance(newModel);
+        modelInstance.transform.setToScaling(scale, scale, scale);
+        modelInstance.calculateTransforms();
+        modelInstance.transform.setTranslation(modelDrawVector.x, modelDrawVector.y, modelDrawVector.z);
 
         setDisplayRenderable(new GDXDisplayRenderable(modelInstance, getCamera(), newModel));
     }
 
     @Override
     public void onUpdate(CameraUpdate cameraUpdate) {
-        update();
+        switch (cameraUpdate.updateType)
+        {
+            case ZOOM:
+                update();
+//                System.out.println("finished" + aircraft.getAircraftID());
+                break;
+        }
     }
 }

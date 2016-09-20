@@ -49,7 +49,7 @@ public class DebugServerTest
             AircraftState testAircraftState = new AircraftState(lName, System.currentTimeMillis(), new GeographicCoordinate(i,i,i), new SphericalVelocity(i,i,i), i);
             aircraftStateArray.add(testAircraftState);
         }
-        //Make a new SystemState with the above DisplayAircraft States array
+        //Make a new SystemState with the above AircraftModel States array
         SystemState testState = new SystemState(System.currentTimeMillis(),aircraftStateArray);
         SystemStateDatabase systemStateDatabase = new SystemStateDatabase(myTimeSource);
 

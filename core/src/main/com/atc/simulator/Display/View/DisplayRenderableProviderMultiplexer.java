@@ -1,5 +1,7 @@
 package com.atc.simulator.Display.View;
 
+import com.badlogic.gdx.utils.Disposable;
+
 import java.util.Collection;
 
 /**
@@ -7,7 +9,7 @@ import java.util.Collection;
  * to be passed to a render layer by a single object.
  * @author Luke Frisken
  */
-public interface DisplayRenderableProviderMultiplexer {
+public interface DisplayRenderableProviderMultiplexer extends Disposable {
     /**
      * Get the instance providers provided by this multiplexer
      * @return
