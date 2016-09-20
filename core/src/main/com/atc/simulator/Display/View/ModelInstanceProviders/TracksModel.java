@@ -1,6 +1,7 @@
 package com.atc.simulator.Display.View.ModelInstanceProviders;
 
 import com.atc.simulator.DebugDataFeed.Scenarios.Scenario;
+import com.atc.simulator.Display.Model.DisplayTracks;
 import com.atc.simulator.Display.View.DisplayRenderable.GDXDisplayRenderable;
 import com.atc.simulator.Display.View.DisplayRenderable.HiddenDisplayRenderable;
 import com.atc.simulator.flightdata.AircraftState;
@@ -23,17 +24,16 @@ import java.util.ArrayList;
  * @author Luke Frisken
  */
 public class TracksModel extends SimpleDisplayRenderableProvider {
-    private Scenario scenario;
-    private Boolean visible = true;
+    private DisplayTracks myModel;
 
     /**
      * Cnstructor of TracksModel
-     * @param scenario scenario to grab tracks from.
+     * @param model scenario to grab tracks from.
      */
-    public TracksModel(Camera camera, Scenario scenario)
+    public TracksModel(Camera camera, DisplayTracks model)
     {
         super(camera);
-        this.scenario = scenario;
+        myModel = model;
         update();
     }
 
@@ -47,12 +47,12 @@ public class TracksModel extends SimpleDisplayRenderableProvider {
 
         super.update();
 
-        if (!visible)
+        if (!myModel.isVisible())
         {
             setDisplayRenderable(new HiddenDisplayRenderable());
             return;
         }
-        ArrayList<Track> tracks = scenario.getTracks();
+        ArrayList<Track> tracks = myModel.getScenarioTracks();
 
         ModelBuilder modelBuilder = new ModelBuilder();
         modelBuilder.begin();
@@ -81,11 +81,5 @@ public class TracksModel extends SimpleDisplayRenderableProvider {
         Model newModel = modelBuilder.end();
         ModelInstance modelInstance = new ModelInstance(newModel);
         setDisplayRenderable(new GDXDisplayRenderable(modelInstance, getCamera(), newModel));
-    }
-
-    public void toggleTrackVisibility()
-    {
-        visible = !visible;
-        update();
     }
 }

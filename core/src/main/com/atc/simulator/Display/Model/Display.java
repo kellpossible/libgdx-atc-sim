@@ -26,6 +26,7 @@ public class Display {
     private static final int WORK_UNITS_PER_FRAME = 100;
     private DisplayHud displayHud;
     private TimeSource timeSource;
+    private DisplayTracks displayTracks;
 
     /**
      * Constructor for Display
@@ -90,6 +91,21 @@ public class Display {
     public void setDisplayHud(DisplayHud displayHud)
     {
         this.displayHud = displayHud;
+    }
+
+
+    /**
+     * Get the Scenario's Tracks
+     * @return the Tracks Model being used in this Display
+     */
+    public DisplayTracks getDisplayTracks(){return this.displayTracks;}
+    /**
+     * Set the Track Display Model
+     * @param displayTrack the new Model for displayTracks
+     */
+    public void setDisplayTracks(DisplayTracks displayTrack)
+    {
+        this.displayTracks = displayTrack;
     }
 
     /**

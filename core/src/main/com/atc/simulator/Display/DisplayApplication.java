@@ -4,10 +4,7 @@ import com.atc.simulator.Config.ApplicationConfig;
 import com.atc.simulator.DebugDataFeed.DataPlaybackListener;
 import com.atc.simulator.DebugDataFeed.DataPlaybackThread;
 import com.atc.simulator.DebugDataFeed.Scenarios.Scenario;
-import com.atc.simulator.Display.Model.Display;
-import com.atc.simulator.Display.Model.DisplayAircraft;
-import com.atc.simulator.Display.Model.DisplayHud;
-import com.atc.simulator.Display.Model.DisplayPrediction;
+import com.atc.simulator.Display.Model.*;
 import com.atc.simulator.Display.View.ModelInstanceProviders.HudModel;
 import com.atc.simulator.Display.View.ModelInstanceProviders.WorldMapModel;
 import com.atc.simulator.Display.View.ModelInstanceProviders.TracksModel;
@@ -277,13 +274,16 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
         map = new WorldMapModel(perspectiveCamera);
         mapLayer.addDisplayRenderableProvider(map);
 
-        if (showTracks)
-        {
-            tracksLayer = new RenderLayer(9, "tracks");
-            layerManager.addRenderLayer(tracksLayer);
-            tracks = new TracksModel(perspectiveCamera, scenario);
-            tracksLayer.addDisplayRenderableProvider(tracks);
-        }
+
+        DisplayTracks trackMod = new DisplayTracks(scenario);
+        display.setDisplayTracks(trackMod);
+        tracks = new TracksModel(perspectiveCamera, trackMod);
+        trackMod.setMyView(tracks);
+        tracksLayer = new RenderLayer(9, "tracks");
+        layerManager.addRenderLayer(tracksLayer);
+        tracksLayer.addDisplayRenderableProvider(tracks);
+
+
 
         aircraftLayer = new RenderLayer(7, "aircraft");
         layerManager.addRenderLayer(aircraftLayer);
@@ -482,7 +482,7 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
                     break;
                 case Input.Keys.T:
                     if(showTracks)
-                        tracks.toggleTrackVisibility();
+                        display.getDisplayTracks().toggleTrackVisibility();
                     break;
             }
 
