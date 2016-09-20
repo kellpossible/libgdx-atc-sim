@@ -2,6 +2,7 @@ package com.atc.simulator.flightdata.SystemStateDatabase;
 
 import com.atc.simulator.flightdata.AircraftState;
 import com.atc.simulator.flightdata.SystemState;
+import com.atc.simulator.flightdata.TimeSource;
 import com.atc.simulator.flightdata.Track;
 
 import java.util.ArrayList;
@@ -19,11 +20,13 @@ import java.util.HashMap;
 public class SystemStateDatabase {
     private HashMap<String, Track> tracks;
     private ArrayList<SystemStateDatabaseListener> listeners;
+    private TimeSource timeSource;
 
-    public SystemStateDatabase()
+    public SystemStateDatabase(TimeSource timeSource)
     {
         tracks = new HashMap<String, Track>();
         listeners = new ArrayList<SystemStateDatabaseListener>();
+        this.timeSource = timeSource;
     }
 
     /**
@@ -101,6 +104,8 @@ public class SystemStateDatabase {
             this.update(aircraftState);
             aircraftIDs.add(aircraftState.getAircraftID());
         }
+
+        cull();
     }
 
     /**
@@ -154,6 +159,35 @@ public class SystemStateDatabase {
         for (SystemStateDatabaseListener listener : listeners)
         {
             listener.onUpdateAircraft(this, aircraftID);
+        }
+    }
+
+    private void triggerOnRemoveAircraft(String aircraftID)
+    {
+        for (SystemStateDatabaseListener listener : listeners)
+        {
+            listener.onRemoveAircraft(this, aircraftID);
+        }
+    }
+
+    public void cull()
+    {
+        ArrayList<String> removeTracks = new ArrayList<String>();
+        for (Track track : tracks.values())
+        {
+            AircraftState latest = track.getLatest();
+            long latestTrackTime = latest.getTime();
+            long timeSinceLatestTrackUpdate = timeSource.getCurrentTime() - latestTrackTime;
+            if (timeSinceLatestTrackUpdate > 20000)
+            {
+                removeTracks.add(latest.getAircraftID());
+            }
+        }
+
+        for (String aircraftID : removeTracks)
+        {
+            tracks.remove(aircraftID);
+            triggerOnRemoveAircraft(aircraftID);
         }
     }
 }

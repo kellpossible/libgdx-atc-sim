@@ -4,6 +4,7 @@ import com.atc.simulator.Display.PredictionFeedClientThread;
 import com.atc.simulator.PredictionService.Engine.PredictionEngineThread;
 import com.atc.simulator.flightdata.AircraftState;
 import com.atc.simulator.flightdata.SystemStateDatabase.SystemStateDatabase;
+import com.atc.simulator.flightdata.TimeSource;
 import com.atc.simulator.vectors.GeographicCoordinate;
 import com.atc.simulator.vectors.SphericalVelocity;
 
@@ -18,12 +19,27 @@ import java.util.ArrayList;
  * @author    Chris Coleman, 7191375
  */
 public class PredictionFeedTest {
+    private static class MyTimeSource implements TimeSource
+    {
+
+        /**
+         * Get the current time in milliseconds since epoch
+         *
+         * @return
+         */
+        @Override
+        public long getCurrentTime() {
+            return System.currentTimeMillis();
+        }
+    }
+
     //Test method to be comfortable with using PredictionFeedServe's protocol buffer
     public static void main(String[] arg) {
+        TimeSource myTimeSource = new MyTimeSource();
         //Create SystemState Test Data:
         ArrayList<AircraftState> testAStates = new ArrayList<AircraftState>();
         testAStates.add(new AircraftState("TestPlane1", System.currentTimeMillis(), new GeographicCoordinate(0,0,0), new SphericalVelocity(1,2,3), 0.5));
-        SystemStateDatabase systemStateDatabase = new SystemStateDatabase();
+        SystemStateDatabase systemStateDatabase = new SystemStateDatabase(myTimeSource);
         //Create Server/Client objects
         PredictionFeedServerThread testServer = new PredictionFeedServerThread();
         PredictionFeedClientThread testClient = new PredictionFeedClientThread();

@@ -4,11 +4,13 @@ import com.atc.simulator.Config.ApplicationConfig;
 import com.atc.simulator.DebugDataFeed.DataPlaybackListener;
 import com.atc.simulator.DebugDataFeed.DataPlaybackThread;
 import com.atc.simulator.DebugDataFeed.Scenarios.Scenario;
-import com.atc.simulator.Display.DisplayData.*;
-import com.atc.simulator.Display.DisplayData.DisplayAircraft;
-import com.atc.simulator.Display.DisplayData.ModelInstanceProviders.HudModel;
-import com.atc.simulator.Display.DisplayData.ModelInstanceProviders.WorldMapModel;
-import com.atc.simulator.Display.DisplayData.ModelInstanceProviders.TracksModel;
+import com.atc.simulator.Display.Model.Display;
+import com.atc.simulator.Display.Model.DisplayAircraft;
+import com.atc.simulator.Display.Model.DisplayHud;
+import com.atc.simulator.Display.Model.DisplayPrediction;
+import com.atc.simulator.Display.View.ModelInstanceProviders.HudModel;
+import com.atc.simulator.Display.View.ModelInstanceProviders.WorldMapModel;
+import com.atc.simulator.Display.View.ModelInstanceProviders.TracksModel;
 import com.atc.simulator.flightdata.*;
 import com.atc.simulator.flightdata.SystemStateDatabase.SystemStateDatabase;
 import com.atc.simulator.flightdata.SystemStateDatabase.SystemStateDatabaseListener;
@@ -22,6 +24,7 @@ import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
 import com.badlogic.gdx.graphics.g3d.utils.CameraInputController;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.PerformanceCounter;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -36,6 +39,7 @@ import java.util.concurrent.ArrayBlockingQueue;
  * @author Luke Frisken
  */
 public class DisplayApplication extends ApplicationAdapter implements DataPlaybackListener, PredictionListener {
+    private static final boolean enableTimer = true;
     private static final boolean enableDebugPrint = ApplicationConfig.getInstance().getBoolean("settings.debug.print-display");
     private static final boolean showTracks = ApplicationConfig.getInstance().getBoolean("settings.display.show-tracks");
 
@@ -66,13 +70,19 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
     private DataPlaybackThread playbackThread;
     private InputMultiplexer inputMultiplexer;
 
-    Vector2 textPosition;
+    private Vector2 textPosition;
 
     private SystemState currentSystemState = null;
 
+    private PerformanceCounter pollSystemUpdatePerformance = new PerformanceCounter("System Update");
+    private PerformanceCounter pollPredictionUpdatePerformance = new PerformanceCounter("Prediction Update");
+    private PerformanceCounter renderInstancesPerformance = new PerformanceCounter("Render Instances");
+    private PerformanceCounter displayUpdatePerformance = new PerformanceCounter("Display Update");
+    private long frameCounter = 0;
+
 
     /**
-     * private class for storing DisplayAircraft associated with the SystemStateDatabase,
+     * private class for storing AircraftModel associated with the SystemStateDatabase,
      * and to keep them in sync with the systemstatedatabase.
      *
      *
@@ -94,14 +104,16 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
         @Override
         public void onNewAircraft(SystemStateDatabase stateDatabase, String aircraftID) {
             DisplayAircraft newAircraft = new DisplayAircraft(display, stateDatabase.getTrack(aircraftID));
-            aircraftLayer.addDisplayRenderableProvider(newAircraft);
+            aircraftLayer.addDisplayRenderableProvider(newAircraft.getRenderable());
             this.put(aircraftID, newAircraft);
         }
 
         /** @see SystemStateDatabaseListener#onRemoveAircraft(SystemStateDatabase, String) */
         @Override
         public void onRemoveAircraft(SystemStateDatabase stateDatabase, String aircraftID) {
-            this.get(aircraftID).dispose();
+            DisplayAircraft displayAircraft = this.get(aircraftID);
+            displayAircraft.dispose();
+            aircraftLayer.removeDisplayRenderableProvider(displayAircraft.getRenderable());
             this.remove(aircraftID);
         }
 
@@ -124,12 +136,12 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
         systemStateUpdateQueue = new ArrayBlockingQueue<SystemState>(100);
         predictionUpdateQueue = new ArrayBlockingQueue<Prediction>(300);
         layerManager = new LayerManager();
-        stateDatabase = new SystemStateDatabase();
+        stateDatabase = new SystemStateDatabase(playbackThread);
         aircraftDatabase = new AircraftDatabase();
         stateDatabase.addListener(aircraftDatabase);
         this.playbackThread = playbackThread;
         inputMultiplexer = new InputMultiplexer();
-        display = new Display();
+        display = new Display(playbackThread);
         display.setLayerManager(layerManager);
 
     }
@@ -185,7 +197,7 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
 			perspectiveCamera.update();
 
 			this.rotateAngle = perspectiveCamera.fieldOfView;
-            display.triggerCameraOnUpdate(perspectiveCamera, DisplayCameraListener.UpdateType.ZOOM);
+            display.triggerCameraOnUpdate(new DisplayCameraListener.CameraUpdate(perspectiveCamera, DisplayCameraListener.UpdateType.ZOOM));
             return true;
 		}
 
@@ -273,18 +285,18 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
             tracksLayer.addDisplayRenderableProvider(tracks);
         }
 
-        predictionLayer = new RenderLayer(8, "predictions");
-        layerManager.addRenderLayer(predictionLayer);
-
         aircraftLayer = new RenderLayer(7, "aircraft");
         layerManager.addRenderLayer(aircraftLayer);
 
         hudLayer = new RenderLayer(6, "hud");
         layerManager.addRenderLayer(hudLayer);
-        hud = new HudModel(orthoCamera, display);
+        //a circular dependency requires this to happen :(
+        DisplayHud displayHud = new DisplayHud(display, null);
+        hud = new HudModel(orthoCamera, displayHud);
+        displayHud.setHudModel(hud);
         hudLayer.addDisplayRenderableProvider(hud);
         display.addCameraListener(orthoCamera, hud);
-
+        display.setDisplayHud(displayHud);
         inputMultiplexer.addProcessor(camController);
         inputMultiplexer.addProcessor(new SimulationController());
 
@@ -319,7 +331,6 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
                     displayPrediction.update(prediction);
                 } else {
                     displayPrediction = new DisplayPrediction(display, aircraft, prediction);
-                    predictionLayer.addDisplayRenderableProvider(displayPrediction);
                     aircraft.setPrediction(displayPrediction);
                 }
             }
@@ -342,8 +353,11 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
 
         while (systemState != null)
         {
+            pollSystemUpdatePerformance.start();
             stateDatabase.systemStateUpdate(systemState);
+            pollSystemUpdatePerformance.stop();
             systemState = systemStateUpdateQueue.poll();
+
         }
     }
 
@@ -352,23 +366,31 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
      */
 	@Override
 	public void render () {
+        frameCounter++;
+        displayUpdatePerformance.start();
+        display.update();
+        displayUpdatePerformance.stop();
+
 		Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 
-        hud.update();
-
         camController.update();
+
         pollSystemUpdateQueue();
+        pollPredictionUpdatePerformance.start();
         pollPredictionUpdateQueue();
+        pollPredictionUpdatePerformance.stop();
 
 
-
+        renderInstancesPerformance.start();
         modelBatch.begin(perspectiveCamera);
 
         //Render all the gdxRenderableProviders in the layerManager.
         //they are in a collection of cameraBatches so that they get rendered
         //with the correct camera.
         Collection<CameraBatch> cameraBatches = layerManager.getRenderInstances();
+
+        int nInstances = 0;
 
         for(CameraBatch cameraBatch: cameraBatches)
         {
@@ -379,14 +401,33 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
             for(RenderableProvider gdxRenderableProvider : cameraBatch.gdxRenderableProviders())
             {
                 modelBatch.render(gdxRenderableProvider);
+                nInstances++;
             }
         }
+
+        display.getDisplayHud().setNumInstances(nInstances);
         modelBatch.flush();
 		modelBatch.end();
+        renderInstancesPerformance.stop();
 
 //        spriteBatch.begin();
 ////        font.draw(spriteBatch, "Hello World", textPosition.x, textPosition.y);
 //        spriteBatch.end();
+
+
+//        if (frameCounter%60 == 0)
+//        {
+//            pollSystemUpdatePerformance.tick();
+//            renderInstancesPerformance.tick();
+//            displayUpdatePerformance.tick();
+//            pollPredictionUpdatePerformance.tick();
+//            System.out.println(
+//                    Gdx.graphics.getFramesPerSecond() + ", "
+//                    + pollSystemUpdatePerformance.time.latest + ", "
+//                    + pollPredictionUpdatePerformance.time.latest + ", "
+//                    + renderInstancesPerformance.time.latest + ", "
+//                    + displayUpdatePerformance.time.latest);
+//        }
 	}
 
 
@@ -417,8 +458,8 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
 
         orthoCamera.setToOrtho(true, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         orthoCamera.update();
-        display.triggerCameraOnUpdate(perspectiveCamera, DisplayCameraListener.UpdateType.RESIZE);
-        display.triggerCameraOnUpdate(orthoCamera, DisplayCameraListener.UpdateType.RESIZE);
+        display.triggerCameraOnUpdate(new DisplayCameraListener.CameraUpdate(perspectiveCamera, DisplayCameraListener.UpdateType.RESIZE));
+        display.triggerCameraOnUpdate(new DisplayCameraListener.CameraUpdate(orthoCamera, DisplayCameraListener.UpdateType.RESIZE));
     }
 
     /**
@@ -438,6 +479,10 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
             {
                 case Input.Keys.SPACE:
                     playbackThread.setPaused(!playbackThread.getPaused());
+                    break;
+                case Input.Keys.T:
+                    if(showTracks)
+                        tracks.toggleTrackVisibility();
                     break;
             }
 

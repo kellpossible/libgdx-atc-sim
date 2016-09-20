@@ -21,7 +21,7 @@ import java.util.Arrays;
  * // Constructors
  *    PredictionFeedClientThread()
  * // Methods
- *    run() - Thread of checking buffer and passing messages to server
+ *    update() - Thread of checking buffer and passing messages to server
  *    kill() - Clears the flag that the client thread runs off, letting the thread finish gracefully
  *    start() - Start new Thread
  *    addListener(PredictionListener) - Add a new Listener
@@ -32,7 +32,7 @@ import java.util.Arrays;
  *    PredictionFeedServe.PredictionMessage
  *
  * MODIFIED:
- * @version 0.3, CC 29/05/16, Added sleep in Thread run()
+ * @version 0.3, CC 29/05/16, Added sleep in Thread update()
  * @author    Chris Coleman, 7191375
  */
 public class PredictionFeedClientThread implements RunnableThread {
@@ -115,7 +115,7 @@ public class PredictionFeedClientThread implements RunnableThread {
                     //Made a new Prediction with ID and Time
                     Prediction newPred = new Prediction(predictionMessage.getAircraftID(), System.currentTimeMillis(), aircraftStates);
 
-                    if(enableDebugPrint){ System.out.println("PredictionFeedClient has received DisplayAircraft " + newPred.getAircraftID()); }
+                    if(enableDebugPrint){ System.out.println("PredictionFeedClient has received AircraftModel " + newPred.getAircraftID()); }
 
                     notifyAllListeners(newPred);
 
@@ -130,7 +130,7 @@ public class PredictionFeedClientThread implements RunnableThread {
     }
 
     /**
-     * Small method called too kill the server's threads when the have run through
+     * Small method called too kill the server's threads when the have update through
      */
     public void kill()
     {

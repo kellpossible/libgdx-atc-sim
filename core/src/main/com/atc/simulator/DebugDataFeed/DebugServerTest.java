@@ -6,6 +6,7 @@ import com.atc.simulator.PredictionService.PredictionFeedServerThread;
 import com.atc.simulator.flightdata.SystemStateDatabase.SystemStateDatabase;
 import com.atc.simulator.flightdata.AircraftState;
 import com.atc.simulator.flightdata.SystemState;
+import com.atc.simulator.flightdata.TimeSource;
 import com.atc.simulator.vectors.GeographicCoordinate;
 import com.atc.simulator.vectors.SphericalVelocity;
 
@@ -17,12 +18,28 @@ import java.util.ArrayList;
  */
 public class DebugServerTest
 {
+
+    private static class MyTimeSource implements TimeSource
+    {
+
+        /**
+         * Get the current time in milliseconds since epoch
+         *
+         * @return
+         */
+        @Override
+        public long getCurrentTime() {
+            return System.currentTimeMillis();
+        }
+    }
+
     /**
      * Test method for debugDataFeed Server
      * @param arg
      */
     public static void main(String[] arg)
     {
+        MyTimeSource myTimeSource = new MyTimeSource();
         ArrayList<AircraftState> aircraftStateArray = new ArrayList<AircraftState>();
 
         //create 5 aircraft state
@@ -32,9 +49,9 @@ public class DebugServerTest
             AircraftState testAircraftState = new AircraftState(lName, System.currentTimeMillis(), new GeographicCoordinate(i,i,i), new SphericalVelocity(i,i,i), i);
             aircraftStateArray.add(testAircraftState);
         }
-        //Make a new SystemState with the above DisplayAircraft States array
+        //Make a new SystemState with the above AircraftModel States array
         SystemState testState = new SystemState(System.currentTimeMillis(),aircraftStateArray);
-        SystemStateDatabase systemStateDatabase = new SystemStateDatabase();
+        SystemStateDatabase systemStateDatabase = new SystemStateDatabase(myTimeSource);
 
         // creates new servers/clients
         PredictionFeedClientThread testPredictionClient = new PredictionFeedClientThread(); //Goes first, can chill by itself

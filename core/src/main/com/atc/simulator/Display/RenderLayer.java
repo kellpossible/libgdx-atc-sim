@@ -1,9 +1,10 @@
 package com.atc.simulator.Display;
 
-import com.atc.simulator.Display.DisplayData.DisplayRenderable;
-import com.atc.simulator.Display.DisplayData.DisplayRenderableProvider;
-import com.atc.simulator.Display.DisplayData.DisplayRenderableProviderListener;
-import com.atc.simulator.Display.DisplayData.DisplayRenderableProviderMultiplexer;
+import com.atc.simulator.Display.View.DisplayRenderable.DisplayRenderable;
+import com.atc.simulator.Display.View.DisplayRenderable.GDXDisplayRenderable;
+import com.atc.simulator.Display.View.DisplayRenderableProvider;
+import com.atc.simulator.Display.View.DisplayRenderableProviderListener;
+import com.atc.simulator.Display.View.DisplayRenderableProviderMultiplexer;
 import com.badlogic.gdx.graphics.Camera;
 
 import java.util.*;
@@ -78,7 +79,7 @@ class RenderLayer implements Comparable, DisplayRenderableProviderListener {
     public void onDisplayRenderableUpdate(DisplayRenderableProvider provider, DisplayRenderable displayRenderable) {
         if (displayRenderable == null)
         {
-            throw new NullPointerException(provider.getClass().getName() + " provided a null model instance");
+//            throw new NullPointerException(provider.getClass().getName() + " provided a null model instance");
         }
         storeDisplayRenderable(provider, displayRenderable);
     }
@@ -92,18 +93,29 @@ class RenderLayer implements Comparable, DisplayRenderableProviderListener {
      */
     private void storeDisplayRenderable(DisplayRenderableProvider provider, DisplayRenderable renderable)
     {
-        switch (renderable.getType())
+        if (renderable instanceof GDXDisplayRenderable)
         {
-            case DISPLAYTEXT:
-                renderable.getDisplayText();
-                break;
-            case GDX_RENDERABLE_PROVIDER:
-                storeModelInstance(provider, renderable);
-                break;
+            storeGDXRenderable(provider, (GDXDisplayRenderable) renderable);
         }
     }
 
-    private void storeModelInstance(DisplayRenderableProvider provider, DisplayRenderable renderable)
+    /**
+     * Removea a DisplayRenderable and it's provider from the appropriate
+     * locations.
+     *
+     * @param provider the provider of the renderab
+     * @param renderable of type DisplayRenderable
+     */
+    private void removeDisplayRenderable(DisplayRenderableProvider provider, DisplayRenderable renderable)
+    {
+
+        if (renderable instanceof GDXDisplayRenderable)
+        {
+            removeGDXRenderable(provider, (GDXDisplayRenderable) renderable);
+        }
+    }
+
+    private void storeGDXRenderable(DisplayRenderableProvider provider, GDXDisplayRenderable renderable)
     {
         Camera camera = renderable.getCamera();
         CameraBatch batch = cameraBatches.get(camera);
@@ -113,7 +125,17 @@ class RenderLayer implements Comparable, DisplayRenderableProviderListener {
             cameraBatches.put(camera, batch);
         }
 
-        batch.put(provider, renderable.getRenderableProvider());
+        batch.put(provider, renderable);
+    }
+
+    private void removeGDXRenderable(DisplayRenderableProvider provider, GDXDisplayRenderable renderable)
+    {
+        Camera camera = renderable.getCamera();
+        CameraBatch batch = cameraBatches.get(camera);
+        if (batch != null)
+        {
+            batch.remove(provider);
+        }
     }
 
     /**
@@ -153,6 +175,33 @@ class RenderLayer implements Comparable, DisplayRenderableProviderListener {
         for(DisplayRenderableProvider provider : multiplexer.getDisplayRenderableProviders())
         {
             addDisplayRenderableProvider(provider);
+        }
+    }
+
+    /**
+     * removes a display renderable provider
+     *
+     * @param provider of type DisplayRenderableProvider
+     */
+    public void removeDisplayRenderableProvider(DisplayRenderableProvider provider)
+    {
+        provider.removeDisplayRenderableProviderListener(this);
+        DisplayRenderable renderable = provider.getDisplayRenderable();
+
+        removeDisplayRenderable(provider, renderable);
+
+    }
+
+    /**
+     * removes a display renderable provider multiplexor
+     *
+     * @param multiplexer of type DisplayRenderableProviderMultiplexer
+     */
+    public void removeDisplayRenderableProvider(DisplayRenderableProviderMultiplexer multiplexer)
+    {
+        for(DisplayRenderableProvider provider : multiplexer.getDisplayRenderableProviders())
+        {
+            removeDisplayRenderableProvider(provider);
         }
     }
 
