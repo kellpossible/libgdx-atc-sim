@@ -250,7 +250,7 @@ public class SphericalCoordinate extends Vector3 {
      */
     public double arcDistance(SphericalCoordinate other)
     {
-        return x * Math.acos(Math.cos(y)*Math.cos(other.y)+Math.sin(y)*Math.sin(other.y)*Math.sin(z - other.z));
+        return x * Math.acos(Math.cos(y)*Math.cos(other.y)+Math.sin(y)*Math.sin(other.y)*Math.cos(z - other.z));
     }
 
 

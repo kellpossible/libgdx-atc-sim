@@ -132,20 +132,6 @@ public class GeographicCoordinate extends SphericalCoordinate
     }
 
     /**
-     * REQUIRES TESTING
-     * Arc Distance between two Geographic Coordinates.
-     *  https://en.wikipedia.org/wiki/Great-circle_distance
-     *
-     * @param other The GeographicCoordinate we are comparing this Coord to
-     * @return double The distance in Metres (or whatever your altitude was written in)
-     */
-    public double arcDistance(GeographicCoordinate other)
-    {
-        return this.x * Math.acos(Math.sin(Math.toRadians(this.getLatitude()))*Math.sin(Math.toRadians(other.getLatitude()))
-                + Math.cos(Math.toRadians(this.getLatitude()))*Math.cos(Math.toRadians(other.getLatitude()))*Math.cos(Math.toRadians(this.getLongitude() - other.getLongitude())));
-    }
-
-    /**
      * Linear interpolation between two Geographic coordinates. Going from this Coord to the supplied coordinate
      *
      * @param toCoord   The coordinate we are interpolating towards
