@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.utils.ObjectMap;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 /**
@@ -18,9 +19,9 @@ import java.util.HashMap;
  * @author Luke Frisken
  */
 public class Display {
-    private DisplayPrediction.PredictionDisplayMethod predictionDisplayMethod =
-            (DisplayPrediction.PredictionDisplayMethod) ApplicationConfig.getEnum("settings.display.prediction-display-method",
-                    DisplayPrediction.PredictionDisplayMethod.class);
+    private PredictionDisplayMethod predictionDisplayMethod =
+            (PredictionDisplayMethod) ApplicationConfig.getEnum("settings.display.prediction-display-method",
+                    PredictionDisplayMethod.class);
     private LayerManager layerManager;
     private HashMap<String, Camera> cameras;
     private ArrayList<ObjectMap.Entry<DisplayCameraListener, Camera>> cameraListeners;
@@ -41,6 +42,25 @@ public class Display {
         cameraListeners = new ArrayList<ObjectMap.Entry<DisplayCameraListener, Camera>>();
         delayedCameraListenerHashMap = new HashMap<DisplayCameraListener, DelayedCameraListener>();
         delayedWorker = new DelayedWorker(WORK_UNITS_PER_FRAME);
+    }
+
+    public void cyclePredictionDisplayMethod()
+    {
+        PredictionDisplayMethod[] displayMethods = PredictionDisplayMethod.values();
+        for (int i = 0; i < displayMethods.length; i++)
+        {
+            if(displayMethods[i] == predictionDisplayMethod)
+            {
+                if ((i+1) == displayMethods.length)
+                {
+                    predictionDisplayMethod = displayMethods[0];
+                } else {
+                    predictionDisplayMethod = displayMethods[i+1];
+                }
+                return;
+            }
+        }
+
     }
 
     /**
@@ -120,17 +140,17 @@ public class Display {
     }
 
     /**
-     * Get the current prediction display method as per {@link DisplayPrediction.PredictionDisplayMethod}
+     * Get the current prediction display method as per {@link PredictionDisplayMethod}
      * @return display method currently employed
      */
-    public DisplayPrediction.PredictionDisplayMethod getPredictionDisplayMethod() {
+    public PredictionDisplayMethod getPredictionDisplayMethod() {
         return predictionDisplayMethod;
     }
 
     /**
-     * Set the prediction display method as per {@link DisplayPrediction.PredictionDisplayMethod}
+     * Set the prediction display method as per {@link PredictionDisplayMethod}
      */
-    public void setPredictionDisplayMethod(DisplayPrediction.PredictionDisplayMethod predictionDisplayMethod) {
+    public void setPredictionDisplayMethod(PredictionDisplayMethod predictionDisplayMethod) {
         this.predictionDisplayMethod = predictionDisplayMethod;
     }
 

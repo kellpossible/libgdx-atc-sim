@@ -60,6 +60,9 @@ public class PredictionModel extends SimpleDisplayRenderableProvider {
             case NONE:
                 updateHidden();
                 break;
+            default:
+                updateHidden();
+                break;
         }
     }
 

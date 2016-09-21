@@ -493,6 +493,9 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
                 case Input.Keys.T:
                     display.getDisplayTracks().toggleTrackVisibility();
                     break;
+                case Input.Keys.P:
+                    display.cyclePredictionDisplayMethod();
+                    break;
             }
 
             return true;
