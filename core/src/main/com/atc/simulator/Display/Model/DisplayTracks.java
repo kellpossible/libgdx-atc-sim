@@ -1,5 +1,6 @@
 package com.atc.simulator.Display.Model;
 
+import com.atc.simulator.Config.ApplicationConfig;
 import com.atc.simulator.DebugDataFeed.Scenarios.Scenario;
 import com.atc.simulator.Display.View.ModelInstanceProviders.TracksModel;
 import com.atc.simulator.flightdata.Track;
@@ -13,9 +14,11 @@ import java.util.ArrayList;
  * Created by Chris on 20/09/2016.
  */
 public class DisplayTracks implements Disposable {
+    private static final boolean showTracks = ApplicationConfig.getInstance().getBoolean("settings.display.show-tracks-default");
+
     ArrayList<Track> scenarioTracks;
     TracksModel myView;
-    boolean visibleModel = true;
+    boolean visibleModel = showTracks;
 
     public DisplayTracks(Scenario tracks)
     {

@@ -38,7 +38,6 @@ import java.util.concurrent.ArrayBlockingQueue;
 public class DisplayApplication extends ApplicationAdapter implements DataPlaybackListener, PredictionListener {
     private static final boolean enableTimer = true;
     private static final boolean enableDebugPrint = ApplicationConfig.getInstance().getBoolean("settings.debug.print-display");
-    private static final boolean showTracks = ApplicationConfig.getInstance().getBoolean("settings.display.show-tracks");
 
 	private PerspectiveCamera perspectiveCamera;
     private OrthographicCamera orthoCamera;
@@ -481,8 +480,7 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
                     playbackThread.setPaused(!playbackThread.getPaused());
                     break;
                 case Input.Keys.T:
-                    if(showTracks)
-                        display.getDisplayTracks().toggleTrackVisibility();
+                    display.getDisplayTracks().toggleTrackVisibility();
                     break;
             }
 
