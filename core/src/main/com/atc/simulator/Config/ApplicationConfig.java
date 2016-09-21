@@ -6,6 +6,7 @@ import com.typesafe.config.ConfigException;
 import com.typesafe.config.ConfigFactory;
 
 import java.io.File;
+import java.util.EnumSet;
 
 /**
  * A singleton class representing the configuration of this application.
@@ -63,5 +64,19 @@ public class ApplicationConfig {
     public static boolean getBoolean(String path)
     {
         return getInstance().getBoolean(path);
+    }
+
+    /**
+     * Get an enumerator
+     * @param path path to value in json config file
+     * @param clazz the enumerator type to use
+     * @param <E> the enumerator type to use
+     * @return
+     */
+    public static <E extends Enum<E>> Enum<E> getEnum(String path, Class<E> clazz)
+    {
+        String enumString = getString(path);
+        Enum<E> e = Enum.valueOf(clazz, enumString);
+        return e;
     }
 }

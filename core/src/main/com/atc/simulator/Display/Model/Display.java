@@ -18,7 +18,9 @@ import java.util.HashMap;
  * @author Luke Frisken
  */
 public class Display {
-    private static final String defaultPredictionDisplayMethod = ApplicationConfig.getString("settings.display.prediction-display-method");
+    private DisplayPrediction.PredictionDisplayMethod predictionDisplayMethod =
+            (DisplayPrediction.PredictionDisplayMethod) ApplicationConfig.getEnum("settings.display.prediction-display-method",
+                    DisplayPrediction.PredictionDisplayMethod.class);
     private LayerManager layerManager;
     private HashMap<String, Camera> cameras;
     private ArrayList<ObjectMap.Entry<DisplayCameraListener, Camera>> cameraListeners;
@@ -28,7 +30,6 @@ public class Display {
     private DisplayHud displayHud;
     private TimeSource timeSource;
     private DisplayTracks displayTracks;
-    private DisplayPrediction.PredictionDisplayMethod predictionDisplayMethod = DisplayPrediction.PredictionDisplayMethod.WIREFRAME;
 
     /**
      * Constructor for Display

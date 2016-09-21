@@ -13,7 +13,8 @@ public class DisplayPrediction extends Prediction implements Disposable {
         WIREFRAME,
         GRADIENT,
         CENTRE_LINE_ONLY,
-        TWO_LINE
+        TWO_LINE,
+        NONE
     }
     private DisplayAircraft aircraft;
     private Display display;

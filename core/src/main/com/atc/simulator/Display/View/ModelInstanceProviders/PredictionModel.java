@@ -57,7 +57,17 @@ public class PredictionModel extends SimpleDisplayRenderableProvider {
             case GRADIENT:
                 updateGradient();
                 break;
+            case NONE:
+                updateHidden();
+                break;
         }
+    }
+
+    public void updateHidden()
+    {
+        super.update();
+        setDisplayRenderable(new HiddenDisplayRenderable());
+        return;
     }
 
     /**
