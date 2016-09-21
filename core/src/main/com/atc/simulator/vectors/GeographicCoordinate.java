@@ -7,6 +7,7 @@ import pythagoras.d.Vector3;
  * See https://en.wikipedia.org/wiki/Geographic_coordinate_system
  *
  * @author Luke Frisken
+ * @modified Chris Coleman 10/9/16
  */
 public class GeographicCoordinate extends SphericalCoordinate
 {
@@ -129,6 +130,22 @@ public class GeographicCoordinate extends SphericalCoordinate
     {
         this.x = EARTH_MSL_RADIUS + altitude;
     }
+
+    /**
+     * Linear interpolation between two Geographic coordinates. Going from this Coord to the supplied coordinate
+     *
+     * @param toCoord   The coordinate we are interpolating towards
+     * @param interpolant   The interpolant, ratio between the two coordinates
+     * @return
+     */
+    public GeographicCoordinate linearIntepolate(GeographicCoordinate toCoord, float interpolant)
+    {
+        double newLat = this.getLatitude() + Math.abs(this.getLatitude() - toCoord.getLatitude()) * interpolant;
+        double newLong = this.getLongitude() + Math.abs(this.getLongitude() - toCoord.getLongitude()) * interpolant;
+        double newAlt = this.getAltitude() + Math.abs(this.getAltitude() - toCoord.getAltitude()) * interpolant;
+        return new GeographicCoordinate(newLat,newLong,newAlt);
+    }
+
 
     @Override
     public String toString()

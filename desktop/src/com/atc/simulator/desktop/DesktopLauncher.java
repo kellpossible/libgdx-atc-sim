@@ -1,5 +1,6 @@
 package com.atc.simulator.desktop;
 
+import IntegrationTesting.TestAccuracy;
 import com.atc.simulator.Config.ApplicationConfig;
 import com.atc.simulator.DebugDataFeed.DataPlaybackThread;
 import com.atc.simulator.DebugDataFeed.Scenarios.ADSBRecordingScenario;
@@ -17,6 +18,7 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 public class DesktopLauncher {
 	private static final String recordingFile = ApplicationConfig.getInstance().getString("settings.debug-data-feed.adsb-recording-scenario.file");
 	private static final int javaWorkerThreads = ApplicationConfig.getInstance().getInt("settings.prediction-service.prediction-engine.java-worker-threads");
+	private static final Boolean accuracyTest = ApplicationConfig.getInstance().getBoolean("settings.testing.run-accuracy-test");
 
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
@@ -52,6 +54,12 @@ public class DesktopLauncher {
 		// commented out, previous by-pass used by Luke
 //		dataPlaybackThread.addListener(systemStateDatabase);
 		systemStateDatabase.addListener(predictionEngine);
+
+		if(accuracyTest) {
+			TestAccuracy accuracyTester = new TestAccuracy(scenario);
+			predictionFeedClientThread.addListener(accuracyTester);
+			accuracyTester.start();
+		}
 
 		predictionFeedServerThread.start();
 		predictionFeedClientThread.start();

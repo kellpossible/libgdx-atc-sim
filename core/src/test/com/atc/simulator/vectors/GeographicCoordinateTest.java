@@ -95,4 +95,12 @@ public class GeographicCoordinateTest {
                 4.36332, constGeoCoord5.bearingTo(constGeoCoord6), 0.01);
     }
 
+    @Test
+    public void arcDistanceTest() throws Exception{
+        GeographicCoordinate temp1 = new GeographicCoordinate(6371000,40,-73);
+        GeographicCoordinate temp2 = new GeographicCoordinate(6371000,50,-70);
+        assertEquals("http://www.movable-type.co.uk/scripts/latlong.html",1136000, temp1.arcDistance(temp2),3000);
+
+    }
+
 }
