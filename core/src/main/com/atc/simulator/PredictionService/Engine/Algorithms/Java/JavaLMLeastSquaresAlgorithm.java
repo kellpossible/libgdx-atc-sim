@@ -154,20 +154,26 @@ public class JavaLMLeastSquaresAlgorithm extends JavaPredictionAlgorithm {
             }
         }
 
+        Prediction.State predictionState;
+
         //use the circle prediction
         if (useCircle)
         {
+            Vector3 directionCheck = rVec.cross(velocity);
+            double directionSign;
+            if (directionCheck.z > 0.0) {
+                directionSign = 1.0;
+                predictionState = Prediction.State.LEFT_TURN;
+            } else {
+                directionSign = -1.0;
+                predictionState = Prediction.State.RIGHT_TURN;
+            }
+
             for (int i = 0; i < n; i++)
             {
                 totalDT += dt;
 
-                Vector3 directionCheck = rVec.cross(velocity);
-                double directionSign;
-                if (directionCheck.z > 0.0) {
-                    directionSign = 1.0;
-                } else {
-                    directionSign = -1.0;
-                }
+
 
                 // calculate the distance around the circle given
                 // the angular velocity. Only predict up to half a
@@ -196,6 +202,7 @@ public class JavaLMLeastSquaresAlgorithm extends JavaPredictionAlgorithm {
             }
         }
         else {
+            predictionState = Prediction.State.STRAIGHT;
             for (int i = 0; i < n; i++)
             {
                 totalDT += dt;
@@ -246,7 +253,13 @@ public class JavaLMLeastSquaresAlgorithm extends JavaPredictionAlgorithm {
             centreTrack.add(centreState);
         }
 
-        Prediction prediction = new Prediction(state.getAircraftID(), startTime, leftTrack, centreTrack, rightTrack);
+        Prediction prediction = new Prediction(
+                state.getAircraftID(),
+                startTime,
+                leftTrack,
+                centreTrack,
+                rightTrack,
+                predictionState);
         return prediction;
     }
 }

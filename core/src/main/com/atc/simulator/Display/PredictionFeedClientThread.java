@@ -135,9 +135,16 @@ public class PredictionFeedClientThread implements RunnableThread {
                     Track centreTrack = buildTrack(predictionMessage.getCentreTrack(), predictionMessage.getAircraftID());
                     Track rightTrack = buildTrack(predictionMessage.getRightTrack(), predictionMessage.getAircraftID());
 
+                    Prediction.State predictionState = Prediction.State.valueOf(predictionMessage.getState().name());
 
                     //Made a new Prediction with ID and Time
-                    Prediction newPred = new Prediction(predictionMessage.getAircraftID(), System.currentTimeMillis(), leftTrack, centreTrack, rightTrack);
+                    Prediction newPred = new Prediction(
+                            predictionMessage.getAircraftID(),
+                            System.currentTimeMillis(),
+                            leftTrack,
+                            centreTrack,
+                            rightTrack,
+                            predictionState);
 
                     if(enableDebugPrint){ System.out.println("PredictionFeedClient has received AircraftModel " + newPred.getAircraftID()); }
 

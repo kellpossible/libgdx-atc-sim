@@ -3113,6 +3113,15 @@ public final class PredictionFeedServe {
      * <code>optional .Track rightTrack = 5;</code>
      */
     com.atc.simulator.ProtocolBuffers.PredictionFeedServe.TrackOrBuilder getRightTrackOrBuilder();
+
+    /**
+     * <code>required .AircraftPredictionMessage.State state = 6;</code>
+     */
+    boolean hasState();
+    /**
+     * <code>required .AircraftPredictionMessage.State state = 6;</code>
+     */
+    com.atc.simulator.ProtocolBuffers.PredictionFeedServe.AircraftPredictionMessage.State getState();
   }
   /**
    * Protobuf type {@code AircraftPredictionMessage}
@@ -3128,6 +3137,7 @@ public final class PredictionFeedServe {
     private AircraftPredictionMessage() {
       aircraftID_ = "";
       time_ = 0L;
+      state_ = 0;
     }
 
     @java.lang.Override
@@ -3208,6 +3218,17 @@ public final class PredictionFeedServe {
               bitField0_ |= 0x00000010;
               break;
             }
+            case 48: {
+              int rawValue = input.readEnum();
+              com.atc.simulator.ProtocolBuffers.PredictionFeedServe.AircraftPredictionMessage.State value = com.atc.simulator.ProtocolBuffers.PredictionFeedServe.AircraftPredictionMessage.State.valueOf(rawValue);
+              if (value == null) {
+                unknownFields.mergeVarintField(6, rawValue);
+              } else {
+                bitField0_ |= 0x00000020;
+                state_ = rawValue;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -3230,6 +3251,114 @@ public final class PredictionFeedServe {
       return com.atc.simulator.ProtocolBuffers.PredictionFeedServe.internal_static_AircraftPredictionMessage_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               com.atc.simulator.ProtocolBuffers.PredictionFeedServe.AircraftPredictionMessage.class, com.atc.simulator.ProtocolBuffers.PredictionFeedServe.AircraftPredictionMessage.Builder.class);
+    }
+
+    /**
+     * Protobuf enum {@code AircraftPredictionMessage.State}
+     */
+    public enum State
+        implements com.google.protobuf.ProtocolMessageEnum {
+      /**
+       * <code>STOPPED = 0;</code>
+       */
+      STOPPED(0),
+      /**
+       * <code>STRAIGHT = 1;</code>
+       */
+      STRAIGHT(1),
+      /**
+       * <code>LEFT_TURN = 2;</code>
+       */
+      LEFT_TURN(2),
+      /**
+       * <code>RIGHT_TURN = 3;</code>
+       */
+      RIGHT_TURN(3),
+      ;
+
+      /**
+       * <code>STOPPED = 0;</code>
+       */
+      public static final int STOPPED_VALUE = 0;
+      /**
+       * <code>STRAIGHT = 1;</code>
+       */
+      public static final int STRAIGHT_VALUE = 1;
+      /**
+       * <code>LEFT_TURN = 2;</code>
+       */
+      public static final int LEFT_TURN_VALUE = 2;
+      /**
+       * <code>RIGHT_TURN = 3;</code>
+       */
+      public static final int RIGHT_TURN_VALUE = 3;
+
+
+      public final int getNumber() {
+        return value;
+      }
+
+      /**
+       * @deprecated Use {@link #forNumber(int)} instead.
+       */
+      @java.lang.Deprecated
+      public static State valueOf(int value) {
+        return forNumber(value);
+      }
+
+      public static State forNumber(int value) {
+        switch (value) {
+          case 0: return STOPPED;
+          case 1: return STRAIGHT;
+          case 2: return LEFT_TURN;
+          case 3: return RIGHT_TURN;
+          default: return null;
+        }
+      }
+
+      public static com.google.protobuf.Internal.EnumLiteMap<State>
+          internalGetValueMap() {
+        return internalValueMap;
+      }
+      private static final com.google.protobuf.Internal.EnumLiteMap<
+          State> internalValueMap =
+            new com.google.protobuf.Internal.EnumLiteMap<State>() {
+              public State findValueByNumber(int number) {
+                return State.forNumber(number);
+              }
+            };
+
+      public final com.google.protobuf.Descriptors.EnumValueDescriptor
+          getValueDescriptor() {
+        return getDescriptor().getValues().get(ordinal());
+      }
+      public final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptorForType() {
+        return getDescriptor();
+      }
+      public static final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptor() {
+        return com.atc.simulator.ProtocolBuffers.PredictionFeedServe.AircraftPredictionMessage.getDescriptor().getEnumTypes().get(0);
+      }
+
+      private static final State[] VALUES = values();
+
+      public static State valueOf(
+          com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+        if (desc.getType() != getDescriptor()) {
+          throw new java.lang.IllegalArgumentException(
+            "EnumValueDescriptor is not for this type.");
+        }
+        return VALUES[desc.getIndex()];
+      }
+
+      private final int value;
+
+      private State(int value) {
+        this.value = value;
+      }
+
+      // @@protoc_insertion_point(enum_scope:AircraftPredictionMessage.State)
     }
 
     private int bitField0_;
@@ -3361,6 +3490,22 @@ public final class PredictionFeedServe {
       return rightTrack_ == null ? com.atc.simulator.ProtocolBuffers.PredictionFeedServe.Track.getDefaultInstance() : rightTrack_;
     }
 
+    public static final int STATE_FIELD_NUMBER = 6;
+    private int state_;
+    /**
+     * <code>required .AircraftPredictionMessage.State state = 6;</code>
+     */
+    public boolean hasState() {
+      return ((bitField0_ & 0x00000020) == 0x00000020);
+    }
+    /**
+     * <code>required .AircraftPredictionMessage.State state = 6;</code>
+     */
+    public com.atc.simulator.ProtocolBuffers.PredictionFeedServe.AircraftPredictionMessage.State getState() {
+      com.atc.simulator.ProtocolBuffers.PredictionFeedServe.AircraftPredictionMessage.State result = com.atc.simulator.ProtocolBuffers.PredictionFeedServe.AircraftPredictionMessage.State.valueOf(state_);
+      return result == null ? com.atc.simulator.ProtocolBuffers.PredictionFeedServe.AircraftPredictionMessage.State.STOPPED : result;
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -3376,6 +3521,10 @@ public final class PredictionFeedServe {
         return false;
       }
       if (!hasCentreTrack()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasState()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -3416,6 +3565,9 @@ public final class PredictionFeedServe {
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
         output.writeMessage(5, getRightTrack());
       }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        output.writeEnum(6, state_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -3442,6 +3594,10 @@ public final class PredictionFeedServe {
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(5, getRightTrack());
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(6, state_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -3485,6 +3641,10 @@ public final class PredictionFeedServe {
         result = result && getRightTrack()
             .equals(other.getRightTrack());
       }
+      result = result && (hasState() == other.hasState());
+      if (hasState()) {
+        result = result && state_ == other.state_;
+      }
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -3516,6 +3676,10 @@ public final class PredictionFeedServe {
       if (hasRightTrack()) {
         hash = (37 * hash) + RIGHTTRACK_FIELD_NUMBER;
         hash = (53 * hash) + getRightTrack().hashCode();
+      }
+      if (hasState()) {
+        hash = (37 * hash) + STATE_FIELD_NUMBER;
+        hash = (53 * hash) + state_;
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
@@ -3660,6 +3824,8 @@ public final class PredictionFeedServe {
           rightTrackBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000010);
+        state_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000020);
         return this;
       }
 
@@ -3716,6 +3882,10 @@ public final class PredictionFeedServe {
         } else {
           result.rightTrack_ = rightTrackBuilder_.build();
         }
+        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+          to_bitField0_ |= 0x00000020;
+        }
+        result.state_ = state_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -3775,6 +3945,9 @@ public final class PredictionFeedServe {
         if (other.hasRightTrack()) {
           mergeRightTrack(other.getRightTrack());
         }
+        if (other.hasState()) {
+          setState(other.getState());
+        }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
         return this;
@@ -3788,6 +3961,9 @@ public final class PredictionFeedServe {
           return false;
         }
         if (!hasCentreTrack()) {
+          return false;
+        }
+        if (!hasState()) {
           return false;
         }
         if (hasLeftTrack()) {
@@ -4302,6 +4478,42 @@ public final class PredictionFeedServe {
         }
         return rightTrackBuilder_;
       }
+
+      private int state_ = 0;
+      /**
+       * <code>required .AircraftPredictionMessage.State state = 6;</code>
+       */
+      public boolean hasState() {
+        return ((bitField0_ & 0x00000020) == 0x00000020);
+      }
+      /**
+       * <code>required .AircraftPredictionMessage.State state = 6;</code>
+       */
+      public com.atc.simulator.ProtocolBuffers.PredictionFeedServe.AircraftPredictionMessage.State getState() {
+        com.atc.simulator.ProtocolBuffers.PredictionFeedServe.AircraftPredictionMessage.State result = com.atc.simulator.ProtocolBuffers.PredictionFeedServe.AircraftPredictionMessage.State.valueOf(state_);
+        return result == null ? com.atc.simulator.ProtocolBuffers.PredictionFeedServe.AircraftPredictionMessage.State.STOPPED : result;
+      }
+      /**
+       * <code>required .AircraftPredictionMessage.State state = 6;</code>
+       */
+      public Builder setState(com.atc.simulator.ProtocolBuffers.PredictionFeedServe.AircraftPredictionMessage.State value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00000020;
+        state_ = value.getNumber();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required .AircraftPredictionMessage.State state = 6;</code>
+       */
+      public Builder clearState() {
+        bitField0_ = (bitField0_ & ~0x00000020);
+        state_ = 0;
+        onChanged();
+        return this;
+      }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFields(unknownFields);
@@ -4395,12 +4607,15 @@ public final class PredictionFeedServe {
       "nateMessage\022+\n\010velocity\030\003 \002(\0132\031.Spherica" +
       "lVelocityMessage\"?\n\005Track\0226\n\raircraftSta" +
       "te\030\001 \003(\0132\037.PredictionAircraftStateMessag",
-      "e\"\221\001\n\031AircraftPredictionMessage\022\022\n\naircr" +
+      "e\"\205\002\n\031AircraftPredictionMessage\022\022\n\naircr" +
       "aftID\030\001 \002(\t\022\014\n\004time\030\002 \002(\003\022\031\n\tleftTrack\030\003" +
       " \001(\0132\006.Track\022\033\n\013centreTrack\030\004 \002(\0132\006.Trac" +
-      "k\022\032\n\nrightTrack\030\005 \001(\0132\006.TrackB8\n!com.atc" +
-      ".simulator.ProtocolBuffersB\023PredictionFe" +
-      "edServe"
+      "k\022\032\n\nrightTrack\030\005 \001(\0132\006.Track\022/\n\005state\030\006" +
+      " \002(\0162 .AircraftPredictionMessage.State\"A" +
+      "\n\005State\022\013\n\007STOPPED\020\000\022\014\n\010STRAIGHT\020\001\022\r\n\tLE" +
+      "FT_TURN\020\002\022\016\n\nRIGHT_TURN\020\003B8\n!com.atc.sim" +
+      "ulator.ProtocolBuffersB\023PredictionFeedSe" +
+      "rve"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -4443,7 +4658,7 @@ public final class PredictionFeedServe {
     internal_static_AircraftPredictionMessage_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_AircraftPredictionMessage_descriptor,
-        new java.lang.String[] { "AircraftID", "Time", "LeftTrack", "CentreTrack", "RightTrack", });
+        new java.lang.String[] { "AircraftID", "Time", "LeftTrack", "CentreTrack", "RightTrack", "State", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

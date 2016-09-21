@@ -77,7 +77,7 @@ public class Glyph {
      */
     public int getMaxSize()
     {
-        return (getRight() - getLeft())*2;
+        return 32;
     }
 
     public Vector2[] boundsToVector()

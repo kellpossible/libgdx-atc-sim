@@ -14,6 +14,7 @@ import java.util.ArrayList;
  * @author Luke Frisken
  */
 public class HersheyText {
+    private static float MONOSPACE_SIZE = 0.6f;
     private String text;
     private ArrayList<Vector3[]> lines;
     private Vector3 scale;
@@ -37,11 +38,15 @@ public class HersheyText {
 
         byte[] chars = text.getBytes(StandardCharsets.US_ASCII);
         FloatGlyph previousGlyph = null;
+
+        float xScale = scale.x;
+        float totalShift = 0;
         for(int j = 0; j<chars.length; j++)
         {
             byte character = chars[j];
             FloatGlyph glyph = font.getGlyph(character);
 
+            totalShift += MONOSPACE_SIZE;
 
 // start of an implementation for type spacing
 //            float x_offset = -glyph.left;
@@ -62,7 +67,7 @@ public class HersheyText {
                 for(int i=0;i<line.length;i++)
                 {
                     Vector3 point = new Vector3(line[i], depth);
-                    point = point.add(new Vector3(j*0.6f + 0.5f, 0f, 0f));
+                    point = point.add(new Vector3(totalShift, 0f, 0f));
                     point = point.mul(new Matrix4().setToScaling(scale));
                     point = point.add(position);
                     transformedLine[i] = point;

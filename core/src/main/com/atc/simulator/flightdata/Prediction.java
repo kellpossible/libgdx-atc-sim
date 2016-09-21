@@ -8,6 +8,15 @@ import java.util.ArrayList;
  * @author    Chris Coleman, Luke Frisken
  */
 public class Prediction {
+    public enum State {
+        STOPPED,
+        STRAIGHT,
+        LEFT_TURN,
+        RIGHT_TURN
+    }
+
+    private State state;
+
     /**
      * Array List of positional predictions on the left boundary of the prediction area
      */
@@ -39,13 +48,15 @@ public class Prediction {
                       long time,
                       Track leftTrack,
                       Track centreTrack,
-                      Track rightTrack)
+                      Track rightTrack,
+                      State state)
     {
         this.leftTrack = leftTrack;
         this.centreTrack = centreTrack;
         this.rightTrack = rightTrack;
         this.aircraftID = aircraftID;
         this.time = time;
+        this.state = state;
     }
 
     /**
@@ -127,6 +138,22 @@ public class Prediction {
     }
 
     /**
+     * Get the state of this prediction
+     * @return state of the prediction
+     */
+    public State getState() {
+        return state;
+    }
+
+    /**
+     * Set the state of the prediction
+     * @param state
+     */
+    public void setState(State state) {
+        this.state = state;
+    }
+
+    /**
      * Shallow copy prediction data from another prediction
      * @param other prediction to copy data from.
      */
@@ -137,6 +164,7 @@ public class Prediction {
         this.leftTrack = other.leftTrack;
         this.centreTrack = other.centreTrack;
         this.rightTrack = other.rightTrack;
+        this.state = other.state;
     }
 
     /**

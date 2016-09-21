@@ -6,16 +6,15 @@ import com.atc.simulator.Display.Model.DisplayPrediction;
 import com.atc.simulator.Display.View.DisplayRenderable.GDXDisplayRenderable;
 import com.atc.simulator.Display.View.DisplayRenderable.HiddenDisplayRenderable;
 import com.atc.simulator.flightdata.AircraftState;
+import com.atc.simulator.flightdata.Prediction;
 import com.atc.simulator.flightdata.Track;
 import com.atc.simulator.vectors.GeographicCoordinate;
-import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.VertexAttributes;
+import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g3d.Material;
 import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
+import com.badlogic.gdx.graphics.g3d.attributes.TextureAttribute;
 import com.badlogic.gdx.graphics.g3d.utils.MeshPartBuilder;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.badlogic.gdx.math.Vector3;
@@ -29,7 +28,8 @@ import java.util.ArrayList;
 public class PredictionModel extends SimpleDisplayRenderableProvider {
     private DisplayAircraft aircraft;
     private Display display;
-
+    private Texture texture = null;
+    private Pixmap pixmap = null;
     /**
      * Constructor for PredictionModel
      * @param camera that will be rendering this
@@ -41,6 +41,19 @@ public class PredictionModel extends SimpleDisplayRenderableProvider {
         this.aircraft = aircraft;
         this.display = display;
         update();
+    }
+
+    private void createTexture()
+    {
+        pixmap = new Pixmap(1, 256, Pixmap.Format.RGBA8888);
+
+        for (int i = 0; i < 256; i++)
+        {
+            float intensity = ((float) i)/256.0f;
+            pixmap.drawPixel(0, i, Color.rgba8888(intensity, intensity, intensity, intensity));
+        }
+
+        texture = new Texture(pixmap);
     }
 
     /**
@@ -80,6 +93,8 @@ public class PredictionModel extends SimpleDisplayRenderableProvider {
     {
         super.update();
 
+        createTexture();
+
         DisplayPrediction prediction = aircraft.getPrediction();
 
         if (prediction == null)
@@ -93,32 +108,32 @@ public class PredictionModel extends SimpleDisplayRenderableProvider {
         Material matWhite = new Material(ColorAttribute.createDiffuse(Color.WHITE));
         ModelBuilder modelBuilder = new ModelBuilder();
         modelBuilder.begin();
-        MeshPartBuilder builder = modelBuilder.part(
-                "rightPredictionTrack",
-                GL20.GL_LINES,
-                VertexAttributes.Usage.Position | VertexAttributes.Usage.ColorUnpacked,
-                new Material());
-        builder.setColor(Color.YELLOW);
+//        MeshPartBuilder builder = modelBuilder.part(
+//                "rightPredictionTrack",
+//                GL20.GL_LINES,
+//                VertexAttributes.Usage.Position | VertexAttributes.Usage.ColorUnpacked,
+//                new Material());
+//        builder.setColor(Color.YELLOW);
 
         Track leftTrack = prediction.getLeftTrack();
         Track centreTrack = prediction.getCentreTrack();
         Track rightTrack = prediction.getRightTrack();
 
         //start of prediction line is the current aircraft position.
-        Vector3 previousPositionDrawVector = aircraft.getPosition().getModelDrawVector();
-        for(int i = 0; i < rightTrack.size(); i++)
-        {
-            AircraftState state = rightTrack.get(i);
-            Vector3 positionDrawVector = state.getPosition().getModelDrawVector();
-            builder.line(previousPositionDrawVector, positionDrawVector);
-            previousPositionDrawVector = positionDrawVector;
-        }
+//        Vector3 previousPositionDrawVector = aircraft.getPosition().getModelDrawVector();
+//        for(int i = 0; i < rightTrack.size(); i++)
+//        {
+//            AircraftState state = rightTrack.get(i);
+//            Vector3 positionDrawVector = state.getPosition().getModelDrawVector();
+//            builder.line(previousPositionDrawVector, positionDrawVector);
+//            previousPositionDrawVector = positionDrawVector;
+//        }
 
-        builder = modelBuilder.part(
+        MeshPartBuilder builder = modelBuilder.part(
                 "predictionArea",
-                GL20.GL_LINES,
-                VertexAttributes.Usage.Position | VertexAttributes.Usage.ColorUnpacked,
-                new Material());
+                GL20.GL_TRIANGLES,
+                VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal | VertexAttributes.Usage.TextureCoordinates,
+                new Material(TextureAttribute.createDiffuse(texture)));
 
 
         //for how to do textured version:
@@ -129,17 +144,30 @@ public class PredictionModel extends SimpleDisplayRenderableProvider {
         Vector3 prevRightPosition = null;
         Vector3 prevCentrePosition = null;
 
+        Vector3 normal = aircraft.getPosition().getModelDrawVector().scl(-1).nor();
+
         for(int i = 0; i < prediction.size(); i++)
         {
-            Vector3 leftPosition = leftTrack.get(i).getPosition().getModelDrawVector();
-            Vector3 centrePosition = centreTrack.get(i).getPosition().getModelDrawVector();
-            Vector3 rightPosition = rightTrack.get(i).getPosition().getModelDrawVector();
+            Vector3 leftPosition = leftTrack.get(i).getPosition().getModelDrawVector(0.1);
+            Vector3 centrePosition = centreTrack.get(i).getPosition().getModelDrawVector(0.1);
+            Vector3 rightPosition = rightTrack.get(i).getPosition().getModelDrawVector(0.1);
 
             if(i > 0)
             {
-                Vector3 normal = new Vector3(leftPosition).scl(-1).nor();
-                builder.triangle(leftPosition, prevLeftPosition, centrePosition);
-                builder.triangle(rightPosition, prevRightPosition, centrePosition);
+                if (prediction.getState() == Prediction.State.RIGHT_TURN)
+                {
+                    builder.setUVRange(0, 1, 1, 0);
+                    builder.rect(leftPosition, prevLeftPosition, prevCentrePosition, centrePosition, normal);
+                    builder.setUVRange(0, 0, 1, 1);
+                    builder.rect(centrePosition, prevCentrePosition, prevRightPosition, rightPosition, normal);
+                }
+                if (prediction.getState() == Prediction.State.LEFT_TURN)
+                {
+                    builder.setUVRange(0, 0, 1, 1);
+                    builder.rect(centrePosition, prevCentrePosition , prevLeftPosition, leftPosition, normal);
+                    builder.setUVRange(0, 1, 1, 0);
+                    builder.rect(rightPosition, prevRightPosition, prevCentrePosition, centrePosition, normal);
+                }
             }
 
             prevLeftPosition = leftPosition;
@@ -231,6 +259,24 @@ public class PredictionModel extends SimpleDisplayRenderableProvider {
         Model newModel = modelBuilder.end();
         ModelInstance modelInstance = new ModelInstance(newModel);
         setDisplayRenderable(new GDXDisplayRenderable(modelInstance, getCamera(), newModel));
+    }
+
+    @Override
+    public void dispose()
+    {
+        super.dispose();
+
+        if (texture != null)
+        {
+            texture.dispose();
+            texture = null;
+        }
+
+        if (pixmap != null)
+        {
+            pixmap.dispose();
+            pixmap = null;
+        }
     }
 }
 

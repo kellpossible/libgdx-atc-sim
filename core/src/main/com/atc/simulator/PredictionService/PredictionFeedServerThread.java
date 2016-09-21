@@ -116,6 +116,8 @@ public class PredictionFeedServerThread implements RunnableThread{
 
         predictionMessageBuilder.setAircraftID(newPrediction.getAircraftID()); //Add the AircraftID to the Message
 
+        predictionMessageBuilder.setState(PredictionFeedServe.AircraftPredictionMessage.State.valueOf(newPrediction.getState().name()));
+
         long time = newPrediction.getPredictionTime();
         predictionMessageBuilder.setTime(time); //Set the time
 
