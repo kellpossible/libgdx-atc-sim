@@ -154,8 +154,9 @@ public class TestAccuracy implements PredictionListener, RunnableThread {
                                 float interpolant = Math.abs((predTime - actualDataValues.get(planeID).get(j-1).timeStamp))
                                         / Math.abs((actualDataValues.get(planeID).get(j).timeStamp-actualDataValues.get(planeID).get(j-1).timeStamp));
                                 //Obtain the interpolated 'actual' coordinate and break out of the loop
-                                actualCoord = new GeographicCoordinate(actualDataValues.get(planeID).get(j-1).pos.linearIntepolate
-                                        (actualDataValues.get(planeID).get(j).pos, interpolant));
+//                                actualCoord = new GeographicCoordinate(actualDataValues.get(planeID).get(j-1).pos.linearIntepolate
+//                                        (actualDataValues.get(planeID).get(j).pos, interpolant));
+                                actualCoord = new GeographicCoordinate(actualDataValues.get(planeID).get(j-1).pos.lerp(actualDataValues.get(planeID).get(j).pos, interpolant));
                                 break;
                             }
                         }
