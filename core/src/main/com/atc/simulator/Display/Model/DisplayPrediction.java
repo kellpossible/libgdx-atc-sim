@@ -9,6 +9,12 @@ import com.badlogic.gdx.utils.Disposable;
  * @author Luke Frisken
  */
 public class DisplayPrediction extends Prediction implements Disposable {
+    public enum PredictionDisplayMethod {
+        WIREFRAME,
+        GRADIENT,
+        CENTRE_LINE_ONLY,
+        TWO_LINE
+    }
     private DisplayAircraft aircraft;
     private Display display;
     /**

@@ -25,7 +25,7 @@ public class DataPlaybackThread implements RunnableThread, TimeSource {
     private long currentTime;
     private boolean continueThread;
     private boolean running;
-    private static final int speed = ApplicationConfig.getInstance().getInt("settings.debug-data-feed.speed");
+    private static final int speed = ApplicationConfig.getInt("settings.debug-data-feed.speed");
 
     // for thread pausing
     private volatile boolean paused;

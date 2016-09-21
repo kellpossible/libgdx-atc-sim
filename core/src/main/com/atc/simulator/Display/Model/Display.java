@@ -1,8 +1,8 @@
 package com.atc.simulator.Display.Model;
 
+import com.atc.simulator.Config.ApplicationConfig;
 import com.atc.simulator.Display.DisplayCameraListener;
 import com.atc.simulator.Display.LayerManager;
-import com.atc.simulator.Display.Model.DisplayHud;
 import com.atc.simulator.flightdata.DelayedWork.DelayedWorkQueueItem;
 import com.atc.simulator.flightdata.DelayedWork.DelayedWorkQueueItemType;
 import com.atc.simulator.flightdata.DelayedWork.DelayedWorker;
@@ -18,6 +18,7 @@ import java.util.HashMap;
  * @author Luke Frisken
  */
 public class Display {
+    private static final String defaultPredictionDisplayMethod = ApplicationConfig.getString("settings.display.prediction-display-method");
     private LayerManager layerManager;
     private HashMap<String, Camera> cameras;
     private ArrayList<ObjectMap.Entry<DisplayCameraListener, Camera>> cameraListeners;
@@ -27,6 +28,7 @@ public class Display {
     private DisplayHud displayHud;
     private TimeSource timeSource;
     private DisplayTracks displayTracks;
+    private DisplayPrediction.PredictionDisplayMethod predictionDisplayMethod = DisplayPrediction.PredictionDisplayMethod.WIREFRAME;
 
     /**
      * Constructor for Display
@@ -78,7 +80,7 @@ public class Display {
 
     /**
      * Get the display's {@link DisplayHud}
-     * @return
+     * @return the hud which belongs to this display
      */
     public DisplayHud getDisplayHud() {
         return displayHud;
@@ -114,6 +116,21 @@ public class Display {
      */
     public TimeSource getTimeSource() {
         return timeSource;
+    }
+
+    /**
+     * Get the current prediction display method as per {@link DisplayPrediction.PredictionDisplayMethod}
+     * @return display method currently employed
+     */
+    public DisplayPrediction.PredictionDisplayMethod getPredictionDisplayMethod() {
+        return predictionDisplayMethod;
+    }
+
+    /**
+     * Set the prediction display method as per {@link DisplayPrediction.PredictionDisplayMethod}
+     */
+    public void setPredictionDisplayMethod(DisplayPrediction.PredictionDisplayMethod predictionDisplayMethod) {
+        this.predictionDisplayMethod = predictionDisplayMethod;
     }
 
     /**

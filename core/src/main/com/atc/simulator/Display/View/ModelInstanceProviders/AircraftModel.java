@@ -61,7 +61,7 @@ public class AircraftModel implements Disposable, DisplayRenderableProviderMulti
         models.put("AircraftBreadcrumbs", breadCrumbModel);
         display.addDelayedCameraListener(breadCrumbModel.getCamera(), breadCrumbModel, 1, 20);
 
-        models.put("PredictionLine", new PredictionModel(perspectiveCamera, aircraft));
+        models.put("PredictionLine", new PredictionModel(perspectiveCamera, aircraft, display));
         models.put("VelocityLine", new VelocityModel(perspectiveCamera, aircraft));
     }
 

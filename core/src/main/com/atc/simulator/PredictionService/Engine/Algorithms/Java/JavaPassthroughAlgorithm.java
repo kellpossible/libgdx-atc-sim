@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * Created by luke on 8/06/16.
  */
 public class JavaPassthroughAlgorithm extends JavaPredictionAlgorithm {
-    private static final boolean enableTimer = ApplicationConfig.getInstance().getBoolean("settings.debug.algorithm-timer");
+    private static final boolean enableTimer = ApplicationConfig.getBoolean("settings.debug.algorithm-timer");
 
     @Override
     public Prediction makePrediction(Track aircraftTrack) {

@@ -19,8 +19,8 @@ import java.util.concurrent.ArrayBlockingQueue;
  * @author Luke Frisken
  */
 public abstract class PredictionWorkerThread implements RunnableThread{
-    protected static final boolean enableTimer = ApplicationConfig.getInstance().getBoolean("settings.debug.worker-timer");
-    protected static final boolean enableDebugPrint = ApplicationConfig.getInstance().getBoolean("settings.debug.print-worker");
+    protected static final boolean enableTimer = ApplicationConfig.getBoolean("settings.debug.worker-timer");
+    protected static final boolean enableDebugPrint = ApplicationConfig.getBoolean("settings.debug.print-worker");
 
     protected PredictionEngineThread predictionEngine;
     private Thread thread;

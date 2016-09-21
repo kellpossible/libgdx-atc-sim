@@ -2,6 +2,7 @@ package com.atc.simulator.Config;
 
 
 import com.typesafe.config.Config;
+import com.typesafe.config.ConfigException;
 import com.typesafe.config.ConfigFactory;
 
 import java.io.File;
@@ -29,7 +30,7 @@ public class ApplicationConfig {
      * Get the instance of this singleton ApplicationConfig class
      * @return
      */
-    public static Config getInstance()
+    private static Config getInstance()
     {
         return singleton;
     }
@@ -39,4 +40,28 @@ public class ApplicationConfig {
      * can't instantiate it
      */
     private ApplicationConfig() { }
+
+    /**
+     * @see Config#getString(String)
+     */
+    public static String getString(String path)
+    {
+        return getInstance().getString(path);
+    }
+
+    /**
+     * @see Config#getInt(String)
+     */
+    public static Integer getInt(String path)
+    {
+        return getInstance().getInt(path);
+    }
+
+    /**
+     * @see Config#getBoolean(String)
+     */
+    public static boolean getBoolean(String path)
+    {
+        return getInstance().getBoolean(path);
+    }
 }

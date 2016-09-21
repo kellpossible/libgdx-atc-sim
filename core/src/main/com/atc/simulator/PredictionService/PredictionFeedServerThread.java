@@ -24,12 +24,12 @@ import java.util.concurrent.ArrayBlockingQueue;
  */
 
 public class PredictionFeedServerThread implements RunnableThread{
-    private static final boolean enableTimer = ApplicationConfig.getInstance().getBoolean("settings.debug.predictionfeedserver-timer");
-    private static final boolean enableDebugPrint = ApplicationConfig.getInstance().getBoolean("settings.debug.print-predictionfeedserver");
-    private static final boolean enableDebugPrintQueues = ApplicationConfig.getInstance().getBoolean("settings.debug.print-queues");
-    private static final boolean enableDebugPrintThreading = ApplicationConfig.getInstance().getBoolean("settings.debug.print-threading");
+    private static final boolean enableTimer = ApplicationConfig.getBoolean("settings.debug.predictionfeedserver-timer");
+    private static final boolean enableDebugPrint = ApplicationConfig.getBoolean("settings.debug.print-predictionfeedserver");
+    private static final boolean enableDebugPrintQueues = ApplicationConfig.getBoolean("settings.debug.print-queues");
+    private static final boolean enableDebugPrintThreading = ApplicationConfig.getBoolean("settings.debug.print-threading");
 
-    private static final int PORT = ApplicationConfig.getInstance().getInt("settings.prediction-service.server.port-number");
+    private static final int PORT = ApplicationConfig.getInt("settings.prediction-service.server.port-number");
 
 
     private ArrayBlockingQueue<PredictionFeedServe.AircraftPredictionMessage> toBeSentBuffer; //Buffer of encoded messages

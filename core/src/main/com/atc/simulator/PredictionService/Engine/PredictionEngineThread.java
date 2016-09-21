@@ -23,9 +23,9 @@ import java.util.concurrent.locks.ReentrantLock;
 * TODO: implement the PredictionEngineListener functionality
 */
 public class PredictionEngineThread implements RunnableThread, SystemStateDatabaseListener{
-    private static final boolean enableTimer = ApplicationConfig.getInstance().getBoolean("settings.debug.engine-timer");
-    private static final boolean enableDebugPrintQueues = ApplicationConfig.getInstance().getBoolean("settings.debug.print-queues");
-    private static final String algorithmType = ApplicationConfig.getInstance().getString("settings.prediction-service.prediction-engine.algorithm-type");
+    private static final boolean enableTimer = ApplicationConfig.getBoolean("settings.debug.engine-timer");
+    private static final boolean enableDebugPrintQueues = ApplicationConfig.getBoolean("settings.debug.print-queues");
+    private static final String algorithmType = ApplicationConfig.getString("settings.prediction-service.prediction-engine.algorithm-type");
 
     private PredictionEngineTodoQueue todoQueue;
     private SystemStateDatabase systemStateDatabase;

@@ -14,12 +14,16 @@ import java.util.ArrayList;
  * Created by Chris on 20/09/2016.
  */
 public class DisplayTracks implements Disposable {
-    private static final boolean showTracks = ApplicationConfig.getInstance().getBoolean("settings.display.show-tracks-default");
+    private static final boolean showTracks = ApplicationConfig.getBoolean("settings.display.show-tracks-default");
 
-    ArrayList<Track> scenarioTracks;
-    TracksModel myView;
-    boolean visibleModel = showTracks;
+    private ArrayList<Track> scenarioTracks;
+    private TracksModel myView;
+    private boolean visibleModel = showTracks;
 
+    /**
+     * Constructor for {@link DisplayTracks}
+     * @param tracks
+     */
     public DisplayTracks(Scenario tracks)
     {
         scenarioTracks = new ArrayList<Track>();
