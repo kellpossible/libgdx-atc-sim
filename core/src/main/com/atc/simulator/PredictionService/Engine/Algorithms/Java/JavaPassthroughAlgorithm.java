@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * Created by luke on 8/06/16.
  */
 public class JavaPassthroughAlgorithm extends JavaPredictionAlgorithm {
-    private static final boolean enableTimer = ApplicationConfig.getInstance().getBoolean("settings.debug.algorithm-timer");
+    private static final boolean enableTimer = ApplicationConfig.getBoolean("settings.debug.algorithm-timer");
 
     @Override
     public Prediction makePrediction(Track aircraftTrack) {
@@ -36,7 +36,9 @@ public class JavaPassthroughAlgorithm extends JavaPredictionAlgorithm {
 //        double tempLon = state.getPosition().getLongitude()+0.5;
         //Add it to the prediction
 //        predictionPositions.add(new GeographicCoordinate(tempAlt,tempLat,tempLon));
-        Prediction prediction = new Prediction(state.getAircraftID(), state.getTime(), predictedStates);
+        Track predictedTrack = new Track(predictedStates);
+        Prediction prediction = new Prediction(state.getAircraftID(),
+                state.getTime(), null, predictedTrack, null, Prediction.State.STOPPED);
         if(enableTimer)
         {
             long stop = System.nanoTime();

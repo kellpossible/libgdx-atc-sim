@@ -23,26 +23,13 @@ public class DisplayAircraft extends AircraftState implements Disposable {
     private AircraftModel model;
 
     /**
-     * Private constructor to initialize the parent by copying the aircraft state.
-     * @param aircraftState
-     */
-    private DisplayAircraft(AircraftState aircraftState)
-    {
-        super(aircraftState.getAircraftID(),
-                aircraftState.getTime(),
-                aircraftState.getPosition(),
-                aircraftState.getVelocity(),
-                aircraftState.getHeading());
-    }
-
-    /**
      * Constructor for DisplayAircraft
      * @param display
      * @param track
      */
     public DisplayAircraft(Display display, Track track)
     {
-        this(track.getLatest());
+        super(track.getLatest());
         this.display = display;
         this.track = track;
         model = new AircraftModel(display, this);

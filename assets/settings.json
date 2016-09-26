@@ -23,7 +23,8 @@
       "speed": 10
     },
     "display": {
-      "show-tracks": true,
+      "prediction-display-method": "GRADIENT",
+      "show-tracks-default": true,
       "prediction-feed-client": {
         "port-number": 6789,
         "server-ip": "localhost"

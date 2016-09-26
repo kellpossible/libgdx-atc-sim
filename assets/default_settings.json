@@ -37,7 +37,8 @@
       "speed": 10
     },
     "display": {
-      "show-tracks": true,
+      "prediction-display-method": "WIREFRAME",
+      "show-tracks-default": true,
       "prediction-feed-client": {
         "port-number": 6789,
         "server-ip": "localhost"

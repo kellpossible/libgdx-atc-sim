@@ -4,10 +4,7 @@ import com.atc.simulator.Config.ApplicationConfig;
 import com.atc.simulator.DebugDataFeed.DataPlaybackListener;
 import com.atc.simulator.DebugDataFeed.DataPlaybackThread;
 import com.atc.simulator.DebugDataFeed.Scenarios.Scenario;
-import com.atc.simulator.Display.Model.Display;
-import com.atc.simulator.Display.Model.DisplayAircraft;
-import com.atc.simulator.Display.Model.DisplayHud;
-import com.atc.simulator.Display.Model.DisplayPrediction;
+import com.atc.simulator.Display.Model.*;
 import com.atc.simulator.Display.View.ModelInstanceProviders.HudModel;
 import com.atc.simulator.Display.View.ModelInstanceProviders.WorldMapModel;
 import com.atc.simulator.Display.View.ModelInstanceProviders.TracksModel;
@@ -40,8 +37,7 @@ import java.util.concurrent.ArrayBlockingQueue;
  */
 public class DisplayApplication extends ApplicationAdapter implements DataPlaybackListener, PredictionListener {
     private static final boolean enableTimer = true;
-    private static final boolean enableDebugPrint = ApplicationConfig.getInstance().getBoolean("settings.debug.print-display");
-    private static final boolean showTracks = ApplicationConfig.getInstance().getBoolean("settings.display.show-tracks");
+    private static final boolean enableDebugPrint = ApplicationConfig.getBoolean("settings.debug.print-display");
 
 	private PerspectiveCamera perspectiveCamera;
     private OrthographicCamera orthoCamera;
@@ -70,15 +66,12 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
     private DataPlaybackThread playbackThread;
     private InputMultiplexer inputMultiplexer;
 
-    private Vector2 textPosition;
-
     private SystemState currentSystemState = null;
 
     private PerformanceCounter pollSystemUpdatePerformance = new PerformanceCounter("System Update");
     private PerformanceCounter pollPredictionUpdatePerformance = new PerformanceCounter("Prediction Update");
     private PerformanceCounter renderInstancesPerformance = new PerformanceCounter("Render Instances");
     private PerformanceCounter displayUpdatePerformance = new PerformanceCounter("Display Update");
-    private long frameCounter = 0;
 
 
     /**
@@ -177,12 +170,21 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
         private static final float MAX_FOV = 179f;
 
 
+        /**
+         * constructor
+         * @param camera
+         */
 		public MyCameraController(Camera camera) {
 			super(camera);
             this.pinchZoomFactor = 20f;
 			zoom(0f);
 		}
 
+        /**
+         * zoom event handler
+         * @param amount
+         * @return
+         */
 		@Override
 		public boolean zoom(float amount)
 		{
@@ -201,6 +203,13 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
             return true;
 		}
 
+        /**
+         * process panning
+         * @param deltaX
+         * @param deltaY
+         * @param button
+         * @return
+         */
 		@Override
 		protected boolean process (float deltaX, float deltaY, int button) {
 			return super.process(-deltaX*1.8f, -deltaY, button);
@@ -218,7 +227,6 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
         environment.set(new ColorAttribute(ColorAttribute.AmbientLight, 0.5f, 0.5f, 0.5f, 1.0f));
         environment.add(new DirectionalLight().set(0.8f, 0.8f, 0.8f, -1f, -0.8f, -0.2f));
 
-	    textPosition = new Vector2(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
 		assets = new AssetManager();
 //		assets.load("flight_data/CallibrateMap/CallibrateMap.csv", Track.class);
 //        assets.load("assets/models/planet.g3db", LayerManager.class);
@@ -277,13 +285,16 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
         map = new WorldMapModel(perspectiveCamera);
         mapLayer.addDisplayRenderableProvider(map);
 
-        if (showTracks)
-        {
-            tracksLayer = new RenderLayer(9, "tracks");
-            layerManager.addRenderLayer(tracksLayer);
-            tracks = new TracksModel(perspectiveCamera, scenario);
-            tracksLayer.addDisplayRenderableProvider(tracks);
-        }
+
+        DisplayTracks trackMod = new DisplayTracks(scenario);
+        display.setDisplayTracks(trackMod);
+        tracks = new TracksModel(perspectiveCamera, trackMod);
+        trackMod.setMyView(tracks);
+        tracksLayer = new RenderLayer(9, "tracks");
+        layerManager.addRenderLayer(tracksLayer);
+        tracksLayer.addDisplayRenderableProvider(tracks);
+
+
 
         aircraftLayer = new RenderLayer(7, "aircraft");
         layerManager.addRenderLayer(aircraftLayer);
@@ -366,7 +377,6 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
      */
 	@Override
 	public void render () {
-        frameCounter++;
         displayUpdatePerformance.start();
         display.update();
         displayUpdatePerformance.stop();
@@ -481,8 +491,10 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
                     playbackThread.setPaused(!playbackThread.getPaused());
                     break;
                 case Input.Keys.T:
-                    if(showTracks)
-                        tracks.toggleTrackVisibility();
+                    display.getDisplayTracks().toggleTrackVisibility();
+                    break;
+                case Input.Keys.P:
+                    display.cyclePredictionDisplayMethod();
                     break;
             }
 

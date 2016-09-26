@@ -18,10 +18,10 @@ import java.io.*;
  * Modified 30/05/16, Chris. Added comments for flow
  */
 public class DebugDataFeedServerThread implements RunnableThread, DataPlaybackListener {
-    private static final boolean enableDebugPrint = ApplicationConfig.getInstance().getBoolean("settings.debug.print-debugdatafeedserver");
-    private static final boolean enableDebugPrintQueues = ApplicationConfig.getInstance().getBoolean("settings.debug.print-queues");
-    private static final boolean enableDebugPrintThreading = ApplicationConfig.getInstance().getBoolean("settings.debug.print-threading");
-    private static final int PORT = ApplicationConfig.getInstance().getInt("settings.debug-data-feed.server.port-number");
+    private static final boolean enableDebugPrint = ApplicationConfig.getBoolean("settings.debug.print-debugdatafeedserver");
+    private static final boolean enableDebugPrintQueues = ApplicationConfig.getBoolean("settings.debug.print-queues");
+    private static final boolean enableDebugPrintThreading = ApplicationConfig.getBoolean("settings.debug.print-threading");
+    private static final int PORT = ApplicationConfig.getInt("settings.debug-data-feed.server.port-number");
 
     private ArrayBlockingQueue<SystemStateMessage> toBeSentBuffer;
     private Thread serverThread; //Thread to accept connections by clients

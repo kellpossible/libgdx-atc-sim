@@ -18,7 +18,7 @@ public class DisplayPrediction extends Prediction implements Disposable {
      * @param prediction of type Prediction
      */
     public DisplayPrediction(Display display, DisplayAircraft aircraft, Prediction prediction) {
-        super(prediction.getAircraftID(), prediction.getPredictionTime(), prediction.getAircraftStates());
+        super(prediction);
         this.aircraft = aircraft;
         this.display = display;
     }

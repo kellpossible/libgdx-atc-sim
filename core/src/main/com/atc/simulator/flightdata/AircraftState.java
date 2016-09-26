@@ -38,6 +38,23 @@ public class AircraftState {
         this.heading = heading;
     }
 
+    /**
+     * Create a copy of an {@link AircraftState} (not a deep copy though)
+     * @param aircraftState state to copy
+     */
+    public AircraftState(AircraftState aircraftState)
+    {
+        this.copyData(aircraftState);
+    }
+
+    /**
+     * Linearly interpolate between this state and another state.
+     * when t = 0.0 it is entirely this state
+     * when t = 1.0 it is entirely the other state
+     * @param other other state to interpolate with
+     * @param t factor between 0.0 and 1.0
+     * @return the interpolated state
+     */
     public AircraftState lerp(AircraftState other, double t)
     {
         GeographicCoordinate newPosition = new GeographicCoordinate(this.getPosition().lerp(other.getPosition(), t));

@@ -154,20 +154,26 @@ public class JavaLMLeastSquaresAlgorithm extends JavaPredictionAlgorithm {
             }
         }
 
+        Prediction.State predictionState;
+
         //use the circle prediction
         if (useCircle)
         {
+            Vector3 directionCheck = rVec.cross(velocity);
+            double directionSign;
+            if (directionCheck.z > 0.0) {
+                directionSign = 1.0;
+                predictionState = Prediction.State.LEFT_TURN;
+            } else {
+                directionSign = -1.0;
+                predictionState = Prediction.State.RIGHT_TURN;
+            }
+
             for (int i = 0; i < n; i++)
             {
                 totalDT += dt;
 
-                Vector3 directionCheck = rVec.cross(velocity);
-                double directionSign;
-                if (directionCheck.z > 0.0) {
-                    directionSign = 1.0;
-                } else {
-                    directionSign = -1.0;
-                }
+
 
                 // calculate the distance around the circle given
                 // the angular velocity. Only predict up to half a
@@ -196,6 +202,7 @@ public class JavaLMLeastSquaresAlgorithm extends JavaPredictionAlgorithm {
             }
         }
         else {
+            predictionState = Prediction.State.STRAIGHT;
             for (int i = 0; i < n; i++)
             {
                 totalDT += dt;
@@ -215,7 +222,44 @@ public class JavaLMLeastSquaresAlgorithm extends JavaPredictionAlgorithm {
             }
         }
 
-        Prediction prediction = new Prediction(state.getAircraftID(), startTime, predictedStates);
+        Track rightTrack = new Track(predictedStates);
+
+        Prediction linearPrediction = new JavaLinearAlgorithm().makePrediction(aircraftTrack);
+        Track leftTrack = linearPrediction.getCentreTrack();
+
+        Track centreTrack = new Track();
+
+        if (leftTrack.size() != rightTrack.size())
+        {
+            try {
+                throw new Exception("Tracks don't match sizes");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        for(int i = 0; i < leftTrack.size(); i++)
+        {
+            AircraftState leftState = leftTrack.get(i);
+            AircraftState rightState = rightTrack.get(i);
+
+            GeographicCoordinate leftPosition = leftState.getPosition();
+            GeographicCoordinate rightPosition = rightState.getPosition();
+
+            GeographicCoordinate centrePosition = new GeographicCoordinate(leftPosition.lerp(rightPosition, 0.5));
+
+            AircraftState centreState = new AircraftState(leftState);
+            centreState.setPosition(centrePosition);
+            centreTrack.add(centreState);
+        }
+
+        Prediction prediction = new Prediction(
+                state.getAircraftID(),
+                startTime,
+                leftTrack,
+                centreTrack,
+                rightTrack,
+                predictionState);
         return prediction;
     }
 }

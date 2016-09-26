@@ -126,7 +126,7 @@ public class TestAccuracy implements PredictionListener, RunnableThread {
                 singleTestString += planeID +", ";
 
                 //Remove the list of predictions
-                ArrayList<AircraftState> predictionStates = predictionUnderTest.getAircraftStates();
+                ArrayList<AircraftState> predictionStates = predictionUnderTest.getCentreTrack();
 
                 //Check that our Scenario contains this Plane (sanity, if this fails we have messed up)
                 if(actualDataValues.containsKey(planeID))

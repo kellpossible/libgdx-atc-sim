@@ -73,6 +73,7 @@ public class HudModel extends SimpleDisplayRenderableProvider implements Display
         nInstancesText.buildMesh(builder);
 
         Display display = displayHud.getDisplay();
+
         TimeSource timeSource = display.getTimeSource();
         long currentTime = timeSource.getCurrentTime();
         Calendar calendar = Calendar.getInstance();
@@ -81,6 +82,10 @@ public class HudModel extends SimpleDisplayRenderableProvider implements Display
         HersheyText timeText = new HersheyText("Time: " + calendar.get(Calendar.HOUR) + ":" + calendar.get(Calendar.MINUTE) + ":" + calendar.get(Calendar.SECOND),
                 font, new Vector3(0, 80, 0), frameRateScale, 0f);
         timeText.buildMesh(builder);
+
+        HersheyText displayMethodText = new HersheyText("Display Method: " + display.getPredictionDisplayMethod().name(),
+                font, new Vector3(0, 110, 0), frameRateScale, 0f);
+        displayMethodText.buildMesh(builder);
 
         Vector3 crossHairTop = new Vector3(centre).add(new Vector3(0f, crossHairSize, 0f));
         Vector3 crossHairBottom = new Vector3(centre).add(new Vector3(0f, -crossHairSize, 0f));

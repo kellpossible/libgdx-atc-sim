@@ -22,9 +22,25 @@ message PredictionAircraftStateMessage
     required SphericalVelocityMessage velocity = 3;
 }
 
+message Track
+{
+    repeated PredictionAircraftStateMessage aircraftState = 1;
+}
+
 message AircraftPredictionMessage
 {
     required string aircraftID = 1;
     required int64 time = 2; //milliseconds since epoch
-    repeated PredictionAircraftStateMessage aircraftState = 3;
+    optional Track leftTrack = 3;
+    required Track centreTrack = 4;
+    optional Track rightTrack = 5;
+
+    enum State {
+        STOPPED = 0;
+        STRAIGHT = 1;
+        LEFT_TURN = 2;
+        RIGHT_TURN = 3;
+    }
+
+    required State state = 6;
 }

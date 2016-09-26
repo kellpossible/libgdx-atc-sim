@@ -1,8 +1,8 @@
 package com.atc.simulator.Display.Model;
 
+import com.atc.simulator.Config.ApplicationConfig;
 import com.atc.simulator.Display.DisplayCameraListener;
 import com.atc.simulator.Display.LayerManager;
-import com.atc.simulator.Display.Model.DisplayHud;
 import com.atc.simulator.flightdata.DelayedWork.DelayedWorkQueueItem;
 import com.atc.simulator.flightdata.DelayedWork.DelayedWorkQueueItemType;
 import com.atc.simulator.flightdata.DelayedWork.DelayedWorker;
@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.utils.ObjectMap;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 /**
@@ -18,6 +19,9 @@ import java.util.HashMap;
  * @author Luke Frisken
  */
 public class Display {
+    private PredictionDisplayMethod predictionDisplayMethod =
+            (PredictionDisplayMethod) ApplicationConfig.getEnum("settings.display.prediction-display-method",
+                    PredictionDisplayMethod.class);
     private LayerManager layerManager;
     private HashMap<String, Camera> cameras;
     private ArrayList<ObjectMap.Entry<DisplayCameraListener, Camera>> cameraListeners;
@@ -26,6 +30,7 @@ public class Display {
     private static final int WORK_UNITS_PER_FRAME = 100;
     private DisplayHud displayHud;
     private TimeSource timeSource;
+    private DisplayTracks displayTracks;
 
     /**
      * Constructor for Display
@@ -37,6 +42,25 @@ public class Display {
         cameraListeners = new ArrayList<ObjectMap.Entry<DisplayCameraListener, Camera>>();
         delayedCameraListenerHashMap = new HashMap<DisplayCameraListener, DelayedCameraListener>();
         delayedWorker = new DelayedWorker(WORK_UNITS_PER_FRAME);
+    }
+
+    public void cyclePredictionDisplayMethod()
+    {
+        PredictionDisplayMethod[] displayMethods = PredictionDisplayMethod.values();
+        for (int i = 0; i < displayMethods.length; i++)
+        {
+            if(displayMethods[i] == predictionDisplayMethod)
+            {
+                if ((i+1) == displayMethods.length)
+                {
+                    predictionDisplayMethod = displayMethods[0];
+                } else {
+                    predictionDisplayMethod = displayMethods[i+1];
+                }
+                return;
+            }
+        }
+
     }
 
     /**
@@ -77,7 +101,7 @@ public class Display {
 
     /**
      * Get the display's {@link DisplayHud}
-     * @return
+     * @return the hud which belongs to this display
      */
     public DisplayHud getDisplayHud() {
         return displayHud;
@@ -92,12 +116,42 @@ public class Display {
         this.displayHud = displayHud;
     }
 
+
+    /**
+     * Get the Scenario's Tracks
+     * @return the Tracks Model being used in this Display
+     */
+    public DisplayTracks getDisplayTracks(){return this.displayTracks;}
+    /**
+     * Set the Track Display Model
+     * @param displayTrack the new Model for displayTracks
+     */
+    public void setDisplayTracks(DisplayTracks displayTrack)
+    {
+        this.displayTracks = displayTrack;
+    }
+
     /**
      * Get the display's time source
      * @return TimeSource the display's time source
      */
     public TimeSource getTimeSource() {
         return timeSource;
+    }
+
+    /**
+     * Get the current prediction display method as per {@link PredictionDisplayMethod}
+     * @return display method currently employed
+     */
+    public PredictionDisplayMethod getPredictionDisplayMethod() {
+        return predictionDisplayMethod;
+    }
+
+    /**
+     * Set the prediction display method as per {@link PredictionDisplayMethod}
+     */
+    public void setPredictionDisplayMethod(PredictionDisplayMethod predictionDisplayMethod) {
+        this.predictionDisplayMethod = predictionDisplayMethod;
     }
 
     /**

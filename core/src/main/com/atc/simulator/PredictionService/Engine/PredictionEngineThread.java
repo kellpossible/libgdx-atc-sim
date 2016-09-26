@@ -23,9 +23,9 @@ import java.util.concurrent.locks.ReentrantLock;
 * TODO: implement the PredictionEngineListener functionality
 */
 public class PredictionEngineThread implements RunnableThread, SystemStateDatabaseListener{
-    private static final boolean enableTimer = ApplicationConfig.getInstance().getBoolean("settings.debug.engine-timer");
-    private static final boolean enableDebugPrintQueues = ApplicationConfig.getInstance().getBoolean("settings.debug.print-queues");
-    private static final String algorithmType = ApplicationConfig.getInstance().getString("settings.prediction-service.prediction-engine.algorithm-type");
+    private static final boolean enableTimer = ApplicationConfig.getBoolean("settings.debug.engine-timer");
+    private static final boolean enableDebugPrintQueues = ApplicationConfig.getBoolean("settings.debug.print-queues");
+    private static final PredictionAlgorithmType algorithmType = (PredictionAlgorithmType) ApplicationConfig.getEnum("settings.prediction-service.prediction-engine.algorithm-type", PredictionAlgorithmType.class);
 
     private PredictionEngineTodoQueue todoQueue;
     private SystemStateDatabase systemStateDatabase;
@@ -244,7 +244,7 @@ public class PredictionEngineThread implements RunnableThread, SystemStateDataba
             PredictionWorkItem workItem = new PredictionWorkItem(
                     aircraftID,
                     aircraftTrack,
-                    PredictionAlgorithmType.valueOf(algorithmType));
+                    algorithmType);
             //TODO: make a seperate buffer for this so it doesn't block while todoQueue is being reordered?
             if(enableDebugPrintQueues){System.out.println(threadName + " Adding to queue which has a current size of " + todoQueue.size());}
 

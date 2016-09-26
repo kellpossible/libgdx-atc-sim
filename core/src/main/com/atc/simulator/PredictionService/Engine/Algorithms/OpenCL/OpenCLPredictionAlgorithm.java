@@ -21,7 +21,7 @@ import static org.jocl.CL.clReleaseProgram;
  * @author Luke Frisken
  */
 public class OpenCLPredictionAlgorithm {
-    private static final boolean enableTimer = ApplicationConfig.getInstance().getBoolean("settings.debug.algorithm-timer");
+    private static final boolean enableTimer = ApplicationConfig.getBoolean("settings.debug.algorithm-timer");
     private cl_kernel kernel;
     private cl_program program;
     private cl_context context;
