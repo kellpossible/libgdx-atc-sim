@@ -13,7 +13,7 @@ public class SortableOrderedQueueTest
     @Test
     public void add() throws Exception
     {
-        SortableOrderedQueue<String> testQueue = new SortableOrderedQueue<String>();
+//        SortableOrderedQueue<String> testQueue = new SortableOrderedQueue<String>();
     }
 
     @Test

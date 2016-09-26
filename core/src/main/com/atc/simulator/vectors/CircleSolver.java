@@ -4,8 +4,6 @@ import org.ddogleg.optimization.FactoryOptimization;
 import org.ddogleg.optimization.UnconstrainedLeastSquares;
 import org.ddogleg.optimization.UtilOptimize;
 import org.ddogleg.optimization.functions.FunctionNtoM;
-import org.ejml.data.DenseMatrix64F;
-import org.ejml.example.LevenbergMarquardt;
 import pythagoras.d.Circle;
 import pythagoras.d.Matrix3;
 import pythagoras.d.Vector3;
