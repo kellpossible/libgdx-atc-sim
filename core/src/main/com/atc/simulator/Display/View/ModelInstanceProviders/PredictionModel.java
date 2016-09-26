@@ -54,6 +54,7 @@ public class PredictionModel extends SimpleDisplayRenderableProvider {
         }
 
         texture = new Texture(pixmap);
+        texture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Nearest);
     }
 
     /**
