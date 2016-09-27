@@ -129,13 +129,6 @@ public class SphericalCoordinate extends Vector3 {
             y += Math.PI;
         }
 
-        if (x < 0)
-        {
-            x = -x;
-            y += Math.PI;
-            z = Math.PI - z;
-        }
-
         while (y > TWOPI) {
             y -= TWOPI;
         }
