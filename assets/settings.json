@@ -20,7 +20,8 @@
       "adsb-recording-scenario": {
         "file": "assets/flight_data/YMML_26_05_2016/database.json"
       },
-      "speed": 10
+      "speed": 10,
+      "filter-for-planeID":"7C6D23,7C6D95"
     },
     "display": {
       "prediction-display-method": "GRADIENT",
