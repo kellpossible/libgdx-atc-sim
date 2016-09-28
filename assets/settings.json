@@ -21,7 +21,7 @@
         "file": "assets/flight_data/YMML_26_05_2016/database.json"
       },
       "speed": 10,
-      "filter-for-planeID":"7C6D23,7C6D95"
+      "filter-for-planeID":"7C5730,7C7AA7"
     },
     "display": {
       "prediction-display-method": "GRADIENT",
