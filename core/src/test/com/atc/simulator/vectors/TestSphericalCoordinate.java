@@ -86,29 +86,26 @@ public class TestSphericalCoordinate
      */
     @Test public void rectifyBounds() throws Exception
     {
-        double rectify =  Math.PI * 2.0; //Equation used to rectify. 6.2831
-
-
         SphericalCoordinate t1 = new SphericalCoordinate(1,2,3); // Does not need rectifying
-        t1.rectifyBounds();
-
-        Assert.assertEquals(1,t1.getR(),0.01);
-        Assert.assertEquals(2,t1.getTheta(),0.01);
-        Assert.assertEquals(3,t1.getPhi(),0.01);
+        SphericalCoordinate r1 = t1.rectifyBounds();
 
         SphericalCoordinate t2 = new SphericalCoordinate(-1,1,2); //Needs rectifying from R
-        t2.rectifyBounds();
+        SphericalCoordinate r2 = t2.rectifyBounds();
 
-        Assert.assertEquals(-1,t2.getR(),0.01); // Negation of R
-        Assert.assertEquals(1,t2.getTheta(),0.01); // Theta + Pi, then Pi - Theta
-        Assert.assertEquals(2,t2.getPhi(),0.01);//Pi
+        SphericalCoordinate t3 = new SphericalCoordinate(1,2,14); //Needs Rectifying from Phi
+        SphericalCoordinate r3 = t3.rectifyBounds();
 
-        SphericalCoordinate t4 = new SphericalCoordinate(1,2,14); //Needs Rectifying from Phi
-        t4.rectifyBounds();
+        Assert.assertEquals(1,r1.getR(),0.01);
+        Assert.assertEquals(2,r1.getTheta(),0.01);
+        Assert.assertEquals(3,r1.getPhi(),0.01);
 
-//        Assert.assertEquals(1,t4.getR(),0);
-//        Assert.assertEquals(2,t4.getTheta(),0);
-//        Assert.assertEquals(14,t4.getPhi(),0); // Phi - 2*Pi = 7.71681469282, - 2*Pi = 1.43362938564 FAILS
+        Assert.assertEquals(-1,r2.getR(),0.01); // Negation of R
+        Assert.assertEquals(1,r2.getTheta(),0.01); // Theta + Pi, then Pi - Theta
+        Assert.assertEquals(2,r2.getPhi(),0.01);//Pi
+
+        Assert.assertEquals(1,r3.getR(),0.01);
+        Assert.assertEquals(2,r3.getTheta(),0.01);
+        Assert.assertEquals(1.4336,r3.getPhi(),0.01); // Phi - 2*Pi = 7.71681469282, - 2*Pi = 1.43362938564
     }
 
     /**

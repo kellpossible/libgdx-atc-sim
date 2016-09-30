@@ -37,12 +37,33 @@ public class TestGeographicCoordinate
 
     @Test public void fromCartesian() throws Exception
     {
+        GeographicCoordinate t1 = GeographicCoordinate.fromCartesian(new Vector3(1,2,3));
+        GeographicCoordinate t2 = GeographicCoordinate.fromCartesian(new Vector3(32.23,23,3.5));
+        GeographicCoordinate t3 = GeographicCoordinate.fromCartesian(new Vector3(29.8,27.8,76.36));
 
+        Assert.assertEquals(-0.9302,t1.getLatitude(),0.01);
+        Assert.assertEquals(-2.0344,t1.getLongitude(),0.01);
+
+        Assert.assertEquals(-0.0881,t2.getLatitude(),0.01);
+        Assert.assertEquals(-2.5217,t2.getLongitude(),0.01);
+
+        Assert.assertEquals(-1.080,t3.getLatitude(),0.01);
+        Assert.assertEquals(-2.39097,t3.getLongitude(),0.01);
     }
 
+    /**
+     *
+     * @throws Exception
+     */
     @Test public void getRadius() throws Exception
     {
+        GeographicCoordinate t1 = GeographicCoordinate.fromCartesian( new Vector3(1,2,3) );
+        GeographicCoordinate t2 = GeographicCoordinate.fromCartesian( new Vector3(32.23,23,3.5) );
+        GeographicCoordinate t3 = new GeographicCoordinate(95,20,22);
 
+        Assert.assertEquals(3.7416,t1.getRadius(),0.01);
+        Assert.assertEquals(39.74,t2.getRadius(),0.01);
+        Assert.assertEquals(6371095.0,t3.getRadius(),0.01); // no radius
     }
 
     /**
