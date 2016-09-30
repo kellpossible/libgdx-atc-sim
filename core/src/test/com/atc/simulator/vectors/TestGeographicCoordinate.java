@@ -37,6 +37,7 @@ public class TestGeographicCoordinate
 
     @Test public void fromCartesian() throws Exception
     {
+
     }
 
     @Test public void getRadius() throws Exception
@@ -125,6 +126,10 @@ public class TestGeographicCoordinate
         Assert.assertEquals(72.2,t3.getAltitude(),0.001);
     }
 
+    /**
+     * Tests the setting of altitude
+     * @throws Exception
+     */
     @Test public void setAltitude() throws Exception
     {
         GeographicCoordinate t1 = new GeographicCoordinate(95,20,22);
@@ -135,9 +140,9 @@ public class TestGeographicCoordinate
         t2.setLatitude(0);
         t3.setLatitude(20.28);
 
-        Assert.assertEquals(17.39372,t1.getLatitude(),0.001);
-        Assert.assertEquals(0,t2.getLatitude(),0.001);
-        Assert.assertEquals(20.28,t3.getLatitude(),0.001);
+        Assert.assertEquals(95,t1.getAltitude(),0.001);
+        Assert.assertEquals(92.222,t2.getAltitude(),0.001);
+        Assert.assertEquals(72.2,t3.getAltitude(),0.001);
     }
 
     /**
@@ -154,27 +159,20 @@ public class TestGeographicCoordinate
         Assert.assertEquals("[95.0, 1145.9155902616465, 1260.5071492878112] (degrees)",t1.toString());
         Assert.assertEquals("[92.22200000006706, 2194.4283553510527, 12736.851785758201] (degrees)",t2.toString());
         Assert.assertEquals("[72.20000000018626, 3851.605645363836, 1277.6958831417357] (degrees)",t3.toString());
-
     }
 
-    @Test public void bearingTo1() throws Exception
-    {
-
-    }
-
+    /**
+     * Tests bearing from one geographical coordinate to another.
+     * @throws Exception
+     */
     @Test public void bearingTo() throws Exception
     {
+        GeographicCoordinate t1 = new GeographicCoordinate(95,20,22);
+        GeographicCoordinate t2 = new GeographicCoordinate(92.222,38.3,222.3);
+        GeographicCoordinate t3 = new GeographicCoordinate(72.2,67.2232,22.3);
 
+        Assert.assertEquals(4.208291210486665,t1.bearingTo(t2),0.01);
+        Assert.assertEquals(3.518705,t2.bearingTo(t3),0.01);
+        assertEquals(-0.9744,t3.bearingTo(t1),0.01);
     }
-
-    @Test public void bearingTo3() throws Exception
-    {
-
-    }
-
-    @Test public void bearingTo4() throws Exception
-    {
-
-    }
-
 }
