@@ -40,6 +40,7 @@ public class TestAccuracy implements PredictionListener, RunnableThread {
     private ArrayBlockingQueue<Prediction> newPredictionQueue; //Queue to store predictions
     private Map<String, ArrayList<dataPoint>> actualDataValues; //HashMaps: Find planeID, then you can iterate through times and positions
 
+    private static final int predictionsToCompare = 24; //Number of points from the prediction to store
     private static final String threadName = "IntAccuracyTest";
     private Thread thread;
     private Boolean continueThread = true;
@@ -132,12 +133,14 @@ public class TestAccuracy implements PredictionListener, RunnableThread {
                 if(actualDataValues.containsKey(planeID))
                 {
                     //todo: this just loops the first 5, our algorithm can change this
-                    for (int i = 0; i < 12; i++)
+                    int numToCompare = Math.min(predictionsToCompare, predictionStates.size());
+                    for (int i = 0; i < numToCompare; i++)
                     {
                         GeographicCoordinate actualCoord = null;
                         //Get the timeStamp for the prediction we're testing
                         long predTime = predictionStates.get(i).getTime();
-                        singleTestString += predTime + ", ";
+                        if(i == 0)
+                            singleTestString += predTime + ", ";
 
                         for(int j=0; j<actualDataValues.get(planeID).size(); j++)
                         {
