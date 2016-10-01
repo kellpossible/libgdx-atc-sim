@@ -86,29 +86,26 @@ public class TestSphericalCoordinate
      */
     @Test public void rectifyBounds() throws Exception
     {
-//        double rectify =  Math.PI * 2.0; //Equation used to rectify. 6.2831
-//
-//
-//        SphericalCoordinate t1 = new SphericalCoordinate(1,2,3); // Does not need rectifying
-//        t1.rectifyBounds();
-//
-//        Assert.assertEquals(1,t1.getR(),0);
-//        Assert.assertEquals(2,t1.getTheta(),0);
-//        Assert.assertEquals(3,t1.getPhi(),0);
-//
-//        SphericalCoordinate t2 = new SphericalCoordinate(-1,1,2); //Needs rectifying from R
-//        t2.rectifyBounds();
-//
-//        Assert.assertEquals(-1,t2.getR(),0); // Negation of R
-//        Assert.assertEquals(1,t2.getTheta(),0.001); // Theta + Pi, then Pi - Theta
-//        Assert.assertEquals(2,t2.getPhi(),0.001);//Pi
-//
-//        SphericalCoordinate t4 = new SphericalCoordinate(1,2,14); //Needs Rectifying from Phi
-//        t4.rectifyBounds();
-//
-//        Assert.assertEquals(1,t4.getR(),0);
-//        Assert.assertEquals(2,t4.getTheta(),0);
-//        Assert.assertEquals(1.43362938564,t4.getPhi(),0); // Phi - 2*Pi = 7.71681469282, - 2*Pi = 1.43362938564 FAILS
+        SphericalCoordinate t1 = new SphericalCoordinate(1,2,3); // Does not need rectifying
+        SphericalCoordinate r1 = t1.rectifyBounds();
+
+        SphericalCoordinate t2 = new SphericalCoordinate(-1,1,2); //Needs rectifying from R
+        SphericalCoordinate r2 = t2.rectifyBounds();
+
+        SphericalCoordinate t3 = new SphericalCoordinate(1,2,14); //Needs Rectifying from Phi
+        SphericalCoordinate r3 = t3.rectifyBounds();
+
+        Assert.assertEquals(1,r1.getR(),0.01);
+        Assert.assertEquals(2,r1.getTheta(),0.01);
+        Assert.assertEquals(3,r1.getPhi(),0.01);
+
+        Assert.assertEquals(-1,r2.getR(),0.01); // Negation of R
+        Assert.assertEquals(1,r2.getTheta(),0.01); // Theta + Pi, then Pi - Theta
+        Assert.assertEquals(2,r2.getPhi(),0.01);//Pi
+
+        Assert.assertEquals(1,r3.getR(),0.01);
+        Assert.assertEquals(2,r3.getTheta(),0.01);
+        Assert.assertEquals(1.4336,r3.getPhi(),0.01); // Phi - 2*Pi = 7.71681469282, - 2*Pi = 1.43362938564
     }
 
     /**
@@ -127,15 +124,19 @@ public class TestSphericalCoordinate
         Assert.assertEquals(new Vector3(7,23.219999313354492,31.5), t3.getCartesian());
     }
 
+    /**
+     * Tests almost equal, to see if one spherical coordiante is almost equal to another, based upon a described tolerance.
+     * @throws Exception
+     */
     @Test public void almostEqual() throws Exception
     {
         SphericalCoordinate t11 = new SphericalCoordinate(1,1,1);
         SphericalCoordinate t12 = new SphericalCoordinate(2,2,2);
+        SphericalCoordinate t13 = new SphericalCoordinate(2,2,3);
 
         Assert.assertTrue(t11.almostEqual(t12,3)); //Within
-        //Two fail, one pass asser tfails
-        // ALl fail
-        // boundry
+        Assert.assertFalse(t11.almostEqual(t13,1)); //Two fail, one pass
+        Assert.assertFalse(t11.almostEqual(t12,0.5)); // ALl fail
     }
 
     /**
@@ -145,60 +146,163 @@ public class TestSphericalCoordinate
     @Test public void getCartesianDrawVector() throws Exception
     {
         SphericalCoordinate t1 = new SphericalCoordinate(7.071067812, 0.927295218, 0.7853981634);
+        com.badlogic.gdx.math.Vector3 r1 = t1.getCartesianDrawVector();
+
         SphericalCoordinate t2 = new SphericalCoordinate(103.6153777, 1.096510361, 1.508603304);
+        com.badlogic.gdx.math.Vector3 r2 = t2.getCartesianDrawVector();
+
         SphericalCoordinate t3 = new SphericalCoordinate(39.75447648,1.277996721,0.6561225817);
+        com.badlogic.gdx.math.Vector3 r3 = t3.getCartesianDrawVector();
 
-        Assert.assertEquals(new Vector3(3,4,5), t1.getCartesianDrawVector());
-        Assert.assertEquals(new Vector3(47.22999954223633,92,6.440000057220459), t2.getCartesianDrawVector());
-        Assert.assertEquals(new Vector3(7,23.219999313354492,31.5), t3.getCartesianDrawVector());
+        Assert.assertEquals(3,r1.x,0.01);
+        Assert.assertEquals(-5,r1.y,0.01);
+        Assert.assertEquals(4,r1.z,0.01);
 
+        Assert.assertEquals(47.22999954223633,r2.x,0.01);
+        Assert.assertEquals(-6.4400000572204,r2.y,0.01);
+        Assert.assertEquals(92.0,r2.z,0.01);
+
+        Assert.assertEquals(7,r3.x,0.01);
+        Assert.assertEquals(-31.5,r3.y,0.01);
+        Assert.assertEquals(23.219999313354492,r3.z,0.01);
     }
 
+    /**
+     * Tests the creation of a model draw vector (without adjustment).
+     * @throws Exception
+     */
     @Test public void getModelDrawVector() throws Exception
     {
+        SphericalCoordinate t1 = new SphericalCoordinate(7.071067812, 0.927295218, 0.7853981634);
+        com.badlogic.gdx.math.Vector3 r1 = t1.getModelDrawVector();
 
+        SphericalCoordinate t2 = new SphericalCoordinate(103.6153777, 1.096510361, 1.508603304);
+        com.badlogic.gdx.math.Vector3 r2 = t2.getModelDrawVector();
+
+        SphericalCoordinate t3 = new SphericalCoordinate(39.75447648,1.277996721,0.6561225817);
+        com.badlogic.gdx.math.Vector3 r3 = t3.getModelDrawVector();
+
+        Assert.assertEquals(0.420,r1.x,0.01);
+        Assert.assertEquals(-0.7,r1.y,0.001);
+        Assert.assertEquals(0.56,r1.z,0.01);
+
+        Assert.assertEquals(0.451,r2.x,0.01);
+        Assert.assertEquals(-0.06,r2.y,0.01);
+        Assert.assertEquals(0.87,r2.z,0.01);
+
+        Assert.assertEquals(0.17,r3.x,0.01);
+        Assert.assertEquals(-0.78,r3.y,0.01);
+        Assert.assertEquals(0.5782,r3.z,0.01);
     }
-
+    /**
+     * Tests the creation of a model draw vector (with adjustment).
+     * @throws Exception
+     */
     @Test public void getModelDrawVector1() throws Exception
     {
+        SphericalCoordinate t1 = new SphericalCoordinate(7.071067812, 0.927295218, 0.7853981634);
+        com.badlogic.gdx.math.Vector3 r1 = t1.getModelDrawVector(12);
 
+        SphericalCoordinate t2 = new SphericalCoordinate(103.6153777, 1.096510361, 1.508603304);
+        com.badlogic.gdx.math.Vector3 r2 = t2.getModelDrawVector(0.582);
+
+        SphericalCoordinate t3 = new SphericalCoordinate(39.75447648,1.277996721,0.6561225817);
+        com.badlogic.gdx.math.Vector3 r3 = t3.getModelDrawVector(8.283);
+
+        Assert.assertEquals(5.51,r1.x,0.01);
+        Assert.assertEquals(-9.18531,r1.y,0.001);
+        Assert.assertEquals(7.3482,r1.z,0.01);
+
+        Assert.assertEquals(0.7165,r2.x,0.01);
+        Assert.assertEquals(-0.097,r2.y,0.01);
+        Assert.assertEquals(1.395,r2.z,0.01);
+
+        Assert.assertEquals(1.63,r3.x,0.01);
+        Assert.assertEquals(-7.34,r3.y,0.01);
+        Assert.assertEquals(5.41,r3.z,0.01);
     }
 
+    /**
+     * Tests the calculation of the arc distance between two spherical coordinates.
+     * @throws Exception
+     */
     @Test public void arcDistance() throws Exception
     {
-        SphericalCoordinate t11 = new SphericalCoordinate(1,1,1);
-        SphericalCoordinate t12 = new SphericalCoordinate(2,2,2);
+        SphericalCoordinate t1 = new SphericalCoordinate(1,2,3);
+        SphericalCoordinate t2 = new SphericalCoordinate(3,4,5);
 
-        SphericalCoordinate t21 = new SphericalCoordinate(5,5,5);
-        SphericalCoordinate t22 = new SphericalCoordinate(3,3,3);
+        SphericalCoordinate t3 = new SphericalCoordinate(27.9238, 58.2932, 29.92);
+        SphericalCoordinate t4 = new SphericalCoordinate(28.86789, 33.283873, 47.827);
 
-        SphericalCoordinate t31 = new SphericalCoordinate(28.3,14.2,63.3 );
-        SphericalCoordinate t32 = new SphericalCoordinate(1.4,23.3,50);
+        SphericalCoordinate t5 = new SphericalCoordinate(86.345,87.362,27.654);
+        SphericalCoordinate t6 = new SphericalCoordinate(87.363,29.2983,65.43);
 
-
-        Assert.assertEquals(2.623356869627860961516481665884542735639797169541152300153, t11.arcDistance(t12),0.001); // Moving from smaller to larger coordinates
-        Assert.assertEquals(0.500777071725513554375177671893198273409110805637843926914, t21.arcDistance(t22),0.001); // Moving from larger to smaller coordinates
-        Assert.assertEquals(11.9126,t31.arcDistance(t32),0.001);
+        Assert.assertEquals(0.978356479,t1.arcDistance(t2),0.01);
+        Assert.assertEquals(25.749560,t3.arcDistance(t4),0.01);
+        Assert.assertEquals(130.939,t5.arcDistance(t6),0.01);
     }
 
+    /**
+     * Tests the creation of an R Cartesian Unit Vector
+     * @throws Exception
+     */
     @Test public void rCartesianUnitVector() throws Exception
     {
         SphericalCoordinate t1 = new SphericalCoordinate(1,1,1);
-        SphericalCoordinate t2 = new SphericalCoordinate(12.5,13.22,1.2393);
-        SphericalCoordinate t3 = new SphericalCoordinate(-31,-21.33,-11.22);
+        Vector3 r1 = t1.rCartesianUnitVector();
 
-        Assert.assertEquals(new Vector3(0.4546487033367157, 0.7080734372138977, 0.5403022766113281),t1.rCartesianUnitVector()); //Straightforward calculation
-        //Assert.assertEquals(new Vector3(1,1,1),t3.rCartesianUnitVector());
+        SphericalCoordinate t2 = new SphericalCoordinate(92.33,76.38,39.22);
+        Vector3 r2 = t2.rCartesianUnitVector();
+
+        Assert.assertEquals(0.4546487033367157,r1.x,0.01);
+        Assert.assertEquals(0.7080734372138977,r1.y,0.01);
+        Assert.assertEquals(0.5403022766113281,r1.z,0.01);
+
+        Assert.assertEquals(0.554854691028595,r2.x,0.01);
+        Assert.assertEquals(0.830450177192688,r2.y,0.01);
+        Assert.assertEquals(0.04988745227456093,r2.z,0.01);
     }
 
+    /**
+     * Tests the creation of a Phi Cartesian Unit Vector
+     * @throws Exception
+     */
     @Test public void phiCartesianUnitVector() throws Exception
     {
+        SphericalCoordinate t1 = new SphericalCoordinate(1,1,1);
+        Vector3 r1 = t1.phiCartesianUnitVector();
 
+        SphericalCoordinate t2 = new SphericalCoordinate(92.33,76.38,39.22);
+        Vector3 r2 = t2.phiCartesianUnitVector();
+
+        Assert.assertEquals(0.2919265817264289,r1.x,0.01);
+        Assert.assertEquals(0.4546487134128409,r1.y,0.01);
+        Assert.assertEquals(-0.8414709848078965,r1.z,0.01);
+
+        Assert.assertEquals(0.02771479754010994,r2.x,0.01);
+        Assert.assertEquals(0.04148069470976872,r2.y,0.01);
+        Assert.assertEquals(-0.9987548457773338,r2.z,0.01);
     }
 
+    /**
+     * Tests the creation of a Theta Cartesian Unit Vector
+     * @throws Exception
+     */
     @Test public void thetaCartesianUnitVector() throws Exception
     {
+        SphericalCoordinate t1 = new SphericalCoordinate(1,1,1);
+        Vector3 r1 = t1.thetaCartesianUnitVector();
 
+        SphericalCoordinate t2 = new SphericalCoordinate(92.33,76.38,39.22);
+        Vector3 r2 = t2.thetaCartesianUnitVector();
+
+        Assert.assertEquals(-0.8414709848078965,r1.x,0.01);
+        Assert.assertEquals(0.5403023058681398,r1.y,0.01);
+        Assert.assertEquals(0,r1.z,0.01);
+
+        Assert.assertEquals(-0.8314855066033674,r2.x,0.01);
+        Assert.assertEquals(0.5555464447807595,r2.y,0.01);
+        Assert.assertEquals(0,r2.z,0.01);
     }
 
 }

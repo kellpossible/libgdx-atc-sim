@@ -129,13 +129,6 @@ public class SphericalCoordinate extends Vector3 {
             y += Math.PI;
         }
 
-        if (x < 0)
-        {
-            x = -x;
-            y += Math.PI;
-            z = Math.PI - z;
-        }
-
         while (y > TWOPI) {
             y -= TWOPI;
         }
@@ -166,7 +159,7 @@ public class SphericalCoordinate extends Vector3 {
 
     private boolean almostEqual(double a, double b, double tolerance)
     {
-        return Math.abs(a-b) < tolerance;
+        return Math.abs(a-b) <= tolerance;
     }
 
     public boolean almostEqual(SphericalCoordinate other, double tolerance)
@@ -174,10 +167,6 @@ public class SphericalCoordinate extends Vector3 {
 
         Vector3 tc = this.getCartesian();
         Vector3 oc = other.getCartesian();
-//        System.out.println("this" + this);
-//        System.out.println("other" + other);
-//        System.out.println("tc" + tc);
-//        System.out.println("oc" + oc);
 
         if (!almostEqual(tc.x, oc.x, tolerance))
             return false;
@@ -241,8 +230,6 @@ public class SphericalCoordinate extends Vector3 {
     }
 
     /**
-     * UNTESTED
-     *
      * Arc Distance between two Spherical Coordinates.
      *
      * @param other
@@ -250,7 +237,7 @@ public class SphericalCoordinate extends Vector3 {
      */
     public double arcDistance(SphericalCoordinate other)
     {
-        return x * Math.acos(Math.cos(y)*Math.cos(other.y)+Math.sin(y)*Math.sin(other.y)*Math.cos(z - other.z));
+        return x * Math.acos(rCartesianUnitVector().dot(other.rCartesianUnitVector()));
     }
 
 
