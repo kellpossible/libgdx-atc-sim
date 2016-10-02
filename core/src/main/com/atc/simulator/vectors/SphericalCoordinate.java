@@ -1,5 +1,7 @@
 package com.atc.simulator.vectors;
 
+import pythagoras.d.Matrix3;
+import pythagoras.d.Vector;
 import pythagoras.d.Vector3;
 
 /**
@@ -81,6 +83,14 @@ public class SphericalCoordinate extends Vector3 {
     }
 
     /**
+     * Set the Radius component
+     */
+    public void setR(double r)
+    {
+        this.x = r;
+    }
+
+    /**
      * Get Theta Component
      * @return
      */
@@ -89,11 +99,27 @@ public class SphericalCoordinate extends Vector3 {
     }
 
     /**
+     * Set the Theta Component
+     * @return
+     */
+    public void setTheta(double theta) {
+        this.y = theta;
+    }
+
+    /**
      * Get Phi Component
      * @return
      */
     public double getPhi() {
         return this.z;
+    }
+
+    /**
+     * Set the Phi Component
+     * @return
+     */
+    public void setPhi(double phi) {
+        this.z = phi;
     }
 
 
@@ -157,30 +183,6 @@ public class SphericalCoordinate extends Vector3 {
                 (float) (r * Math.cos(phi)));
     }
 
-    private boolean almostEqual(double a, double b, double tolerance)
-    {
-        return Math.abs(a-b) <= tolerance;
-    }
-
-    public boolean almostEqual(SphericalCoordinate other, double tolerance)
-    {
-
-        Vector3 tc = this.getCartesian();
-        Vector3 oc = other.getCartesian();
-
-        if (!almostEqual(tc.x, oc.x, tolerance))
-            return false;
-
-        if (!almostEqual(tc.y, oc.y, tolerance))
-            return false;
-
-        if (!almostEqual(tc.z, oc.z, tolerance))
-            return false;
-
-        return true;
-
-    }
-
     /**
      * Get the cartesian libgdx vector3 required for 3D drawing.
      * @return the cartesian draw vector
@@ -228,18 +230,6 @@ public class SphericalCoordinate extends Vector3 {
         adjustedCoordinate.x = 0.99 + adjust;
         return adjustedCoordinate.getCartesianDrawVector();
     }
-
-    /**
-     * Arc Distance between two Spherical Coordinates.
-     *
-     * @param other
-     * @return
-     */
-    public double arcDistance(SphericalCoordinate other)
-    {
-        return x * Math.acos(rCartesianUnitVector().dot(other.rCartesianUnitVector()));
-    }
-
 
     /**
      * Get the cartesian unit vector for R

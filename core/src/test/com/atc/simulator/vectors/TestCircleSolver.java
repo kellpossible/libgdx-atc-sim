@@ -12,7 +12,7 @@ import pythagoras.d.Vector3;
 * 
 * @author Luke Frisken
 */ 
-public class CircleSolverTest { 
+public class TestCircleSolver {
 
 @Before
 public void before() throws Exception { 

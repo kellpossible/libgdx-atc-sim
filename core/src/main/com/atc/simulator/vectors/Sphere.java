@@ -1,6 +1,7 @@
 package com.atc.simulator.vectors;
 
 import pythagoras.d.IVector3;
+import pythagoras.d.Matrix3;
 import pythagoras.d.Ray3;
 import pythagoras.d.Vector3;
 
@@ -9,9 +10,12 @@ import pythagoras.d.Vector3;
  *
  * @author Luke Frisken
  */
-public class Sphere {
+public class Sphere implements Spheroid {
+    private static final double EARTH_MSL_RADIUS = 6371000.0;
+    public static final Sphere EARTH = new Sphere(EARTH_MSL_RADIUS, new Vector3(0,0,0));
     public double radius;
     public IVector3 position;
+    private static double oneDegreeInRadians = Math.toRadians(1);
 
     /**
      * Constructor Sphere creates a new Sphere instance.
@@ -61,6 +65,76 @@ public class Sphere {
      */
     public void setPosition(IVector3 position) {
         this.position = position;
+    }
+
+    /**
+     * Get the radius of the spheroid at the given position.
+     *
+     * @param pos
+     * @return
+     */
+    @Override
+    public double getRadius(SphericalCoordinate pos) {
+        return this.radius;
+    }
+
+    /**
+     * Get the average radius of the spheroid.
+     *
+     * @return
+     */
+    @Override
+    public double getAverageRadius() {
+        return this.radius;
+    }
+
+    /**
+     * Uses euler integration to find the arc distance between two points.
+     * @param p1
+     * @param p2
+     * @return
+     */
+    public double arcDistance(SphericalCoordinate p1, SphericalCoordinate p2) {
+        return arcDistanceEulerIntegrate(p1, p2, 4);
+    }
+
+    /**
+     * Uses euler integration to find the arc distance between two points.
+     * @param p1
+     * @param p2
+     * @param stepsPerDegree number of integration steps per degree of angle between the two points.
+     * @return
+     */
+    public double arcDistanceEulerIntegrate(SphericalCoordinate p1, SphericalCoordinate p2, int stepsPerDegree) {
+        Vector3 p1Cart = p1.getCartesian();
+        Vector3 p2Cart = p2.getCartesian();
+
+        double angle = p1Cart.angle(p2Cart);
+
+        if (angle == 0.0) {
+            return 0.0;
+        }
+
+        Vector3 rotationAxis = p1Cart.cross(p2Cart).normalize();
+
+        double maxH = oneDegreeInRadians/((double) stepsPerDegree);
+
+        int steps = (int) (angle/maxH);
+        steps = Math.max(steps, 1); //at least one step
+
+        double h = angle/((double) steps);
+
+        double distanceSum = 0.0;
+        Vector3 prevHVec = p1Cart;
+        for (int i = 1; i <= steps; i++) {
+            //TODO: I'm not sure if this is rotating in the correct direction. It won't matter on a sphere.
+            Matrix3 rotation = new Matrix3().setToRotation(h*i, rotationAxis);
+            Vector3 hVec = rotation.transform(p1Cart);
+            distanceSum += hVec.subtract(prevHVec).length();
+            prevHVec = hVec;
+        }
+
+        return distanceSum;
     }
 
     /**

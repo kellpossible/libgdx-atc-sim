@@ -1,17 +1,142 @@
 package com.atc.simulator.vectors;
 
 import org.junit.Assert;
-import org.junit.Test;
 import pythagoras.d.Vector3;
+import org.junit.Before;
+import org.junit.Test;
 
+import static java.lang.Math.PI;
 import static org.junit.Assert.*;
 
 /**
- * Tests the Geogrpahic Coordinate Class
+ * @author Chris Coleman
+ * @author Luke Frisken
  * @author Adam Miritis
  */
-public class TestGeographicCoordinate
-{
+public class TestGeographicCoordinate {
+    @Before
+    public void before() throws Exception {
+    }
+
+    /**
+     * Method: GeographicCoordinate(GeographicCoordinate)
+     * Test whether the copy constructors work
+     */
+    @Test
+    public void testCopyConstructor1() throws Exception {
+        GeographicCoordinate coord1 = GeographicCoordinate.fromDegrees(100, -30, -23);
+        GeographicCoordinate copy = new GeographicCoordinate(coord1);
+        assertEquals(0, coord1.distance(copy), 0.0001);
+    }
+
+    /**
+     * Method: GeographicCoordinate(GeographicCoordinate)
+     * Test whether the copy constructors work
+     */
+    @Test
+    public void testCopyConstructor2() throws Exception {
+        GeographicCoordinate coord1 = GeographicCoordinate.fromDegrees(-100, 58, 160);
+        GeographicCoordinate copy = new GeographicCoordinate(coord1);
+        assertEquals(0, coord1.distance(copy), 0.0001);
+    }
+
+
+    /**
+     * Method: fromCartesian()
+     * Test whether converting to and from cartesian keeps the coordinate information as the original
+     */
+    @Test
+    public void fromCartesian1() throws Exception {
+        GeographicCoordinate coord1 = GeographicCoordinate.fromDegrees(100, -30, -23);
+        Vector3 cart1 = coord1.getCartesian();
+        GeographicCoordinate coord2 = GeographicCoordinate.fromCartesian(cart1);
+
+        //accurate to within 0.2 meters
+        assertEquals(0, coord2.distance(coord1), 0.2);
+    }
+
+//    @Test
+//    public void bearingTo1() throws Exception {
+//        assertEquals("Same coordinate",
+//                PI/2, constGeoCoord1.bearingTo(constGeoCoord1), 0.01);
+//        assertEquals("Horizontally opposite side of globe",
+//                0, new GeographicCoordinate(0, 0, 0).bearingTo(new GeographicCoordinate(0, 0, PI)), 0.01);
+//        assertEquals("http://www.igismap.com/formula-to-find-bearing-or-heading-angle-between-two-points-latitude-longitude/",
+//                1.68441726, constGeoCoord3.bearingTo(constGeoCoord4), 0.01);
+//        assertEquals("http://gis.stackexchange.com/questions/29239/calculate-bearing-between-two-decimal-gps-coordinates",
+//                4.36332, constGeoCoord5.bearingTo(constGeoCoord6), 0.01);
+//    }
+//
+//    @Test
+//    public void bearingTo() throws Exception {
+//        assertEquals("Same coordinate",
+//                PI/2, constGeoCoord1.bearingTo(constGeoCoord1), 0.01);
+//        assertEquals("Horizontally opposite side of globe",
+//                0, new GeographicCoordinate(0, 0, 0).bearingTo(new GeographicCoordinate(0, 0, PI)), 0.01);
+//        assertEquals("http://www.igismap.com/formula-to-find-bearing-or-heading-angle-between-two-points-latitude-longitude/",
+//                1.68441726, constGeoCoord3.bearingTo(constGeoCoord4), 0.01);
+//        assertEquals("http://gis.stackexchange.com/questions/29239/calculate-bearing-between-two-decimal-gps-coordinates",
+//                4.36332, constGeoCoord5.bearingTo(constGeoCoord6), 0.01);
+//    }
+//
+//    @Test
+//    public void bearingTo3() throws Exception {
+//        assertEquals("Same coordinate",
+//                PI/2, constGeoCoord1.bearingTo(constGeoCoord1), 0.01);
+//        assertEquals("Horizontally opposite side of globe",
+//                0, new GeographicCoordinate(0, 0, 0).bearingTo(new GeographicCoordinate(0, 0, PI)), 0.01);
+//        assertEquals("http://www.igismap.com/formula-to-find-bearing-or-heading-angle-between-two-points-latitude-longitude/",
+//                1.68441726, constGeoCoord3.bearingTo(constGeoCoord4), 0.01);
+//        assertEquals("http://gis.stackexchange.com/questions/29239/calculate-bearing-between-two-decimal-gps-coordinates",
+//                4.36332, constGeoCoord5.bearingTo(constGeoCoord6), 0.01);
+//    }
+//
+//    @Test
+//    public void bearingTo4() throws Exception {
+//        assertEquals("Same coordinate",
+//                PI/2, constGeoCoord1.bearingTo(constGeoCoord1), 0.01);
+//        assertEquals("Horizontally opposite side of globe",
+//                0, new GeographicCoordinate(0, 0, 0).bearingTo(new GeographicCoordinate(0, 0, PI)), 0.01);
+//        assertEquals("http://www.igismap.com/formula-to-find-bearing-or-heading-angle-between-two-points-latitude-longitude/",
+//                1.68441726, constGeoCoord3.bearingTo(constGeoCoord4), 0.01);
+//        assertEquals("http://gis.stackexchange.com/questions/29239/calculate-bearing-between-two-decimal-gps-coordinates",
+//                4.36332, constGeoCoord5.bearingTo(constGeoCoord6), 0.01);
+//    }
+
+    @Test
+    public void arcDistanceTest2() throws Exception
+    {
+        GeographicCoordinate pos1 = GeographicCoordinate.fromDegrees(0, 38, 148);
+        GeographicCoordinate pos2 = GeographicCoordinate.fromDegrees(0, 38, 149);
+
+        double d = pos1.arcDistance(pos2);
+        assertEquals(87620.0, d, 10);
+    }
+
+    /**
+     *
+     * Method: arcDistance(SphericalCoordinate other)
+     *
+     */
+    @Test
+    public void arcDistanceTest3() throws Exception
+    {
+        GeographicCoordinate pos1 = GeographicCoordinate.fromDegrees(0, -40, 120);
+        GeographicCoordinate pos2 = GeographicCoordinate.fromDegrees(0, -45, 170);
+
+        double d = pos1.arcDistance(pos2);
+        assertEquals(4071000, d, 1000);
+    }
+
+    /**
+     *
+     * @throws Exception
+     */
+    @Test public void arcDistance() throws Exception
+    {
+
+    }
+
     /**
      * Tests the creation of a Geographic Coordinate from degrees(Altitude, Latitude, Longitude).
      * @throws Exception
@@ -22,27 +147,17 @@ public class TestGeographicCoordinate
         GeographicCoordinate t2 = GeographicCoordinate.fromDegrees(92.222,38.3,222.3);
         GeographicCoordinate t3 = GeographicCoordinate.fromDegrees(72.2,67.2232,22.3);
 
-        Assert.assertEquals(1.65806,t1.getAltitude(),0.001);
+        Assert.assertEquals(95,t1.getAltitude(),0.001);
         Assert.assertEquals(0.349066,t1.getLatitude(),0.001);
         Assert.assertEquals(0.383972,t1.getLongitude(),0.001);
 
-        Assert.assertEquals(1.60957754, t2.getAltitude(),0.001);
+        Assert.assertEquals(92.222, t2.getAltitude(),0.001);
         Assert.assertEquals(0.6684611,t2.getLatitude(),0.001);
         Assert.assertEquals(3.8798669,t2.getLongitude(),0.001);
 
-        Assert.assertEquals(1.260128, t3.getAltitude(),0.001);
+        Assert.assertEquals(72.2, t3.getAltitude(),0.001);
         Assert.assertEquals(1.173266174,t3.getLatitude(),0.001);
         Assert.assertEquals(0.3892084,t3.getLongitude(),0.001);
-    }
-
-    @Test public void fromCartesian() throws Exception
-    {
-
-    }
-
-    @Test public void getRadius() throws Exception
-    {
-
     }
 
     /**
@@ -136,6 +251,10 @@ public class TestGeographicCoordinate
         GeographicCoordinate t2 = new GeographicCoordinate(92.222,38.3,222.3);
         GeographicCoordinate t3 = new GeographicCoordinate(72.2,67.2232,22.3);
 
+        Assert.assertEquals(95,t1.getAltitude(),0.001);
+        Assert.assertEquals(92.222,t2.getAltitude(),0.001);
+        Assert.assertEquals(72.2,t3.getAltitude(),0.001);
+
         t1.setLatitude(17.39372);
         t2.setLatitude(0);
         t3.setLatitude(20.28);
@@ -143,6 +262,14 @@ public class TestGeographicCoordinate
         Assert.assertEquals(95,t1.getAltitude(),0.001);
         Assert.assertEquals(92.222,t2.getAltitude(),0.001);
         Assert.assertEquals(72.2,t3.getAltitude(),0.001);
+
+        t1.setAltitude(17.39372);
+        t2.setAltitude(0);
+        t3.setAltitude(20.28);
+
+        Assert.assertEquals(17.39372,t1.getAltitude(),0.001);
+        Assert.assertEquals(0,t2.getAltitude(),0.001);
+        Assert.assertEquals(20.28,t3.getAltitude(),0.001);
     }
 
     /**
@@ -165,7 +292,7 @@ public class TestGeographicCoordinate
      * Tests bearing from one geographical coordinate to another.
      * @throws Exception
      */
-    @Test public void bearingTo() throws Exception
+    @Test public void bearingTo2() throws Exception
     {
         GeographicCoordinate t1 = new GeographicCoordinate(95,20,22);
         GeographicCoordinate t2 = new GeographicCoordinate(92.222,38.3,222.3);
@@ -175,4 +302,5 @@ public class TestGeographicCoordinate
         Assert.assertEquals(3.518705,t2.bearingTo(t3),0.01);
         assertEquals(-0.9744,t3.bearingTo(t1),0.01);
     }
+
 }

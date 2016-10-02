@@ -11,7 +11,7 @@ import pythagoras.d.Vector3;
  */
 public class GeographicCoordinate extends SphericalCoordinate
 {
-    public static final double EARTH_MSL_RADIUS = 6371000.0;
+    private Spheroid spheroid;
 
     /**
      * Create a new GeographicCoordinate from latitude and longitude expres0sed in degrees
@@ -22,7 +22,7 @@ public class GeographicCoordinate extends SphericalCoordinate
      */
     public static GeographicCoordinate fromDegrees(double altitude, double latitude, double longitude)
     {
-        return new GeographicCoordinate(Math.toRadians(altitude), Math.toRadians(latitude), Math.toRadians(longitude));
+        return new GeographicCoordinate(altitude, Math.toRadians(latitude), Math.toRadians(longitude));
     }
 
     /**
@@ -38,6 +38,8 @@ public class GeographicCoordinate extends SphericalCoordinate
     public GeographicCoordinate(Vector3 other)
     {
         super(other);
+
+        this.spheroid = Sphere.EARTH;
     }
 
     /**
@@ -46,7 +48,7 @@ public class GeographicCoordinate extends SphericalCoordinate
      */
     public GeographicCoordinate(GeographicCoordinate other)
     {
-        super(other);
+        this((Vector3) other);
     }
 
     /**
@@ -55,7 +57,7 @@ public class GeographicCoordinate extends SphericalCoordinate
      */
     public GeographicCoordinate(SphericalCoordinate other)
     {
-        super(other);
+        this((Vector3) other);
     }
 
     /**
@@ -66,7 +68,11 @@ public class GeographicCoordinate extends SphericalCoordinate
      */
     public GeographicCoordinate(double altitude, double latitude, double longitude)
     {
-        super(altitude+ EARTH_MSL_RADIUS, longitude + Math.PI, latitude + Math.PI/2.0);
+        super(altitude, longitude + Math.PI, latitude + Math.PI/2.0);
+        this.spheroid = Sphere.EARTH;
+
+        // get the correct radius for the current position.
+        this.setR(this.spheroid.getRadius(this) + this.getRadius());
     }
 
     /**
@@ -80,7 +86,7 @@ public class GeographicCoordinate extends SphericalCoordinate
 
 
     /**
-     * Get the Latitude.
+     * Get the Latitude in radians.
      * @return
      */
     public double getLatitude()
@@ -89,7 +95,7 @@ public class GeographicCoordinate extends SphericalCoordinate
     }
 
     /**
-     * Set the Latitude
+     * Set the Latitude in radians.
      * @param latitude
      */
     public void setLatitude(double latitude) {
@@ -97,7 +103,7 @@ public class GeographicCoordinate extends SphericalCoordinate
     }
 
     /**
-     * Get the Longitude.
+     * Get the Longitude in radians.
      * @return
      */
     public double getLongitude()
@@ -106,7 +112,7 @@ public class GeographicCoordinate extends SphericalCoordinate
     }
 
     /**
-     * Set the Longitude
+     * Set the Longitude in radians.
      * @param longitude
      */
     public void setLongitude(double longitude) {
@@ -119,7 +125,7 @@ public class GeographicCoordinate extends SphericalCoordinate
      */
     public double getAltitude()
     {
-        return this.x - EARTH_MSL_RADIUS;
+        return this.x - spheroid.getRadius(this);
     }
 
     /**
@@ -128,24 +134,22 @@ public class GeographicCoordinate extends SphericalCoordinate
      */
     public void setAltitude(double altitude)
     {
-        this.x = EARTH_MSL_RADIUS + altitude;
+        this.x = spheroid.getRadius(this) + altitude;
     }
 
     /**
      * Linear interpolation between two Geographic coordinates. Going from this Coord to the supplied coordinate
+     * interpolation is done in the cartesian coordinate system.
      *
      * @param toCoord   The coordinate we are interpolating towards
      * @param interpolant   The interpolant, ratio between the two coordinates
      * @return
      */
-    public GeographicCoordinate linearIntepolate(GeographicCoordinate toCoord, float interpolant)
+    public GeographicCoordinate linearIntepolate(GeographicCoordinate toCoord, double interpolant)
     {
-        double newLat = this.getLatitude() + Math.abs(this.getLatitude() - toCoord.getLatitude()) * interpolant;
-        double newLong = this.getLongitude() + Math.abs(this.getLongitude() - toCoord.getLongitude()) * interpolant;
-        double newAlt = this.getAltitude() + Math.abs(this.getAltitude() - toCoord.getAltitude()) * interpolant;
-        return new GeographicCoordinate(newLat,newLong,newAlt);
+        Vector3 interpolated = this.getCartesian().lerp(toCoord.getCartesian(), interpolant);
+        return GeographicCoordinate.fromCartesian(interpolated);
     }
-
 
     @Override
     public String toString()
@@ -271,5 +275,24 @@ public class GeographicCoordinate extends SphericalCoordinate
         return Math.atan2(dLong, dPhi);
     }
 
+    /**
+     * Get the spheroid this coordinate is based on.
+     * @return
+     */
+    public Spheroid getSpheroid() {
+        return spheroid;
+    }
+
+    /**
+     * Calculate the arc distance (aka great circle distance) between this point and another
+     * using this coordinate's spheroid's arcDistance method.
+     * *
+     * @param other other point to get the distance to.
+     * @return
+     */
+    public double arcDistance(GeographicCoordinate other)
+    {
+        return spheroid.arcDistance(this, other);
+    }
 }
 
