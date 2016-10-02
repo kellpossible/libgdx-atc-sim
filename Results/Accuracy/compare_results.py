@@ -168,7 +168,6 @@ def run(args):
         transitions = log.get_transitions()
         marker_plots = {}
         for transition in transitions:
-            print(transition)
             y = log.get_error(transition.time)
             x = transition.time
             to_state = transition.to_state
@@ -193,7 +192,17 @@ def run(args):
             marker_plots[marker_style][1].append(y)
 
         for key, val in marker_plots.items():
-            plt.plot(val[0], val[1], key)
+            label = None
+            if "^" in key:
+                label = "state: STRAIGHT"
+            elif ">" in key:
+                label = "state: RIGHT_TURN"
+            elif "<" in key:
+                label = "state: LEFT_TURN"
+
+            line_handle, = plt.plot(val[0], val[1], key, label=label)
+
+            line_handles.append(line_handle)
 
 
     plt.axis([bounds[0], bounds[1], 0, 10000])
