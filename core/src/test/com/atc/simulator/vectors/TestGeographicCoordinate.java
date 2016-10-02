@@ -55,6 +55,27 @@ public class TestGeographicCoordinate {
         assertEquals(0, coord2.distance(coord1), 0.2);
     }
 
+    /**
+     * Method: fromCartesian()
+     * Test whether converting to and from cartesian keeps the coordinate information as the original
+     */
+    @Test
+    public void fromCartesian2() throws Exception {
+        GeographicCoordinate t1 = GeographicCoordinate.fromCartesian(new Vector3(1,2,3));
+
+        GeographicCoordinate t2 = GeographicCoordinate.fromCartesian(new Vector3(32.23,23,3.5));
+
+        GeographicCoordinate t3 = GeographicCoordinate.fromCartesian(new Vector3(29.8,27.8,76.36));
+
+        assertEquals(-0.9302,t1.getLatitude(),0.01);
+        assertEquals(-2.0344,t1.getLongitude(),0.01);
+        assertEquals(-0.0881,t2.getLatitude(),0.01);
+        assertEquals(-2.5217,t2.getLongitude(),0.01);
+        assertEquals(-1.080,t3.getLatitude(),0.01);
+        assertEquals(-2.39097,t3.getLongitude(),0.01);
+
+    }
+
 //    @Test
 //    public void bearingTo1() throws Exception {
 //        assertEquals("Same coordinate",
