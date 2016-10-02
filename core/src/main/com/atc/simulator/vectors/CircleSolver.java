@@ -12,12 +12,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by luke on 20/07/16.
- *
- * algorithm from:
- * http://stackoverflow.com/questions/4103405/what-is-the-algorithm-for-finding-the-center-of-a-circle-from-three-points
+ * Collection of functions for creating/matching circles to given input data.
+ * @author Luke Frisken
  */
 public class CircleSolver {
+    /**
+     * algorithm from:
+     * http://stackoverflow.com/questions/4103405/what-is-the-algorithm-for-finding-the-center-of-a-circle-from-three-points
+     * @param p1
+     * @param p2
+     * @param p3
+     * @return
+     */
     public static Circle FromThreePoints(Vector3 p1, Vector3 p2, Vector3 p3)
     {
         double dy1 = p2.y - p1.y;

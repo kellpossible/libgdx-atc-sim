@@ -15,11 +15,21 @@ import com.atc.simulator.PredictionService.DebugDataFeedClientThread;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 
+/**
+ * The main launcher class which creates the libgdx instance using lwjgl as the
+ * windowing/library/backend for Windows/Linux/Mac.
+ *
+ * @author Luke Frisken
+ */
 public class DesktopLauncher {
 	private static final String recordingFile = ApplicationConfig.getString("settings.debug-data-feed.adsb-recording-scenario.file");
 	private static final int javaWorkerThreads = ApplicationConfig.getInt("settings.prediction-service.prediction-engine.java-worker-threads");
 	private static final Boolean accuracyTest = ApplicationConfig.getBoolean("settings.testing.run-accuracy-test");
 
+	/**
+	 * Main method
+	 * @param arg command line arguments
+	 */
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.height = 768;

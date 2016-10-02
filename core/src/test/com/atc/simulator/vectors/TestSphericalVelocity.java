@@ -11,7 +11,7 @@ import static org.junit.Assert.*;
  * @author Adam Miritis
  */
 
-public class SphericalVelocityTest
+public class TestSphericalVelocity
 {
     /**
      * Tests getting R
