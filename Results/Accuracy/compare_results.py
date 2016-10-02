@@ -41,11 +41,25 @@ class Prediction(object):
         return self.total_error()/float(len(self.states))
 
     def weighted_error(self):
-        pass
+        """
+        Error that has been weighted so the initial errors are more important
+        than the final errors.
+        """
+
+        total = 0.0
+        i = 1.0
+        for state in self.states:
+            i += 1.0
+            total += state.error/i
+
+        return total/float(len(self.states))
 
 
 class ErrorCalculator(object):
     def run(self, prediction):
+        pass
+
+    def name(self):
         pass
 
 
@@ -53,10 +67,24 @@ class AverageErrorCalculator(ErrorCalculator):
     def run(self, prediction):
         return prediction.average_error()
 
+    def name(self):
+        return "Average Error"
+
 
 class TotalErrorCalculator(ErrorCalculator):
     def run(self, prediction):
         return prediction.total_error()
+
+    def name(self):
+        return "Total Error"
+
+
+class WeightedErrorCalculator(ErrorCalculator):
+    def run(self, prediction):
+        return prediction.weighted_error()
+
+    def name(self):
+        return "Early Weighted Error"
 
 
 class ErrorLog:
@@ -113,11 +141,22 @@ class ErrorLog:
 def run(args):
     selected_aircraft_id = args.aircraft_id
 
+    error_calculator = None
+
+    if args.error_calc_method == "Weighted":
+        error_calculator = WeightedErrorCalculator()
+    elif args.error_calc_method == "Average":
+        error_calculator = AverageErrorCalculator()
+    elif args.error_calc_method == "Total":
+        error_calculator = TotalErrorCalculator()
+    else:
+        raise "Invalid error calculation method: " + args.error_calc_method
+
     logs = []
 
     # read them
     for filename in args.files:
-        log = ErrorLog(filename, AverageErrorCalculator())
+        log = ErrorLog(filename, error_calculator)
         print("reading: " + filename)
         with open(filename, 'r') as csvfile:
             reader = csv.reader(csvfile, delimiter=',')
@@ -204,14 +243,20 @@ def run(args):
 
             line_handles.append(line_handle)
 
-
-    plt.axis([bounds[0], bounds[1], 0, 10000])
+    plt.axis([bounds[0], bounds[1], 0, args.upper_error_bound])
     plt.legend(handles=line_handles)
+    plt.title("Plot of aircraft " + selected_aircraft_id)
+    plt.ylabel(error_calculator.name())
+    plt.xlabel("Time")
     plt.show()
 
 
 if __name__ == "__main__":
+    error_calc_choices = ["Weighted",
+                          "Average",
+                          "Total"]
     parser = argparse.ArgumentParser(
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
         description="""Compare integration test results.""",
         epilog="""Notes: Default aircraft for analysis is the first that appears.
         """)
@@ -219,11 +264,26 @@ if __name__ == "__main__":
                         metavar='ID',
                         nargs='?',
                         help='id of aircraft you want to select for analysis')
+    parser.add_argument('-u', '--upper-error-bound',
+                        type=int,
+                        dest='upper_error_bound',
+                        metavar='value',
+                        nargs='?',
+                        default=10000,
+                        help='The upper error bound (for display)')
+    parser.add_argument('-e', '--error-calc',
+                        metavar='Method',
+                        dest='error_calc_method',
+                        nargs='?',
+                        choices=error_calc_choices,
+                        default=error_calc_choices[1],
+                        help="Method for error calculation. Allowed values: " +
+                        ", ".join(error_calc_choices))
     parser.add_argument('files',
                         metavar='File',
                         type=str,
                         nargs='+',
-                        help='files for analysis/comparison')
+                        help="Files for analysis/comparison")
 
     args = parser.parse_args()
     run(args)
