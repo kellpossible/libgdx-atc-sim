@@ -9,8 +9,17 @@ import com.atc.simulator.flightdata.AircraftState;
 import com.atc.simulator.flightdata.Prediction;
 import com.atc.simulator.flightdata.Track;
 import com.atc.simulator.vectors.GeographicCoordinate;
+import com.atc.simulator.vectors.GnomonicProjection;
+import com.badlogic.gdx.utils.Json;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import pythagoras.d.Vector3;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -29,6 +38,14 @@ import java.util.concurrent.ArrayBlockingQueue;
  * Modified by Chris on 10/09/2016.
  */
 public class TestAccuracy implements PredictionListener, RunnableThread {
+    public static final boolean SAVE_JSON = ApplicationConfig.getBoolean("settings.testing.save-json");
+    public static final boolean SAVE_CSV = ApplicationConfig.getBoolean("settings.testing.save-csv");
+    private GnomonicProjection projection;
+    private JsonObject jsonAccuracyTest;
+    private JsonArray jsonPredictions;
+    private String csvFileName;
+    private String jsonFileName;
+    private boolean jsonFirstWrite = true;
     /**
      * Private class that combines the Times and Positions of each data point being simulated.
      * This is for storage, and ease of use, in the HashMap, below.
@@ -38,14 +55,14 @@ public class TestAccuracy implements PredictionListener, RunnableThread {
         public GeographicCoordinate pos;//Geographic Position of the data point
     }
 
-    private ArrayBlockingQueue<Prediction> newPredictionQueue; //Queue to store predictions
+    private ArrayBlockingQueue<Prediction> newPredictionQueue; //Queue to store jsonPredictions
     private Map<String, ArrayList<dataPoint>> actualDataValues; //HashMaps: Find planeID, then you can iterate through times and positions
 
     private static final String threadName = "IntAccuracyTest";
     private Thread thread;
     private Boolean continueThread = true;
 
-    private File resultsFile; //File that will store results
+    private File csvResultsFile; //File that will store results
     private PrintStream resultsWriter;//Writer for the file
     /**
      * Constructor
@@ -58,7 +75,12 @@ public class TestAccuracy implements PredictionListener, RunnableThread {
      */
     public TestAccuracy(Scenario scenario)
     {
-        newPredictionQueue = new ArrayBlockingQueue<Prediction>(400); //Create a queue to store predictions
+        jsonAccuracyTest = new JsonObject();
+        jsonPredictions = new JsonArray();
+        jsonAccuracyTest.add("jsonPredictions", jsonPredictions);
+
+        projection = new GnomonicProjection(scenario.getProjectionReference()); // projection for x y coordinates
+        newPredictionQueue = new ArrayBlockingQueue<Prediction>(400); //Create a queue to store jsonPredictions
         actualDataValues = new HashMap<String, ArrayList<dataPoint>>(); //and the nested HashMaps for the Scenario's tracks
 
         for(Track temp: scenario.getTracks()) //For every track in the scenario:
@@ -75,10 +97,12 @@ public class TestAccuracy implements PredictionListener, RunnableThread {
         }
 
         String algorithmName = ApplicationConfig.getString("settings.prediction-service.prediction-engine.algorithm-type");
+        String baseFileName = "./Results/Accuracy/" + algorithmName + "_" + new SimpleDateFormat("MM-dd_HH-mm-ss").format(new Date());
 
         //Create a new file for results with the date/time as filename
-        String fileName = "Results/Accuracy/" + algorithmName + "_" + new SimpleDateFormat("MM-dd_HH-mm-ss").format(new Date())+".csv";
-        resultsFile = new File(fileName);
+        csvFileName = baseFileName + ".csv";
+        csvResultsFile = new File(csvFileName);
+        jsonFileName = baseFileName + ".json";
     }
 
     /**
@@ -118,10 +142,14 @@ public class TestAccuracy implements PredictionListener, RunnableThread {
         while(continueThread)
         {
             String singleTestString;
-            //Step1: See if there are new predictions to test
+            //Step1: See if there are new jsonPredictions to test
             Prediction predictionUnderTest = newPredictionQueue.poll();
             if(predictionUnderTest != null)
             {
+                JsonObject jsonPrediction = new JsonObject();
+                jsonPrediction.addProperty("plane-id", predictionUnderTest.getAircraftID());
+                jsonPrediction.addProperty("state", predictionUnderTest.getState().toString());
+                jsonPrediction.addProperty("time", predictionUnderTest.getPredictionTime());
 
                 singleTestString = "";
                 //Store PlaneID for use in the HashMap
@@ -129,8 +157,23 @@ public class TestAccuracy implements PredictionListener, RunnableThread {
                 singleTestString += planeID +", ";
                 singleTestString += predictionUnderTest.getState().toString() + ", ";
 
+                //time that the prediction was made
+                singleTestString += predictionUnderTest.getPredictionTime() + ", ";
 
-                //Remove the list of predictions
+                //x and y coordinates of the aircraft at the time the prediction was made
+                GeographicCoordinate currentPosition = predictionUnderTest.getCurrentPosition();
+                Vector3 pos = projection.transformPositionTo(currentPosition);
+                singleTestString += pos.x + ", ";
+                singleTestString += pos.y + ", ";
+
+                JsonObject jsonCurrentPosition = new JsonObject();
+                jsonCurrentPosition.addProperty("x", pos.x);
+                jsonCurrentPosition.addProperty("y", pos.y);
+                jsonPrediction.add("current-position", jsonCurrentPosition);
+
+                JsonArray jsonPredictionTrack = new JsonArray();
+
+                //Remove the list of jsonPredictions
                 ArrayList<AircraftState> predictionStates = predictionUnderTest.getCentreTrack();
 
                 //Check that our Scenario contains this Plane (sanity, if this fails we have messed up)
@@ -139,10 +182,14 @@ public class TestAccuracy implements PredictionListener, RunnableThread {
                     //todo: this just loops the first 5, our algorithm can change this
                     for (int i = 0; i < 12; i++)
                     {
+                        JsonObject jsonPredictionItem = new JsonObject();
+
                         GeographicCoordinate actualCoord = null;
                         //Get the timeStamp for the prediction we're testing
                         long predTime = predictionStates.get(i).getTime();
                         singleTestString += predTime + ", ";
+
+                        jsonPredictionItem.addProperty("time", predTime);
 
                         for(int j=0; j<actualDataValues.get(planeID).size(); j++)
                         {
@@ -168,17 +215,59 @@ public class TestAccuracy implements PredictionListener, RunnableThread {
                         if(actualCoord != null)
                         {
                             //Store the distance between our predicted and the interpolated 'actual' positions
-                            double distance = Math.abs(actualCoord.arcDistance(predictionStates.get(i).getPosition()));
+                            Vector3 cartesianActualCoord = actualCoord.getCartesian();
+                            Vector3 cartesianPredictionCoord = predictionStates.get(i).getPosition().getCartesian();
+                            double distance = cartesianActualCoord.subtract(cartesianPredictionCoord).length();
+//                            double distance = Math.abs(actualCoord.arcDistance(predictionStates.get(i).getPosition()));
                             singleTestString += distance+", ";
+                            jsonPredictionItem.addProperty("error-distance", distance);
+                            jsonPredictionTrack.add(jsonPredictionItem);
                         }
+
+
 
                     }
 
+                } else {
+                    System.err.println("Scenario does not contain this plane: " + planeID);
                 }
-                //And write the newly formed string to our File
-                try{resultsWriter = new PrintStream(new FileOutputStream(resultsFile,true));
+
+                jsonPrediction.add("prediction-track", jsonPredictionTrack);
+
+                jsonPredictions.add(jsonPrediction);
+
+                if (SAVE_CSV) {
+                    //And write the newly formed string to our File
+                    try{resultsWriter = new PrintStream(new FileOutputStream(csvResultsFile,true));
                         resultsWriter.println(singleTestString);
                         resultsWriter.close();}catch(IOException e){System.err.println("Error printing to FILE, Accuracy Test");}
+                }
+
+                if (SAVE_JSON) {
+                    try {
+                        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+                        String outString = gson.toJson(jsonPrediction);
+                        RandomAccessFile out = new RandomAccessFile(jsonFileName, "rw");
+                        long length  = out.length();
+                        if (jsonFirstWrite) {
+                            out.writeBytes("[\n");
+                            jsonFirstWrite = false;
+                        } else {
+                            //seek back to overwrite the old "]" close bracket and newline
+                            //with a comma and a newline
+                            out.seek(length-2);
+                            out.writeBytes(",\n");
+                        }
+                        out.writeBytes(outString);
+                        out.writeBytes("\n]");
+                        out.close();
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+
             }
             else{try{Thread.sleep(500);} catch (InterruptedException e) {e.printStackTrace();}}
        }

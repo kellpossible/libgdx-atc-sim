@@ -256,6 +256,7 @@ public class JavaLMLeastSquaresAlgorithm extends JavaPredictionAlgorithm {
         Prediction prediction = new Prediction(
                 state.getAircraftID(),
                 startTime,
+                geographicPosition,
                 leftTrack,
                 centreTrack,
                 rightTrack,

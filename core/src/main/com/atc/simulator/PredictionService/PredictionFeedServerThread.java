@@ -84,10 +84,7 @@ public class PredictionFeedServerThread implements RunnableThread{
             //A current position
             GeographicCoordinate position = aircraftState.getPosition();
             aircraftStateMessageBuilder.setPosition(
-                    PredictionFeedServe.GeographicCoordinateMessage.newBuilder()
-                            .setAltitude(position.getAltitude())
-                            .setLatitude(position.getLatitude())
-                            .setLongitude(position.getLongitude())
+                    buildGeographicCoordinateMessage(position)
             );
             //A super complicated velocity
             SphericalVelocity velocity = aircraftState.getVelocity();
@@ -102,6 +99,17 @@ public class PredictionFeedServerThread implements RunnableThread{
         }
 
         return trackMessageBuilder.build();
+    }
+
+    PredictionFeedServe.GeographicCoordinateMessage buildGeographicCoordinateMessage(GeographicCoordinate coordinate) {
+        PredictionFeedServe.GeographicCoordinateMessage.Builder builder = PredictionFeedServe.GeographicCoordinateMessage.newBuilder();
+        if (coordinate == null) {
+            System.out.println("Bad coord");
+        }
+        builder.setAltitude(coordinate.getAltitude());
+        builder.setLatitude(coordinate.getLatitude());
+        builder.setLongitude(coordinate.getLongitude());
+        return builder.build();
     }
 
     /**
@@ -135,6 +143,8 @@ public class PredictionFeedServerThread implements RunnableThread{
         {
             predictionMessageBuilder.setRightTrack(buildTrackMessage(newPrediction.getRightTrack()));
         }
+
+        predictionMessageBuilder.setCurrentPosition(buildGeographicCoordinateMessage(newPrediction.getCurrentPosition()));
 
 
         return predictionMessageBuilder.build();

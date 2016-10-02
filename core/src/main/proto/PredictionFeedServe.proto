@@ -43,4 +43,5 @@ message AircraftPredictionMessage
     }
 
     required State state = 6;
+    required GeographicCoordinateMessage currentPosition = 7;
 }

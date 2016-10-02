@@ -137,10 +137,16 @@ public class PredictionFeedClientThread implements RunnableThread {
 
                     Prediction.State predictionState = Prediction.State.valueOf(predictionMessage.getState().name());
 
+                    GeographicCoordinate currentPosition = new GeographicCoordinate(
+                            predictionMessage.getCurrentPosition().getAltitude(),
+                            predictionMessage.getCurrentPosition().getLatitude(),
+                            predictionMessage.getCurrentPosition().getLongitude());
+
                     //Made a new Prediction with ID and Time
                     Prediction newPred = new Prediction(
                             predictionMessage.getAircraftID(),
                             System.currentTimeMillis(),
+                            currentPosition,
                             leftTrack,
                             centreTrack,
                             rightTrack,

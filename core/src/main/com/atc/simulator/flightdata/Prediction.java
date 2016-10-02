@@ -1,6 +1,6 @@
 package com.atc.simulator.flightdata;
 
-import java.util.ArrayList;
+import com.atc.simulator.vectors.GeographicCoordinate;
 
 /**
  * Prediction is a simple data type, storing a list of AircraftStates that form a future prediction made by the Prediction Engine
@@ -8,6 +8,7 @@ import java.util.ArrayList;
  * @author    Chris Coleman, Luke Frisken
  */
 public class Prediction {
+
     public enum State {
         STOPPED,
         STRAIGHT,
@@ -36,6 +37,11 @@ public class Prediction {
     private long time;
 
     /**
+     * Current position of the aircraft when this prediction was created
+     */
+    private GeographicCoordinate currentPosition;
+
+    /**
      * Constructor Prediction creates a new Prediction instance.
      *
      * @param aircraftID of type String
@@ -46,6 +52,7 @@ public class Prediction {
      */
     public Prediction(String aircraftID,
                       long time,
+                      GeographicCoordinate currentPosition,
                       Track leftTrack,
                       Track centreTrack,
                       Track rightTrack,
@@ -57,6 +64,7 @@ public class Prediction {
         this.aircraftID = aircraftID;
         this.time = time;
         this.state = state;
+        this.currentPosition = currentPosition;
     }
 
     /**
@@ -154,6 +162,15 @@ public class Prediction {
     }
 
     /**
+     * Get the current position of the aircraft when this prediction was created.
+     * @return GeographicCoordinate
+     */
+    public GeographicCoordinate getCurrentPosition() {
+        return currentPosition;
+    }
+
+
+    /**
      * Shallow copy prediction data from another prediction
      * @param other prediction to copy data from.
      */
@@ -165,6 +182,7 @@ public class Prediction {
         this.centreTrack = other.centreTrack;
         this.rightTrack = other.rightTrack;
         this.state = other.state;
+        this.currentPosition = other.currentPosition;
     }
 
     /**

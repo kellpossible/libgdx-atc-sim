@@ -26,6 +26,7 @@ public class JavaPassthroughAlgorithm extends JavaPredictionAlgorithm {
         }
 
         AircraftState state = aircraftTrack.getLatest();
+        GeographicCoordinate currentPosition = state.getPosition();
         ArrayList<AircraftState> predictedStates = new ArrayList<AircraftState>();
         //Add the current position
 //        predictionPositions.add(state.getPosition());
@@ -38,7 +39,7 @@ public class JavaPassthroughAlgorithm extends JavaPredictionAlgorithm {
 //        predictionPositions.add(new GeographicCoordinate(tempAlt,tempLat,tempLon));
         Track predictedTrack = new Track(predictedStates);
         Prediction prediction = new Prediction(state.getAircraftID(),
-                state.getTime(), null, predictedTrack, null, Prediction.State.STOPPED);
+                state.getTime(), currentPosition, null, predictedTrack, null, Prediction.State.STOPPED);
         if(enableTimer)
         {
             long stop = System.nanoTime();

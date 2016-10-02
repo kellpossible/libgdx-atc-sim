@@ -2,7 +2,7 @@
   "settings": {
     "prediction-service": {
       "prediction-engine": {
-        "algorithm-type": "LMLEASTSQUARES",
+        "algorithm-type": "LINEAR2D",
         "java-worker-threads": 4
       },
       "debug-data-feed-client": {
@@ -20,7 +20,7 @@
       "adsb-recording-scenario": {
         "file": "assets/flight_data/YMML_26_05_2016/database.json"
       },
-      "speed": 10
+      "speed": 20
     },
     "display": {
       "prediction-display-method": "GRADIENT",
@@ -31,7 +31,9 @@
       }
     },
     "testing": {
-      "run-accuracy-test": false
+      "run-accuracy-test": true,
+      "save-csv": false,
+      "save-json": true
     }
   }
 }

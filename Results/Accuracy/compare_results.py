@@ -1,7 +1,10 @@
 import argparse
 import csv
+import json
 import matplotlib.pyplot as plt
 import sys
+from matplotlib.widgets import Slider
+import matplotlib.gridspec as gridspec
 
 
 class StateTransition(object):
@@ -21,11 +24,16 @@ class AircraftState(object):
 
 
 class Prediction(object):
-    def __init__(self, aircraft_id, prediction_time, prediction_state):
+    def __init__(self,
+                 aircraft_id,
+                 prediction_time,
+                 prediction_state,
+                 current_position):
         self.aircraft_id = aircraft_id
         self.prediction_time = prediction_time
         self.states = []
         self.prediction_state = prediction_state
+        self.current_position = current_position
 
     def add_state(self, state):
         self.states.append(state)
@@ -38,6 +46,9 @@ class Prediction(object):
         return total
 
     def average_error(self):
+        if len(self.states) == 0:
+            return 0
+
         return self.total_error()/float(len(self.states))
 
     def weighted_error(self):
@@ -45,6 +56,9 @@ class Prediction(object):
         Error that has been weighted so the initial errors are more important
         than the final errors.
         """
+
+        if len(self.states) == 0:
+            return 0
 
         total = 0.0
         i = 1.0
@@ -96,7 +110,7 @@ class ErrorLog:
     def add_prediction(self, prediction):
         self.predictions.append(prediction)
 
-    def bounds(self):
+    def error_bounds(self):
         min_time = sys.maxsize
         max_time = 0
         min_error = sys.maxsize
@@ -117,6 +131,27 @@ class ErrorLog:
                 min_error = error
 
         return (min_time, max_time, min_error, max_error)
+
+    def pos_bounds(self):
+        min_x = sys.maxsize
+        max_x = 0
+        min_y = sys.maxsize
+        max_y = 0
+
+        for prediction in self.predictions:
+            pos = prediction.current_position
+            x = pos[0]
+            y = pos[1]
+            if x > max_x:
+                max_x = x
+            if x < min_x:
+                min_x = x
+            if y > max_y:
+                max_y = y
+            if y < min_y:
+                min_y = y
+
+        return (min_x, max_x, min_y, max_y)
 
     def get_transitions(self):
         transitions = []
@@ -158,40 +193,45 @@ def run(args):
     for filename in args.files:
         log = ErrorLog(filename, error_calculator)
         print("reading: " + filename)
-        with open(filename, 'r') as csvfile:
-            reader = csv.reader(csvfile, delimiter=',')
-            for row in reader:
-                aircraft_id = row[0]
+        with open(filename, 'r') as json_file:
+            json_data = json.load(json_file)
+            for json_prediction in json_data:
+                aircraft_id = json_prediction["plane-id"]
                 if selected_aircraft_id is None:
                     selected_aircraft_id = aircraft_id
 
                 if aircraft_id == selected_aircraft_id:
-                    prediction_state = row[1].strip()
-                    prediction_time = int(row[2])
+                    prediction_state = json_prediction["state"]
+                    prediction_time = json_prediction["time"]
+                    json_pos = json_prediction["current-position"]
+                    current_position = [json_pos["x"], json_pos["y"]]
 
                     prediction = Prediction(aircraft_id,
                                             prediction_time,
-                                            prediction_state)
+                                            prediction_state,
+                                            current_position
+                                            )
 
-                    i = 2
-                    while i+2 < len(row):
-                        state_time = int(row[i])
-                        error = float(row[i+1])
+                    # prediction positions start after the current position
+                    for json_track_item in json_prediction["prediction-track"]:
+                        state_time = json_track_item["time"]
+                        error = json_track_item["error-distance"]
                         state = AircraftState(state_time=state_time,
                                               error=error)
                         prediction.add_state(state)
-                        i += 2
 
                     log.add_prediction(prediction)
 
         logs.append(log)
 
     # graph them
+    gs = gridspec.GridSpec(3, 1, height_ratios=[4, 4, 1])
+    figure_1 = plt.figure(1)
+    figure_1.suptitle("Plot of Aircraft: " + selected_aircraft_id, fontsize=20)
+    subplot_1 = plt.subplot(gs[0])
     line_handles = []
 
     for log in logs:
-        bounds = log.bounds()
-
         x_axis = []
         y_axis = []
 
@@ -243,11 +283,88 @@ def run(args):
 
             line_handles.append(line_handle)
 
-    plt.axis([bounds[0], bounds[1], 0, args.upper_error_bound])
+    log = logs[0]
+    error_bounds = log.error_bounds()
+    plt.axis([error_bounds[0], error_bounds[1], 0, args.upper_error_bound])
     plt.legend(handles=line_handles)
-    plt.title("Plot of aircraft " + selected_aircraft_id)
+    plt.title("Error", fontsize=16)
     plt.ylabel(error_calculator.name())
-    plt.xlabel("Time")
+
+    half_time = error_bounds[0] + (error_bounds[1]-error_bounds[0])/2
+    time_line_handle = plt.axvline(error_bounds[0],
+                                   color='grey',
+                                   linestyle='--')
+
+    # plot aircraft position
+    subplot_2 = plt.subplot(gs[1])
+
+    pos_bounds = log.pos_bounds()
+
+    pos_x_axis = []
+    pos_y_axis = []
+    pos_time_axis = []
+
+    for prediction in log.predictions:
+        pos = prediction.current_position
+        pos_x_axis.append(pos[0])
+        pos_y_axis.append(pos[1])
+        pos_time_axis.append(prediction.prediction_time)
+
+    def lerp(p1, p2, t):
+        return (1-t)*p1 + t*p2
+
+    def nearest_position(time):
+        for i in range(0, len(pos_time_axis), 1):
+            t = pos_time_axis[i]
+            if time < t:
+                if i == 0:
+                    return (pos_x_axis[i], pos_y_axis[i])
+
+                dt_total = t - pos_time_axis[i-1]
+                dt = time - pos_time_axis[i-1]
+                lerp_t = float(dt)/float(dt_total)
+
+                x1 = pos_x_axis[i-1]
+                y1 = pos_y_axis[i-1]
+                x2 = pos_x_axis[i]
+                y2 = pos_y_axis[i]
+
+                x = lerp(x1, x2, lerp_t)
+                y = lerp(y1, y2, lerp_t)
+
+                return (x, y)
+
+        return (pos_x_axis[-1], pos_y_axis[-1])
+
+    curr_pos_x = [pos_x_axis[0]]
+    curr_pos_y = [pos_y_axis[0]]
+
+
+    plt.title("Position", fontsize=16)
+    pos_line_handle, = plt.plot(pos_x_axis, pos_y_axis, label="Aircraft Track", color='red')
+    curr_pos_line_handle, = plt.plot(curr_pos_x, curr_pos_y, 'ro', label="Current Position")
+    handles = [pos_line_handle, curr_pos_line_handle]
+    plt.legend(handles=handles)
+
+    plt.axis([pos_bounds[0], pos_bounds[1], pos_bounds[2], pos_bounds[3]])
+    plt.gca().set_aspect('equal', 'datalim')
+
+
+
+    def update(val):
+        time_line_handle.set_xdata([val, val])
+        new_pos = nearest_position(val)
+        curr_pos_line_handle.set_xdata([new_pos[0]])
+        curr_pos_line_handle.set_ydata([new_pos[1]])
+
+
+    subplot_3 = plt.subplot(gs[2])
+    plt.title("Time Slider", fontsize=16)
+    time_slider = Slider(plt.gca(), '', error_bounds[0], error_bounds[1], color='grey')
+    time_slider.on_changed(update)
+
+    # plt.plot([1,2,3,4])
+
     plt.show()
 
 
