@@ -441,14 +441,14 @@ if __name__ == "__main__":
                         dest='upper_error_bound',
                         metavar='value',
                         nargs='?',
-                        default=10000,
+                        default=40000,
                         help='The upper error bound (for display)')
     parser.add_argument('-e', '--error-calc',
                         metavar='Method',
                         dest='error_calc_method',
                         nargs='?',
                         choices=error_calc_choices,
-                        default=error_calc_choices[1],
+                        default=error_calc_choices[2],
                         help="Method for error calculation. Allowed values: " +
                         ", ".join(error_calc_choices))
     parser.add_argument('files',

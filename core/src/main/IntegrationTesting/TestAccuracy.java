@@ -220,16 +220,19 @@ public class TestAccuracy implements PredictionListener, RunnableThread {
                         if(actualCoord != null)
                         {
                             //Store the distance between our predicted and the interpolated 'actual' positions
+                            actualCoord.setAltitude(0); //take altitude out of the equation
                             Vector3 cartesianActualCoord = actualCoord.getCartesian();
                             GeographicCoordinate predictionCoord = predictionStates.get(i).getPosition();
+                            predictionCoord.setAltitude(0); //take altitude out of the equation
                             Vector3 cartesianPredictionCoord = predictionCoord.getCartesian();
-                            double distance = cartesianActualCoord.subtract(cartesianPredictionCoord).length();
+                            double distance = cartesianActualCoord.distance(cartesianPredictionCoord);
 
                             if (distance == Double.NaN)
                             {
+                                System.err.println("distance is NaN");
                                 continue;
                             }
-//                            double distance = Math.abs(actualCoord.arcDistance(predictionStates.get(i).getPosition()));
+//                            distance = Math.abs(actualCoord.arcDistance(predictionStates.get(i).getPosition()));
                             singleTestString += distance+", ";
                             jsonPredictionItem.addProperty("error-distance", distance);
                             jsonPredictionTrack.add(jsonPredictionItem);
