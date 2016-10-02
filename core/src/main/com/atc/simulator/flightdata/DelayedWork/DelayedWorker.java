@@ -42,7 +42,11 @@ public class DelayedWorker {
             expenditure += workItem.getCost();
 
             DelayedWorkQueueItemType workItemType = workItem.getType();
-            workBufferMap.get(workItemType).remove(workItem, false);
+            DelayedWorkBuffer delayedWorkBuffer = workBufferMap.get(workItemType);
+            if (delayedWorkBuffer == null) {
+                System.err.println("Null Delayed Work Buffer for: " + workItemType);
+            }
+            delayedWorkBuffer.remove(workItem, false);
             workItem.run();
 
             workItem = workQueue.poll();
