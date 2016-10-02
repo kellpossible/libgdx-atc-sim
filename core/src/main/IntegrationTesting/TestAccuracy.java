@@ -10,7 +10,6 @@ import com.atc.simulator.flightdata.Prediction;
 import com.atc.simulator.flightdata.Track;
 import com.atc.simulator.vectors.GeographicCoordinate;
 import com.atc.simulator.vectors.GnomonicProjection;
-import com.badlogic.gdx.utils.Json;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
@@ -18,8 +17,6 @@ import com.google.gson.JsonObject;
 import pythagoras.d.Vector3;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -35,7 +32,8 @@ import java.util.concurrent.ArrayBlockingQueue;
  * Stores results in a .txt file with filenames the date/time the current simulation was run.
  * (All results files are stored in our project's workspace, in a Libgdx_ATC_Simulator/Results/Accuracy/ directory
  *
- * Modified by Chris on 10/09/2016.
+ * @author Chris Coleman
+ * @author Luke Frisken
  */
 public class TestAccuracy implements PredictionListener, RunnableThread {
     public static final boolean SAVE_JSON = ApplicationConfig.getBoolean("settings.testing.save-json");
@@ -148,27 +146,27 @@ public class TestAccuracy implements PredictionListener, RunnableThread {
             {
                 JsonObject jsonPrediction = new JsonObject();
                 jsonPrediction.addProperty("plane-id", predictionUnderTest.getAircraftID());
-                jsonPrediction.addProperty("state", predictionUnderTest.getState().toString());
-                jsonPrediction.addProperty("time", predictionUnderTest.getPredictionTime());
+                jsonPrediction.addProperty("state", predictionUnderTest.getPredictionState().toString());
+                jsonPrediction.addProperty("time", predictionUnderTest.getAircraftState().getTime());
 
                 singleTestString = "";
                 //Store PlaneID for use in the HashMap
                 String planeID = predictionUnderTest.getAircraftID();
                 singleTestString += planeID +", ";
-                singleTestString += predictionUnderTest.getState().toString() + ", ";
+                singleTestString += predictionUnderTest.getPredictionState().toString() + ", ";
 
                 //time that the prediction was made
                 singleTestString += predictionUnderTest.getPredictionTime() + ", ";
 
                 //x and y coordinates of the aircraft at the time the prediction was made
-                GeographicCoordinate currentPosition = predictionUnderTest.getCurrentPosition();
+                GeographicCoordinate currentPosition = predictionUnderTest.getAircraftState().getPosition();
                 Vector3 pos = projection.transformPositionTo(currentPosition);
                 singleTestString += pos.x + ", ";
                 singleTestString += pos.y + ", ";
 
-                JsonObject jsonCurrentPosition = new JsonObject();
-                jsonCurrentPosition.addProperty("x", pos.x);
-                jsonCurrentPosition.addProperty("y", pos.y);
+                JsonArray jsonCurrentPosition = new JsonArray();
+                jsonCurrentPosition.add(pos.x);
+                jsonCurrentPosition.add(pos.y);
                 jsonPrediction.add("current-position", jsonCurrentPosition);
 
                 JsonArray jsonPredictionTrack = new JsonArray();
@@ -190,6 +188,13 @@ public class TestAccuracy implements PredictionListener, RunnableThread {
                         singleTestString += predTime + ", ";
 
                         jsonPredictionItem.addProperty("time", predTime);
+                        JsonArray jsonPredictionItemPos = new JsonArray();
+
+                        Vector3 itemPos = projection.transformPositionTo(predictionStates.get(i).getPosition());
+                        jsonPredictionItemPos.add(itemPos.x);
+                        jsonPredictionItemPos.add(itemPos.y);
+
+                        jsonPredictionItem.add("position", jsonPredictionItemPos);
 
                         for(int j=0; j<actualDataValues.get(planeID).size(); j++)
                         {
@@ -216,8 +221,14 @@ public class TestAccuracy implements PredictionListener, RunnableThread {
                         {
                             //Store the distance between our predicted and the interpolated 'actual' positions
                             Vector3 cartesianActualCoord = actualCoord.getCartesian();
-                            Vector3 cartesianPredictionCoord = predictionStates.get(i).getPosition().getCartesian();
+                            GeographicCoordinate predictionCoord = predictionStates.get(i).getPosition();
+                            Vector3 cartesianPredictionCoord = predictionCoord.getCartesian();
                             double distance = cartesianActualCoord.subtract(cartesianPredictionCoord).length();
+
+                            if (distance == Double.NaN)
+                            {
+                                continue;
+                            }
 //                            double distance = Math.abs(actualCoord.arcDistance(predictionStates.get(i).getPosition()));
                             singleTestString += distance+", ";
                             jsonPredictionItem.addProperty("error-distance", distance);

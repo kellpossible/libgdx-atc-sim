@@ -176,7 +176,7 @@ public class JavaCurvilinear2dAlgorithm extends JavaPredictionAlgorithm {
         Prediction prediction = new Prediction(
                 state.getAircraftID(),
                 startTime,
-                geographicPosition,
+                state,
                 predictionTrack,
                 predictionTrack,
                 predictionTrack,

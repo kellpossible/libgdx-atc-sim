@@ -3,7 +3,7 @@ import csv
 import json
 import matplotlib.pyplot as plt
 import sys
-from matplotlib.widgets import Slider
+from matplotlib.widgets import Slider, RadioButtons
 import matplotlib.gridspec as gridspec
 
 
@@ -18,9 +18,10 @@ class StateTransition(object):
 
 
 class AircraftState(object):
-    def __init__(self, state_time, error):
+    def __init__(self, state_time, error, position):
         self.state_time = state_time
         self.error = error
+        self.position = position
 
 
 class Prediction(object):
@@ -106,6 +107,7 @@ class ErrorLog:
         self.name = name
         self.predictions = []
         self.error_calculator = error_calculator
+        self.color = None
 
     def add_prediction(self, prediction):
         self.predictions.append(prediction)
@@ -203,8 +205,9 @@ def run(args):
                 if aircraft_id == selected_aircraft_id:
                     prediction_state = json_prediction["state"]
                     prediction_time = json_prediction["time"]
+
                     json_pos = json_prediction["current-position"]
-                    current_position = [json_pos["x"], json_pos["y"]]
+                    current_position = [json_pos[0], json_pos[1]]
 
                     prediction = Prediction(aircraft_id,
                                             prediction_time,
@@ -216,8 +219,10 @@ def run(args):
                     for json_track_item in json_prediction["prediction-track"]:
                         state_time = json_track_item["time"]
                         error = json_track_item["error-distance"]
+                        json_track_item_pos = json_track_item["position"]
                         state = AircraftState(state_time=state_time,
-                                              error=error)
+                                              error=error,
+                                              position=json_track_item_pos)
                         prediction.add_state(state)
 
                     log.add_prediction(prediction)
@@ -225,7 +230,7 @@ def run(args):
         logs.append(log)
 
     # graph them
-    gs = gridspec.GridSpec(3, 1, height_ratios=[4, 4, 1])
+    gs = gridspec.GridSpec(3, 1, height_ratios=[8, 8, 1])
     figure_1 = plt.figure(1)
     figure_1.suptitle("Plot of Aircraft: " + selected_aircraft_id, fontsize=20)
     subplot_1 = plt.subplot(gs[0])
@@ -237,10 +242,12 @@ def run(args):
 
         for prediction in log.predictions:
             x_axis.append(prediction.prediction_time)
+            print("number of states for " + log.name + ": " + str(len(prediction.states)) + " + error: " + str(log.error_calculator.run(prediction)))
             y_axis.append(log.error_calculator.run(prediction))
 
         line_handle, = plt.plot(x_axis, y_axis, label=log.name)
         line_color = line_handle.get_color()
+        log.color = line_color
 
         line_handles.append(line_handle)
 
@@ -297,6 +304,7 @@ def run(args):
 
     # plot aircraft position
     subplot_2 = plt.subplot(gs[1])
+    plt.title("Position", fontsize=16)
 
     pos_bounds = log.pos_bounds()
 
@@ -336,14 +344,49 @@ def run(args):
 
         return (pos_x_axis[-1], pos_y_axis[-1])
 
+    def nearest_time_index(time):
+        for i in range(0, len(pos_time_axis), 1):
+            t = pos_time_axis[i]
+            if time < t:
+                return i
+
+        return len(pos_time_axis) - 1
+
     curr_pos_x = [pos_x_axis[0]]
     curr_pos_y = [pos_y_axis[0]]
 
+    log_pred_axis = {}
 
-    plt.title("Position", fontsize=16)
     pos_line_handle, = plt.plot(pos_x_axis, pos_y_axis, label="Aircraft Track", color='red')
     curr_pos_line_handle, = plt.plot(curr_pos_x, curr_pos_y, 'ro', label="Current Position")
     handles = [pos_line_handle, curr_pos_line_handle]
+
+    prediction_line_handles = {}
+
+    def gen_prediction_axis(prediction):
+        pred_x_axis = [prediction.current_position[0]]
+        pred_y_axis = [prediction.current_position[1]]
+
+        for state in prediction.states:
+            pred_x_axis.append(state.position[0])
+            pred_y_axis.append(state.position[1])
+
+        return pred_x_axis, pred_y_axis
+
+    for log in logs:
+        prediction = log.predictions[0]
+
+        pred_x_axis, pred_y_axis = gen_prediction_axis(prediction)
+
+        axis = {"x": pred_x_axis, "y": pred_y_axis}
+        log_pred_axis[log.name] = axis
+
+        prediction_line_handle, = plt.plot(pred_x_axis, pred_y_axis, label=log.name, color=log.color)
+        handles.append(prediction_line_handle)
+        prediction_line_handles[log.name] = prediction_line_handle
+
+
+
     plt.legend(handles=handles)
 
     plt.axis([pos_bounds[0], pos_bounds[1], pos_bounds[2], pos_bounds[3]])
@@ -357,13 +400,25 @@ def run(args):
         curr_pos_line_handle.set_xdata([new_pos[0]])
         curr_pos_line_handle.set_ydata([new_pos[1]])
 
+        for log in logs:
+            pred_line_handle = prediction_line_handles[log.name]
+
+            pred_i = nearest_time_index(val)
+
+            if pred_i < len(log.predictions)-1:
+                pred = log.predictions[pred_i]
+                pred_x_axis, pred_y_axis = gen_prediction_axis(pred)
+                pred_line_handle.set_xdata(pred_x_axis)
+                pred_line_handle.set_ydata(pred_y_axis)
+
 
     subplot_3 = plt.subplot(gs[2])
     plt.title("Time Slider", fontsize=16)
     time_slider = Slider(plt.gca(), '', error_bounds[0], error_bounds[1], color='grey')
     time_slider.on_changed(update)
 
-    # plt.plot([1,2,3,4])
+    # subplot_4 = plt.subplot(gs[3])
+    # RadioButtons(plt.gca(), ('red', 'blue', 'green'), active=0)
 
     plt.show()
 

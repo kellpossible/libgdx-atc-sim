@@ -8,7 +8,6 @@ import com.atc.simulator.Display.View.DisplayRenderable.HiddenDisplayRenderable;
 import com.atc.simulator.flightdata.AircraftState;
 import com.atc.simulator.flightdata.Prediction;
 import com.atc.simulator.flightdata.Track;
-import com.atc.simulator.vectors.GeographicCoordinate;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g3d.Material;
 import com.badlogic.gdx.graphics.g3d.Model;
@@ -18,8 +17,6 @@ import com.badlogic.gdx.graphics.g3d.attributes.TextureAttribute;
 import com.badlogic.gdx.graphics.g3d.utils.MeshPartBuilder;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.badlogic.gdx.math.Vector3;
-
-import java.util.ArrayList;
 
 /**
  * A prediction to be displayed in the display.
@@ -155,14 +152,14 @@ public class PredictionModel extends SimpleDisplayRenderableProvider {
 
             if(i > 0)
             {
-                if (prediction.getState() == Prediction.State.RIGHT_TURN)
+                if (prediction.getPredictionState() == Prediction.State.RIGHT_TURN)
                 {
                     builder.setUVRange(0, 1, 1, 0);
                     builder.rect(leftPosition, prevLeftPosition, prevCentrePosition, centrePosition, normal);
                     builder.setUVRange(0, 0, 1, 1);
                     builder.rect(centrePosition, prevCentrePosition, prevRightPosition, rightPosition, normal);
                 }
-                if (prediction.getState() == Prediction.State.LEFT_TURN)
+                if (prediction.getPredictionState() == Prediction.State.LEFT_TURN)
                 {
                     builder.setUVRange(0, 0, 1, 1);
                     builder.rect(centrePosition, prevCentrePosition , prevLeftPosition, leftPosition, normal);

@@ -78,7 +78,7 @@ public class JavaChrisAlgorithm1 extends JavaPredictionAlgorithm {
             Prediction prediction = new Prediction(
                     state.getAircraftID(),
                     startTime,
-                    geographicPosition,
+                    state,
                     predictedTrack,
                     predictedTrack,
                     predictedTrack,
@@ -124,7 +124,7 @@ public class JavaChrisAlgorithm1 extends JavaPredictionAlgorithm {
             Prediction prediction = new Prediction(
                     state.getAircraftID(),
                     startTime,
-                    geographicPosition,
+                    state,
                     predictedTrack,
                     predictedTrack,
                     predictedTrack,

@@ -58,6 +58,32 @@ public class PredictionFeedClientThread implements RunnableThread {
      */
     public PredictionFeedClientThread(){myListeners = new ArrayList<PredictionListener>();}
 
+    private AircraftState buildAircraftState(
+            String aircraftID,
+            PredictionFeedServe.PredictionAircraftStateMessage aircraftStateMessage)
+    {
+        PredictionFeedServe.GeographicCoordinateMessage positionMessage =
+                aircraftStateMessage.getPosition();
+
+        PredictionFeedServe.SphericalVelocityMessage velocityMessage =
+                aircraftStateMessage.getVelocity();
+
+        return new AircraftState(
+                aircraftID,
+                aircraftStateMessage.getTime(),
+                new GeographicCoordinate(
+                        positionMessage.getAltitude(),
+                        positionMessage.getLatitude(),
+                        positionMessage.getLongitude()
+                ),
+                new SphericalVelocity(
+                        velocityMessage.getDr(),
+                        velocityMessage.getDtheta(),
+                        velocityMessage.getDphi()
+                ),
+                0.0
+        );
+    }
 
     /**
      * Build a {@link Track} from a {@link PredictionFeedServe.Track} message
@@ -80,27 +106,8 @@ public class PredictionFeedClientThread implements RunnableThread {
             PredictionFeedServe.PredictionAircraftStateMessage aircraftStateMessage =
                     messageTrack.getAircraftState(i);
 
-            PredictionFeedServe.GeographicCoordinateMessage positionMessage =
-                    aircraftStateMessage.getPosition();
 
-            PredictionFeedServe.SphericalVelocityMessage velocityMessage =
-                    aircraftStateMessage.getVelocity();
-
-            aircraftStates.add(new AircraftState(
-                    aircraftID,
-                    aircraftStateMessage.getTime(),
-                    new GeographicCoordinate(
-                            positionMessage.getAltitude(),
-                            positionMessage.getLatitude(),
-                            positionMessage.getLongitude()
-                    ),
-                    new SphericalVelocity(
-                            velocityMessage.getDr(),
-                            velocityMessage.getDtheta(),
-                            velocityMessage.getDphi()
-                    ),
-                    0.0
-            ));
+            aircraftStates.add(buildAircraftState(aircraftID, aircraftStateMessage));
         }
 
         return new Track(aircraftStates);
@@ -137,16 +144,16 @@ public class PredictionFeedClientThread implements RunnableThread {
 
                     Prediction.State predictionState = Prediction.State.valueOf(predictionMessage.getState().name());
 
-                    GeographicCoordinate currentPosition = new GeographicCoordinate(
-                            predictionMessage.getCurrentPosition().getAltitude(),
-                            predictionMessage.getCurrentPosition().getLatitude(),
-                            predictionMessage.getCurrentPosition().getLongitude());
+                    AircraftState aircraftState = buildAircraftState(
+                            predictionMessage.getAircraftID(),
+                            predictionMessage.getAircraftState());
+
 
                     //Made a new Prediction with ID and Time
                     Prediction newPred = new Prediction(
                             predictionMessage.getAircraftID(),
                             System.currentTimeMillis(),
-                            currentPosition,
+                            aircraftState,
                             leftTrack,
                             centreTrack,
                             rightTrack,

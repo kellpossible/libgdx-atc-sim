@@ -3124,17 +3124,17 @@ public final class PredictionFeedServe {
     com.atc.simulator.ProtocolBuffers.PredictionFeedServe.AircraftPredictionMessage.State getState();
 
     /**
-     * <code>required .GeographicCoordinateMessage currentPosition = 7;</code>
+     * <code>required .PredictionAircraftStateMessage aircraftState = 7;</code>
      */
-    boolean hasCurrentPosition();
+    boolean hasAircraftState();
     /**
-     * <code>required .GeographicCoordinateMessage currentPosition = 7;</code>
+     * <code>required .PredictionAircraftStateMessage aircraftState = 7;</code>
      */
-    com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessage getCurrentPosition();
+    com.atc.simulator.ProtocolBuffers.PredictionFeedServe.PredictionAircraftStateMessage getAircraftState();
     /**
-     * <code>required .GeographicCoordinateMessage currentPosition = 7;</code>
+     * <code>required .PredictionAircraftStateMessage aircraftState = 7;</code>
      */
-    com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessageOrBuilder getCurrentPositionOrBuilder();
+    com.atc.simulator.ProtocolBuffers.PredictionFeedServe.PredictionAircraftStateMessageOrBuilder getAircraftStateOrBuilder();
   }
   /**
    * Protobuf type {@code AircraftPredictionMessage}
@@ -3243,14 +3243,14 @@ public final class PredictionFeedServe {
               break;
             }
             case 58: {
-              com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessage.Builder subBuilder = null;
+              com.atc.simulator.ProtocolBuffers.PredictionFeedServe.PredictionAircraftStateMessage.Builder subBuilder = null;
               if (((bitField0_ & 0x00000040) == 0x00000040)) {
-                subBuilder = currentPosition_.toBuilder();
+                subBuilder = aircraftState_.toBuilder();
               }
-              currentPosition_ = input.readMessage(com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessage.PARSER, extensionRegistry);
+              aircraftState_ = input.readMessage(com.atc.simulator.ProtocolBuffers.PredictionFeedServe.PredictionAircraftStateMessage.PARSER, extensionRegistry);
               if (subBuilder != null) {
-                subBuilder.mergeFrom(currentPosition_);
-                currentPosition_ = subBuilder.buildPartial();
+                subBuilder.mergeFrom(aircraftState_);
+                aircraftState_ = subBuilder.buildPartial();
               }
               bitField0_ |= 0x00000040;
               break;
@@ -3532,25 +3532,25 @@ public final class PredictionFeedServe {
       return result == null ? com.atc.simulator.ProtocolBuffers.PredictionFeedServe.AircraftPredictionMessage.State.STOPPED : result;
     }
 
-    public static final int CURRENTPOSITION_FIELD_NUMBER = 7;
-    private com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessage currentPosition_;
+    public static final int AIRCRAFTSTATE_FIELD_NUMBER = 7;
+    private com.atc.simulator.ProtocolBuffers.PredictionFeedServe.PredictionAircraftStateMessage aircraftState_;
     /**
-     * <code>required .GeographicCoordinateMessage currentPosition = 7;</code>
+     * <code>required .PredictionAircraftStateMessage aircraftState = 7;</code>
      */
-    public boolean hasCurrentPosition() {
+    public boolean hasAircraftState() {
       return ((bitField0_ & 0x00000040) == 0x00000040);
     }
     /**
-     * <code>required .GeographicCoordinateMessage currentPosition = 7;</code>
+     * <code>required .PredictionAircraftStateMessage aircraftState = 7;</code>
      */
-    public com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessage getCurrentPosition() {
-      return currentPosition_ == null ? com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessage.getDefaultInstance() : currentPosition_;
+    public com.atc.simulator.ProtocolBuffers.PredictionFeedServe.PredictionAircraftStateMessage getAircraftState() {
+      return aircraftState_ == null ? com.atc.simulator.ProtocolBuffers.PredictionFeedServe.PredictionAircraftStateMessage.getDefaultInstance() : aircraftState_;
     }
     /**
-     * <code>required .GeographicCoordinateMessage currentPosition = 7;</code>
+     * <code>required .PredictionAircraftStateMessage aircraftState = 7;</code>
      */
-    public com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessageOrBuilder getCurrentPositionOrBuilder() {
-      return currentPosition_ == null ? com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessage.getDefaultInstance() : currentPosition_;
+    public com.atc.simulator.ProtocolBuffers.PredictionFeedServe.PredictionAircraftStateMessageOrBuilder getAircraftStateOrBuilder() {
+      return aircraftState_ == null ? com.atc.simulator.ProtocolBuffers.PredictionFeedServe.PredictionAircraftStateMessage.getDefaultInstance() : aircraftState_;
     }
 
     private byte memoizedIsInitialized = -1;
@@ -3575,7 +3575,7 @@ public final class PredictionFeedServe {
         memoizedIsInitialized = 0;
         return false;
       }
-      if (!hasCurrentPosition()) {
+      if (!hasAircraftState()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -3595,7 +3595,7 @@ public final class PredictionFeedServe {
           return false;
         }
       }
-      if (!getCurrentPosition().isInitialized()) {
+      if (!getAircraftState().isInitialized()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -3624,7 +3624,7 @@ public final class PredictionFeedServe {
         output.writeEnum(6, state_);
       }
       if (((bitField0_ & 0x00000040) == 0x00000040)) {
-        output.writeMessage(7, getCurrentPosition());
+        output.writeMessage(7, getAircraftState());
       }
       unknownFields.writeTo(output);
     }
@@ -3659,7 +3659,7 @@ public final class PredictionFeedServe {
       }
       if (((bitField0_ & 0x00000040) == 0x00000040)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(7, getCurrentPosition());
+          .computeMessageSize(7, getAircraftState());
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -3707,10 +3707,10 @@ public final class PredictionFeedServe {
       if (hasState()) {
         result = result && state_ == other.state_;
       }
-      result = result && (hasCurrentPosition() == other.hasCurrentPosition());
-      if (hasCurrentPosition()) {
-        result = result && getCurrentPosition()
-            .equals(other.getCurrentPosition());
+      result = result && (hasAircraftState() == other.hasAircraftState());
+      if (hasAircraftState()) {
+        result = result && getAircraftState()
+            .equals(other.getAircraftState());
       }
       result = result && unknownFields.equals(other.unknownFields);
       return result;
@@ -3748,9 +3748,9 @@ public final class PredictionFeedServe {
         hash = (37 * hash) + STATE_FIELD_NUMBER;
         hash = (53 * hash) + state_;
       }
-      if (hasCurrentPosition()) {
-        hash = (37 * hash) + CURRENTPOSITION_FIELD_NUMBER;
-        hash = (53 * hash) + getCurrentPosition().hashCode();
+      if (hasAircraftState()) {
+        hash = (37 * hash) + AIRCRAFTSTATE_FIELD_NUMBER;
+        hash = (53 * hash) + getAircraftState().hashCode();
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
@@ -3869,7 +3869,7 @@ public final class PredictionFeedServe {
           getLeftTrackFieldBuilder();
           getCentreTrackFieldBuilder();
           getRightTrackFieldBuilder();
-          getCurrentPositionFieldBuilder();
+          getAircraftStateFieldBuilder();
         }
       }
       public Builder clear() {
@@ -3898,10 +3898,10 @@ public final class PredictionFeedServe {
         bitField0_ = (bitField0_ & ~0x00000010);
         state_ = 0;
         bitField0_ = (bitField0_ & ~0x00000020);
-        if (currentPositionBuilder_ == null) {
-          currentPosition_ = null;
+        if (aircraftStateBuilder_ == null) {
+          aircraftState_ = null;
         } else {
-          currentPositionBuilder_.clear();
+          aircraftStateBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000040);
         return this;
@@ -3967,10 +3967,10 @@ public final class PredictionFeedServe {
         if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
           to_bitField0_ |= 0x00000040;
         }
-        if (currentPositionBuilder_ == null) {
-          result.currentPosition_ = currentPosition_;
+        if (aircraftStateBuilder_ == null) {
+          result.aircraftState_ = aircraftState_;
         } else {
-          result.currentPosition_ = currentPositionBuilder_.build();
+          result.aircraftState_ = aircraftStateBuilder_.build();
         }
         result.bitField0_ = to_bitField0_;
         onBuilt();
@@ -4034,8 +4034,8 @@ public final class PredictionFeedServe {
         if (other.hasState()) {
           setState(other.getState());
         }
-        if (other.hasCurrentPosition()) {
-          mergeCurrentPosition(other.getCurrentPosition());
+        if (other.hasAircraftState()) {
+          mergeAircraftState(other.getAircraftState());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -4055,7 +4055,7 @@ public final class PredictionFeedServe {
         if (!hasState()) {
           return false;
         }
-        if (!hasCurrentPosition()) {
+        if (!hasAircraftState()) {
           return false;
         }
         if (hasLeftTrack()) {
@@ -4071,7 +4071,7 @@ public final class PredictionFeedServe {
             return false;
           }
         }
-        if (!getCurrentPosition().isInitialized()) {
+        if (!getAircraftState().isInitialized()) {
           return false;
         }
         return true;
@@ -4610,122 +4610,122 @@ public final class PredictionFeedServe {
         return this;
       }
 
-      private com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessage currentPosition_ = null;
+      private com.atc.simulator.ProtocolBuffers.PredictionFeedServe.PredictionAircraftStateMessage aircraftState_ = null;
       private com.google.protobuf.SingleFieldBuilderV3<
-          com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessage, com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessage.Builder, com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessageOrBuilder> currentPositionBuilder_;
+          com.atc.simulator.ProtocolBuffers.PredictionFeedServe.PredictionAircraftStateMessage, com.atc.simulator.ProtocolBuffers.PredictionFeedServe.PredictionAircraftStateMessage.Builder, com.atc.simulator.ProtocolBuffers.PredictionFeedServe.PredictionAircraftStateMessageOrBuilder> aircraftStateBuilder_;
       /**
-       * <code>required .GeographicCoordinateMessage currentPosition = 7;</code>
+       * <code>required .PredictionAircraftStateMessage aircraftState = 7;</code>
        */
-      public boolean hasCurrentPosition() {
+      public boolean hasAircraftState() {
         return ((bitField0_ & 0x00000040) == 0x00000040);
       }
       /**
-       * <code>required .GeographicCoordinateMessage currentPosition = 7;</code>
+       * <code>required .PredictionAircraftStateMessage aircraftState = 7;</code>
        */
-      public com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessage getCurrentPosition() {
-        if (currentPositionBuilder_ == null) {
-          return currentPosition_ == null ? com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessage.getDefaultInstance() : currentPosition_;
+      public com.atc.simulator.ProtocolBuffers.PredictionFeedServe.PredictionAircraftStateMessage getAircraftState() {
+        if (aircraftStateBuilder_ == null) {
+          return aircraftState_ == null ? com.atc.simulator.ProtocolBuffers.PredictionFeedServe.PredictionAircraftStateMessage.getDefaultInstance() : aircraftState_;
         } else {
-          return currentPositionBuilder_.getMessage();
+          return aircraftStateBuilder_.getMessage();
         }
       }
       /**
-       * <code>required .GeographicCoordinateMessage currentPosition = 7;</code>
+       * <code>required .PredictionAircraftStateMessage aircraftState = 7;</code>
        */
-      public Builder setCurrentPosition(com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessage value) {
-        if (currentPositionBuilder_ == null) {
+      public Builder setAircraftState(com.atc.simulator.ProtocolBuffers.PredictionFeedServe.PredictionAircraftStateMessage value) {
+        if (aircraftStateBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
           }
-          currentPosition_ = value;
+          aircraftState_ = value;
           onChanged();
         } else {
-          currentPositionBuilder_.setMessage(value);
+          aircraftStateBuilder_.setMessage(value);
         }
         bitField0_ |= 0x00000040;
         return this;
       }
       /**
-       * <code>required .GeographicCoordinateMessage currentPosition = 7;</code>
+       * <code>required .PredictionAircraftStateMessage aircraftState = 7;</code>
        */
-      public Builder setCurrentPosition(
-          com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessage.Builder builderForValue) {
-        if (currentPositionBuilder_ == null) {
-          currentPosition_ = builderForValue.build();
+      public Builder setAircraftState(
+          com.atc.simulator.ProtocolBuffers.PredictionFeedServe.PredictionAircraftStateMessage.Builder builderForValue) {
+        if (aircraftStateBuilder_ == null) {
+          aircraftState_ = builderForValue.build();
           onChanged();
         } else {
-          currentPositionBuilder_.setMessage(builderForValue.build());
+          aircraftStateBuilder_.setMessage(builderForValue.build());
         }
         bitField0_ |= 0x00000040;
         return this;
       }
       /**
-       * <code>required .GeographicCoordinateMessage currentPosition = 7;</code>
+       * <code>required .PredictionAircraftStateMessage aircraftState = 7;</code>
        */
-      public Builder mergeCurrentPosition(com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessage value) {
-        if (currentPositionBuilder_ == null) {
+      public Builder mergeAircraftState(com.atc.simulator.ProtocolBuffers.PredictionFeedServe.PredictionAircraftStateMessage value) {
+        if (aircraftStateBuilder_ == null) {
           if (((bitField0_ & 0x00000040) == 0x00000040) &&
-              currentPosition_ != null &&
-              currentPosition_ != com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessage.getDefaultInstance()) {
-            currentPosition_ =
-              com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessage.newBuilder(currentPosition_).mergeFrom(value).buildPartial();
+              aircraftState_ != null &&
+              aircraftState_ != com.atc.simulator.ProtocolBuffers.PredictionFeedServe.PredictionAircraftStateMessage.getDefaultInstance()) {
+            aircraftState_ =
+              com.atc.simulator.ProtocolBuffers.PredictionFeedServe.PredictionAircraftStateMessage.newBuilder(aircraftState_).mergeFrom(value).buildPartial();
           } else {
-            currentPosition_ = value;
+            aircraftState_ = value;
           }
           onChanged();
         } else {
-          currentPositionBuilder_.mergeFrom(value);
+          aircraftStateBuilder_.mergeFrom(value);
         }
         bitField0_ |= 0x00000040;
         return this;
       }
       /**
-       * <code>required .GeographicCoordinateMessage currentPosition = 7;</code>
+       * <code>required .PredictionAircraftStateMessage aircraftState = 7;</code>
        */
-      public Builder clearCurrentPosition() {
-        if (currentPositionBuilder_ == null) {
-          currentPosition_ = null;
+      public Builder clearAircraftState() {
+        if (aircraftStateBuilder_ == null) {
+          aircraftState_ = null;
           onChanged();
         } else {
-          currentPositionBuilder_.clear();
+          aircraftStateBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000040);
         return this;
       }
       /**
-       * <code>required .GeographicCoordinateMessage currentPosition = 7;</code>
+       * <code>required .PredictionAircraftStateMessage aircraftState = 7;</code>
        */
-      public com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessage.Builder getCurrentPositionBuilder() {
+      public com.atc.simulator.ProtocolBuffers.PredictionFeedServe.PredictionAircraftStateMessage.Builder getAircraftStateBuilder() {
         bitField0_ |= 0x00000040;
         onChanged();
-        return getCurrentPositionFieldBuilder().getBuilder();
+        return getAircraftStateFieldBuilder().getBuilder();
       }
       /**
-       * <code>required .GeographicCoordinateMessage currentPosition = 7;</code>
+       * <code>required .PredictionAircraftStateMessage aircraftState = 7;</code>
        */
-      public com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessageOrBuilder getCurrentPositionOrBuilder() {
-        if (currentPositionBuilder_ != null) {
-          return currentPositionBuilder_.getMessageOrBuilder();
+      public com.atc.simulator.ProtocolBuffers.PredictionFeedServe.PredictionAircraftStateMessageOrBuilder getAircraftStateOrBuilder() {
+        if (aircraftStateBuilder_ != null) {
+          return aircraftStateBuilder_.getMessageOrBuilder();
         } else {
-          return currentPosition_ == null ?
-              com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessage.getDefaultInstance() : currentPosition_;
+          return aircraftState_ == null ?
+              com.atc.simulator.ProtocolBuffers.PredictionFeedServe.PredictionAircraftStateMessage.getDefaultInstance() : aircraftState_;
         }
       }
       /**
-       * <code>required .GeographicCoordinateMessage currentPosition = 7;</code>
+       * <code>required .PredictionAircraftStateMessage aircraftState = 7;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
-          com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessage, com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessage.Builder, com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessageOrBuilder> 
-          getCurrentPositionFieldBuilder() {
-        if (currentPositionBuilder_ == null) {
-          currentPositionBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-              com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessage, com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessage.Builder, com.atc.simulator.ProtocolBuffers.PredictionFeedServe.GeographicCoordinateMessageOrBuilder>(
-                  getCurrentPosition(),
+          com.atc.simulator.ProtocolBuffers.PredictionFeedServe.PredictionAircraftStateMessage, com.atc.simulator.ProtocolBuffers.PredictionFeedServe.PredictionAircraftStateMessage.Builder, com.atc.simulator.ProtocolBuffers.PredictionFeedServe.PredictionAircraftStateMessageOrBuilder> 
+          getAircraftStateFieldBuilder() {
+        if (aircraftStateBuilder_ == null) {
+          aircraftStateBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              com.atc.simulator.ProtocolBuffers.PredictionFeedServe.PredictionAircraftStateMessage, com.atc.simulator.ProtocolBuffers.PredictionFeedServe.PredictionAircraftStateMessage.Builder, com.atc.simulator.ProtocolBuffers.PredictionFeedServe.PredictionAircraftStateMessageOrBuilder>(
+                  getAircraftState(),
                   getParentForChildren(),
                   isClean());
-          currentPosition_ = null;
+          aircraftState_ = null;
         }
-        return currentPositionBuilder_;
+        return aircraftStateBuilder_;
       }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -4820,16 +4820,16 @@ public final class PredictionFeedServe {
       "nateMessage\022+\n\010velocity\030\003 \002(\0132\031.Spherica" +
       "lVelocityMessage\"?\n\005Track\0226\n\raircraftSta" +
       "te\030\001 \003(\0132\037.PredictionAircraftStateMessag",
-      "e\"\274\002\n\031AircraftPredictionMessage\022\022\n\naircr" +
+      "e\"\275\002\n\031AircraftPredictionMessage\022\022\n\naircr" +
       "aftID\030\001 \002(\t\022\014\n\004time\030\002 \002(\003\022\031\n\tleftTrack\030\003" +
       " \001(\0132\006.Track\022\033\n\013centreTrack\030\004 \002(\0132\006.Trac" +
       "k\022\032\n\nrightTrack\030\005 \001(\0132\006.Track\022/\n\005state\030\006" +
-      " \002(\0162 .AircraftPredictionMessage.State\0225" +
-      "\n\017currentPosition\030\007 \002(\0132\034.GeographicCoor" +
-      "dinateMessage\"A\n\005State\022\013\n\007STOPPED\020\000\022\014\n\010S" +
-      "TRAIGHT\020\001\022\r\n\tLEFT_TURN\020\002\022\016\n\nRIGHT_TURN\020\003" +
-      "B8\n!com.atc.simulator.ProtocolBuffersB\023P" +
-      "redictionFeedServe"
+      " \002(\0162 .AircraftPredictionMessage.State\0226" +
+      "\n\raircraftState\030\007 \002(\0132\037.PredictionAircra" +
+      "ftStateMessage\"A\n\005State\022\013\n\007STOPPED\020\000\022\014\n\010" +
+      "STRAIGHT\020\001\022\r\n\tLEFT_TURN\020\002\022\016\n\nRIGHT_TURN\020" +
+      "\003B8\n!com.atc.simulator.ProtocolBuffersB\023" +
+      "PredictionFeedServe"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -4872,7 +4872,7 @@ public final class PredictionFeedServe {
     internal_static_AircraftPredictionMessage_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_AircraftPredictionMessage_descriptor,
-        new java.lang.String[] { "AircraftID", "Time", "LeftTrack", "CentreTrack", "RightTrack", "State", "CurrentPosition", });
+        new java.lang.String[] { "AircraftID", "Time", "LeftTrack", "CentreTrack", "RightTrack", "State", "AircraftState", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

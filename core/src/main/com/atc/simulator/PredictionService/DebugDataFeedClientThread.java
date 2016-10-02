@@ -75,11 +75,15 @@ public class DebugDataFeedClientThread implements RunnableThread
                             tempMessage.getAircraftState(i).getHeading()));
                 }//End loop for all aircraft
                 //Make a new System State
-                SystemState testState = new SystemState(System.currentTimeMillis(), aircraftStatesReceived);
-                //Send it to the connected systemStateDatabase
-                //Uros: I replaced the method in systemStateDatabase that was previously
-                // connected directly to the display, calls a simple method to update the system state.
-                systemStateDatabase.systemStateUpdate(testState);
+
+                if (aircraftStatesReceived.size() > 0) {
+                    SystemState testState = new SystemState(System.currentTimeMillis(), aircraftStatesReceived);
+                    //Send it to the connected systemStateDatabase
+                    //Uros: I replaced the method in systemStateDatabase that was previously
+                    // connected directly to the display, calls a simple method to update the system state.
+                    systemStateDatabase.systemStateUpdate(testState);
+                }
+
             }catch(IOException e){System.err.println("Prediction-side Debug Message Parse Failed");}//End Catch
             catch(NullPointerException n){
                 System.err.println("Prediction-side Debug thread finishing");

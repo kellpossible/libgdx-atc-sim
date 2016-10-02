@@ -65,6 +65,29 @@ public class PredictionFeedServerThread implements RunnableThread{
         }
     }
 
+    private PredictionFeedServe.PredictionAircraftStateMessage buildAircraftStateMessage(AircraftState aircraftState)
+    {
+        PredictionFeedServe.PredictionAircraftStateMessage.Builder aircraftStateMessageBuilder =
+                PredictionFeedServe.PredictionAircraftStateMessage.newBuilder();
+
+        //TimeStamp
+        aircraftStateMessageBuilder.setTime(aircraftState.getTime());
+        //A current position
+        GeographicCoordinate position = aircraftState.getPosition();
+        aircraftStateMessageBuilder.setPosition(
+                buildGeographicCoordinateMessage(position)
+        );
+        //A super complicated velocity
+        SphericalVelocity velocity = aircraftState.getVelocity();
+        aircraftStateMessageBuilder.setVelocity(
+                PredictionFeedServe.SphericalVelocityMessage.newBuilder()
+                        .setDr(velocity.getDR())
+                        .setDtheta(velocity.getDTheta())
+                        .setDphi(velocity.getDPhi())
+        );
+        return aircraftStateMessageBuilder.build();
+    }
+
     /**
      * Build a {@link com.atc.simulator.ProtocolBuffers.PredictionFeedServe.Track} message from a {@link Track}
      * @param track track to use to build the message
@@ -76,35 +99,17 @@ public class PredictionFeedServerThread implements RunnableThread{
 
         //Now, loop through all the positions, Build Coordinates and add them to the Message
         for (AircraftState aircraftState : track) {
-            PredictionFeedServe.PredictionAircraftStateMessage.Builder aircraftStateMessageBuilder =
-                    PredictionFeedServe.PredictionAircraftStateMessage.newBuilder();
-
-            //TimeStamp
-            aircraftStateMessageBuilder.setTime(aircraftState.getTime());
-            //A current position
-            GeographicCoordinate position = aircraftState.getPosition();
-            aircraftStateMessageBuilder.setPosition(
-                    buildGeographicCoordinateMessage(position)
-            );
-            //A super complicated velocity
-            SphericalVelocity velocity = aircraftState.getVelocity();
-            aircraftStateMessageBuilder.setVelocity(
-                    PredictionFeedServe.SphericalVelocityMessage.newBuilder()
-                            .setDr(velocity.getDR())
-                            .setDtheta(velocity.getDTheta())
-                            .setDphi(velocity.getDPhi())
-            );
-
-            trackMessageBuilder.addAircraftState(aircraftStateMessageBuilder);
+            trackMessageBuilder.addAircraftState(buildAircraftStateMessage(aircraftState));
         }
 
         return trackMessageBuilder.build();
     }
 
+
     PredictionFeedServe.GeographicCoordinateMessage buildGeographicCoordinateMessage(GeographicCoordinate coordinate) {
         PredictionFeedServe.GeographicCoordinateMessage.Builder builder = PredictionFeedServe.GeographicCoordinateMessage.newBuilder();
         if (coordinate == null) {
-            System.out.println("Bad coord");
+            System.err.println("Bad coord");
         }
         builder.setAltitude(coordinate.getAltitude());
         builder.setLatitude(coordinate.getLatitude());
@@ -124,7 +129,7 @@ public class PredictionFeedServerThread implements RunnableThread{
 
         predictionMessageBuilder.setAircraftID(newPrediction.getAircraftID()); //Add the AircraftID to the Message
 
-        predictionMessageBuilder.setState(PredictionFeedServe.AircraftPredictionMessage.State.valueOf(newPrediction.getState().name()));
+        predictionMessageBuilder.setState(PredictionFeedServe.AircraftPredictionMessage.State.valueOf(newPrediction.getPredictionState().name()));
 
         long time = newPrediction.getPredictionTime();
         predictionMessageBuilder.setTime(time); //Set the time
@@ -144,8 +149,7 @@ public class PredictionFeedServerThread implements RunnableThread{
             predictionMessageBuilder.setRightTrack(buildTrackMessage(newPrediction.getRightTrack()));
         }
 
-        predictionMessageBuilder.setCurrentPosition(buildGeographicCoordinateMessage(newPrediction.getCurrentPosition()));
-
+        predictionMessageBuilder.setAircraftState(buildAircraftStateMessage(newPrediction.getAircraftState()));
 
         return predictionMessageBuilder.build();
 
