@@ -357,8 +357,8 @@ def run(args):
 
     log_pred_axis = {}
 
-    pos_line_handle, = plt.plot(pos_x_axis, pos_y_axis, label="Aircraft Track", color='red')
-    curr_pos_line_handle, = plt.plot(curr_pos_x, curr_pos_y, 'ro', label="Current Position")
+    pos_line_handle, = plt.plot(pos_x_axis, pos_y_axis, label="Aircraft Track", color='grey')
+    curr_pos_line_handle, = plt.plot(curr_pos_x, curr_pos_y, 'o', label="Current Position", color='black')
     handles = [pos_line_handle, curr_pos_line_handle]
 
     prediction_line_handles = {}
