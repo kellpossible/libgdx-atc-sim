@@ -33,6 +33,11 @@ import java.util.concurrent.ArrayBlockingQueue;
  *
  *  - Uses LibGDX
  *
+ *  KEYs:
+ *  - T:  tracks
+ *  - Space: pause/play
+ *  - P: cycle prediction display method
+ *
  * @author Luke Frisken
  */
 public class DisplayApplication extends ApplicationAdapter implements DataPlaybackListener, PredictionListener {

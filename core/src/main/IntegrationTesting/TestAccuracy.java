@@ -1,5 +1,6 @@
 package IntegrationTesting;
 
+import com.atc.simulator.Config.ApplicationConfig;
 import com.atc.simulator.DebugDataFeed.Scenarios.Scenario;
 import com.atc.simulator.Display.PredictionFeedClientThread;
 import com.atc.simulator.Display.PredictionListener;
@@ -73,8 +74,10 @@ public class TestAccuracy implements PredictionListener, RunnableThread {
             actualDataValues.put(temp.get(0).getAircraftID(), tempList); //And store that temporary Map with the PlaneID as a Key
         }
 
+        String algorithmName = ApplicationConfig.getString("settings.prediction-service.prediction-engine.algorithm-type");
+
         //Create a new file for results with the date/time as filename
-        String fileName = "Results/Accuracy/" + new SimpleDateFormat("MM-dd HH-mm-ss").format(new Date())+".txt";
+        String fileName = "Results/Accuracy/" + algorithmName + "_" + new SimpleDateFormat("MM-dd HH-mm-ss").format(new Date())+".csv";
         resultsFile = new File(fileName);
     }
 
@@ -156,7 +159,7 @@ public class TestAccuracy implements PredictionListener, RunnableThread {
                                 //Obtain the interpolated 'actual' coordinate and break out of the loop
 //                                actualCoord = new GeographicCoordinate(actualDataValues.get(planeID).get(j-1).pos.linearIntepolate
 //                                        (actualDataValues.get(planeID).get(j).pos, interpolant));
-                                actualCoord = new GeographicCoordinate(actualDataValues.get(planeID).get(j-1).pos.lerp(actualDataValues.get(planeID).get(j).pos, interpolant));
+                                actualCoord = new GeographicCoordinate(actualDataValues.get(planeID).get(j-1).pos.linearIntepolate(actualDataValues.get(planeID).get(j).pos, interpolant));
                                 break;
                             }
                         }
