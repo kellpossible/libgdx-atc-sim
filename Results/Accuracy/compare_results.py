@@ -4,17 +4,28 @@ import matplotlib.pyplot as plt
 import sys
 
 
-class AircraftState:
+class StateTransition(object):
+    def __init__(self, from_state, to_state, time):
+        self.from_state = from_state
+        self.to_state = to_state
+        self.time = time
+
+    def __repr__(self):
+        return "Transition [from: {}, to: {}, time: {}]".format(self.from_state, self.to_state, self.time)
+
+
+class AircraftState(object):
     def __init__(self, state_time, error):
         self.state_time = state_time
         self.error = error
 
 
-class Prediction:
-    def __init__(self, aircraft_id, prediction_time):
+class Prediction(object):
+    def __init__(self, aircraft_id, prediction_time, prediction_state):
         self.aircraft_id = aircraft_id
         self.prediction_time = prediction_time
         self.states = []
+        self.prediction_state = prediction_state
 
     def add_state(self, state):
         self.states.append(state)
@@ -79,6 +90,25 @@ class ErrorLog:
 
         return (min_time, max_time, min_error, max_error)
 
+    def get_transitions(self):
+        transitions = []
+        prev_state = None
+        for prediction in self.predictions:
+            curr_state = prediction.prediction_state
+            if prev_state != curr_state:
+                transition = StateTransition(prev_state,
+                                             curr_state,
+                                             prediction.prediction_time)
+                transitions.append(transition)
+                prev_state = curr_state
+
+        return transitions
+
+    def get_error(self, prediction_time):
+        for prediction in self.predictions:
+            if prediction.prediction_time == prediction_time:
+                return self.error_calculator.run(prediction)
+
 
 def run(args):
     selected_aircraft_id = args.aircraft_id
@@ -97,11 +127,14 @@ def run(args):
                     selected_aircraft_id = aircraft_id
 
                 if aircraft_id == selected_aircraft_id:
-                    prediction_time = int(row[1])
+                    prediction_state = row[1].strip()
+                    prediction_time = int(row[2])
 
-                    prediction = Prediction(aircraft_id, prediction_time)
+                    prediction = Prediction(aircraft_id,
+                                            prediction_time,
+                                            prediction_state)
 
-                    i = 1
+                    i = 2
                     while i+2 < len(row):
                         state_time = int(row[i])
                         error = float(row[i+1])
@@ -127,13 +160,45 @@ def run(args):
             x_axis.append(prediction.prediction_time)
             y_axis.append(log.error_calculator.run(prediction))
 
-        line, = plt.plot(x_axis, y_axis, label=log.name)
-        line_handles.append(line)
+        line_handle, = plt.plot(x_axis, y_axis, label=log.name)
+        line_color = line_handle.get_color()
+
+        line_handles.append(line_handle)
+
+        transitions = log.get_transitions()
+        marker_plots = {}
+        for transition in transitions:
+            print(transition)
+            y = log.get_error(transition.time)
+            x = transition.time
+            to_state = transition.to_state
+
+            marker_style = "."
+
+            if to_state == "RIGHT_TURN":
+                marker_style = ">"
+            elif to_state == "LEFT_TURN":
+                marker_style = "<"
+            elif to_state == "STRAIGHT":
+                marker_style = "^"
+            else:
+                marker_style = "."
+
+            marker_style += line_color
+
+            if marker_style not in marker_plots:
+                marker_plots[marker_style] = [[], []]
+
+            marker_plots[marker_style][0].append(x)
+            marker_plots[marker_style][1].append(y)
+
+        for key, val in marker_plots.items():
+            plt.plot(val[0], val[1], key)
+
 
     plt.axis([bounds[0], bounds[1], 0, 10000])
     plt.legend(handles=line_handles)
     plt.show()
-
 
 
 if __name__ == "__main__":

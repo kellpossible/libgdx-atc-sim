@@ -77,7 +77,7 @@ public class TestAccuracy implements PredictionListener, RunnableThread {
         String algorithmName = ApplicationConfig.getString("settings.prediction-service.prediction-engine.algorithm-type");
 
         //Create a new file for results with the date/time as filename
-        String fileName = "Results/Accuracy/" + algorithmName + "_" + new SimpleDateFormat("MM-dd HH-mm-ss").format(new Date())+".csv";
+        String fileName = "Results/Accuracy/" + algorithmName + "_" + new SimpleDateFormat("MM-dd_HH-mm-ss").format(new Date())+".csv";
         resultsFile = new File(fileName);
     }
 
@@ -127,6 +127,8 @@ public class TestAccuracy implements PredictionListener, RunnableThread {
                 //Store PlaneID for use in the HashMap
                 String planeID = predictionUnderTest.getAircraftID();
                 singleTestString += planeID +", ";
+                singleTestString += predictionUnderTest.getState().toString() + ", ";
+
 
                 //Remove the list of predictions
                 ArrayList<AircraftState> predictionStates = predictionUnderTest.getCentreTrack();
