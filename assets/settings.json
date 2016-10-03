@@ -2,7 +2,7 @@
   "settings": {
     "prediction-service": {
       "prediction-engine": {
-        "algorithm-type": "CURVILINEAR2D",
+        "algorithm-type": "LMLEASTSQUARES",
         "java-worker-threads": 4
       },
       "debug-data-feed-client": {
@@ -20,7 +20,7 @@
       "adsb-recording-scenario": {
         "file": "assets/flight_data/YMML_26_05_2016/database.json"
       },
-      "speed": 20
+      "speed": 10
     },
     "display": {
       "use-msaa": true,

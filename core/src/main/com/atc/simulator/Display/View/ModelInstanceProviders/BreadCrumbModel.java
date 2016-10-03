@@ -49,7 +49,7 @@ public class BreadCrumbModel extends SimpleDisplayRenderableProvider implements 
         super.update();
 
         float scale = 1f;
-        double depthAdjustment = -0.01;
+        double depthAdjustment = 0.0;
 
         PerspectiveCamera camera = (PerspectiveCamera) getCamera();
         scale = camera.fieldOfView/2;
@@ -88,7 +88,6 @@ public class BreadCrumbModel extends SimpleDisplayRenderableProvider implements 
             float intermediateScale = (float) (scale * Math.exp(((double) -(n+3))/(lookback/2)));
 
             GeographicCoordinate position = track.get(i).getPosition();
-            Vector3 modelDrawVector = position.getModelDrawVector(depthAdjustment);
 
             Color newColor = new Color(colorBrightness, colorBrightness, colorBrightness, 1.0f);
 
