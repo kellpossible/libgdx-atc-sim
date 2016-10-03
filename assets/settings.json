@@ -23,7 +23,7 @@
       "speed": 10
     },
     "display": {
-      "use-msaa": true,
+      "use-msaa": false,
       "msaa-samples": 8,
       "prediction-display-method": "GRADIENT",
       "show-tracks-default": true,

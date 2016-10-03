@@ -8,6 +8,7 @@ import com.atc.simulator.Display.View.DisplayRenderable.HiddenDisplayRenderable;
 import com.atc.simulator.flightdata.AircraftState;
 import com.atc.simulator.flightdata.Prediction;
 import com.atc.simulator.flightdata.Track;
+import com.atc.simulator.vectors.GeographicCoordinate;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g3d.Material;
 import com.badlogic.gdx.graphics.g3d.Model;
@@ -42,12 +43,35 @@ public class PredictionModel extends SimpleDisplayRenderableProvider {
 
     private void createTexture()
     {
-        pixmap = new Pixmap(1, 256, Pixmap.Format.RGBA8888);
+//        pixmap = new Pixmap(1, 256, Pixmap.Format.RGBA8888);
+//
+//        for (int i = 0; i < 256; i++)
+//        {
+//            float intensity = ((float) i)/256.0f;
+//            pixmap.drawPixel(0, i, Color.rgba8888(intensity, intensity, intensity, intensity));
+//        }
 
+        pixmap = new Pixmap(256, 256, Pixmap.Format.RGBA8888);
+        int x = 0;
         for (int i = 0; i < 256; i++)
         {
-            float intensity = ((float) i)/256.0f;
-            pixmap.drawPixel(0, i, Color.rgba8888(intensity, intensity, intensity, intensity));
+            int y = 0;
+            for (int j = 0; j < 256; j++ )
+            {
+                float intensity = 0;
+                if ((x%2) == (y%2)) {
+                    intensity = 1.0f;
+                } else {
+                    intensity = 0.7f;
+                }
+                pixmap.drawPixel(j, i, Color.rgba8888(intensity, intensity, intensity, intensity));
+                if (j%16 == 0) {
+                    y++;
+                }
+            }
+            if (i%16 == 0) {
+                x++;
+            }
         }
 
         texture = new Texture(pixmap);
@@ -173,6 +197,66 @@ public class PredictionModel extends SimpleDisplayRenderableProvider {
             prevRightPosition = rightPosition;
 
         }
+
+        //debug texture example
+        double size = 10000.0;
+        GeographicCoordinate pos = aircraft.getPosition();
+        pythagoras.d.Vector3 posCart = pos.getCartesian();
+        pythagoras.d.Vector3 thetaCart = pos.thetaCartesianUnitVector().mult(size);
+        pythagoras.d.Vector3 phiCart = pos.phiCartesianUnitVector().mult(size);
+
+        GeographicCoordinate corner0 = pos;
+        GeographicCoordinate corner1 = GeographicCoordinate.fromCartesian(posCart.add(thetaCart));
+        GeographicCoordinate corner2 = GeographicCoordinate.fromCartesian(posCart.add(thetaCart.add(phiCart)));
+        GeographicCoordinate corner3 = GeographicCoordinate.fromCartesian(posCart.add(phiCart));
+
+        builder.setUVRange(0, 1, 1, 0);
+        builder.rect(
+                corner0.getModelDrawVector(),
+                corner1.getModelDrawVector(),
+                corner2.getModelDrawVector(),
+                corner3.getModelDrawVector(),
+                normal);
+
+
+        //wireframe debug
+        MeshPartBuilder meshBuilder = modelBuilder.part(
+                "predictionArea",
+                GL20.GL_LINES,
+                VertexAttributes.Usage.Position | VertexAttributes.Usage.ColorUnpacked,
+                new Material());
+
+
+        //for how to do textured version:
+        //http://stackoverflow.com/questions/21161456/building-a-box-with-texture-on-one-side-in-libgdx-performance
+
+        meshBuilder.setColor(Color.BLUE);
+        prevLeftPosition = null;
+        prevRightPosition = null;
+        prevCentrePosition = null;
+
+        for(int i = 0; i < prediction.size(); i++)
+        {
+            Vector3 leftPosition = leftTrack.get(i).getPosition().getModelDrawVector();
+            Vector3 centrePosition = centreTrack.get(i).getPosition().getModelDrawVector();
+            Vector3 rightPosition = rightTrack.get(i).getPosition().getModelDrawVector();
+
+            if(i > 0)
+            {
+                normal = new Vector3(leftPosition).scl(-1).nor();
+                meshBuilder.triangle(leftPosition, prevLeftPosition, centrePosition);
+                meshBuilder.triangle(rightPosition, prevRightPosition, centrePosition);
+                meshBuilder.line(centrePosition, prevCentrePosition);
+            }
+
+            prevLeftPosition = leftPosition;
+            prevCentrePosition = centrePosition;
+            prevRightPosition = rightPosition;
+
+        }
+
+
+
 
         Model newModel = modelBuilder.end();
         ModelInstance modelInstance = new ModelInstance(newModel);
