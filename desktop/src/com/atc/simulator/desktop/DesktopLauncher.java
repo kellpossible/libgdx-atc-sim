@@ -25,6 +25,8 @@ public class DesktopLauncher {
 	private static final String recordingFile = ApplicationConfig.getString("settings.debug-data-feed.adsb-recording-scenario.file");
 	private static final int javaWorkerThreads = ApplicationConfig.getInt("settings.prediction-service.prediction-engine.java-worker-threads");
 	private static final Boolean accuracyTest = ApplicationConfig.getBoolean("settings.testing.run-accuracy-test");
+	private static final boolean useMSAA = ApplicationConfig.getBoolean("settings.display.use-msaa");
+	private static final int msaaSamples = ApplicationConfig.getInt("settings.display.msaa-samples");
 
 	/**
 	 * Main method
@@ -32,9 +34,13 @@ public class DesktopLauncher {
 	 */
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
+
+		if (useMSAA) {
+			config.samples = msaaSamples;
+		}
+
 		config.height = 768;
 		config.width = 1024;
-
 
 //		Scenario scenario = new YMMLtoYSCBScenario();
 		Scenario scenario = new ADSBRecordingScenario(recordingFile);

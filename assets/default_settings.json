@@ -37,6 +37,8 @@
       "speed": 10
     },
     "display": {
+      "use-msaa": false,
+      "msaa-samples": 8,
       "prediction-display-method": "WIREFRAME",
       "show-tracks-default": true,
       "prediction-feed-client": {

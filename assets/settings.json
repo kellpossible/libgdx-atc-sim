@@ -2,7 +2,7 @@
   "settings": {
     "prediction-service": {
       "prediction-engine": {
-        "algorithm-type": "LINEAR2D",
+        "algorithm-type": "CURVILINEAR2D",
         "java-worker-threads": 4
       },
       "debug-data-feed-client": {
@@ -23,6 +23,8 @@
       "speed": 20
     },
     "display": {
+      "use-msaa": true,
+      "msaa-samples": 8,
       "prediction-display-method": "GRADIENT",
       "show-tracks-default": true,
       "prediction-feed-client": {
@@ -31,7 +33,7 @@
       }
     },
     "testing": {
-      "run-accuracy-test": true,
+      "run-accuracy-test": false,
       "save-csv": false,
       "save-json": true
     }
