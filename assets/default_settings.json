@@ -44,7 +44,8 @@
       "prediction-feed-client": {
         "port-number": 6789,
         "server-ip": "localhost"
-      }
+      },
+      "bonus-feature": false
     },
     "testing": {
       "run-accuracy-daemon": true,

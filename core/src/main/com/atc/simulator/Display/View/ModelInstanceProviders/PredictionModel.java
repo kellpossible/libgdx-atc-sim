@@ -202,61 +202,61 @@ public class PredictionModel extends SimpleDisplayRenderableProvider {
         }
 
         //debug texture example
-        double size = 10000.0;
-        GeographicCoordinate pos = aircraft.getPosition();
-        pythagoras.d.Vector3 posCart = pos.getCartesian();
-        pythagoras.d.Vector3 thetaCart = pos.thetaCartesianUnitVector().mult(size);
-        pythagoras.d.Vector3 phiCart = pos.phiCartesianUnitVector().mult(size);
+//        double size = 10000.0;
+//        GeographicCoordinate pos = aircraft.getPosition();
+//        pythagoras.d.Vector3 posCart = pos.getCartesian();
+//        pythagoras.d.Vector3 thetaCart = pos.thetaCartesianUnitVector().mult(size);
+//        pythagoras.d.Vector3 phiCart = pos.phiCartesianUnitVector().mult(size);
+//
+//        GeographicCoordinate corner0 = pos;
+//        GeographicCoordinate corner1 = GeographicCoordinate.fromCartesian(posCart.add(thetaCart));
+//        GeographicCoordinate corner2 = GeographicCoordinate.fromCartesian(posCart.add(thetaCart.add(phiCart)));
+//        GeographicCoordinate corner3 = GeographicCoordinate.fromCartesian(posCart.add(phiCart));
+//
+//        builder.setUVRange(0, 1, 1, 0);
+//        builder.rect(
+//                corner0.getModelDrawVector(),
+//                corner1.getModelDrawVector(),
+//                corner2.getModelDrawVector(),
+//                corner3.getModelDrawVector(),
+//                normal);
 
-        GeographicCoordinate corner0 = pos;
-        GeographicCoordinate corner1 = GeographicCoordinate.fromCartesian(posCart.add(thetaCart));
-        GeographicCoordinate corner2 = GeographicCoordinate.fromCartesian(posCart.add(thetaCart.add(phiCart)));
-        GeographicCoordinate corner3 = GeographicCoordinate.fromCartesian(posCart.add(phiCart));
 
-        builder.setUVRange(0, 1, 1, 0);
-        builder.rect(
-                corner0.getModelDrawVector(),
-                corner1.getModelDrawVector(),
-                corner2.getModelDrawVector(),
-                corner3.getModelDrawVector(),
-                normal);
+        //wireframe debug
+        MeshPartBuilder meshBuilder = modelBuilder.part(
+                "predictionArea",
+                GL20.GL_LINES,
+                VertexAttributes.Usage.Position | VertexAttributes.Usage.ColorUnpacked,
+                new Material());
 
 
-//        //wireframe debug
-//        MeshPartBuilder meshBuilder = modelBuilder.part(
-//                "predictionArea",
-//                GL20.GL_LINES,
-//                VertexAttributes.Usage.Position | VertexAttributes.Usage.ColorUnpacked,
-//                new Material());
-//
-//
-//        //for how to do textured version:
-//        //http://stackoverflow.com/questions/21161456/building-a-box-with-texture-on-one-side-in-libgdx-performance
-//
-//        meshBuilder.setColor(Color.BLACK);
-//        prevLeftPosition = null;
-//        prevRightPosition = null;
-//        prevCentrePosition = null;
-//
-//        for(int i = 0; i < prediction.size(); i++)
-//        {
-//            Vector3 leftPosition = leftTrack.get(i).getPosition().getModelDrawVector();
-//            Vector3 centrePosition = centreTrack.get(i).getPosition().getModelDrawVector();
-//            Vector3 rightPosition = rightTrack.get(i).getPosition().getModelDrawVector();
-//
-//            if(i > 0)
-//            {
-//                normal = new Vector3(leftPosition).scl(-1).nor();
-//                meshBuilder.triangle(leftPosition, prevLeftPosition, centrePosition);
-//                meshBuilder.triangle(rightPosition, prevRightPosition, centrePosition);
-//                meshBuilder.line(centrePosition, prevCentrePosition);
-//            }
-//
-//            prevLeftPosition = leftPosition;
-//            prevCentrePosition = centrePosition;
-//            prevRightPosition = rightPosition;
-//
-//        }
+        //for how to do textured version:
+        //http://stackoverflow.com/questions/21161456/building-a-box-with-texture-on-one-side-in-libgdx-performance
+
+        meshBuilder.setColor(Color.BLACK);
+        prevLeftPosition = null;
+        prevRightPosition = null;
+        prevCentrePosition = null;
+
+        for(int i = 0; i < prediction.size(); i++)
+        {
+            Vector3 leftPosition = leftTrack.get(i).getPosition().getModelDrawVector();
+            Vector3 centrePosition = centreTrack.get(i).getPosition().getModelDrawVector();
+            Vector3 rightPosition = rightTrack.get(i).getPosition().getModelDrawVector();
+
+            if(i > 0)
+            {
+                normal = new Vector3(leftPosition).scl(-1).nor();
+                meshBuilder.triangle(leftPosition, prevLeftPosition, centrePosition);
+                meshBuilder.triangle(rightPosition, prevRightPosition, centrePosition);
+                meshBuilder.line(centrePosition, prevCentrePosition);
+            }
+
+            prevLeftPosition = leftPosition;
+            prevCentrePosition = centrePosition;
+            prevRightPosition = rightPosition;
+
+        }
 
 
 

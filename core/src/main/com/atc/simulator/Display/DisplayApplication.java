@@ -8,6 +8,7 @@ import com.atc.simulator.Display.Model.*;
 import com.atc.simulator.Display.View.ModelInstanceProviders.HudModel;
 import com.atc.simulator.Display.View.ModelInstanceProviders.WorldMapModel;
 import com.atc.simulator.Display.View.ModelInstanceProviders.TracksModel;
+import com.atc.simulator.Display.View.Shaders.BonusShader;
 import com.atc.simulator.Display.View.Shaders.PredictionShader;
 import com.atc.simulator.flightdata.*;
 import com.atc.simulator.flightdata.SystemStateDatabase.SystemStateDatabase;
@@ -46,6 +47,7 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
     private static final boolean enableTimer = true;
     private static final boolean enableDebugPrint = ApplicationConfig.getBoolean("settings.debug.print-display");
     private static final boolean useMSAA = ApplicationConfig.getBoolean("settings.display.use-msaa");
+    private static final boolean bonusFeature = ApplicationConfig.getBoolean("settings.display.bonus-feature");
 
 	private PerspectiveCamera perspectiveCamera;
     private OrthographicCamera orthoCamera;
@@ -71,6 +73,7 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
     private HudModel hud;
     private Environment environment;
     private Shader predictionShader;
+    private Shader bonusShader;
 
     private DataPlaybackThread playbackThread;
     private InputMultiplexer inputMultiplexer;
@@ -234,6 +237,12 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
 	public void create () {
         predictionShader = new PredictionShader();
         predictionShader.init();
+
+        if (bonusFeature) {
+            bonusShader = new BonusShader();
+            bonusShader.init();
+        }
+
         environment = new Environment();
         environment.set(new ColorAttribute(ColorAttribute.AmbientLight, 0.5f, 0.5f, 0.5f, 1.0f));
         environment.add(new DirectionalLight().set(0.8f, 0.8f, 0.8f, -1f, -0.8f, -0.2f));
@@ -427,7 +436,12 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
             modelBatch.setCamera(cameraBatch.getCamera());
             for(RenderableProvider gdxRenderableProvider : cameraBatch.gdxRenderableProviders())
             {
-                modelBatch.render(gdxRenderableProvider, predictionShader);
+                if (bonusFeature) {
+                    modelBatch.render(gdxRenderableProvider, bonusShader);
+                } else {
+                    modelBatch.render(gdxRenderableProvider);
+                }
+
                 nInstances++;
             }
         }

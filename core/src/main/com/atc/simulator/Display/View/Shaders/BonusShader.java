@@ -11,11 +11,10 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 
 /**
- * A shader to render prediction gradients.
- * Created by luke on 4/10/16.
+ * A bonus shader
  * @author Luke Frisken
  */
-public class PredictionShader implements Shader {
+public class BonusShader implements Shader {
     private ShaderProgram program;
     private Camera camera;
     private RenderContext context;
@@ -30,8 +29,8 @@ public class PredictionShader implements Shader {
      */
     @Override
     public void init() {
-        String vert = Gdx.files.internal("assets/shaders/prediction.vert").readString();
-        String frag = Gdx.files.internal("assets/shaders/prediction.frag").readString();
+        String vert = Gdx.files.internal("assets/shaders/psychodelic.vert").readString();
+        String frag = Gdx.files.internal("assets/shaders/psychodelic.frag").readString();
         program = new ShaderProgram(vert, frag);
         if (!program.isCompiled())
         {

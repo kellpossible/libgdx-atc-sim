@@ -23,14 +23,15 @@
       "speed": 10
     },
     "display": {
-      "use-msaa": false,
+      "use-msaa": true,
       "msaa-samples": 8,
       "prediction-display-method": "GRADIENT",
       "show-tracks-default": true,
       "prediction-feed-client": {
         "port-number": 6789,
         "server-ip": "localhost"
-      }
+      },
+      "bonus-feature": false
     },
     "testing": {
       "run-accuracy-test": false,
