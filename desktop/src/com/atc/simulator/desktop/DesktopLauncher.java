@@ -84,8 +84,16 @@ public class DesktopLauncher {
 
 		DebugDataFeedClientThread debugDataFeedClientThread = new DebugDataFeedClientThread(systemStateDatabase);
 
+
+		// let the display get its system state from the prediction feed's debugdatafeed client
+		// if we aren't using the debug datafeed.
+		if (!debugDatafeedEnabled)
+		{
+			debugDataFeedClientThread.addDataPlaybackListener(displayApplication);
+		}
+
 		predictionFeedClientThread.addListener(displayApplication);
-        
+
 		systemStateDatabase.addListener(predictionEngine);
 
 		if(accuracyTest) {

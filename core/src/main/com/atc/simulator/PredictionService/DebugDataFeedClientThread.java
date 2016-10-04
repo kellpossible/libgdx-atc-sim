@@ -1,5 +1,6 @@
 package com.atc.simulator.PredictionService;
 import com.atc.simulator.Config.ApplicationConfig;
+import com.atc.simulator.DebugDataFeed.DataPlaybackListener;
 import com.atc.simulator.ProtocolBuffers.DebugDataFeedServe;
 import com.atc.simulator.RunnableThread;
 import com.atc.simulator.flightdata.AircraftState;
@@ -30,6 +31,7 @@ public class DebugDataFeedClientThread implements RunnableThread
     private boolean continueThread = true;
     private Thread thread;
     private final String threadName = "DebugDataFeedClientThread";
+    private ArrayList<DataPlaybackListener> dataPlaybackListeners;
 
     /**
      * Constructor for DebugDataFeedClientThread
@@ -39,6 +41,7 @@ public class DebugDataFeedClientThread implements RunnableThread
     {
         // takes a reference from the aSystemStateDatabase that is being passed in
         this.systemStateDatabase = aSystemStateDatabase;
+        dataPlaybackListeners = new ArrayList<DataPlaybackListener>();
         try
         {
             serversSock = new Socket(serverIp, PORT);
@@ -51,6 +54,19 @@ public class DebugDataFeedClientThread implements RunnableThread
         }
     }
 
+    /**
+     * Add a data playback listener to this thread.
+     * @param dataPlaybackListener
+     */
+    public void addDataPlaybackListener(DataPlaybackListener dataPlaybackListener)
+    {
+        dataPlaybackListeners.add(dataPlaybackListener);
+    }
+
+
+    /**
+     * Run method for this thread
+     */
     public void run()
     {
         while (continueThread)
@@ -59,11 +75,14 @@ public class DebugDataFeedClientThread implements RunnableThread
             {
                 //Wait for message to arrive from Server:
                 SystemStateMessage tempMessage = DebugDataFeedServe.SystemStateMessage.parseDelimitedFrom(serversSock.getInputStream());
+
+//                System.out.println(tempMessage);
+
                 //Make an Array of all the AircraftStates that were sent:
                 ArrayList<AircraftState> aircraftStatesReceived = new ArrayList<AircraftState>();
                 for (int i = 0; i < tempMessage.getAircraftStateCount(); i++) {
 
-                    aircraftStatesReceived.add(new AircraftState(
+                    AircraftState newAircraftState = new AircraftState(
                             tempMessage.getAircraftState(i).getAircraftID(),
                             tempMessage.getAircraftState(i).getTime(),
                             new GeographicCoordinate(tempMessage.getAircraftState(i).getPosition().getAltitude(),
@@ -72,7 +91,8 @@ public class DebugDataFeedClientThread implements RunnableThread
                             new SphericalVelocity(tempMessage.getAircraftState(i).getVelocity().getDr(),
                                     tempMessage.getAircraftState(i).getVelocity().getDtheta(),
                                     tempMessage.getAircraftState(i).getVelocity().getDphi()),
-                            tempMessage.getAircraftState(i).getHeading()));
+                            tempMessage.getAircraftState(i).getHeading());
+                    aircraftStatesReceived.add(newAircraftState);
                 }//End loop for all aircraft
                 //Make a new System State
 
@@ -82,15 +102,26 @@ public class DebugDataFeedClientThread implements RunnableThread
                     //Uros: I replaced the method in systemStateDatabase that was previously
                     // connected directly to the display, calls a simple method to update the system state.
                     systemStateDatabase.systemStateUpdate(testState);
+                    onSystemUpdate(testState);
                 }
 
-            }catch(IOException e){System.err.println("Prediction-side Debug Message Parse Failed");}//End Catch
-            catch(NullPointerException n){
-                System.err.println("Prediction-side Debug thread finishing");
+            }catch(IOException e){
+                e.printStackTrace();
+                System.err.println(e.getMessage());
+                System.err.println("Prediction-side Debug Message Parse Failed");
             }
         }//End while
         kill();
     } //End run
+
+    private void onSystemUpdate(SystemState systemState)
+    {
+//        System.out.println("performing on system update to " + dataPlaybackListeners.size() + " listeners");
+        for (DataPlaybackListener listener : dataPlaybackListeners)
+        {
+            listener.onSystemUpdate(systemState);
+        }
+    }
 
     /**
      * Method called to start the thread.
