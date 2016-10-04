@@ -3,16 +3,17 @@ package com.atc.simulator.Display.View.ModelInstanceProviders;
 import com.atc.simulator.Display.DisplayCameraListener;
 import com.atc.simulator.Display.Model.DisplayAircraft;
 import com.atc.simulator.Display.View.DisplayRenderable.GDXDisplayRenderable;
+import com.atc.simulator.Display.View.Shapes.CircleMeshBuilder;
 import com.atc.simulator.vectors.GeographicCoordinate;
-import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.PerspectiveCamera;
-import com.badlogic.gdx.graphics.VertexAttributes;
+import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g3d.Material;
 import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
+import com.badlogic.gdx.graphics.g3d.attributes.TextureAttribute;
+import com.badlogic.gdx.graphics.g3d.utils.MeshPartBuilder;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
+import com.badlogic.gdx.math.Matrix3;
 import com.badlogic.gdx.math.Vector3;
 
 /**
@@ -78,14 +79,27 @@ public class AircraftDotModel extends SimpleDisplayRenderableProvider implements
         Vector3 modelDrawVector = position.getModelDrawVector(depthAdjustment);
 
         ModelBuilder modelBuilder = new ModelBuilder();
-        Model newModel = modelBuilder.createSphere(
-                0.0005f, 0.0005f, 0.0005f, 7, 7,
-                new Material(ColorAttribute.createDiffuse(new Color(0, 1, 0, 1))),
-                VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal);
+        modelBuilder.begin();
+        MeshPartBuilder builder = modelBuilder.part(
+                "aircraftDot",
+                GL20.GL_TRIANGLES,
+                VertexAttributes.Usage.Position | VertexAttributes.Usage.ColorUnpacked,
+                new Material(ColorAttribute.createDiffuse(new Color(0, 1, 0, 1))));
+
+        CircleMeshBuilder.build(builder, position, 1500*scale,20, depthAdjustment);
+
+        Model newModel = modelBuilder.end();
         ModelInstance modelInstance = new ModelInstance(newModel);
-        modelInstance.transform.setToScaling(scale, scale, scale);
-        modelInstance.calculateTransforms();
-        modelInstance.transform.setTranslation(modelDrawVector.x, modelDrawVector.y, modelDrawVector.z);
+
+//        ModelBuilder modelBuilder = new ModelBuilder();
+//        Model newModel = modelBuilder.createSphere(
+//                0.0005f, 0.0005f, 0.0005f, 7, 7,
+//                new Material(ColorAttribute.createDiffuse(new Color(0, 1, 0, 1))),
+//                VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal);
+//        ModelInstance modelInstance = new ModelInstance(newModel);
+//        modelInstance.transform.setToScaling(scale, scale, scale);
+//        modelInstance.calculateTransforms();
+//        modelInstance.transform.setTranslation(modelDrawVector.x, modelDrawVector.y, modelDrawVector.z);
 
         setDisplayRenderable(new GDXDisplayRenderable(modelInstance, getCamera(), newModel));
     }

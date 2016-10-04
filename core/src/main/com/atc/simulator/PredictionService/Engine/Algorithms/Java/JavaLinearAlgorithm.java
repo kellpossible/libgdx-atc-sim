@@ -67,9 +67,10 @@ public class JavaLinearAlgorithm extends JavaPredictionAlgorithm {
         Prediction prediction = new Prediction(
                 state.getAircraftID(),
                 startTime,
-                null,
+                state,
                 predictedTrack,
-                null,
+                predictedTrack,
+                predictedTrack,
                 Prediction.State.STRAIGHT);
         return prediction;
     }

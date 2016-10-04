@@ -3122,6 +3122,19 @@ public final class PredictionFeedServe {
      * <code>required .AircraftPredictionMessage.State state = 6;</code>
      */
     com.atc.simulator.ProtocolBuffers.PredictionFeedServe.AircraftPredictionMessage.State getState();
+
+    /**
+     * <code>required .PredictionAircraftStateMessage aircraftState = 7;</code>
+     */
+    boolean hasAircraftState();
+    /**
+     * <code>required .PredictionAircraftStateMessage aircraftState = 7;</code>
+     */
+    com.atc.simulator.ProtocolBuffers.PredictionFeedServe.PredictionAircraftStateMessage getAircraftState();
+    /**
+     * <code>required .PredictionAircraftStateMessage aircraftState = 7;</code>
+     */
+    com.atc.simulator.ProtocolBuffers.PredictionFeedServe.PredictionAircraftStateMessageOrBuilder getAircraftStateOrBuilder();
   }
   /**
    * Protobuf type {@code AircraftPredictionMessage}
@@ -3227,6 +3240,19 @@ public final class PredictionFeedServe {
                 bitField0_ |= 0x00000020;
                 state_ = rawValue;
               }
+              break;
+            }
+            case 58: {
+              com.atc.simulator.ProtocolBuffers.PredictionFeedServe.PredictionAircraftStateMessage.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000040) == 0x00000040)) {
+                subBuilder = aircraftState_.toBuilder();
+              }
+              aircraftState_ = input.readMessage(com.atc.simulator.ProtocolBuffers.PredictionFeedServe.PredictionAircraftStateMessage.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(aircraftState_);
+                aircraftState_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000040;
               break;
             }
           }
@@ -3506,6 +3532,27 @@ public final class PredictionFeedServe {
       return result == null ? com.atc.simulator.ProtocolBuffers.PredictionFeedServe.AircraftPredictionMessage.State.STOPPED : result;
     }
 
+    public static final int AIRCRAFTSTATE_FIELD_NUMBER = 7;
+    private com.atc.simulator.ProtocolBuffers.PredictionFeedServe.PredictionAircraftStateMessage aircraftState_;
+    /**
+     * <code>required .PredictionAircraftStateMessage aircraftState = 7;</code>
+     */
+    public boolean hasAircraftState() {
+      return ((bitField0_ & 0x00000040) == 0x00000040);
+    }
+    /**
+     * <code>required .PredictionAircraftStateMessage aircraftState = 7;</code>
+     */
+    public com.atc.simulator.ProtocolBuffers.PredictionFeedServe.PredictionAircraftStateMessage getAircraftState() {
+      return aircraftState_ == null ? com.atc.simulator.ProtocolBuffers.PredictionFeedServe.PredictionAircraftStateMessage.getDefaultInstance() : aircraftState_;
+    }
+    /**
+     * <code>required .PredictionAircraftStateMessage aircraftState = 7;</code>
+     */
+    public com.atc.simulator.ProtocolBuffers.PredictionFeedServe.PredictionAircraftStateMessageOrBuilder getAircraftStateOrBuilder() {
+      return aircraftState_ == null ? com.atc.simulator.ProtocolBuffers.PredictionFeedServe.PredictionAircraftStateMessage.getDefaultInstance() : aircraftState_;
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -3528,6 +3575,10 @@ public final class PredictionFeedServe {
         memoizedIsInitialized = 0;
         return false;
       }
+      if (!hasAircraftState()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
       if (hasLeftTrack()) {
         if (!getLeftTrack().isInitialized()) {
           memoizedIsInitialized = 0;
@@ -3543,6 +3594,10 @@ public final class PredictionFeedServe {
           memoizedIsInitialized = 0;
           return false;
         }
+      }
+      if (!getAircraftState().isInitialized()) {
+        memoizedIsInitialized = 0;
+        return false;
       }
       memoizedIsInitialized = 1;
       return true;
@@ -3567,6 +3622,9 @@ public final class PredictionFeedServe {
       }
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
         output.writeEnum(6, state_);
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        output.writeMessage(7, getAircraftState());
       }
       unknownFields.writeTo(output);
     }
@@ -3598,6 +3656,10 @@ public final class PredictionFeedServe {
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(6, state_);
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(7, getAircraftState());
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -3645,6 +3707,11 @@ public final class PredictionFeedServe {
       if (hasState()) {
         result = result && state_ == other.state_;
       }
+      result = result && (hasAircraftState() == other.hasAircraftState());
+      if (hasAircraftState()) {
+        result = result && getAircraftState()
+            .equals(other.getAircraftState());
+      }
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -3680,6 +3747,10 @@ public final class PredictionFeedServe {
       if (hasState()) {
         hash = (37 * hash) + STATE_FIELD_NUMBER;
         hash = (53 * hash) + state_;
+      }
+      if (hasAircraftState()) {
+        hash = (37 * hash) + AIRCRAFTSTATE_FIELD_NUMBER;
+        hash = (53 * hash) + getAircraftState().hashCode();
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
@@ -3798,6 +3869,7 @@ public final class PredictionFeedServe {
           getLeftTrackFieldBuilder();
           getCentreTrackFieldBuilder();
           getRightTrackFieldBuilder();
+          getAircraftStateFieldBuilder();
         }
       }
       public Builder clear() {
@@ -3826,6 +3898,12 @@ public final class PredictionFeedServe {
         bitField0_ = (bitField0_ & ~0x00000010);
         state_ = 0;
         bitField0_ = (bitField0_ & ~0x00000020);
+        if (aircraftStateBuilder_ == null) {
+          aircraftState_ = null;
+        } else {
+          aircraftStateBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000040);
         return this;
       }
 
@@ -3886,6 +3964,14 @@ public final class PredictionFeedServe {
           to_bitField0_ |= 0x00000020;
         }
         result.state_ = state_;
+        if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
+          to_bitField0_ |= 0x00000040;
+        }
+        if (aircraftStateBuilder_ == null) {
+          result.aircraftState_ = aircraftState_;
+        } else {
+          result.aircraftState_ = aircraftStateBuilder_.build();
+        }
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -3948,6 +4034,9 @@ public final class PredictionFeedServe {
         if (other.hasState()) {
           setState(other.getState());
         }
+        if (other.hasAircraftState()) {
+          mergeAircraftState(other.getAircraftState());
+        }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
         return this;
@@ -3966,6 +4055,9 @@ public final class PredictionFeedServe {
         if (!hasState()) {
           return false;
         }
+        if (!hasAircraftState()) {
+          return false;
+        }
         if (hasLeftTrack()) {
           if (!getLeftTrack().isInitialized()) {
             return false;
@@ -3978,6 +4070,9 @@ public final class PredictionFeedServe {
           if (!getRightTrack().isInitialized()) {
             return false;
           }
+        }
+        if (!getAircraftState().isInitialized()) {
+          return false;
         }
         return true;
       }
@@ -4514,6 +4609,124 @@ public final class PredictionFeedServe {
         onChanged();
         return this;
       }
+
+      private com.atc.simulator.ProtocolBuffers.PredictionFeedServe.PredictionAircraftStateMessage aircraftState_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          com.atc.simulator.ProtocolBuffers.PredictionFeedServe.PredictionAircraftStateMessage, com.atc.simulator.ProtocolBuffers.PredictionFeedServe.PredictionAircraftStateMessage.Builder, com.atc.simulator.ProtocolBuffers.PredictionFeedServe.PredictionAircraftStateMessageOrBuilder> aircraftStateBuilder_;
+      /**
+       * <code>required .PredictionAircraftStateMessage aircraftState = 7;</code>
+       */
+      public boolean hasAircraftState() {
+        return ((bitField0_ & 0x00000040) == 0x00000040);
+      }
+      /**
+       * <code>required .PredictionAircraftStateMessage aircraftState = 7;</code>
+       */
+      public com.atc.simulator.ProtocolBuffers.PredictionFeedServe.PredictionAircraftStateMessage getAircraftState() {
+        if (aircraftStateBuilder_ == null) {
+          return aircraftState_ == null ? com.atc.simulator.ProtocolBuffers.PredictionFeedServe.PredictionAircraftStateMessage.getDefaultInstance() : aircraftState_;
+        } else {
+          return aircraftStateBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>required .PredictionAircraftStateMessage aircraftState = 7;</code>
+       */
+      public Builder setAircraftState(com.atc.simulator.ProtocolBuffers.PredictionFeedServe.PredictionAircraftStateMessage value) {
+        if (aircraftStateBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          aircraftState_ = value;
+          onChanged();
+        } else {
+          aircraftStateBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000040;
+        return this;
+      }
+      /**
+       * <code>required .PredictionAircraftStateMessage aircraftState = 7;</code>
+       */
+      public Builder setAircraftState(
+          com.atc.simulator.ProtocolBuffers.PredictionFeedServe.PredictionAircraftStateMessage.Builder builderForValue) {
+        if (aircraftStateBuilder_ == null) {
+          aircraftState_ = builderForValue.build();
+          onChanged();
+        } else {
+          aircraftStateBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000040;
+        return this;
+      }
+      /**
+       * <code>required .PredictionAircraftStateMessage aircraftState = 7;</code>
+       */
+      public Builder mergeAircraftState(com.atc.simulator.ProtocolBuffers.PredictionFeedServe.PredictionAircraftStateMessage value) {
+        if (aircraftStateBuilder_ == null) {
+          if (((bitField0_ & 0x00000040) == 0x00000040) &&
+              aircraftState_ != null &&
+              aircraftState_ != com.atc.simulator.ProtocolBuffers.PredictionFeedServe.PredictionAircraftStateMessage.getDefaultInstance()) {
+            aircraftState_ =
+              com.atc.simulator.ProtocolBuffers.PredictionFeedServe.PredictionAircraftStateMessage.newBuilder(aircraftState_).mergeFrom(value).buildPartial();
+          } else {
+            aircraftState_ = value;
+          }
+          onChanged();
+        } else {
+          aircraftStateBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000040;
+        return this;
+      }
+      /**
+       * <code>required .PredictionAircraftStateMessage aircraftState = 7;</code>
+       */
+      public Builder clearAircraftState() {
+        if (aircraftStateBuilder_ == null) {
+          aircraftState_ = null;
+          onChanged();
+        } else {
+          aircraftStateBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000040);
+        return this;
+      }
+      /**
+       * <code>required .PredictionAircraftStateMessage aircraftState = 7;</code>
+       */
+      public com.atc.simulator.ProtocolBuffers.PredictionFeedServe.PredictionAircraftStateMessage.Builder getAircraftStateBuilder() {
+        bitField0_ |= 0x00000040;
+        onChanged();
+        return getAircraftStateFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>required .PredictionAircraftStateMessage aircraftState = 7;</code>
+       */
+      public com.atc.simulator.ProtocolBuffers.PredictionFeedServe.PredictionAircraftStateMessageOrBuilder getAircraftStateOrBuilder() {
+        if (aircraftStateBuilder_ != null) {
+          return aircraftStateBuilder_.getMessageOrBuilder();
+        } else {
+          return aircraftState_ == null ?
+              com.atc.simulator.ProtocolBuffers.PredictionFeedServe.PredictionAircraftStateMessage.getDefaultInstance() : aircraftState_;
+        }
+      }
+      /**
+       * <code>required .PredictionAircraftStateMessage aircraftState = 7;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          com.atc.simulator.ProtocolBuffers.PredictionFeedServe.PredictionAircraftStateMessage, com.atc.simulator.ProtocolBuffers.PredictionFeedServe.PredictionAircraftStateMessage.Builder, com.atc.simulator.ProtocolBuffers.PredictionFeedServe.PredictionAircraftStateMessageOrBuilder> 
+          getAircraftStateFieldBuilder() {
+        if (aircraftStateBuilder_ == null) {
+          aircraftStateBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              com.atc.simulator.ProtocolBuffers.PredictionFeedServe.PredictionAircraftStateMessage, com.atc.simulator.ProtocolBuffers.PredictionFeedServe.PredictionAircraftStateMessage.Builder, com.atc.simulator.ProtocolBuffers.PredictionFeedServe.PredictionAircraftStateMessageOrBuilder>(
+                  getAircraftState(),
+                  getParentForChildren(),
+                  isClean());
+          aircraftState_ = null;
+        }
+        return aircraftStateBuilder_;
+      }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFields(unknownFields);
@@ -4607,15 +4820,16 @@ public final class PredictionFeedServe {
       "nateMessage\022+\n\010velocity\030\003 \002(\0132\031.Spherica" +
       "lVelocityMessage\"?\n\005Track\0226\n\raircraftSta" +
       "te\030\001 \003(\0132\037.PredictionAircraftStateMessag",
-      "e\"\205\002\n\031AircraftPredictionMessage\022\022\n\naircr" +
+      "e\"\275\002\n\031AircraftPredictionMessage\022\022\n\naircr" +
       "aftID\030\001 \002(\t\022\014\n\004time\030\002 \002(\003\022\031\n\tleftTrack\030\003" +
       " \001(\0132\006.Track\022\033\n\013centreTrack\030\004 \002(\0132\006.Trac" +
       "k\022\032\n\nrightTrack\030\005 \001(\0132\006.Track\022/\n\005state\030\006" +
-      " \002(\0162 .AircraftPredictionMessage.State\"A" +
-      "\n\005State\022\013\n\007STOPPED\020\000\022\014\n\010STRAIGHT\020\001\022\r\n\tLE" +
-      "FT_TURN\020\002\022\016\n\nRIGHT_TURN\020\003B8\n!com.atc.sim" +
-      "ulator.ProtocolBuffersB\023PredictionFeedSe" +
-      "rve"
+      " \002(\0162 .AircraftPredictionMessage.State\0226" +
+      "\n\raircraftState\030\007 \002(\0132\037.PredictionAircra" +
+      "ftStateMessage\"A\n\005State\022\013\n\007STOPPED\020\000\022\014\n\010" +
+      "STRAIGHT\020\001\022\r\n\tLEFT_TURN\020\002\022\016\n\nRIGHT_TURN\020" +
+      "\003B8\n!com.atc.simulator.ProtocolBuffersB\023" +
+      "PredictionFeedServe"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -4658,7 +4872,7 @@ public final class PredictionFeedServe {
     internal_static_AircraftPredictionMessage_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_AircraftPredictionMessage_descriptor,
-        new java.lang.String[] { "AircraftID", "Time", "LeftTrack", "CentreTrack", "RightTrack", "State", });
+        new java.lang.String[] { "AircraftID", "Time", "LeftTrack", "CentreTrack", "RightTrack", "State", "AircraftState", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

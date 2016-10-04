@@ -1,6 +1,6 @@
 package com.atc.simulator.flightdata;
 
-import java.util.ArrayList;
+import com.atc.simulator.vectors.GeographicCoordinate;
 
 /**
  * Prediction is a simple data type, storing a list of AircraftStates that form a future prediction made by the Prediction Engine
@@ -8,6 +8,7 @@ import java.util.ArrayList;
  * @author    Chris Coleman, Luke Frisken
  */
 public class Prediction {
+
     public enum State {
         STOPPED,
         STRAIGHT,
@@ -15,7 +16,7 @@ public class Prediction {
         RIGHT_TURN
     }
 
-    private State state;
+    private State predictionState;
 
     /**
      * Array List of positional predictions on the left boundary of the prediction area
@@ -36,27 +37,35 @@ public class Prediction {
     private long time;
 
     /**
+     * current aircraft state when this prediction was created
+     */
+    private AircraftState aircraftState;
+
+    /**
      * Constructor Prediction creates a new Prediction instance.
      *
      * @param aircraftID of type String
      * @param time of type long. The time (in milliseconds since epoch) for the first predicted position.
+     * @param aircraftState current aircraft state when this prediction was created
      * @param leftTrack of type ArrayList<AircraftState>
      * @param centreTrack of type ArrayList<AircraftState>
      * @param rightTrack of type ArrayList<AircraftState>
      */
     public Prediction(String aircraftID,
                       long time,
+                      AircraftState aircraftState,
                       Track leftTrack,
                       Track centreTrack,
                       Track rightTrack,
-                      State state)
+                      State predictionState)
     {
         this.leftTrack = leftTrack;
         this.centreTrack = centreTrack;
         this.rightTrack = rightTrack;
         this.aircraftID = aircraftID;
         this.time = time;
-        this.state = state;
+        this.predictionState = predictionState;
+        this.aircraftState = aircraftState;
     }
 
     /**
@@ -138,20 +147,29 @@ public class Prediction {
     }
 
     /**
-     * Get the state of this prediction
-     * @return state of the prediction
+     * Get the predictionState of this prediction
+     * @return predictionState of the prediction
      */
-    public State getState() {
-        return state;
+    public State getPredictionState() {
+        return predictionState;
     }
 
     /**
-     * Set the state of the prediction
-     * @param state
+     * Set the predictionState of the prediction
+     * @param predictionState
      */
-    public void setState(State state) {
-        this.state = state;
+    public void setPredictionState(State predictionState) {
+        this.predictionState = predictionState;
     }
+
+    /**
+     * Get the current state of the aircraft when the prediction was created
+     */
+    public AircraftState getAircraftState()
+    {
+        return this.aircraftState;
+    }
+
 
     /**
      * Shallow copy prediction data from another prediction
@@ -164,7 +182,8 @@ public class Prediction {
         this.leftTrack = other.leftTrack;
         this.centreTrack = other.centreTrack;
         this.rightTrack = other.rightTrack;
-        this.state = other.state;
+        this.predictionState = other.predictionState;
+        this.aircraftState = other.aircraftState;
     }
 
     /**

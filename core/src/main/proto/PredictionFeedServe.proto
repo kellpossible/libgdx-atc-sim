@@ -43,4 +43,5 @@ message AircraftPredictionMessage
     }
 
     required State state = 6;
+    required PredictionAircraftStateMessage aircraftState = 7;
 }

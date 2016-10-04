@@ -1,5 +1,6 @@
 package com.atc.simulator.Display.View.ModelInstanceProviders;
 
+import com.atc.simulator.Config.ApplicationConfig;
 import com.atc.simulator.Display.Model.Display;
 import com.atc.simulator.Display.DisplayCameraListener;
 import com.atc.simulator.Display.Model.DisplayHud;
@@ -26,6 +27,7 @@ import java.util.Calendar;
  * Created by luke on 8/09/16.
  */
 public class HudModel extends SimpleDisplayRenderableProvider implements DisplayCameraListener {
+    private static final String algorithmType = ApplicationConfig.getString("settings.prediction-service.prediction-engine.algorithm-type");
     private HersheyFont font;
     private DisplayHud displayHud;
     /**
@@ -86,6 +88,10 @@ public class HudModel extends SimpleDisplayRenderableProvider implements Display
         HersheyText displayMethodText = new HersheyText("Display Method: " + display.getPredictionDisplayMethod().name(),
                 font, new Vector3(0, 110, 0), frameRateScale, 0f);
         displayMethodText.buildMesh(builder);
+
+        HersheyText algorithmTypeText = new HersheyText("Algorithm: " + algorithmType,
+                font, new Vector3(0, 140, 0), frameRateScale, 0f);
+        algorithmTypeText.buildMesh(builder);
 
         Vector3 crossHairTop = new Vector3(centre).add(new Vector3(0f, crossHairSize, 0f));
         Vector3 crossHairBottom = new Vector3(centre).add(new Vector3(0f, -crossHairSize, 0f));

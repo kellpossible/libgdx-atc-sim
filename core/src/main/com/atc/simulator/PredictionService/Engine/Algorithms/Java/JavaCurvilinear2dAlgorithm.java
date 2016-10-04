@@ -69,11 +69,11 @@ public class JavaCurvilinear2dAlgorithm extends JavaPredictionAlgorithm {
         int totalDT = 0;
         int n = 24;
 
-        System.out.println();
-        System.out.println("NEW PREDICTION");
-        System.out.println("Position: " + currentPosition);
-        System.out.println("Size: " + aircraftTrack.size());
-        System.out.println("Velocity: " + velocity);
+//        System.out.println();
+//        System.out.println("NEW PREDICTION");
+//        System.out.println("Position: " + currentPosition);
+//        System.out.println("Size: " + aircraftTrack.size());
+//        System.out.println("Velocity: " + velocity);
 
         Vector3 rVec = null;
         Vector3 centre = null;
@@ -89,10 +89,10 @@ public class JavaCurvilinear2dAlgorithm extends JavaPredictionAlgorithm {
 
             Circle circle = CircleSolver.FromThreePoints(p1, p2, p3);
 
-            System.out.println("P1: " + p1);
-            System.out.println("P2: " + p2);
-            System.out.println("P3: " + p3);
-            System.out.println("Circle (" + circle.x + "," + circle.y + "," + circle.radius + ")");
+//            System.out.println("P1: " + p1);
+//            System.out.println("P2: " + p2);
+//            System.out.println("P3: " + p3);
+//            System.out.println("Circle (" + circle.x + "," + circle.y + "," + circle.radius + ")");
 
             //check to see whether the radius is small enough for the aircraft to actually be turning.
             if (circle.radius < 100000)
@@ -176,9 +176,10 @@ public class JavaCurvilinear2dAlgorithm extends JavaPredictionAlgorithm {
         Prediction prediction = new Prediction(
                 state.getAircraftID(),
                 startTime,
-                null,
+                state,
                 predictionTrack,
-                null,
+                predictionTrack,
+                predictionTrack,
                 predictionState);
         return prediction;
     }

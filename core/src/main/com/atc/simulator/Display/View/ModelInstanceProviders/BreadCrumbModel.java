@@ -4,17 +4,16 @@ import com.atc.simulator.Display.DisplayCameraListener;
 import com.atc.simulator.Display.Model.DisplayAircraft;
 import com.atc.simulator.Display.View.DisplayRenderable.GDXDisplayRenderable;
 import com.atc.simulator.Display.View.DisplayRenderable.HiddenDisplayRenderable;
+import com.atc.simulator.Display.View.Shapes.CircleMeshBuilder;
 import com.atc.simulator.flightdata.Track;
 import com.atc.simulator.vectors.GeographicCoordinate;
-import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.PerspectiveCamera;
-import com.badlogic.gdx.graphics.VertexAttributes;
+import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g3d.Material;
 import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.ModelCache;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
+import com.badlogic.gdx.graphics.g3d.utils.MeshPartBuilder;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
@@ -50,7 +49,7 @@ public class BreadCrumbModel extends SimpleDisplayRenderableProvider implements 
         super.update();
 
         float scale = 1f;
-        double depthAdjustment = -0.01;
+        double depthAdjustment = 0.0;
 
         PerspectiveCamera camera = (PerspectiveCamera) getCamera();
         scale = camera.fieldOfView/2;
@@ -89,19 +88,20 @@ public class BreadCrumbModel extends SimpleDisplayRenderableProvider implements 
             float intermediateScale = (float) (scale * Math.exp(((double) -(n+3))/(lookback/2)));
 
             GeographicCoordinate position = track.get(i).getPosition();
-            Vector3 modelDrawVector = position.getModelDrawVector(depthAdjustment);
 
             Color newColor = new Color(colorBrightness, colorBrightness, colorBrightness, 1.0f);
 
             ModelBuilder modelBuilder = new ModelBuilder();
-            Model newModel = modelBuilder.createSphere(
-                    0.0005f, 0.0005f, 0.0005f, 5, 5,
-                    new Material(ColorAttribute.createDiffuse(newColor)),
-                    VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal);
+            modelBuilder.begin();
+            MeshPartBuilder builder = modelBuilder.part(
+                    "breadcrumbs",
+                    GL20.GL_TRIANGLES,
+                    VertexAttributes.Usage.Position | VertexAttributes.Usage.ColorUnpacked,
+                    new Material(ColorAttribute.createDiffuse(newColor)));
+
+            CircleMeshBuilder.build(builder, position, 1500*intermediateScale,20, depthAdjustment);
+            Model newModel = modelBuilder.end();
             ModelInstance modelInstance = new ModelInstance(newModel);
-            modelInstance.transform.setToScaling(intermediateScale, intermediateScale, intermediateScale);
-            modelInstance.calculateTransforms();
-            modelInstance.transform.setTranslation(modelDrawVector.x, modelDrawVector.y, modelDrawVector.z);
             modelCache.add(modelInstance);
             disposables.add(newModel);
 

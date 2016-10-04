@@ -33,11 +33,17 @@ import java.util.concurrent.ArrayBlockingQueue;
  *
  *  - Uses LibGDX
  *
+ *  KEYs:
+ *  - T:  tracks
+ *  - Space: pause/play
+ *  - P: cycle prediction display method
+ *
  * @author Luke Frisken
  */
 public class DisplayApplication extends ApplicationAdapter implements DataPlaybackListener, PredictionListener {
     private static final boolean enableTimer = true;
     private static final boolean enableDebugPrint = ApplicationConfig.getBoolean("settings.debug.print-display");
+    private static final boolean useMSAA = ApplicationConfig.getBoolean("settings.display.use-msaa");
 
 	private PerspectiveCamera perspectiveCamera;
     private OrthographicCamera orthoCamera;
@@ -382,7 +388,13 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
         displayUpdatePerformance.stop();
 
 		Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
+
+        if (useMSAA) {
+            //see http://stackoverflow.com/questions/35969253/libgdx-antialiasing
+            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT | (Gdx.graphics.getBufferFormat().coverageSampling?GL20.GL_COVERAGE_BUFFER_BIT_NV:0));
+        } else {
+            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
+        }
 
         camController.update();
 

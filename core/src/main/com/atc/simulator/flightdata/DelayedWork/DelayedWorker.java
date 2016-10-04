@@ -42,8 +42,15 @@ public class DelayedWorker {
             expenditure += workItem.getCost();
 
             DelayedWorkQueueItemType workItemType = workItem.getType();
-            workBufferMap.get(workItemType).remove(workItem, false);
-            workItem.run();
+            DelayedWorkBuffer delayedWorkBuffer = workBufferMap.get(workItemType);
+
+            //check to see that the item hasn't been removed yet from the workBufferMap,
+            //as it may have been removed when a cameralistener was deleted, when
+            //an aircraft was deleted.
+            if (delayedWorkBuffer != null) {
+                delayedWorkBuffer.remove(workItem, false);
+                workItem.run();
+            }
 
             workItem = workQueue.poll();
         }
@@ -75,7 +82,7 @@ public class DelayedWorker {
     {
         if (item == null)
         {
-            System.out.println("oh no");
+            System.err.println("Invalid work item!");
         }
         DelayedWorkBuffer buffer = workBufferMap.get(item.getType());
         buffer.add(item);

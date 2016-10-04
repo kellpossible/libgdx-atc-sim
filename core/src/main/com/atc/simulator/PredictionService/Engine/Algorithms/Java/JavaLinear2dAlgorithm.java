@@ -73,6 +73,7 @@ public class JavaLinear2dAlgorithm extends JavaPredictionAlgorithm {
         Prediction prediction = new Prediction(
                 state.getAircraftID(),
                 startTime,
+                state,
                 predictionTrack,
                 predictionTrack,
                 predictionTrack,

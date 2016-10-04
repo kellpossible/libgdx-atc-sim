@@ -1,7 +1,7 @@
 Results are written to file in the following format:
 
 
-PlaneID, Prediction1TimeStamp, Prediction1 Error, Prediction2TimeStamp, Prediction2 Error, etc
+PlaneID, Prediction State, PredictionTime, CurrentXPosition, CurrentYPosition, Prediction1TimeStamp, Prediction1 Error, Prediction2TimeStamp, Prediction2 Error, etc
 
 
 
