@@ -62,3 +62,6 @@ build/
 gradle-wrapper.properties
 ## OS Specific
 .DS_Store
+
+## Python
+*.pyc
