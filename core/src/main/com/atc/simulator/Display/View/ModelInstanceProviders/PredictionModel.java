@@ -26,8 +26,13 @@ import com.badlogic.gdx.math.Vector3;
 public class PredictionModel extends SimpleDisplayRenderableProvider {
     private DisplayAircraft aircraft;
     private Display display;
-    private Texture texture = null;
-    private Pixmap pixmap = null;
+    public static Texture texture;
+    public static Pixmap pixmap;
+    public static int testVar = 0;
+
+    static {
+        createTexture();
+    }
     /**
      * Constructor for PredictionModel
      * @param camera that will be rendering this
@@ -41,7 +46,7 @@ public class PredictionModel extends SimpleDisplayRenderableProvider {
         update();
     }
 
-    private void createTexture()
+    private static void createTexture()
     {
 //        pixmap = new Pixmap(1, 256, Pixmap.Format.RGBA8888);
 //
@@ -51,7 +56,7 @@ public class PredictionModel extends SimpleDisplayRenderableProvider {
 //            pixmap.drawPixel(0, i, Color.rgba8888(intensity, intensity, intensity, intensity));
 //        }
 
-        pixmap = new Pixmap(256, 256, Pixmap.Format.RGBA8888);
+        PredictionModel.pixmap = new Pixmap(256, 256, Pixmap.Format.RGBA8888);
         int x = 0;
         for (int i = 0; i < 256; i++)
         {
@@ -74,8 +79,8 @@ public class PredictionModel extends SimpleDisplayRenderableProvider {
             }
         }
 
-        texture = new Texture(pixmap);
-        texture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Nearest);
+        PredictionModel.texture = new Texture(pixmap);
+        PredictionModel.texture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Nearest);
     }
 
     /**
@@ -114,8 +119,6 @@ public class PredictionModel extends SimpleDisplayRenderableProvider {
     public void updateGradient()
     {
         super.update();
-
-        createTexture();
 
         DisplayPrediction prediction = aircraft.getPrediction();
 
@@ -219,41 +222,41 @@ public class PredictionModel extends SimpleDisplayRenderableProvider {
                 normal);
 
 
-        //wireframe debug
-        MeshPartBuilder meshBuilder = modelBuilder.part(
-                "predictionArea",
-                GL20.GL_LINES,
-                VertexAttributes.Usage.Position | VertexAttributes.Usage.ColorUnpacked,
-                new Material());
-
-
-        //for how to do textured version:
-        //http://stackoverflow.com/questions/21161456/building-a-box-with-texture-on-one-side-in-libgdx-performance
-
-        meshBuilder.setColor(Color.BLUE);
-        prevLeftPosition = null;
-        prevRightPosition = null;
-        prevCentrePosition = null;
-
-        for(int i = 0; i < prediction.size(); i++)
-        {
-            Vector3 leftPosition = leftTrack.get(i).getPosition().getModelDrawVector();
-            Vector3 centrePosition = centreTrack.get(i).getPosition().getModelDrawVector();
-            Vector3 rightPosition = rightTrack.get(i).getPosition().getModelDrawVector();
-
-            if(i > 0)
-            {
-                normal = new Vector3(leftPosition).scl(-1).nor();
-                meshBuilder.triangle(leftPosition, prevLeftPosition, centrePosition);
-                meshBuilder.triangle(rightPosition, prevRightPosition, centrePosition);
-                meshBuilder.line(centrePosition, prevCentrePosition);
-            }
-
-            prevLeftPosition = leftPosition;
-            prevCentrePosition = centrePosition;
-            prevRightPosition = rightPosition;
-
-        }
+//        //wireframe debug
+//        MeshPartBuilder meshBuilder = modelBuilder.part(
+//                "predictionArea",
+//                GL20.GL_LINES,
+//                VertexAttributes.Usage.Position | VertexAttributes.Usage.ColorUnpacked,
+//                new Material());
+//
+//
+//        //for how to do textured version:
+//        //http://stackoverflow.com/questions/21161456/building-a-box-with-texture-on-one-side-in-libgdx-performance
+//
+//        meshBuilder.setColor(Color.BLACK);
+//        prevLeftPosition = null;
+//        prevRightPosition = null;
+//        prevCentrePosition = null;
+//
+//        for(int i = 0; i < prediction.size(); i++)
+//        {
+//            Vector3 leftPosition = leftTrack.get(i).getPosition().getModelDrawVector();
+//            Vector3 centrePosition = centreTrack.get(i).getPosition().getModelDrawVector();
+//            Vector3 rightPosition = rightTrack.get(i).getPosition().getModelDrawVector();
+//
+//            if(i > 0)
+//            {
+//                normal = new Vector3(leftPosition).scl(-1).nor();
+//                meshBuilder.triangle(leftPosition, prevLeftPosition, centrePosition);
+//                meshBuilder.triangle(rightPosition, prevRightPosition, centrePosition);
+//                meshBuilder.line(centrePosition, prevCentrePosition);
+//            }
+//
+//            prevLeftPosition = leftPosition;
+//            prevCentrePosition = centrePosition;
+//            prevRightPosition = rightPosition;
+//
+//        }
 
 
 
@@ -348,17 +351,17 @@ public class PredictionModel extends SimpleDisplayRenderableProvider {
     {
         super.dispose();
 
-        if (texture != null)
-        {
-            texture.dispose();
-            texture = null;
-        }
-
-        if (pixmap != null)
-        {
-            pixmap.dispose();
-            pixmap = null;
-        }
+//        if (texture != null)
+//        {
+//            texture.dispose();
+//            texture = null;
+//        }
+//
+//        if (pixmap != null)
+//        {
+//            pixmap.dispose();
+//            pixmap = null;
+//        }
     }
 }
 

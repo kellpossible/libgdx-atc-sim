@@ -8,6 +8,7 @@ import com.atc.simulator.Display.Model.*;
 import com.atc.simulator.Display.View.ModelInstanceProviders.HudModel;
 import com.atc.simulator.Display.View.ModelInstanceProviders.WorldMapModel;
 import com.atc.simulator.Display.View.ModelInstanceProviders.TracksModel;
+import com.atc.simulator.Display.View.Shaders.PredictionShader;
 import com.atc.simulator.flightdata.*;
 import com.atc.simulator.flightdata.SystemStateDatabase.SystemStateDatabase;
 import com.atc.simulator.flightdata.SystemStateDatabase.SystemStateDatabaseListener;
@@ -18,6 +19,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g3d.*;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
+import com.badlogic.gdx.graphics.g3d.shaders.DefaultShader;
 import com.badlogic.gdx.graphics.g3d.utils.CameraInputController;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -68,6 +70,7 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
     private RenderLayer predictionLayer;
     private HudModel hud;
     private Environment environment;
+    private Shader predictionShader;
 
     private DataPlaybackThread playbackThread;
     private InputMultiplexer inputMultiplexer;
@@ -229,6 +232,8 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
      */
     @Override
 	public void create () {
+        predictionShader = new PredictionShader();
+        predictionShader.init();
         environment = new Environment();
         environment.set(new ColorAttribute(ColorAttribute.AmbientLight, 0.5f, 0.5f, 0.5f, 1.0f));
         environment.add(new DirectionalLight().set(0.8f, 0.8f, 0.8f, -1f, -0.8f, -0.2f));
@@ -422,7 +427,7 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
             modelBatch.setCamera(cameraBatch.getCamera());
             for(RenderableProvider gdxRenderableProvider : cameraBatch.gdxRenderableProviders())
             {
-                modelBatch.render(gdxRenderableProvider);
+                modelBatch.render(gdxRenderableProvider, predictionShader);
                 nInstances++;
             }
         }
