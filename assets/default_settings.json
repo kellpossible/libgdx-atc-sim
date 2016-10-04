@@ -32,7 +32,8 @@
         "port-number": 6989
       },
       "adsb-recording-scenario": {
-        "file": "assets/flight_data/YMML_26_05_2016/database.json"
+        "file": "assets/flight_data/YMML_26_05_2016/database.json",
+        "filter-for-planeID":""
       },
       "speed": 10
     },

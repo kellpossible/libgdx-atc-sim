@@ -3,10 +3,12 @@ package com.atc.simulator.DebugDataFeed;
 import com.atc.simulator.Config.ApplicationConfig;
 import com.atc.simulator.DebugDataFeed.Scenarios.Scenario;
 import com.atc.simulator.RunnableThread;
+import com.atc.simulator.flightdata.AircraftState;
 import com.atc.simulator.flightdata.SystemState;
 import com.atc.simulator.flightdata.TimeSource;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -15,6 +17,8 @@ import java.util.concurrent.locks.ReentrantLock;
  *
  * @author Luke Frisken
  * @modified Chris Coleman, 14/9/16 - Added pause functionality
+ * @modified Chris Coleman, 27/9/16 - Added filtering of Planes by their "mode_s_code"
+ *
  */
 public class DataPlaybackThread implements RunnableThread, TimeSource {
     private ArrayList<DataPlaybackListener> listeners;
@@ -26,7 +30,6 @@ public class DataPlaybackThread implements RunnableThread, TimeSource {
     private boolean continueThread;
     private boolean running;
     private static final int speed = ApplicationConfig.getInt("settings.debug-data-feed.speed");
-
     // for thread pausing
     private volatile boolean paused;
     private final ReentrantLock pauseLock = new ReentrantLock();
@@ -47,6 +50,7 @@ public class DataPlaybackThread implements RunnableThread, TimeSource {
         continueThread = true;
         running = false;
         paused = false;
+
     }
 
     /**
@@ -118,7 +122,9 @@ public class DataPlaybackThread implements RunnableThread, TimeSource {
 //            System.out.println("Debug CurrentTime");
 //            System.out.println("CurrentTime: " + ISO8601.fromCalendar(currentTime));
 
-            SystemState state = scenario.getState(getCurrentTime());
+                SystemState state = scenario.getState(getCurrentTime());
+
+
 //            System.out.println("StateTime: " + ISO8601.fromCalendar(state.getTime()));
 
             triggerOnSystemUpdate(state);
