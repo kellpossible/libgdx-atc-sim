@@ -11,6 +11,7 @@ import java.util.*;
  */
 public class LayerManager {
     private PriorityQueue<RenderLayer> layers;
+    private HashMap<String, RenderLayer> layerHashMap;
 
 
     /**
@@ -19,7 +20,18 @@ public class LayerManager {
     public LayerManager()
     {
         layers = new PriorityQueue<RenderLayer>();
+        layerHashMap = new HashMap<String, RenderLayer>();
 
+    }
+
+    /**
+     * Get a render layer in this layer manager
+     * @param layerName
+     * @return
+     */
+    public RenderLayer getRenderLayer(String layerName)
+    {
+        return layerHashMap.get(layerName);
     }
 
     /**
@@ -29,6 +41,7 @@ public class LayerManager {
      */
     public void addRenderLayer(RenderLayer renderLayer)
     {
+        layerHashMap.put(renderLayer.getName(), renderLayer);
         layers.add(renderLayer);
     }
 

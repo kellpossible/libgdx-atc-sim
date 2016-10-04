@@ -13,6 +13,7 @@ import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.attributes.TextureAttribute;
 import com.badlogic.gdx.graphics.g3d.utils.MeshPartBuilder;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
+import com.badlogic.gdx.graphics.g3d.utils.shapebuilders.EllipseShapeBuilder;
 import com.badlogic.gdx.math.Matrix3;
 import com.badlogic.gdx.math.Vector3;
 
@@ -22,6 +23,7 @@ import com.badlogic.gdx.math.Vector3;
  */
 public class AircraftDotModel extends SimpleDisplayRenderableProvider implements DisplayCameraListener {
     private DisplayAircraft aircraft;
+    private static float dotSize = 0.0004f;
 
 
     public AircraftDotModel(Camera camera, DisplayAircraft aircraft)
@@ -86,7 +88,9 @@ public class AircraftDotModel extends SimpleDisplayRenderableProvider implements
                 VertexAttributes.Usage.Position | VertexAttributes.Usage.ColorUnpacked,
                 new Material(ColorAttribute.createDiffuse(new Color(0, 1, 0, 1))));
 
-        CircleMeshBuilder.build(builder, position, 1500*scale,20, depthAdjustment);
+        Vector3 normal = new Vector3(modelDrawVector).scl(-1).nor();
+
+        EllipseShapeBuilder.build(builder, dotSize*scale, dotSize*scale, 20, modelDrawVector, normal);
 
         Model newModel = modelBuilder.end();
         ModelInstance modelInstance = new ModelInstance(newModel);

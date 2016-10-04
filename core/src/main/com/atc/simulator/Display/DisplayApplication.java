@@ -108,8 +108,7 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
         /** @see SystemStateDatabaseListener#onNewAircraft(SystemStateDatabase, String) */
         @Override
         public void onNewAircraft(SystemStateDatabase stateDatabase, String aircraftID) {
-            DisplayAircraft newAircraft = new DisplayAircraft(display, stateDatabase.getTrack(aircraftID));
-            aircraftLayer.addDisplayRenderableProvider(newAircraft.getRenderable());
+            DisplayAircraft newAircraft = new DisplayAircraft(display, stateDatabase.getTrack(aircraftID), layerManager);
             this.put(aircraftID, newAircraft);
         }
 
@@ -118,7 +117,6 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
         public void onRemoveAircraft(SystemStateDatabase stateDatabase, String aircraftID) {
             DisplayAircraft displayAircraft = this.get(aircraftID);
             displayAircraft.dispose();
-            aircraftLayer.removeDisplayRenderableProvider(displayAircraft.getRenderable());
             this.remove(aircraftID);
         }
 
@@ -315,9 +313,11 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
         tracksLayer.addDisplayRenderableProvider(tracks);
 
 
-
         aircraftLayer = new RenderLayer(7, "aircraft");
         layerManager.addRenderLayer(aircraftLayer);
+
+        predictionLayer = new RenderLayer(8, "prediction", predictionShader);
+        layerManager.addRenderLayer(predictionLayer);
 
         hudLayer = new RenderLayer(6, "hud");
         layerManager.addRenderLayer(hudLayer);
@@ -439,7 +439,14 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
                 if (bonusFeature) {
                     modelBatch.render(gdxRenderableProvider, bonusShader);
                 } else {
-                    modelBatch.render(gdxRenderableProvider);
+                    // check whether or not we need to render this with a custom shader
+                    if (cameraBatch.hasShader())
+                    {
+                        modelBatch.render(gdxRenderableProvider, cameraBatch.getShader());
+                    } else {
+                        modelBatch.render(gdxRenderableProvider);
+                    }
+
                 }
 
                 nInstances++;

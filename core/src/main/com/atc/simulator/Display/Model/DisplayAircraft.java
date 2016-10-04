@@ -1,15 +1,11 @@
 package com.atc.simulator.Display.Model;
 
-import com.atc.simulator.Display.View.DisplayRenderableProvider;
-import com.atc.simulator.Display.View.DisplayRenderableProviderMultiplexer;
+import com.atc.simulator.Display.LayerManager;
+import com.atc.simulator.Display.RenderLayer;
 import com.atc.simulator.Display.View.ModelInstanceProviders.*;
 import com.atc.simulator.flightdata.AircraftState;
 import com.atc.simulator.flightdata.Track;
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.utils.Disposable;
-
-import java.util.Collection;
-import java.util.HashMap;
 
 /**
  * Represents an aircraft...
@@ -20,28 +16,31 @@ public class DisplayAircraft extends AircraftState implements Disposable {
     private Track track;
     private DisplayPrediction prediction = null;
     private Display display;
-    private AircraftModel model;
+    private AircraftModel aircraftModel;
+    private PredictionModel predictionModel;
+    private LayerManager layerManager;
+    private RenderLayer aircraftLayer;
+    private RenderLayer predictionLayer;
 
     /**
      * Constructor for DisplayAircraft
      * @param display
      * @param track
      */
-    public DisplayAircraft(Display display, Track track)
+    public DisplayAircraft(Display display, Track track, LayerManager layerManager)
     {
         super(track.getLatest());
         this.display = display;
         this.track = track;
-        model = new AircraftModel(display, this);
+        aircraftModel = new AircraftModel(display, this);
+        predictionModel = new PredictionModel(display.getCamera("perspective"), this, display);
+        this.layerManager = layerManager;
+        aircraftLayer = layerManager.getRenderLayer("aircraft");
+        predictionLayer = layerManager.getRenderLayer("prediction");
 
-    }
+        predictionLayer.addDisplayRenderableProvider(predictionModel);
+        aircraftLayer.addDisplayRenderableProvider(aircraftModel);
 
-    /**
-     * Get renderable associated with this {@link DisplayAircraft}
-     * @return
-     */
-    public DisplayRenderableProviderMultiplexer getRenderable() {
-        return model;
     }
 
     /**
@@ -50,10 +49,9 @@ public class DisplayAircraft extends AircraftState implements Disposable {
     public void update()
     {
         this.copyData(track.getLatest());
-        model.update();
+        aircraftModel.update();
+        predictionModel.update();
     }
-
-
 
     /**
      * Method setPrediction sets the current prediction associated with this aircraft.
@@ -89,6 +87,9 @@ public class DisplayAircraft extends AircraftState implements Disposable {
      */
     @Override
     public void dispose() {
-        model.dispose();
+        aircraftLayer.removeDisplayRenderableProvider(aircraftModel);
+        predictionLayer.removeDisplayRenderableProvider(predictionModel);
+        aircraftModel.dispose();
+        predictionModel.dispose();
     }
 }

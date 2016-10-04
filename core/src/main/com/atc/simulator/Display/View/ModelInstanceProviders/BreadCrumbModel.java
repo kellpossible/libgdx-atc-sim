@@ -15,6 +15,7 @@ import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.utils.MeshPartBuilder;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
+import com.badlogic.gdx.graphics.g3d.utils.shapebuilders.EllipseShapeBuilder;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
@@ -27,6 +28,7 @@ import com.badlogic.gdx.utils.Disposable;
  */
 public class BreadCrumbModel extends SimpleDisplayRenderableProvider implements DisplayCameraListener {
     private DisplayAircraft aircraft;
+    private static float dotSize = 0.0004f;
 
 
     /**
@@ -88,6 +90,9 @@ public class BreadCrumbModel extends SimpleDisplayRenderableProvider implements 
             float intermediateScale = (float) (scale * Math.exp(((double) -(n+3))/(lookback/2)));
 
             GeographicCoordinate position = track.get(i).getPosition();
+            Vector3 modelDrawVector = position.getModelDrawVector(depthAdjustment);
+
+            Vector3 normal = new Vector3(modelDrawVector).scl(-1).nor();
 
             Color newColor = new Color(colorBrightness, colorBrightness, colorBrightness, 1.0f);
 
@@ -99,7 +104,8 @@ public class BreadCrumbModel extends SimpleDisplayRenderableProvider implements 
                     VertexAttributes.Usage.Position | VertexAttributes.Usage.ColorUnpacked,
                     new Material(ColorAttribute.createDiffuse(newColor)));
 
-            CircleMeshBuilder.build(builder, position, 1500*intermediateScale,20, depthAdjustment);
+            EllipseShapeBuilder.build(builder, dotSize*intermediateScale, dotSize*intermediateScale, 20, modelDrawVector, normal);
+
             Model newModel = modelBuilder.end();
             ModelInstance modelInstance = new ModelInstance(newModel);
             modelCache.add(modelInstance);

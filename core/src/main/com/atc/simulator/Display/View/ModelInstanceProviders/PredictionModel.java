@@ -5,6 +5,7 @@ import com.atc.simulator.Display.Model.DisplayAircraft;
 import com.atc.simulator.Display.Model.DisplayPrediction;
 import com.atc.simulator.Display.View.DisplayRenderable.GDXDisplayRenderable;
 import com.atc.simulator.Display.View.DisplayRenderable.HiddenDisplayRenderable;
+import com.atc.simulator.Display.View.Shapes.CustomModelBuilder;
 import com.atc.simulator.flightdata.AircraftState;
 import com.atc.simulator.flightdata.Prediction;
 import com.atc.simulator.flightdata.Track;
@@ -48,36 +49,39 @@ public class PredictionModel extends SimpleDisplayRenderableProvider {
 
     private static void createTexture()
     {
-//        pixmap = new Pixmap(1, 256, Pixmap.Format.RGBA8888);
-//
-//        for (int i = 0; i < 256; i++)
-//        {
-//            float intensity = ((float) i)/256.0f;
-//            pixmap.drawPixel(0, i, Color.rgba8888(intensity, intensity, intensity, intensity));
-//        }
+        pixmap = new Pixmap(256, 256, Pixmap.Format.RGBA8888);
 
-        PredictionModel.pixmap = new Pixmap(256, 256, Pixmap.Format.RGBA8888);
-        int x = 0;
         for (int i = 0; i < 256; i++)
         {
-            int y = 0;
             for (int j = 0; j < 256; j++ )
             {
-                float intensity = 0;
-                if ((x%2) == (y%2)) {
-                    intensity = 1.0f;
-                } else {
-                    intensity = 0.7f;
-                }
-                pixmap.drawPixel(j, i, Color.rgba8888(intensity, intensity, intensity, intensity));
-                if (j%16 == 0) {
-                    y++;
-                }
-            }
-            if (i%16 == 0) {
-                x++;
+                float intensity = ((float) i)/256.0f;
+                pixmap.drawPixel(j, i, Color.rgba8888(1-intensity, 0, 0, 1.0f));
             }
         }
+
+//        PredictionModel.pixmap = new Pixmap(256, 256, Pixmap.Format.RGBA8888);
+//        int x = 0;
+//        for (int i = 0; i < 256; i++)
+//        {
+//            int y = 0;
+//            for (int j = 0; j < 256; j++ )
+//            {
+//                float intensity = 0;
+//                if ((x%2) == (y%2)) {
+//                    intensity = 1.0f;
+//                } else {
+//                    intensity = 0.7f;
+//                }
+//                pixmap.drawPixel(j, i, Color.rgba8888(intensity, intensity, intensity, intensity));
+//                if (j%16 == 0) {
+//                    y++;
+//                }
+//            }
+//            if (i%16 == 0) {
+//                x++;
+//            }
+//        }
 
         PredictionModel.texture = new Texture(pixmap);
         PredictionModel.texture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Nearest);
@@ -201,25 +205,25 @@ public class PredictionModel extends SimpleDisplayRenderableProvider {
 
         }
 
-        //debug texture example
-//        double size = 10000.0;
-//        GeographicCoordinate pos = aircraft.getPosition();
-//        pythagoras.d.Vector3 posCart = pos.getCartesian();
-//        pythagoras.d.Vector3 thetaCart = pos.thetaCartesianUnitVector().mult(size);
-//        pythagoras.d.Vector3 phiCart = pos.phiCartesianUnitVector().mult(size);
-//
-//        GeographicCoordinate corner0 = pos;
-//        GeographicCoordinate corner1 = GeographicCoordinate.fromCartesian(posCart.add(thetaCart));
-//        GeographicCoordinate corner2 = GeographicCoordinate.fromCartesian(posCart.add(thetaCart.add(phiCart)));
-//        GeographicCoordinate corner3 = GeographicCoordinate.fromCartesian(posCart.add(phiCart));
-//
-//        builder.setUVRange(0, 1, 1, 0);
-//        builder.rect(
-//                corner0.getModelDrawVector(),
-//                corner1.getModelDrawVector(),
-//                corner2.getModelDrawVector(),
-//                corner3.getModelDrawVector(),
-//                normal);
+//        debug texture example
+        double size = 10000.0;
+        GeographicCoordinate pos = aircraft.getPosition();
+        pythagoras.d.Vector3 posCart = pos.getCartesian();
+        pythagoras.d.Vector3 thetaCart = pos.thetaCartesianUnitVector().mult(size);
+        pythagoras.d.Vector3 phiCart = pos.phiCartesianUnitVector().mult(size);
+
+        GeographicCoordinate corner0 = pos;
+        GeographicCoordinate corner1 = GeographicCoordinate.fromCartesian(posCart.add(thetaCart));
+        GeographicCoordinate corner2 = GeographicCoordinate.fromCartesian(posCart.add(thetaCart.add(phiCart)));
+        GeographicCoordinate corner3 = GeographicCoordinate.fromCartesian(posCart.add(phiCart));
+
+        builder.setUVRange(0, 1, 1, 0);
+        builder.rect(
+                corner0.getModelDrawVector(),
+                corner1.getModelDrawVector(),
+                corner2.getModelDrawVector(),
+                corner3.getModelDrawVector(),
+                normal);
 
 
         //wireframe debug

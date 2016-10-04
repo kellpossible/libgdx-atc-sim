@@ -6,6 +6,7 @@ import com.atc.simulator.Display.View.DisplayRenderableProvider;
 import com.atc.simulator.Display.View.DisplayRenderableProviderListener;
 import com.atc.simulator.Display.View.DisplayRenderableProviderMultiplexer;
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.g3d.Shader;
 
 import java.util.*;
 
@@ -14,18 +15,19 @@ import java.util.*;
  * get rendered together. Either due to draw order, or shader requirements.
  * @author Luke Frisken
  */
-class RenderLayer implements Comparable, DisplayRenderableProviderListener {
+public class RenderLayer implements Comparable, DisplayRenderableProviderListener {
     private HashMap<Camera, CameraBatch> cameraBatches;
 
     protected int priority;
     private String name;
     private boolean visible;
+    private Shader shader=null;
 
 
 
 
     /**
-     * Default constructor for RenderLayer
+     * Constructor for RenderLayer
      * @param priority priority/order of buildMesh layer.
      * @param name name of buildMesh layer
      */
@@ -36,6 +38,40 @@ class RenderLayer implements Comparable, DisplayRenderableProviderListener {
         this.name = name;
         visible = true;
     }
+
+    /**
+     * Constructor for RenderLayer
+     * @param priority priority/order of buildMesh layer.
+     * @param name name of buildMesh layer
+     * @param shader shader to render the instances in this layer with.
+     */
+    public RenderLayer(int priority, String name, Shader shader)
+    {
+        cameraBatches = new HashMap<Camera, CameraBatch>();
+        this.priority = priority;
+        this.name = name;
+        visible = true;
+        this.shader = shader;
+    }
+
+    /**
+     * Whether or not this layer has a custom shader
+     * @return
+     */
+    public boolean hasShader()
+    {
+        return shader != null;
+    }
+
+    /**
+     * Get the custom shader associated with this render layer
+     * @return Shader custom shader
+     */
+    public Shader getShader()
+    {
+        return shader;
+    }
+
 
     /**
      * Check to see whether or not this layer is set to visible.
@@ -121,7 +157,7 @@ class RenderLayer implements Comparable, DisplayRenderableProviderListener {
         CameraBatch batch = cameraBatches.get(camera);
         if (batch == null)
         {
-            batch = new CameraBatch(camera);
+            batch = new CameraBatch(camera, shader);
             cameraBatches.put(camera, batch);
         }
 

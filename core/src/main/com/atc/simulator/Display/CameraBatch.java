@@ -3,6 +3,7 @@ package com.atc.simulator.Display;
 import com.atc.simulator.Display.View.DisplayRenderableProvider;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g3d.RenderableProvider;
+import com.badlogic.gdx.graphics.g3d.Shader;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -14,6 +15,7 @@ import java.util.HashMap;
 public class CameraBatch extends HashMap<DisplayRenderableProvider, RenderableProvider>
 {
     private Camera camera;
+    private Shader shader=null;
 
     /**
      * Constructor for CameraBatch
@@ -24,6 +26,35 @@ public class CameraBatch extends HashMap<DisplayRenderableProvider, RenderablePr
         super();
         this.camera = camera;
     }
+
+    /**
+     * Constructor for CameraBatch
+     * @param camera the camera that will be rendering the objects in the batch.
+     */
+    public CameraBatch(Camera camera, Shader shader)
+    {
+        this(camera);
+        this.shader = shader;
+    }
+
+    /**
+     * Whether or not this camera batch has a shader
+     * @return
+     */
+    public boolean hasShader()
+    {
+        return shader != null;
+    }
+
+    /**
+     * Get the shader to be used on this camera batch
+     * @return
+     */
+    public Shader getShader()
+    {
+        return shader;
+    }
+
 
     /**
      * Get the camera that will be rendering the objects in the batch
