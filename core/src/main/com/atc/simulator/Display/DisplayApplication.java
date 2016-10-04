@@ -316,7 +316,7 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
         aircraftLayer = new RenderLayer(7, "aircraft");
         layerManager.addRenderLayer(aircraftLayer);
 
-        predictionLayer = new RenderLayer(8, "prediction", predictionShader);
+        predictionLayer = new RenderLayer(8, "prediction");
         layerManager.addRenderLayer(predictionLayer);
 
         hudLayer = new RenderLayer(6, "hud");

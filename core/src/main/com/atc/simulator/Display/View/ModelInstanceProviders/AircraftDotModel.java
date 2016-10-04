@@ -77,7 +77,7 @@ public class AircraftDotModel extends SimpleDisplayRenderableProvider implements
             scale = 2;
         }
 
-        double depthAdjustment = -0.01;
+        double depthAdjustment = -0.05;
         Vector3 modelDrawVector = position.getModelDrawVector(depthAdjustment);
 
         ModelBuilder modelBuilder = new ModelBuilder();
