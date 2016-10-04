@@ -33,8 +33,7 @@ public class ADSBRecordingScenario extends Scenario {
     private int recommendedUpdateRate;
     private long startTime = 0, endTime = 0;
     private GeographicCoordinate projectionReference;
-    private static final String filteredPlaneString = ApplicationConfig.getString("settings.debug-data-feed.adsb-recording-scenario.filter-for-planeID");
-    private ArrayList<String> filteredPlaneList = null;
+    private static final List<String> filteredPlaneIds = ApplicationConfig.getStringList("settings.debug-data-feed.adsb-recording-scenario.filter-for-planeID");
 
     /**
      * Constructor ADSBRecordingScenario creates a new ADSBRecordingScenario instance.
@@ -43,10 +42,6 @@ public class ADSBRecordingScenario extends Scenario {
     {
         tracksDictionary = new HashMap<String, Track>();
         systemStates = new LinkedHashMap<Long, SystemState>();
-        if(!filteredPlaneString.equals(null) && !filteredPlaneString.equals(""))
-        {
-            filteredPlaneList = new ArrayList<String>(Arrays.asList(filteredPlaneString.replaceAll("\\s+","").split(",")));
-        }
         try {
             readFromJsonFile(filePath);
         } catch (IOException e) {
@@ -90,12 +85,11 @@ public class ADSBRecordingScenario extends Scenario {
             for (JsonElement aircraftStateElement : aircraftStatesJS) {
                 JsonObject aircraftStateJS = aircraftStateElement.getAsJsonObject();
                 String aircraftID = aircraftStateJS.get("mode_s_code").getAsString();
-                if(filteredPlaneList != null && !filteredPlaneList.contains(aircraftID))
+
+                if(filteredPlaneIds.size() > 0 && !filteredPlaneIds.contains(aircraftID))
+                {
                     continue;
-//                if (!callsign.equals("QFA7373"))
-//                {
-//                    continue;
-//                }
+                }
 
                 long aircraftStateTime = ISO8601.toCalendar(aircraftStateJS.get("time").getAsString()).getTimeInMillis();
 

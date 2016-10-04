@@ -1,5 +1,6 @@
 {
   "settings": {
+    "projection-reference": [0.0, -37.668905,144.8307145],
     "prediction-service": {
       "prediction-engine": {
         "algorithm-type": "LMLEASTSQUARES",
@@ -14,12 +15,13 @@
       }
     },
     "debug-data-feed": {
+      "enabled": true,
       "server": {
         "port-number": 6989
       },
       "adsb-recording-scenario": {
         "file": "assets/flight_data/YMML_26_05_2016/database.json",
-        "filter-for-planeID":""
+        "filter-for-planeID":[]
       },
       "speed": 10
     },

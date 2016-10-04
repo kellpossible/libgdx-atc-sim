@@ -3,15 +3,19 @@ package com.atc.simulator.desktop;
 import IntegrationTesting.TestAccuracy;
 import com.atc.simulator.Config.ApplicationConfig;
 import com.atc.simulator.DebugDataFeed.DataPlaybackThread;
+import com.atc.simulator.DebugDataFeed.Scenarios.ADSBRealtimeScenario;
 import com.atc.simulator.DebugDataFeed.Scenarios.ADSBRecordingScenario;
 import com.atc.simulator.DebugDataFeed.Scenarios.Scenario;
 import com.atc.simulator.DebugDataFeed.DebugDataFeedServerThread;
 import com.atc.simulator.Display.DisplayApplication;
+import com.atc.simulator.Display.Model.Display;
 import com.atc.simulator.Display.PredictionFeedClientThread;
 import com.atc.simulator.PredictionService.Engine.PredictionEngineThread;
 import com.atc.simulator.PredictionService.PredictionFeedServerThread;
+import com.atc.simulator.flightdata.RealTimeSource;
 import com.atc.simulator.flightdata.SystemStateDatabase.SystemStateDatabase;
 import com.atc.simulator.PredictionService.DebugDataFeedClientThread;
+import com.atc.simulator.vectors.GeographicCoordinate;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 
@@ -27,6 +31,8 @@ public class DesktopLauncher {
 	private static final Boolean accuracyTest = ApplicationConfig.getBoolean("settings.testing.run-accuracy-test");
 	private static final boolean useMSAA = ApplicationConfig.getBoolean("settings.display.use-msaa");
 	private static final int msaaSamples = ApplicationConfig.getInt("settings.display.msaa-samples");
+	private static final boolean debugDatafeedEnabled = ApplicationConfig.getBoolean("settings.debug-data-feed.enabled");
+    private static final GeographicCoordinate projectionReference = ApplicationConfig.getCoordinate("settings.projection-reference");
 
 	/**
 	 * Main method
@@ -42,16 +48,31 @@ public class DesktopLauncher {
 		config.height = 768;
 		config.width = 1024;
 
-//		Scenario scenario = new YMMLtoYSCBScenario();
-		Scenario scenario = new ADSBRecordingScenario(recordingFile);
+        Scenario scenario;
+        DisplayApplication displayApplication;
+        SystemStateDatabase systemStateDatabase;
+        DebugDataFeedServerThread debugDataFeedServerThread = null;
+        DataPlaybackThread dataPlaybackThread = null;
+
+        if (debugDatafeedEnabled){
+            scenario = new ADSBRecordingScenario(recordingFile);
+        } else {
+            scenario = new ADSBRealtimeScenario(projectionReference);
+        }
 		Scenario.setCurrentScenario(scenario);
 
-		DataPlaybackThread dataPlaybackThread = new DataPlaybackThread(scenario, scenario.getRecommendedUpdateRate());
-		DisplayApplication display =  new DisplayApplication(scenario, dataPlaybackThread);
-		DebugDataFeedServerThread debugDataFeedServerThread = new DebugDataFeedServerThread();
-
-		SystemStateDatabase systemStateDatabase = new SystemStateDatabase(dataPlaybackThread);
-
+        if (debugDatafeedEnabled)
+        {
+            dataPlaybackThread = new DataPlaybackThread(scenario, scenario.getRecommendedUpdateRate());
+            displayApplication =  new DisplayApplication(scenario, dataPlaybackThread);
+            debugDataFeedServerThread = new DebugDataFeedServerThread();
+            systemStateDatabase = new SystemStateDatabase(dataPlaybackThread);
+            dataPlaybackThread.addListener(displayApplication);
+            dataPlaybackThread.addListener(debugDataFeedServerThread);
+        } else {
+            systemStateDatabase = new SystemStateDatabase(new RealTimeSource());
+            displayApplication =  new DisplayApplication(scenario);
+        }
 
 		PredictionFeedClientThread predictionFeedClientThread = new PredictionFeedClientThread();
 		PredictionFeedServerThread predictionFeedServerThread = new PredictionFeedServerThread();
@@ -63,12 +84,8 @@ public class DesktopLauncher {
 
 		DebugDataFeedClientThread debugDataFeedClientThread = new DebugDataFeedClientThread(systemStateDatabase);
 
-		predictionFeedClientThread.addListener(display);
-		dataPlaybackThread.addListener(display);
-		dataPlaybackThread.addListener(debugDataFeedServerThread);
-
-		// commented out, previous by-pass used by Luke
-//		dataPlaybackThread.addListener(systemStateDatabase);
+		predictionFeedClientThread.addListener(displayApplication);
+        
 		systemStateDatabase.addListener(predictionEngine);
 
 		if(accuracyTest) {
@@ -81,10 +98,19 @@ public class DesktopLauncher {
 		predictionFeedClientThread.start();
 		predictionEngine.start();
 
-		debugDataFeedServerThread.start();
+
+        if (debugDatafeedEnabled)
+        {
+            debugDataFeedServerThread.start();
+        }
+
 		debugDataFeedClientThread.start();
 
-		dataPlaybackThread.start();
-		new LwjglApplication(display, config);
+        // start the data playback thread now that everything is set up
+        if (debugDatafeedEnabled)
+        {
+            dataPlaybackThread.start();
+        }
+		new LwjglApplication(displayApplication, config);
 	}
 }

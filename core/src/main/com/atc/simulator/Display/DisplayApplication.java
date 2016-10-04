@@ -128,6 +128,34 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
     }
 
     /**
+     * Some common init values
+     */
+    private void initCommon()
+    {
+        systemStateUpdateQueue = new ArrayBlockingQueue<SystemState>(100);
+        predictionUpdateQueue = new ArrayBlockingQueue<Prediction>(300);
+        layerManager = new LayerManager();
+        aircraftDatabase = new AircraftDatabase();
+        stateDatabase.addListener(aircraftDatabase);
+        inputMultiplexer = new InputMultiplexer();
+        display.setLayerManager(layerManager);
+    }
+
+    /**
+     * Constructor for display application listening to a realtime data source
+     * @param scenario the scenario to use for projection reference
+     */
+    public DisplayApplication(Scenario scenario)
+    {
+        RealTimeSource realTimeSource = new RealTimeSource();
+        this.scenario = scenario;
+        stateDatabase = new SystemStateDatabase(realTimeSource);
+        this.playbackThread = null;
+        display = new Display(realTimeSource);
+        initCommon();
+    }
+
+    /**
      * Constructor for the DisplayApplication
      *
      * @param scenario the scenario going to be displayed.
@@ -136,17 +164,10 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
     public DisplayApplication(Scenario scenario, DataPlaybackThread playbackThread)
     {
         this.scenario = scenario;
-        systemStateUpdateQueue = new ArrayBlockingQueue<SystemState>(100);
-        predictionUpdateQueue = new ArrayBlockingQueue<Prediction>(300);
-        layerManager = new LayerManager();
         stateDatabase = new SystemStateDatabase(playbackThread);
-        aircraftDatabase = new AircraftDatabase();
-        stateDatabase.addListener(aircraftDatabase);
         this.playbackThread = playbackThread;
-        inputMultiplexer = new InputMultiplexer();
         display = new Display(playbackThread);
-        display.setLayerManager(layerManager);
-
+        initCommon();
     }
 
 
@@ -526,7 +547,9 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
             switch (keycode)
             {
                 case Input.Keys.SPACE:
-                    playbackThread.setPaused(!playbackThread.getPaused());
+                    if (playbackThread != null) {
+                        playbackThread.setPaused(!playbackThread.getPaused());
+                    }
                     break;
                 case Input.Keys.T:
                     display.getDisplayTracks().toggleTrackVisibility();

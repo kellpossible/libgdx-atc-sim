@@ -1,12 +1,14 @@
 package com.atc.simulator.Config;
 
 
+import com.atc.simulator.vectors.GeographicCoordinate;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigException;
 import com.typesafe.config.ConfigFactory;
 
 import java.io.File;
 import java.util.EnumSet;
+import java.util.List;
 
 /**
  * A singleton class representing the configuration of this application.
@@ -64,6 +66,35 @@ public class ApplicationConfig {
     public static boolean getBoolean(String path)
     {
         return getInstance().getBoolean(path);
+    }
+
+    /**
+     * @see Config#getStringList(String)
+     */
+    public static List<String> getStringList(String path)
+    {
+        return getInstance().getStringList(path);
+    }
+
+    /**
+     * Get the geographic coordinate from an array of doubles in the config file
+     * of the format [altitude, latitude, longitude], where the latitude and
+     * longitude are specified in degrees.
+     * For example:
+     * [0.0, 38.0, 148.0]
+     * @param path to element that contains the array
+     * @return GeographicCoordinate
+     */
+    public static GeographicCoordinate getCoordinate(String path)
+    {
+        List<Double> list = getInstance().getDoubleList(path);
+
+        if (list.size() != 3)
+        {
+            throw new RuntimeException("Invalid list length for GeographicCoordinate: " + list.size());
+        }
+
+        return GeographicCoordinate.fromDegrees(list.get(0), list.get(1), list.get(2));
     }
 
     /**
