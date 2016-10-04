@@ -33,8 +33,9 @@ public class ADSBRecordingScenario extends Scenario {
     private int recommendedUpdateRate;
     private long startTime = 0, endTime = 0;
     private GeographicCoordinate projectionReference;
-    private static final String filteredPlaneString = ApplicationConfig.getString("settings.debug-data-feed.filter-for-planeID");
+    private static final String filteredPlaneString = ApplicationConfig.getString("settings.debug-data-feed.adsb-recording-scenario.filter-for-planeID");
     private ArrayList<String> filteredPlaneList = null;
+
     /**
      * Constructor ADSBRecordingScenario creates a new ADSBRecordingScenario instance.
      */
@@ -43,9 +44,9 @@ public class ADSBRecordingScenario extends Scenario {
         tracksDictionary = new HashMap<String, Track>();
         systemStates = new LinkedHashMap<Long, SystemState>();
         if(!filteredPlaneString.equals(null) && !filteredPlaneString.equals(""))
+        {
             filteredPlaneList = new ArrayList<String>(Arrays.asList(filteredPlaneString.replaceAll("\\s+","").split(",")));
-        else
-            System.out.println("Empty String");
+        }
         try {
             readFromJsonFile(filePath);
         } catch (IOException e) {

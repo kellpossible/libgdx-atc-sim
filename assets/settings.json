@@ -18,10 +18,10 @@
         "port-number": 6989
       },
       "adsb-recording-scenario": {
-        "file": "assets/flight_data/YMML_18_8_2016_QFA696/database.json"
+        "file": "assets/flight_data/YMML_26_05_2016/database.json",
+        "filter-for-planeID":""
       },
-      "speed": 10,
-      "filter-for-planeID":""
+      "speed": 10
     },
     "display": {
       "use-msaa": true,
