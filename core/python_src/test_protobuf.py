@@ -5,6 +5,8 @@ import time
 import math
 from google.protobuf.internal import encoder
 from google.protobuf.internal import decoder
+from threading import Thread
+from Queue import Queue
 
 
 def build_test_packet(dt):
@@ -102,35 +104,69 @@ def readDelimitedFrom_inplace(message, stream):
         return None
 
 
-def start_server(address, port):
-    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    print("starting server on {} port {}".format(address, port))
-    sock.bind((address, port))
+class ServerThread(Thread):
+    def __init__(self, message_queue):
+        Thread.__init__(self)
+        self.daemon = True
+        self.message_queue = message_queue
+        self.running = False
 
-    # listen for incoming connections
-    sock.listen(1)
+    def run(self):
+        self.start_server('localhost', 6989)
+
+    def start_server(self, address, port):
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        print("starting server on {} port {}".format(address, port))
+        sock.bind((address, port))
+        print("socket has been bound")
+
+        # listen for incoming connections
+        sock.listen(1)
+
+        while True:
+            # wait for a connection
+            connection, client_address = sock.accept()
+            print("connection initiated from {}", client_address)
+            self.running = True
+            while True:
+                message = self.message_queue.get(True, None)
+                writeDelimitedTo(message, connection)
+
+    def is_running(self):
+        return self.running and self.is_alive()
 
 
-    while True:
 
+class SimulationThread(Thread):
+    def __init__(self, message_queue, server_thread):
+        Thread.__init__(self)
+        self.daemon = True
+        self.message_queue = message_queue
+        self.server_thread = server_thread
 
-        # wait for a connection
-        connection, client_address = sock.accept()
-        print("connection initiated from {}", client_address)
-
+    def run(self):
         start_time = int(round(time.time() * 1000))
-
         while True:
             current_time = int(round(time.time() * 1000))
             dt = current_time - start_time
             message = build_test_packet(dt)
-            print(dt)
 
-            writeDelimitedTo(message, connection)
+            if self.server_thread.is_running():
+                self.message_queue.put(message, True, 2.0)
+                print(self.message_queue.qsize())
+            else:
+                print("waiting until server is running...")
+            time.sleep(0.5)
 
-            time.sleep(2)
 
 
 if __name__ == "__main__":
     # print(build_test_packet(0))
-    start_server('localhost', 6989)
+    message_queue = Queue(10)
+    server_thread = ServerThread(message_queue)
+    server_thread.start()
+    sim_thread = SimulationThread(message_queue, server_thread)
+    sim_thread.start()
+
+    while True:
+        time.sleep(1)

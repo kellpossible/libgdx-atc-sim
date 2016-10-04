@@ -108,7 +108,7 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
         /** @see SystemStateDatabaseListener#onNewAircraft(SystemStateDatabase, String) */
         @Override
         public void onNewAircraft(SystemStateDatabase stateDatabase, String aircraftID) {
-            System.out.println("New Aircraft: " + aircraftID);
+//            System.out.println("New Aircraft: " + aircraftID);
             DisplayAircraft newAircraft = new DisplayAircraft(display, stateDatabase.getTrack(aircraftID), layerManager);
             this.put(aircraftID, newAircraft);
         }
@@ -116,7 +116,7 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
         /** @see SystemStateDatabaseListener#onRemoveAircraft(SystemStateDatabase, String) */
         @Override
         public void onRemoveAircraft(SystemStateDatabase stateDatabase, String aircraftID) {
-            System.out.println("Removed Aircraft: " + aircraftID);
+//            System.out.println("Removed Aircraft: " + aircraftID);
             DisplayAircraft displayAircraft = this.get(aircraftID);
             displayAircraft.dispose();
             this.remove(aircraftID);
@@ -125,7 +125,7 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
         /** @see SystemStateDatabaseListener#onUpdateAircraft(SystemStateDatabase, String) */
         @Override
         public void onUpdateAircraft(SystemStateDatabase stateDatabase, String aircraftID) {
-            System.out.println("Updated Aircraft: " + aircraftID + " " + this.get(aircraftID).getPosition());
+//            System.out.println("Updated Aircraft: " + aircraftID + " " + this.get(aircraftID).getPosition());
             this.get(aircraftID).update();
         }
     }
@@ -182,9 +182,12 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
      */
     @Override
     public void onSystemUpdate(SystemState systemState) {
-        System.out.println("Recieved a new system state: " + systemState  + " with " + systemState.getAircraftStates().size() + " aircraft states.");
-        System.out.println(systemState.getAircraftStates().get(0).getPosition());
-        System.out.println("Queue Size: " + systemStateUpdateQueue.size());
+//        System.out.println("Recieved a new system state: " + systemState  + " with " + systemState.getAircraftStates().size() + " aircraft states.");
+//        AircraftState aircraftState = systemState.getAircraftStates().get(0);
+//        System.out.println(aircraftState.getPosition());
+//        System.out.println(aircraftState.getVelocity());
+//        System.out.println(aircraftState.getVelocity().getCartesian(aircraftState.getPosition()).length());
+//        System.out.println("Queue Size: " + systemStateUpdateQueue.size());
         systemStateUpdateQueue.add(systemState);
     }
 
@@ -195,6 +198,7 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
      */
     @Override
     public void onPredictionUpdate(Prediction newPrediction) {
+//        System.out.println("Received a new prediction update");
         predictionUpdateQueue.add(newPrediction);
     }
 

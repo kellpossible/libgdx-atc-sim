@@ -56,7 +56,8 @@ public class PredictionModel extends SimpleDisplayRenderableProvider {
             for (int j = 0; j < 256; j++ )
             {
                 float intensity = ((float) i)/256.0f;
-                pixmap.drawPixel(j, i, Color.rgba8888(0, intensity*0.5f, 0, 1.0f));
+                intensity = (float) Math.min(1.0, Math.pow((double) intensity, 2.0));
+                pixmap.drawPixel(j, i, Color.rgba8888(0, intensity*0.9f, 0, 1.0f));
             }
         }
 
@@ -181,20 +182,22 @@ public class PredictionModel extends SimpleDisplayRenderableProvider {
             Vector3 centrePosition = centreTrack.get(i).getPosition().getModelDrawVector(0.1);
             Vector3 rightPosition = rightTrack.get(i).getPosition().getModelDrawVector(0.1);
 
+            float intensity = 1.0f - (float) Math.pow(((float) i)/((float) prediction.size()), 4.0);
+
             if(i > 0)
             {
                 if (prediction.getPredictionState() == Prediction.State.RIGHT_TURN)
                 {
-                    builder.setUVRange(0, 1, 1, 0);
+                    builder.setUVRange(0, intensity, intensity, 0);
                     builder.rect(leftPosition, prevLeftPosition, prevCentrePosition, centrePosition, normal);
-                    builder.setUVRange(0, 0, 1, 1);
+                    builder.setUVRange(0, 0, intensity, intensity);
                     builder.rect(centrePosition, prevCentrePosition, prevRightPosition, rightPosition, normal);
                 }
                 if (prediction.getPredictionState() == Prediction.State.LEFT_TURN)
                 {
-                    builder.setUVRange(0, 0, 1, 1);
+                    builder.setUVRange(0, 0, intensity, intensity);
                     builder.rect(centrePosition, prevCentrePosition , prevLeftPosition, leftPosition, normal);
-                    builder.setUVRange(0, 1, 1, 0);
+                    builder.setUVRange(0, intensity, intensity, 0);
                     builder.rect(rightPosition, prevRightPosition, prevCentrePosition, centrePosition, normal);
                 }
             }

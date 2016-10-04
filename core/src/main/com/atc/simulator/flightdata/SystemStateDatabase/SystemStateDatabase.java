@@ -105,7 +105,7 @@ public class SystemStateDatabase {
             aircraftIDs.add(aircraftState.getAircraftID());
         }
 
-//        cull();
+        cull();
     }
 
     /**

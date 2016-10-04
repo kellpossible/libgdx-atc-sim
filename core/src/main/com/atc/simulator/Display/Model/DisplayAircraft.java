@@ -48,7 +48,7 @@ public class DisplayAircraft extends AircraftState implements Disposable {
      */
     public void update()
     {
-        System.out.println("Updating Aircraft");
+//        System.out.println("Updating Aircraft");
         this.copyData(track.getLatest());
         aircraftModel.update();
         predictionModel.update();
