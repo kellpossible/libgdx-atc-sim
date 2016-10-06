@@ -102,6 +102,9 @@ public class PredictionModel extends SimpleDisplayRenderableProvider {
             case GRADIENT:
                 updateGradient();
                 break;
+            case TWO_LINE:
+                updateTwoLine();
+                break;
             case NONE:
                 updateHidden();
                 break;
@@ -116,6 +119,60 @@ public class PredictionModel extends SimpleDisplayRenderableProvider {
         super.update();
         setDisplayRenderable(new HiddenDisplayRenderable());
         return;
+    }
+
+    public void updateTwoLine()
+    {
+        super.update();
+
+        DisplayPrediction prediction = aircraft.getPrediction();
+
+        if (prediction == null)
+        {
+            setDisplayRenderable(new HiddenDisplayRenderable());
+            return;
+        }
+
+
+        DisplayAircraft aircraft = prediction.getAircraft();
+        Material matWhite = new Material(ColorAttribute.createDiffuse(Color.WHITE));
+        ModelBuilder modelBuilder = new ModelBuilder();
+        modelBuilder.begin();
+        MeshPartBuilder builder = modelBuilder.part(
+                "rightPredictionTrack",
+                GL20.GL_LINES,
+                VertexAttributes.Usage.Position | VertexAttributes.Usage.ColorUnpacked,
+                new Material());
+        builder.setColor(Color.YELLOW);
+
+        Track centreTrack = prediction.getCentreTrack();
+        Track rightTrack = prediction.getRightTrack();
+
+        Vector3 previousPositionDrawVector = aircraft.getPosition().getModelDrawVector();
+        for(int i = 0; i < centreTrack.size(); i++)
+        {
+            AircraftState state = centreTrack.get(i);
+            Vector3 positionDrawVector = state.getPosition().getModelDrawVector();
+            builder.line(previousPositionDrawVector, positionDrawVector);
+            previousPositionDrawVector = positionDrawVector;
+        }
+
+        builder.setColor(Color.PURPLE);
+
+        //start of prediction line is the current aircraft position.
+        previousPositionDrawVector = aircraft.getPosition().getModelDrawVector();
+        for(int i = 0; i < rightTrack.size(); i++)
+        {
+            AircraftState state = rightTrack.get(i);
+            Vector3 positionDrawVector = state.getPosition().getModelDrawVector();
+            builder.line(previousPositionDrawVector, positionDrawVector);
+            previousPositionDrawVector = positionDrawVector;
+        }
+
+        Model newModel = modelBuilder.end();
+        ModelInstance modelInstance = new ModelInstance(newModel);
+        setDisplayRenderable(new GDXDisplayRenderable(modelInstance, getCamera(), newModel));
+
     }
 
     /**
