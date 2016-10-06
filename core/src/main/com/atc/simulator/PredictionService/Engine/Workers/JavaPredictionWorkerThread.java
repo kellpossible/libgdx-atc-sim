@@ -66,7 +66,7 @@ public class JavaPredictionWorkerThread extends PredictionWorkerThread {
             // Avoid optimization
             start2 = System.nanoTime();
         }
-        Prediction prediction = algorithm.makePrediction(aircraftTrack);
+        Prediction prediction = algorithm.makePrediction(aircraftTrack, workItem.getAlgorithmState());
         if(enableTimer)
         {
             long stop = System.nanoTime();

@@ -49,5 +49,16 @@ public abstract class JavaPredictionAlgorithm {
      * @param aircraftTrack of type Track
      * @return Prediction
      */
-    public abstract Prediction makePrediction(Track aircraftTrack);
+    public abstract Prediction makePrediction(Track aircraftTrack, Object algorithmState);
+
+    public Prediction makePrediction(Track aircraftTrack)
+    {
+        return makePrediction(aircraftTrack, getNewStateObject());
+    }
+
+    /**
+     * Get a new state object for this algorithm.
+     * @return
+     */
+    public abstract Object getNewStateObject();
 }

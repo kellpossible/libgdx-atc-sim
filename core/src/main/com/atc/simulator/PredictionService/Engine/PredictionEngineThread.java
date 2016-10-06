@@ -1,6 +1,7 @@
 package com.atc.simulator.PredictionService.Engine;
 
 import com.atc.simulator.Config.ApplicationConfig;
+import com.atc.simulator.PredictionService.Engine.Algorithms.Java.JavaPredictionAlgorithm;
 import com.atc.simulator.PredictionService.Engine.Algorithms.PredictionAlgorithmType;
 import com.atc.simulator.PredictionService.Engine.Workers.JavaPredictionWorkerThread;
 import com.atc.simulator.PredictionService.Engine.Workers.PredictionWorkerThread;
@@ -28,7 +29,7 @@ public class PredictionEngineThread implements RunnableThread, SystemStateDataba
     private static final PredictionAlgorithmType algorithmType = (PredictionAlgorithmType) ApplicationConfig.getEnum("settings.prediction-service.prediction-engine.algorithm-type", PredictionAlgorithmType.class);
 
     private PredictionEngineTodoQueue todoQueue;
-    private SystemStateDatabase systemStateDatabase;
+    private PredictionEngineSystemStateDatabase systemStateDatabase;
     private ArrayList<PredictionWorkerThread> workerPool;
     private ArrayList<PredictionWorkItem> todoList;
     private ArrayList<PredictionWorkItem> previousTodoList;
@@ -53,7 +54,7 @@ public class PredictionEngineThread implements RunnableThread, SystemStateDataba
      */
     public PredictionEngineThread(
             PredictionFeedServerThread predictionFeedServer,
-            SystemStateDatabase systemStateDatabase,
+            PredictionEngineSystemStateDatabase systemStateDatabase,
             int numberOfWorkers)
     {
         this.numberOfWorkers = numberOfWorkers;
@@ -241,10 +242,21 @@ public class PredictionEngineThread implements RunnableThread, SystemStateDataba
         for (String aircraftID: aircraftIDs)
         {
             Track aircraftTrack = stateDatabase.copyTrack(aircraftID);
+
+            // get the algorithm state from the system state database, and create a new one if it doesn't exist yet
+            Object algorithmState = systemStateDatabase.getAlgorithmState(aircraftID);
+            if (algorithmState == null)
+            {
+                algorithmState = JavaPredictionAlgorithm.getInstance(algorithmType).getNewStateObject();
+                systemStateDatabase.setAlgorithmState(aircraftID, algorithmState);
+            }
+
             PredictionWorkItem workItem = new PredictionWorkItem(
                     aircraftID,
                     aircraftTrack,
-                    algorithmType);
+                    algorithmType,
+                    algorithmState
+                    );
             //TODO: make a seperate buffer for this so it doesn't block while todoQueue is being reordered?
             if(enableDebugPrintQueues){System.out.println(threadName + " Adding to queue which has a current size of " + todoQueue.size());}
 

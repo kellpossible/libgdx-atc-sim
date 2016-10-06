@@ -30,7 +30,7 @@ public class JavaLMLeastSquaresAlgorithm extends JavaPredictionAlgorithm {
      * @return Prediction
      */
     @Override
-    public Prediction makePrediction(Track aircraftTrack) {
+    public Prediction makePrediction(Track aircraftTrack, Object algorithmState) {
         //TODO: probably need to move this into a singleton
         //basically have a cached version of the projection
         //because we don't want to have to generate it every time.
@@ -341,6 +341,16 @@ public class JavaLMLeastSquaresAlgorithm extends JavaPredictionAlgorithm {
                 rightTrack,
                 predictionState);
         return prediction;
+    }
+
+    /**
+     * Get a new state object for this algorithm.
+     *
+     * @return
+     */
+    @Override
+    public Object getNewStateObject() {
+        return null;
     }
 
     /**

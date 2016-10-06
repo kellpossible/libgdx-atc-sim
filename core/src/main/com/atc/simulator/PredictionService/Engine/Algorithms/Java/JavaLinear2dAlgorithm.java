@@ -26,7 +26,7 @@ public class JavaLinear2dAlgorithm extends JavaPredictionAlgorithm {
      * @return Prediction
      */
     @Override
-    public Prediction makePrediction(Track aircraftTrack) {
+    public Prediction makePrediction(Track aircraftTrack, Object algorithmState) {
         if (projection == null)
         {
             GeographicCoordinate projectionReference = Scenario.getCurrentScenario().getProjectionReference();
@@ -79,5 +79,15 @@ public class JavaLinear2dAlgorithm extends JavaPredictionAlgorithm {
                 predictionTrack,
                 Prediction.State.STRAIGHT);
         return prediction;
+    }
+
+    /**
+     * Get a new state object for this algorithm.
+     *
+     * @return
+     */
+    @Override
+    public Object getNewStateObject() {
+        return null;
     }
 }

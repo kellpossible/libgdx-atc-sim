@@ -10,6 +10,7 @@ import com.atc.simulator.DebugDataFeed.DebugDataFeedServerThread;
 import com.atc.simulator.Display.DisplayApplication;
 import com.atc.simulator.Display.Model.Display;
 import com.atc.simulator.Display.PredictionFeedClientThread;
+import com.atc.simulator.PredictionService.Engine.PredictionEngineSystemStateDatabase;
 import com.atc.simulator.PredictionService.Engine.PredictionEngineThread;
 import com.atc.simulator.PredictionService.PredictionFeedServerThread;
 import com.atc.simulator.flightdata.RealTimeSource;
@@ -50,7 +51,7 @@ public class DesktopLauncher {
 
         Scenario scenario;
         DisplayApplication displayApplication;
-        SystemStateDatabase systemStateDatabase;
+        PredictionEngineSystemStateDatabase predictionEngineSystemStateDatabase;
         DebugDataFeedServerThread debugDataFeedServerThread = null;
         DataPlaybackThread dataPlaybackThread = null;
 
@@ -66,11 +67,11 @@ public class DesktopLauncher {
             dataPlaybackThread = new DataPlaybackThread(scenario, scenario.getRecommendedUpdateRate());
             displayApplication =  new DisplayApplication(scenario, dataPlaybackThread);
             debugDataFeedServerThread = new DebugDataFeedServerThread();
-            systemStateDatabase = new SystemStateDatabase(dataPlaybackThread);
+            predictionEngineSystemStateDatabase = new PredictionEngineSystemStateDatabase(dataPlaybackThread);
             dataPlaybackThread.addListener(displayApplication);
             dataPlaybackThread.addListener(debugDataFeedServerThread);
         } else {
-            systemStateDatabase = new SystemStateDatabase(new RealTimeSource());
+            predictionEngineSystemStateDatabase = new PredictionEngineSystemStateDatabase(new RealTimeSource());
             displayApplication =  new DisplayApplication(scenario);
         }
 
@@ -79,10 +80,10 @@ public class DesktopLauncher {
 
 		PredictionEngineThread predictionEngine = new PredictionEngineThread(
 				predictionFeedServerThread,
-				systemStateDatabase,
+				predictionEngineSystemStateDatabase,
 				javaWorkerThreads);
 
-		DebugDataFeedClientThread debugDataFeedClientThread = new DebugDataFeedClientThread(systemStateDatabase);
+		DebugDataFeedClientThread debugDataFeedClientThread = new DebugDataFeedClientThread(predictionEngineSystemStateDatabase);
 
 
 		// let the display get its system state from the prediction feed's debugdatafeed client
@@ -94,7 +95,7 @@ public class DesktopLauncher {
 
 		predictionFeedClientThread.addListener(displayApplication);
 
-		systemStateDatabase.addListener(predictionEngine);
+		predictionEngineSystemStateDatabase.addListener(predictionEngine);
 
 		if(accuracyTest) {
 			TestAccuracy accuracyTester = new TestAccuracy(scenario);

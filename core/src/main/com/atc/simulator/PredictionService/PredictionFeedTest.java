@@ -1,6 +1,7 @@
 package com.atc.simulator.PredictionService;
 
 import com.atc.simulator.Display.PredictionFeedClientThread;
+import com.atc.simulator.PredictionService.Engine.PredictionEngineSystemStateDatabase;
 import com.atc.simulator.PredictionService.Engine.PredictionEngineThread;
 import com.atc.simulator.flightdata.AircraftState;
 import com.atc.simulator.flightdata.SystemStateDatabase.SystemStateDatabase;
@@ -39,7 +40,7 @@ public class PredictionFeedTest {
         //Create SystemState Test Data:
         ArrayList<AircraftState> testAStates = new ArrayList<AircraftState>();
         testAStates.add(new AircraftState("TestPlane1", System.currentTimeMillis(), new GeographicCoordinate(0,0,0), new SphericalVelocity(1,2,3), 0.5));
-        SystemStateDatabase systemStateDatabase = new SystemStateDatabase(myTimeSource);
+        PredictionEngineSystemStateDatabase systemStateDatabase = new PredictionEngineSystemStateDatabase(myTimeSource);
         //Create Server/Client objects
         PredictionFeedServerThread testServer = new PredictionFeedServerThread();
         PredictionFeedClientThread testClient = new PredictionFeedClientThread();

@@ -1,6 +1,7 @@
 package com.atc.simulator.DebugDataFeed;
 import com.atc.simulator.Display.PredictionFeedClientThread;
 import com.atc.simulator.PredictionService.DebugDataFeedClientThread;
+import com.atc.simulator.PredictionService.Engine.PredictionEngineSystemStateDatabase;
 import com.atc.simulator.PredictionService.Engine.PredictionEngineThread;
 import com.atc.simulator.PredictionService.PredictionFeedServerThread;
 import com.atc.simulator.flightdata.SystemStateDatabase.SystemStateDatabase;
@@ -51,7 +52,7 @@ public class DebugServerTest
         }
         //Make a new SystemState with the above AircraftModel States array
         SystemState testState = new SystemState(System.currentTimeMillis(),aircraftStateArray);
-        SystemStateDatabase systemStateDatabase = new SystemStateDatabase(myTimeSource);
+        PredictionEngineSystemStateDatabase systemStateDatabase = new PredictionEngineSystemStateDatabase(myTimeSource);
 
         // creates new servers/clients
         PredictionFeedClientThread testPredictionClient = new PredictionFeedClientThread(); //Goes first, can chill by itself

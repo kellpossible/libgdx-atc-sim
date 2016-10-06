@@ -3,8 +3,9 @@
     "projection-reference": [0.0, -37.668905,144.8307145],
     "prediction-service": {
       "prediction-engine": {
-        "algorithm-type": "LMLEASTSQUARES",
-        "java-worker-threads": 4
+        "algorithm-type": "LMLEASTSQUARESV3",
+        "interpolation-transition-time": 180.0,
+        "java-worker-threads": 1
       },
       "debug-data-feed-client": {
         "port-number": 6989,
@@ -24,7 +25,7 @@
         "filter-for-planeID":[],
         "heading-velocity": false
       },
-      "speed": 20
+      "speed": 10
     },
     "display": {
       "use-msaa": true,
@@ -39,7 +40,7 @@
       "bonus-feature": false
     },
     "testing": {
-      "run-accuracy-test": true,
+      "run-accuracy-test": false,
       "save-csv": false,
       "save-json": true
     }

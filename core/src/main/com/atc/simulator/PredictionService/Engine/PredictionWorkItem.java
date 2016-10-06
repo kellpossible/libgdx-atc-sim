@@ -14,6 +14,7 @@ import java.util.Comparator;
 public class PredictionWorkItem implements Comparator<PredictionWorkItem>{
     private String aircraftID;
     private Track aircraftTrack;
+    private Object algorithmState;
     private Prediction prediction;
     private boolean started;
     private boolean completed;
@@ -26,7 +27,7 @@ public class PredictionWorkItem implements Comparator<PredictionWorkItem>{
      */
     public PredictionWorkItem()
     {
-        this(null, null, null);
+        this(null, null, null, null);
     }
 
     /**
@@ -34,15 +35,19 @@ public class PredictionWorkItem implements Comparator<PredictionWorkItem>{
      * @param aircraftID
      * @param aircraftTrack
      * @param algorithmType the type of algorithm to be used to perform this work
+     * @param algorithmState the state object for the algorithm, which is associated with the aircraftID.
      */
     public PredictionWorkItem(
             String aircraftID,
             Track aircraftTrack,
-            PredictionAlgorithmType algorithmType)
+            PredictionAlgorithmType algorithmType,
+            Object algorithmState)
     {
         this.aircraftID = aircraftID;
         this.aircraftTrack = aircraftTrack;
         this.algorithmType = algorithmType;
+        this.algorithmState = algorithmState;
+
         started = false;
         completed = false;
         worker = null;
@@ -147,5 +152,15 @@ public class PredictionWorkItem implements Comparator<PredictionWorkItem>{
      */
     public PredictionAlgorithmType getAlgorithmType() {
         return algorithmType;
+    }
+
+    /**
+     * Get the state object for the algorithm which is associated with the aircraft
+     * in this work item.
+     * @return
+     */
+    public Object getAlgorithmState()
+    {
+        return algorithmState;
     }
 }

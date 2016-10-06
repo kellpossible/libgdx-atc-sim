@@ -23,9 +23,9 @@ import java.util.ArrayList;
  * which tries to keep the cartesian velocity constant.
  */
 public class JavaLinearAlgorithm extends JavaPredictionAlgorithm {
-    /** @see JavaPredictionAlgorithm#makePrediction(Track) */
+    /** @see JavaPredictionAlgorithm#makePrediction(Track, Object) */
     @Override
-    public Prediction makePrediction(Track aircraftTrack) {
+    public Prediction makePrediction(Track aircraftTrack, Object algorithmState) {
         AircraftState state = aircraftTrack.getLatest();
         long startTime = state.getTime();
         GeographicCoordinate position = state.getPosition();
@@ -73,5 +73,15 @@ public class JavaLinearAlgorithm extends JavaPredictionAlgorithm {
                 predictedTrack,
                 Prediction.State.STRAIGHT);
         return prediction;
+    }
+
+    /**
+     * Get a new state object for this algorithm.
+     *
+     * @return
+     */
+    @Override
+    public Object getNewStateObject() {
+        return null;
     }
 }

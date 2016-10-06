@@ -1,9 +1,9 @@
 package com.atc.simulator.PredictionService.Engine.Algorithms.Java;
 
+import com.atc.simulator.Config.ApplicationConfig;
 import com.atc.simulator.DebugDataFeed.Scenarios.Scenario;
 import com.atc.simulator.flightdata.AircraftState;
 import com.atc.simulator.flightdata.Prediction;
-import com.atc.simulator.flightdata.SystemState;
 import com.atc.simulator.flightdata.Track;
 import com.atc.simulator.vectors.CircleSolver;
 import com.atc.simulator.vectors.GeographicCoordinate;
@@ -21,6 +21,22 @@ import java.util.ArrayList;
  * @author Luke Frisken
  */
 public class JavaLMLeastSquaresAlgorithmV3 extends JavaPredictionAlgorithm {
+    private static final double INTERPOLATION_TRANSITION_TIME = ApplicationConfig.getDouble("settings.prediction-service.prediction-engine.interpolation-transition-time");
+
+    private class AlgorithmState {
+        public int counter = 0;
+        public Prediction.State lastState;
+        public long lastStateTime;
+
+        public AlgorithmState()
+        {
+            lastState = Prediction.State.STOPPED;
+            lastStateTime = 0;
+            counter = 0;
+        }
+    }
+
+
     GnomonicProjection projection = null;
 
     /**
@@ -30,7 +46,12 @@ public class JavaLMLeastSquaresAlgorithmV3 extends JavaPredictionAlgorithm {
      * @return Prediction
      */
     @Override
-    public Prediction makePrediction(Track aircraftTrack) {
+    public Prediction makePrediction(Track aircraftTrack, Object algorithmState) {
+        AlgorithmState as = (AlgorithmState) algorithmState;
+        as.counter++;
+
+
+
         //TODO: probably need to move this into a singleton
         //basically have a cached version of the projection
         //because we don't want to have to generate it every time.
@@ -42,6 +63,15 @@ public class JavaLMLeastSquaresAlgorithmV3 extends JavaPredictionAlgorithm {
         }
 
         AircraftState state = aircraftTrack.getLatest();
+
+        double stateTransition = 0.0;
+        if (as.lastStateTime != 0)
+        {
+            double timeDiff = (state.getTime() - as.lastStateTime)/1000; //seconds
+            stateTransition = Math.min(1.0, timeDiff/ INTERPOLATION_TRANSITION_TIME);
+//            System.out.println(stateTransition);
+        }
+
         long startTime = state.getTime();
         GeographicCoordinate geographicPosition = state.getPosition();
         int trackSize = aircraftTrack.size();
@@ -90,7 +120,8 @@ public class JavaLMLeastSquaresAlgorithmV3 extends JavaPredictionAlgorithm {
         double w = 0;
         double wCentre = 0;
 
-        double offsetAmount = 2;
+        // percentage of outer track, to make the inside track.
+        double offsetAmount = 1.2 + (1-stateTransition)*5;
 
         if (trackSize == 3)
         {
@@ -332,6 +363,12 @@ public class JavaLMLeastSquaresAlgorithmV3 extends JavaPredictionAlgorithm {
 //            centreTrack.add(centreState);
 //        }
 
+        if (as.lastState != predictionState)
+        {
+            as.lastState = predictionState;
+            as.lastStateTime = state.getTime();
+        }
+
         Prediction prediction = new Prediction(
                 state.getAircraftID(),
                 startTime,
@@ -341,6 +378,16 @@ public class JavaLMLeastSquaresAlgorithmV3 extends JavaPredictionAlgorithm {
                 rightTrack,
                 predictionState);
         return prediction;
+    }
+
+    /**
+     * Get a new state object for this algorithm.
+     *
+     * @return
+     */
+    @Override
+    public Object getNewStateObject() {
+        return new AlgorithmState();
     }
 
     /**

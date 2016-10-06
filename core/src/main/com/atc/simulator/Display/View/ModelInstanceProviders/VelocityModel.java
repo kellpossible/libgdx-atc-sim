@@ -54,7 +54,7 @@ public class VelocityModel extends SimpleDisplayRenderableProvider {
         GeographicCoordinate position = aircraft.getPosition();
         double depthAdjustment = -0.02;
 
-        Prediction prediction = new JavaLinearAlgorithm().makePrediction(aircraft.getTrack());
+        Prediction prediction = new JavaLinearAlgorithm().makePrediction(aircraft.getTrack(), null);
 
         Color lightGreen = new Color(Color.rgba8888(0f, 1f, 0f, 1f));
         Color darkerGreen = new Color(Color.rgba8888(0f, 0.5f, 0.1f, 1f));

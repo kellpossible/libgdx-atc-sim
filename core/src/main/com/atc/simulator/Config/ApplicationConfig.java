@@ -69,6 +69,14 @@ public class ApplicationConfig {
     }
 
     /**
+     * @see Config#getDouble(String)
+     */
+    public static double getDouble(String path)
+    {
+        return getInstance().getDouble(path);
+    }
+
+    /**
      * @see Config#getStringList(String)
      */
     public static List<String> getStringList(String path)

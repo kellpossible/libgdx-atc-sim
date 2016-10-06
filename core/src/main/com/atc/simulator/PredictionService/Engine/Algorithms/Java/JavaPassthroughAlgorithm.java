@@ -15,7 +15,7 @@ public class JavaPassthroughAlgorithm extends JavaPredictionAlgorithm {
     private static final boolean enableTimer = ApplicationConfig.getBoolean("settings.debug.algorithm-timer");
 
     @Override
-    public Prediction makePrediction(Track aircraftTrack) {
+    public Prediction makePrediction(Track aircraftTrack, Object algorithmState) {
         long start1=0, start2=0;
         if(enableTimer)
         {
@@ -47,5 +47,15 @@ public class JavaPassthroughAlgorithm extends JavaPredictionAlgorithm {
             System.out.println("JavaPassthroughAlgorithm work time: " + (((double) diff)/1000000.0) + " ms");
         }
         return prediction;
+    }
+
+    /**
+     * Get a new state object for this algorithm.
+     *
+     * @return
+     */
+    @Override
+    public Object getNewStateObject() {
+        return null;
     }
 }

@@ -28,7 +28,7 @@ public class JavaChrisAlgorithm1 extends JavaPredictionAlgorithm {
      * @return Prediction
      */
     @Override
-    public Prediction makePrediction(Track aircraftTrack) {
+    public Prediction makePrediction(Track aircraftTrack, Object algorithmState) {
         if (projection == null)
         {
             GeographicCoordinate projectionReference = Scenario.getCurrentScenario().getProjectionReference();
@@ -132,6 +132,16 @@ public class JavaChrisAlgorithm1 extends JavaPredictionAlgorithm {
             return prediction;
 
         }
+    }
+
+    /**
+     * Get a new state object for this algorithm.
+     *
+     * @return
+     */
+    @Override
+    public Object getNewStateObject() {
+        return null;
     }
 
     private double linearCrossTrackError(Vector3 referencePoint, Vector3 referenceDirection, Vector3 point)

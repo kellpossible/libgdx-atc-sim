@@ -18,6 +18,7 @@
     "prediction-service": {
       "prediction-engine": {
         "algorithm-type": "LMLEASTSQUARES",
+        "interpolation-transition-time": 180.0,
         "java-worker-threads": 4
       },
       "debug-data-feed-client": {
