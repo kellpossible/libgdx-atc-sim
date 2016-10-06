@@ -110,7 +110,6 @@ public class HudModel extends SimpleDisplayRenderableProvider implements Display
 
     @Override
     public void onUpdate(CameraUpdate cameraUpdate) {
-        System.out.println("update" + cameraUpdate.updateType.name());
         update();
     }
 }
