@@ -1,11 +1,13 @@
 package com.atc.simulator.Display.View.ModelInstanceProviders;
 
+import com.atc.simulator.Config.ApplicationConfig;
 import com.atc.simulator.Display.Model.Display;
 import com.atc.simulator.Display.Model.DisplayAircraft;
 import com.atc.simulator.Display.Model.DisplayPrediction;
 import com.atc.simulator.Display.View.DisplayRenderable.GDXDisplayRenderable;
 import com.atc.simulator.Display.View.DisplayRenderable.HiddenDisplayRenderable;
 import com.atc.simulator.Display.View.Shapes.CustomModelBuilder;
+import com.atc.simulator.Display.View.Shapes.TrackLineMeshBuilder;
 import com.atc.simulator.flightdata.AircraftState;
 import com.atc.simulator.flightdata.Prediction;
 import com.atc.simulator.flightdata.Track;
@@ -25,6 +27,7 @@ import com.badlogic.gdx.math.Vector3;
  * @author Luke Frisken
  */
 public class PredictionModel extends SimpleDisplayRenderableProvider {
+    private static final boolean stippledPredictions = ApplicationConfig.getBoolean("settings.display.stippled-predictions");
     private DisplayAircraft aircraft;
     private Display display;
     public static Texture texture;
@@ -135,7 +138,16 @@ public class PredictionModel extends SimpleDisplayRenderableProvider {
 
 
         DisplayAircraft aircraft = prediction.getAircraft();
-        Material matWhite = new Material(ColorAttribute.createDiffuse(Color.WHITE));
+
+        Track centreTrack = prediction.getCentreTrack();
+        Track rightTrack = prediction.getRightTrack();
+
+        Color yellow = Color.YELLOW;
+        Color darkerYellow = new Color(Color.rgba8888(0.0f, 0.8f, 0.8f, 1.0f));
+
+        Color purple = Color.PURPLE;
+        Color darkerPurple = new Color(Color.rgba8888(0.8f, 0.0f, 0.8f, 1.0f));
+
         ModelBuilder modelBuilder = new ModelBuilder();
         modelBuilder.begin();
         MeshPartBuilder builder = modelBuilder.part(
@@ -143,30 +155,16 @@ public class PredictionModel extends SimpleDisplayRenderableProvider {
                 GL20.GL_LINES,
                 VertexAttributes.Usage.Position | VertexAttributes.Usage.ColorUnpacked,
                 new Material());
-        builder.setColor(Color.YELLOW);
 
-        Track centreTrack = prediction.getCentreTrack();
-        Track rightTrack = prediction.getRightTrack();
-
-        Vector3 previousPositionDrawVector = aircraft.getPosition().getModelDrawVector();
-        for(int i = 0; i < centreTrack.size(); i++)
+        if (stippledPredictions)
         {
-            AircraftState state = centreTrack.get(i);
-            Vector3 positionDrawVector = state.getPosition().getModelDrawVector();
-            builder.line(previousPositionDrawVector, positionDrawVector);
-            previousPositionDrawVector = positionDrawVector;
-        }
-
-        builder.setColor(Color.PURPLE);
-
-        //start of prediction line is the current aircraft position.
-        previousPositionDrawVector = aircraft.getPosition().getModelDrawVector();
-        for(int i = 0; i < rightTrack.size(); i++)
-        {
-            AircraftState state = rightTrack.get(i);
-            Vector3 positionDrawVector = state.getPosition().getModelDrawVector();
-            builder.line(previousPositionDrawVector, positionDrawVector);
-            previousPositionDrawVector = positionDrawVector;
+            TrackLineMeshBuilder.buildStippled(builder, centreTrack, aircraft, 0, yellow, darkerYellow);
+            TrackLineMeshBuilder.buildStippled(builder, rightTrack, aircraft, 0, purple, darkerPurple);
+        } else {
+            builder.setColor(yellow);
+            TrackLineMeshBuilder.build(builder, centreTrack, aircraft, 0);
+            builder.setColor(purple);
+            TrackLineMeshBuilder.build(builder, rightTrack, aircraft, 0);
         }
 
         Model newModel = modelBuilder.end();

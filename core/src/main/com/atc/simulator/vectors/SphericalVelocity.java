@@ -116,4 +116,13 @@ public class SphericalVelocity extends Vector3 {
         Vector3 cartesianTranslatedPosition = rotation.transform(cartesianPosition);
         return SphericalCoordinate.fromCartesian(cartesianTranslatedPosition);
     }
+
+    /**
+     * whether or not any of the elements in this velocity vector are NaN
+     * @return
+     */
+    public boolean isNaN()
+    {
+        return Double.isNaN(x) || Double.isNaN(y) || Double.isNaN(z);
+    }
 }

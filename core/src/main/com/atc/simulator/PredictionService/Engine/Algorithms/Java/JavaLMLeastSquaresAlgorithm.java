@@ -3,6 +3,7 @@ package com.atc.simulator.PredictionService.Engine.Algorithms.Java;
 import com.atc.simulator.DebugDataFeed.Scenarios.Scenario;
 import com.atc.simulator.flightdata.AircraftState;
 import com.atc.simulator.flightdata.Prediction;
+import com.atc.simulator.flightdata.SystemState;
 import com.atc.simulator.flightdata.Track;
 import com.atc.simulator.vectors.CircleSolver;
 import com.atc.simulator.vectors.GeographicCoordinate;
@@ -43,15 +44,24 @@ public class JavaLMLeastSquaresAlgorithm extends JavaPredictionAlgorithm {
         AircraftState state = aircraftTrack.getLatest();
         long startTime = state.getTime();
         GeographicCoordinate geographicPosition = state.getPosition();
+        int trackSize = aircraftTrack.size();
 
         //transform position into a flat gnomonic projection coordinate system.
         Vector3 currentPosition = projection.transformPositionTo(geographicPosition);
+
+        double currentAltitude = geographicPosition.getAltitude();
 
         //set the z position to zero because we don't care about it, and
         //don't want to worry about it breaking stuff right now.
         currentPosition.z = 0;
 
         SphericalVelocity sphericalVelocity = state.getVelocity();
+
+        if (sphericalVelocity.isNaN())
+        {
+            System.err.println("Invalid Velocity: " + sphericalVelocity + ". Setting to zero");
+            sphericalVelocity.set(0.0, 0.0, 0.0);
+        }
 
         //transform the velocity into a flat gnomonic projection coordinate system
         Vector3 velocity = projection.tranformVelocityTo(sphericalVelocity, geographicPosition, currentPosition);
@@ -60,6 +70,7 @@ public class JavaLMLeastSquaresAlgorithm extends JavaPredictionAlgorithm {
         velocity.z = 0;
 
         ArrayList<AircraftState> predictedStates = new ArrayList<AircraftState>();
+        ArrayList<AircraftState> predictedStatesCentre = new ArrayList<AircraftState>();
 
         int dt = 5000;
         int totalDT = 0;
@@ -73,11 +84,17 @@ public class JavaLMLeastSquaresAlgorithm extends JavaPredictionAlgorithm {
 
         Vector3 rVec = null;
         Vector3 centre = null;
+        Vector3 centreCircleCentre = null;
+        Vector3 centreCircleRVec = null;
         boolean useCircle = false;
         double w = 0;
+        double wCentre = 0;
 
-        if (aircraftTrack.size() == 3)
+        double offsetAmount = 2;
+
+        if (trackSize == 3)
         {
+            boolean continuous = continuousLine(aircraftTrack, 0, 2);
             //find centre of circle given 3 points
             Vector3 p1 = projection.transformPositionTo(aircraftTrack.get(aircraftTrack.size()-1).getPosition());
             Vector3 p2 = projection.transformPositionTo(aircraftTrack.get(aircraftTrack.size()-2).getPosition());
@@ -91,22 +108,27 @@ public class JavaLMLeastSquaresAlgorithm extends JavaPredictionAlgorithm {
 //            System.out.println("Circle (" + circle.x + "," + circle.y + "," + circle.radius + ")");
 
             //check to see whether the radius is small enough for the aircraft to actually be turning.
-            if (circle.radius < 100000)
+            if (circle.radius < 100000 && continuous)
             {
                 useCircle = true;
                 centre = new Vector3(circle.x, circle.y, 0);
                 rVec = currentPosition.subtract(centre);
 
+                centreCircleCentre = currentPosition.add(rVec.mult(-offsetAmount));
+                centreCircleRVec = rVec.mult(offsetAmount);
+
                 //calculate the angular velocity
                 w = velocity.length()/circle.radius;
+                wCentre = velocity.length()/(circle.radius*offsetAmount);
             }
         }
 
-        if (aircraftTrack.size() > 3)
+        if (trackSize > 3)
         {
             int movingWindowSize = 10;
+            boolean continuous = continuousLine(aircraftTrack, trackSize-3, trackSize-1);
             int windowFromIndex = Math.max(aircraftTrack.size()-1-movingWindowSize, 0);
-            ArrayList<AircraftState> movingWindow = new ArrayList<AircraftState>(aircraftTrack.subList(windowFromIndex, aircraftTrack.size()-1));
+            ArrayList<AircraftState> movingWindow = new ArrayList<AircraftState>(aircraftTrack.subList(windowFromIndex, trackSize-1));
             ArrayList<Vector3> movingWindowPositions = new ArrayList<Vector3>(movingWindow.size());
 
             for(AircraftState aircraftState: movingWindow)
@@ -116,9 +138,9 @@ public class JavaLMLeastSquaresAlgorithm extends JavaPredictionAlgorithm {
             //find centre of circle given 3 points
 
             //find centre of circle given 3 points
-            Vector3 p1 = projection.transformPositionTo(aircraftTrack.get(aircraftTrack.size()-1).getPosition());
-            Vector3 p2 = projection.transformPositionTo(aircraftTrack.get(aircraftTrack.size()-2).getPosition());
-            Vector3 p3 = projection.transformPositionTo(aircraftTrack.get(aircraftTrack.size()-3).getPosition());
+            Vector3 p1 = projection.transformPositionTo(aircraftTrack.get(trackSize-1).getPosition());
+            Vector3 p2 = projection.transformPositionTo(aircraftTrack.get(trackSize-2).getPosition());
+            Vector3 p3 = projection.transformPositionTo(aircraftTrack.get(trackSize-3).getPosition());
 
             Vector3 headPoint = movingWindowPositions.get(movingWindowPositions.size()-1);
             Vector3 middlePoint = movingWindowPositions.get((movingWindowPositions.size()-1)/2);
@@ -143,14 +165,19 @@ public class JavaLMLeastSquaresAlgorithm extends JavaPredictionAlgorithm {
 //            System.out.println("FitCircle (" + fitCircle.x + "," + fitCircle.y + "," + fitCircle.radius + ")");
 
             //check to see whether the radius is small enough for the aircraft to actually be turning.
-            if (fitCircle.radius < 100000)
+            if (fitCircle.radius < 100000 && continuous)
             {
                 useCircle = true;
                 centre = new Vector3(fitCircle.x, fitCircle.y, 0);
                 rVec = currentPosition.subtract(centre);
 
+                centreCircleCentre = currentPosition.add(rVec.mult(-offsetAmount));
+                centreCircleRVec = rVec.mult(offsetAmount);
+
                 //calculate the angular velocity
                 w = velocity.length()/fitCircle.radius;
+                wCentre = velocity.length()/(fitCircle.radius*offsetAmount);
+
             }
         }
 
@@ -169,6 +196,13 @@ public class JavaLMLeastSquaresAlgorithm extends JavaPredictionAlgorithm {
                 predictionState = Prediction.State.RIGHT_TURN;
             }
 
+            Vector3 previousPredictedPosition = currentPosition;
+            Vector3 previousPredictionVelocityDir = velocity.normalize();
+            Vector3 previousCentreVelocityDir = velocity.normalize();
+            Vector3 previousCentrePredictedPosition = currentPosition;
+            double speed = velocity.length();
+
+            boolean linear = false;
             for (int i = 0; i < n; i++)
             {
                 totalDT += dt;
@@ -179,17 +213,56 @@ public class JavaLMLeastSquaresAlgorithm extends JavaPredictionAlgorithm {
                 // the angular velocity. Only predict up to half a
                 // circle maximum.
                 double dphi = (totalDT/1000)*w;
+                double dphiCentre = (totalDT/1000)*wCentre;
                 if (dphi > Math.PI)
                 {
-                    dphi = Math.PI;
+                    linear = true;
                 }
 
-                Matrix3 rotation = new Matrix3().setToRotation(dphi*directionSign, new Vector3(0,0,1));
-                Vector3 rVecRotated = rotation.transform(rVec);
+                Vector3 predictedPosition;
+                Vector3 predictedCentrePosition;
+                if (!linear)
+                {
+//                    System.out.println("RVEC: " + rVec);
+//                    System.out.println("CentreRVEC: " + centreCircleRVec);
+//                    System.out.println("cp: " + previousCentrePredictedPosition);
+//                    System.out.println("p: " + previousPredictedPosition);
+
+                    Matrix3 rotation = new Matrix3().setToRotation(dphi*directionSign, new Vector3(0,0,1));
+                    Vector3 rVecRotated = rotation.transform(rVec);
+                    predictedPosition = new Vector3(centre.add(rVecRotated));
+                    previousPredictionVelocityDir = (new Vector3(0, 0, directionSign)).cross(rVecRotated).normalize();
+
+                    Matrix3 centreRotation = new Matrix3().setToRotation(dphiCentre*directionSign, new Vector3(0,0,1));
+                    Vector3 centreCircleRVecRotated = centreRotation.transform(centreCircleRVec);
+                    predictedCentrePosition = new Vector3(centreCircleCentre.add(centreCircleRVecRotated));
+                    previousCentreVelocityDir = (new Vector3(0, 0, directionSign)).cross(centreCircleRVecRotated).normalize();
+
+                } else {
+                    predictedPosition = previousPredictedPosition.add(previousPredictionVelocityDir.mult((dt/1000.0)*speed));
+                    predictedCentrePosition = previousCentrePredictedPosition.add(previousCentreVelocityDir.mult((dt/1000.0)*speed));
+                }
+
 
                 //make a linear prediction based on the current velocity
-                Vector3 predictedPosition = new Vector3(centre.add(rVecRotated));
+
                 GeographicCoordinate predictedGeographicPosition = projection.transformPositionFrom(predictedPosition);
+                predictedGeographicPosition.setAltitude(currentAltitude);
+                GeographicCoordinate predictedCentreGeographicPosition = projection.transformPositionFrom(predictedCentrePosition);
+                predictedCentreGeographicPosition.setAltitude(currentAltitude);
+                previousPredictedPosition = predictedPosition;
+                previousCentrePredictedPosition = predictedCentrePosition;
+
+                checkPredictionPhysicallyPossible(geographicPosition, predictedGeographicPosition, totalDT/1000);
+                checkPredictionPhysicallyPossible(geographicPosition, predictedCentreGeographicPosition, totalDT/1000);
+
+
+                AircraftState predictedCentreState = new AircraftState(
+                        state.getAircraftID(),
+                        startTime+totalDT,
+                        predictedCentreGeographicPosition,
+                        sphericalVelocity,
+                        0);
 
                 AircraftState predictedState = new AircraftState(
                         state.getAircraftID(),
@@ -197,7 +270,9 @@ public class JavaLMLeastSquaresAlgorithm extends JavaPredictionAlgorithm {
                         predictedGeographicPosition,
                         sphericalVelocity,
                         0);
+
                 predictedStates.add(predictedState);
+                predictedStatesCentre.add(predictedCentreState);
 
             }
         }
@@ -210,6 +285,7 @@ public class JavaLMLeastSquaresAlgorithm extends JavaPredictionAlgorithm {
                 //make a linear prediction based on the current velocity
                 Vector3 predictedPosition = currentPosition.add(velocity.mult(totalDT/1000));
                 GeographicCoordinate predictedGeographicPosition = projection.transformPositionFrom(predictedPosition);
+                predictedGeographicPosition.setAltitude(currentAltitude);
 
                 AircraftState predictedState = new AircraftState(
                         state.getAircraftID(),
@@ -217,7 +293,10 @@ public class JavaLMLeastSquaresAlgorithm extends JavaPredictionAlgorithm {
                         predictedGeographicPosition,
                         sphericalVelocity,
                         0);
+
+                checkPredictionPhysicallyPossible(geographicPosition, predictedGeographicPosition, totalDT/1000);
                 predictedStates.add(predictedState);
+                predictedStatesCentre.add(predictedState);
 
             }
         }
@@ -227,7 +306,7 @@ public class JavaLMLeastSquaresAlgorithm extends JavaPredictionAlgorithm {
         Prediction linearPrediction = new JavaLinearAlgorithm().makePrediction(aircraftTrack);
         Track leftTrack = linearPrediction.getCentreTrack();
 
-        Track centreTrack = new Track();
+        Track centreTrack = new Track(predictedStatesCentre);
 
         if (leftTrack.size() != rightTrack.size())
         {
@@ -238,20 +317,20 @@ public class JavaLMLeastSquaresAlgorithm extends JavaPredictionAlgorithm {
             }
         }
 
-        for(int i = 0; i < leftTrack.size(); i++)
-        {
-            AircraftState leftState = leftTrack.get(i);
-            AircraftState rightState = rightTrack.get(i);
-
-            GeographicCoordinate leftPosition = leftState.getPosition();
-            GeographicCoordinate rightPosition = rightState.getPosition();
-
-            GeographicCoordinate centrePosition = new GeographicCoordinate(leftPosition.lerp(rightPosition, 0.5));
-
-            AircraftState centreState = new AircraftState(leftState);
-            centreState.setPosition(centrePosition);
-            centreTrack.add(centreState);
-        }
+//        for(int i = 0; i < leftTrack.size(); i++)
+//        {
+//            AircraftState leftState = leftTrack.get(i);
+//            AircraftState rightState = rightTrack.get(i);
+//
+//            GeographicCoordinate leftPosition = leftState.getPosition();
+//            GeographicCoordinate rightPosition = rightState.getPosition();
+//
+//            GeographicCoordinate centrePosition = new GeographicCoordinate(leftPosition.lerp(rightPosition, 0.5));
+//
+//            AircraftState centreState = new AircraftState(leftState);
+//            centreState.setPosition(centrePosition);
+//            centreTrack.add(centreState);
+//        }
 
         Prediction prediction = new Prediction(
                 state.getAircraftID(),
@@ -262,5 +341,58 @@ public class JavaLMLeastSquaresAlgorithm extends JavaPredictionAlgorithm {
                 rightTrack,
                 predictionState);
         return prediction;
+    }
+
+    /**
+     * Check to see whether the track has any reversals of direction
+     * @param track
+     * @param from
+     * @param to
+     * @return
+     */
+    private boolean continuousLine(Track track, int from, int to)
+    {
+        // if there are not enough points to do this calculation (requires 3 points in the track)
+        if ((to-from) <= 1)
+        {
+            return false;
+        }
+
+        GeographicCoordinate p1, p2, p3;
+
+        int n = 0;
+        for (int i = from; i <= to && i < track.size(); i++)
+        {
+            if (n >= 2)
+            {
+                p1 = track.get(i-2).getPosition();
+                p2 = track.get(i-1).getPosition();
+                p3 = track.get(i).getPosition();
+
+                if (p1.cartesianDistance(p3) < p1.cartesianDistance(p2))
+                {
+                    return false;
+                }
+            }
+            n++;
+        }
+        return true;
+    }
+
+
+    /**
+     * check to see whether the prediction is physically possible.
+     * If not, print an error message.
+     * @param originalPosition
+     * @param predictedPosition
+     * @param dt
+     */
+    private void checkPredictionPhysicallyPossible(GeographicCoordinate originalPosition, GeographicCoordinate predictedPosition, double dt)
+    {
+        double speed = predictedPosition.getCartesian().subtract(originalPosition.getCartesian()).length()/dt;
+        if (speed > 400.0)
+        {
+            System.err.println("Unlikely average speed for prediction of " + speed + "m/s");
+        }
     }
 }

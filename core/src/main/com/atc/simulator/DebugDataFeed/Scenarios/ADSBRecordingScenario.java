@@ -167,13 +167,23 @@ public class ADSBRecordingScenario extends Scenario {
                             Vector3 cartesionPos = new SphericalCoordinate(position).getCartesian();
 //                        System.out.println("cartesianpos" + cartesionPos);
                             Vector3 cartesianDPos = cartesionPos.subtract(cartesionPrevPos);
-//                        System.out.println("Cartesion DPos: " + cartesianDPos);
-                            Vector3 cartesianVelocity = cartesianDPos.normalize().mult(speed);
-                            Vector3 cartesianVelocityPos = cartesionPos.add(cartesianVelocity);
-                            SphericalCoordinate sphericalVelocityPos = SphericalCoordinate.fromCartesian(cartesianVelocityPos);
-                            dPos = new SphericalCoordinate(sphericalVelocityPos.subtract(position));
 
-                            velocity = new SphericalVelocity(dPos);
+                            if (cartesianDPos.length() < 1.0)
+                            {
+                                velocity = new SphericalVelocity(0,0,0);
+                            } else {
+                                Vector3 cartesianVelocity = cartesianDPos.normalize().mult(speed);
+                                Vector3 cartesianVelocityPos = cartesionPos.add(cartesianVelocity);
+                                SphericalCoordinate sphericalVelocityPos = SphericalCoordinate.fromCartesian(cartesianVelocityPos);
+                                dPos = new SphericalCoordinate(sphericalVelocityPos.subtract(position));
+
+                                velocity = new SphericalVelocity(dPos);
+
+                                if (velocity.isNaN())
+                                {
+                                    System.err.println("Invalid Velocity: " + velocity + "Which had an original speed of: " + speed);
+                                }
+                            }
                         }
                     }
                 }

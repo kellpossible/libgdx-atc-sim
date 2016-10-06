@@ -49,6 +49,7 @@
         "port-number": 6789,
         "server-ip": "localhost"
       },
+      "stippled-predictions": false,
       "bonus-feature": false
     },
     "testing": {

@@ -4,7 +4,7 @@
     "prediction-service": {
       "prediction-engine": {
         "algorithm-type": "LMLEASTSQUARES",
-        "java-worker-threads": 1
+        "java-worker-threads": 4
       },
       "debug-data-feed-client": {
         "port-number": 6989,
@@ -21,10 +21,10 @@
       },
       "adsb-recording-scenario": {
         "file": "assets/flight_data/YMML_26_05_2016/database.json",
-        "filter-for-planeID":["7801C8"],
+        "filter-for-planeID":[],
         "heading-velocity": false
       },
-      "speed": 10
+      "speed": 20
     },
     "display": {
       "use-msaa": true,
@@ -35,10 +35,11 @@
         "port-number": 6789,
         "server-ip": "localhost"
       },
+      "stippled-predictions": false,
       "bonus-feature": false
     },
     "testing": {
-      "run-accuracy-test": false,
+      "run-accuracy-test": true,
       "save-csv": false,
       "save-json": true
     }

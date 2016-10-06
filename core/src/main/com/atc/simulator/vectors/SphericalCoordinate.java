@@ -278,4 +278,14 @@ public class SphericalCoordinate extends Vector3 {
                 0
         );
     }
+
+    /**
+     * Cartesian distance between this and another coordinate
+     * @param other
+     * @return cartesian distance in metres
+     */
+    public double cartesianDistance(SphericalCoordinate other)
+    {
+        return this.getCartesian().subtract(other.getCartesian()).length();
+    }
 }
