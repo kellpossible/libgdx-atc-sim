@@ -4,7 +4,7 @@
     "prediction-service": {
       "prediction-engine": {
         "algorithm-type": "LMLEASTSQUARES",
-        "java-worker-threads": 4
+        "java-worker-threads": 1
       },
       "debug-data-feed-client": {
         "port-number": 6989,
@@ -21,7 +21,8 @@
       },
       "adsb-recording-scenario": {
         "file": "assets/flight_data/YMML_26_05_2016/database.json",
-        "filter-for-planeID":[]
+        "filter-for-planeID":["7801C8"],
+        "heading-velocity": false
       },
       "speed": 10
     },

@@ -34,7 +34,7 @@ public class ADSBRecordingScenario extends Scenario {
     private long startTime = 0, endTime = 0;
     private GeographicCoordinate projectionReference;
     private static final List<String> filteredPlaneIds = ApplicationConfig.getStringList("settings.debug-data-feed.adsb-recording-scenario.filter-for-planeID");
-
+    private static final boolean headingVelocity = ApplicationConfig.getBoolean("settings.debug-data-feed.adsb-recording-scenario.heading-velocity");
     /**
      * Constructor ADSBRecordingScenario creates a new ADSBRecordingScenario instance.
      */
@@ -120,59 +120,69 @@ public class ADSBRecordingScenario extends Scenario {
                     track = new Track();
                     tracksDictionary.put(aircraftID, track);
                 }
+
                 SphericalVelocity velocity;
-                SphericalVelocity previousNonZeroVelocity;
 
-                //hack to get the velocities by differentiating the positions.
-                if (track.size() == 0)
+                if (headingVelocity)
                 {
-                    velocity = new SphericalVelocity(0,0,0);
-                } else {
-                    AircraftState previousState = track.get(track.size() - 1);
-                    GeographicCoordinate previousPosition = previousState.getPosition();
-                    long previousTime = previousState.getTime();
+                    double dAngle = Math.asin(speed/position.getRadius());
+                    double dTheta = dAngle * Math.sin(Math.toRadians(heading));
+                    double dPhi = dAngle * Math.cos(Math.toRadians(heading));
 
-
-                    //calculate the velocity based on the change in position over time.
-                    double dt = (aircraftStateTime-previousTime)/1000.0;
-
-                    if (dt < 0.1)
+                    double dR;
+                    if (track.size() > 0)
                     {
-                        continue; //exclude records within 0.1 seconds of each other. (probably duplicates)
+                        AircraftState previousState = track.get(track.size() - 1);
+                        dR = altitude - previousState.getPosition().getAltitude();
                     } else {
-                        Vector3 dPos = position.subtract(previousPosition);
-                        double storeX = dPos.x;
+                        dR = 0;
+                    }
 
-                        Vector3 cartesionPrevPos = previousPosition.getCartesian();
+                    velocity = new SphericalVelocity(dR, dTheta, dPhi);
+                } else {
+                    //hack to get the velocities by differentiating the positions.
+                    if (track.size() == 0)
+                    {
+                        velocity = new SphericalVelocity(0,0,0);
+                    } else {
+                        AircraftState previousState = track.get(track.size() - 1);
+
+                        GeographicCoordinate previousPosition = previousState.getPosition();
+                        long previousTime = previousState.getTime();
+
+
+                        //calculate the velocity based on the change in position over time.
+                        double dt = (aircraftStateTime-previousTime)/1000.0;
+
+                        if (dt < 0.1)
+                        {
+                            continue; //exclude records within 0.1 seconds of each other. (probably duplicates)
+                        } else {
+                            Vector3 dPos = position.subtract(previousPosition);
+                            double storeX = dPos.x;
+
+                            Vector3 cartesionPrevPos = previousPosition.getCartesian();
 
 //                        System.out.println("position1geo" + position);
-                        Vector3 cartesionPos = new SphericalCoordinate(position).getCartesian();
+                            Vector3 cartesionPos = new SphericalCoordinate(position).getCartesian();
 //                        System.out.println("cartesianpos" + cartesionPos);
-                        Vector3 cartesianDPos = cartesionPos.subtract(cartesionPrevPos);
+                            Vector3 cartesianDPos = cartesionPos.subtract(cartesionPrevPos);
 //                        System.out.println("Cartesion DPos: " + cartesianDPos);
-                        Vector3 cartesianVelocity = cartesianDPos.normalize().mult(speed);
-                        Vector3 cartesianVelocityPos = cartesionPos.add(cartesianVelocity);
-                        SphericalCoordinate sphericalVelocityPos = SphericalCoordinate.fromCartesian(cartesianVelocityPos);
-                        dPos = new SphericalCoordinate(sphericalVelocityPos.subtract(position));
+                            Vector3 cartesianVelocity = cartesianDPos.normalize().mult(speed);
+                            Vector3 cartesianVelocityPos = cartesionPos.add(cartesianVelocity);
+                            SphericalCoordinate sphericalVelocityPos = SphericalCoordinate.fromCartesian(cartesianVelocityPos);
+                            dPos = new SphericalCoordinate(sphericalVelocityPos.subtract(position));
 
-
-
-//                        double speedAngle = speed/position.x;
-//
-//                        System.out.println("SpeedAngle" + speedAngle);
-//                        System.out.println("Speed" + speed);
-//                        System.out.println(dPos);
-////
-//                        dPos.x = 0;
-//                        dPos = dPos.normalize();
-//                        dPos = dPos.mult(speedAngle);
-//                        dPos.x = storeX;
-
-//                        System.out.println("dpos" + dPos);
-                        //hack until I can figure out how to calculate the velocity correctly
-                        velocity = new SphericalVelocity(dPos);
+                            velocity = new SphericalVelocity(dPos);
+                        }
                     }
                 }
+
+                if (velocity.getSpeed() > 400.0)
+                {
+                    System.err.println("Unlikely speed of " + velocity.getSpeed() + "m/s for " + aircraftID + " in ADSB recording.");
+                }
+
 
                 //TODO: callsign might not actually be the best thing to use for aircraft ID, looks like there might be duplicates?
                 //mode_s_code seems to get used more instead.
