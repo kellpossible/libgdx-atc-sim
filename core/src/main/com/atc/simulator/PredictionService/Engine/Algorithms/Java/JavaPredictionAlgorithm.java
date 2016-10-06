@@ -37,6 +37,8 @@ public abstract class JavaPredictionAlgorithm {
                 return new JavaChrisAlgorithm1();
             case LMLEASTSQUARES:
                 return new JavaLMLeastSquaresAlgorithm();
+            case LMLEASTSQUARESV3:
+                return new JavaLMLeastSquaresAlgorithmV3();
 
         }
         return null;

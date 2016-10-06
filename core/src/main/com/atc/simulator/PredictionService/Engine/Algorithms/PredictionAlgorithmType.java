@@ -12,5 +12,6 @@ public enum PredictionAlgorithmType {
     LINEAR2D,
     CURVILINEAR2D,
     CHRIS,
-    LMLEASTSQUARES
+    LMLEASTSQUARES,
+    LMLEASTSQUARESV3
 }
