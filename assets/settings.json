@@ -5,7 +5,7 @@
       "prediction-engine": {
         "algorithm-type": "LMLEASTSQUARESV3",
         "interpolation-transition-time": 180.0,
-        "java-worker-threads": 1
+        "java-worker-threads": 4
       },
       "debug-data-feed-client": {
         "port-number": 6989,

@@ -1,0 +1,1 @@
+python compare_results.py -a 7C7AA7 LMLEASTSQUARES_ec5d30404e731280a96a0199ee9558345a748a0e.json LMLEASTSQUARESV3_aaa289a1a15ed5dd99f73ffc49bffc3acdc929ef.json 

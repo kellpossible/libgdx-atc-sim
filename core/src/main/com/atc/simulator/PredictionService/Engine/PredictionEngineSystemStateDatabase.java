@@ -83,7 +83,7 @@ public class PredictionEngineSystemStateDatabase extends SystemStateDatabase imp
      */
     @Override
     public void onNewAircraft(SystemStateDatabase stateDatabase, String aircraftID) {
-
+        System.out.println("New Aircraft: " + aircraftID);
     }
 
     /**
