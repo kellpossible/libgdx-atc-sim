@@ -53,6 +53,53 @@ public class VelocityModel extends SimpleDisplayRenderableProvider {
 
         Prediction prediction = new JavaLinearAlgorithm().makePrediction(aircraft.getTrack());
 
+        Color lightGreen = new Color(Color.rgba8888(0f, 1f, 0f, 1f));
+        Color darkerGreen = new Color(Color.rgba8888(0f, 0.5f, 0.1f, 1f));
+
+        ArrayList<Vector3> lightGreenLines = new ArrayList<Vector3>();
+        ArrayList<Vector3> darkerGreenLines = new ArrayList<Vector3>();
+
+        ArrayList<AircraftState> states = prediction.getCentreTrack();
+
+
+        //start of prediction line is the current aircraft position.
+        AircraftState state = null;
+        Vector3 positionDrawVector = null;
+        lightGreenLines.add(aircraft.getPosition().getModelDrawVector(depthAdjustment));
+        state = states.get(0);
+        positionDrawVector = state.getPosition().getModelDrawVector(depthAdjustment);
+        lightGreenLines.add(positionDrawVector);
+
+        for(int i = 1; i+1 < states.size(); i+=2)
+        {
+            state = states.get(i);
+            positionDrawVector = state.getPosition().getModelDrawVector(depthAdjustment);
+            lightGreenLines.add(positionDrawVector);
+
+            state = states.get(i+1);
+            positionDrawVector = state.getPosition().getModelDrawVector(depthAdjustment);
+            lightGreenLines.add(positionDrawVector);
+        }
+
+        for(int i = 0; i+1 < states.size(); i+=2)
+        {
+            state = states.get(i);
+            positionDrawVector = state.getPosition().getModelDrawVector(depthAdjustment);
+            darkerGreenLines.add(positionDrawVector);
+
+            state = states.get(i+1);
+            positionDrawVector = state.getPosition().getModelDrawVector(depthAdjustment);
+            darkerGreenLines.add(positionDrawVector);
+        }
+
+        //start of prediction line is the current aircraft position.
+        lightGreenLines.add(aircraft.getPosition().getModelDrawVector(depthAdjustment));
+        for(int i = 0; i < states.size(); i+=2)
+        {
+            state = states.get(i);
+            positionDrawVector = state.getPosition().getModelDrawVector(depthAdjustment);
+            lightGreenLines.add(positionDrawVector);
+        }
 
         modelBuilder.begin();
         MeshPartBuilder builder = modelBuilder.part(
@@ -60,19 +107,25 @@ public class VelocityModel extends SimpleDisplayRenderableProvider {
                 GL20.GL_LINES,
                 VertexAttributes.Usage.Position | VertexAttributes.Usage.ColorUnpacked,
                 new Material());
-        builder.setColor(Color.GREEN);
+        builder.setColor(lightGreen);
 
-        ArrayList<AircraftState> states = prediction.getCentreTrack();
-
-        //start of prediction line is the current aircraft position.
-        Vector3 previousPositionDrawVector = aircraft.getPosition().getModelDrawVector(depthAdjustment);
-        for(int i = 0; i < states.size(); i++)
+        for (int i = 0; i+1 < lightGreenLines.size(); i+=2)
         {
-            AircraftState state = states.get(i);
-            Vector3 positionDrawVector = state.getPosition().getModelDrawVector(depthAdjustment);
-            builder.line(previousPositionDrawVector, positionDrawVector);
-            previousPositionDrawVector = positionDrawVector;
+            Vector3 p1 = lightGreenLines.get(i);
+            Vector3 p2 = lightGreenLines.get(i+1);
+            builder.line(p1, p2);
         }
+
+        builder.setColor(darkerGreen);
+
+        for (int i = 0; i+1 < darkerGreenLines.size(); i+=2)
+        {
+            Vector3 p1 = darkerGreenLines.get(i);
+            Vector3 p2 = darkerGreenLines.get(i+1);
+            builder.line(p1, p2);
+        }
+
+
 
         Model newModel = modelBuilder.end();
         ModelInstance modelInstance = new ModelInstance(newModel);
