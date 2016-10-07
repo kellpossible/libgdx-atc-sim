@@ -3,8 +3,6 @@ package com.atc.simulator.PredictionService.Engine;
 import com.atc.simulator.flightdata.SystemStateDatabase.SystemStateDatabase;
 import com.atc.simulator.flightdata.SystemStateDatabase.SystemStateDatabaseListener;
 import com.atc.simulator.flightdata.TimeSource;
-import com.sun.istack.internal.Nullable;
-
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,7 +33,6 @@ public class PredictionEngineSystemStateDatabase extends SystemStateDatabase imp
      * @param aircraftID aircraft track to get state for
      * @return Object containing the algorithm state
      */
-    @Nullable
     public Object getAlgorithmState(String aircraftID)
     {
         return algorithmStateMap.get(aircraftID);
