@@ -82,7 +82,7 @@ public class TestOpenCL {
                     4.31+i
             ));
 
-            PredictionWorkItem workItem = new PredictionWorkItem("test", track, PredictionAlgorithmType.PASSTHROUGH);
+            PredictionWorkItem workItem = new PredictionWorkItem("test", track, PredictionAlgorithmType.PASSTHROUGH, null);
 
             work.add(workItem);
 
