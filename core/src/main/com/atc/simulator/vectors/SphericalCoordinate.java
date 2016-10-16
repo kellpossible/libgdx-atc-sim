@@ -12,7 +12,7 @@ import pythagoras.d.Vector3;
  *
  * r (0 -> infinity)
  * theta (0 -> 2PI)
- * phi (-PI -> PI)
+ * phi (0 -> PI)
  *
  * @author Luke Frisken
  */
@@ -131,7 +131,7 @@ public class SphericalCoordinate extends Vector3 {
      * r (0 -> infinity)
      * theta (0 -> 2PI)
      * phi (0 -> PI)
-     *
+     * TODO: this looks kind of broken
      *
      * @return rectified SphericalCoordinate
      */
@@ -153,6 +153,11 @@ public class SphericalCoordinate extends Vector3 {
         if (z > Math.PI) {
             z = (TWOPI - z);
             y += Math.PI;
+        } else {
+            if (z < 0) {
+                z = -(TWOPI + z);
+                y += Math.PI;
+            }
         }
 
         while (y > TWOPI) {

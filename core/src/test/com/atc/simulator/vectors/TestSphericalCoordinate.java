@@ -234,36 +234,117 @@ public class TestSphericalCoordinate {
         Assert.assertEquals(34.238,t3.getPhi(),0);
     }
 
+
     /**
-     * Tests Rectifying the bounds of a Spherical Coordinate.
-     * Status: Passes on all except Rectifying Phi.
+     * Test method rectifyBounds with coordinate that falls outside boundary
+     * @throws Exception
      */
-    @Test public void rectifyBounds() throws Exception
+    @Test public void rectifyBoundsOut1() throws Exception
     {
-        double rectify =  Math.PI * 2.0; //Equation used to rectify. 6.2831
-
-
-        SphericalCoordinate t1 = new SphericalCoordinate(1,2,3); // Does not need rectifying
-        t1.rectifyBounds();
-
-        Assert.assertEquals(1,t1.getR(),0.01);
-        Assert.assertEquals(2,t1.getTheta(),0.01);
-        Assert.assertEquals(3,t1.getPhi(),0.01);
-
-        SphericalCoordinate t2 = new SphericalCoordinate(-1,1,2); //Needs rectifying from R
-        t2.rectifyBounds();
-
-        Assert.assertEquals(-1,t2.getR(),0.01); // Negation of R
-        Assert.assertEquals(1,t2.getTheta(),0.01); // Theta + Pi, then Pi - Theta
-        Assert.assertEquals(2,t2.getPhi(),0.01);//Pi
-
-        SphericalCoordinate t4 = new SphericalCoordinate(1,2,14); //Needs Rectifying from Phi
-        t4.rectifyBounds();
-
-//        Assert.assertEquals(1,t4.getR(),0);
-//        Assert.assertEquals(2,t4.getTheta(),0);
-//        Assert.assertEquals(14,t4.getPhi(),0); // Phi - 2*Pi = 7.71681469282, - 2*Pi = 1.43362938564 FAILS
+        GeographicCoordinate gc = GeographicCoordinate.fromDegrees(0, 30.0, -185);
+        GeographicCoordinate rectified = new GeographicCoordinate(gc.rectifyBounds());
+        GeographicCoordinate expected = GeographicCoordinate.fromDegrees(0, 30.0, 175.0);
+        assertTrue(rectified.distance(expected) < 0.0001);
     }
+
+    /**
+     * Test method rectifyBounds with coordinate that falls outside boundary
+     * @throws Exception
+     */
+    @Test public void rectifyBoundsOut2() throws Exception
+    {
+        GeographicCoordinate gc = GeographicCoordinate.fromDegrees(0, 95, 5);
+        GeographicCoordinate rectified = new GeographicCoordinate(gc.rectifyBounds());
+        GeographicCoordinate expected = GeographicCoordinate.fromDegrees(0, 85.0, -175.0);
+        assertTrue(rectified.distance(expected) < 0.0001);
+    }
+
+    /**
+     * Test method rectifyBounds with coordinate that falls outside boundary
+     * @throws Exception
+     */
+    @Test public void rectifyBoundsOut3() throws Exception
+    {
+        GeographicCoordinate gc = GeographicCoordinate.fromDegrees(0, 95, -5);
+        GeographicCoordinate rectified = new GeographicCoordinate(gc.rectifyBounds());
+        GeographicCoordinate expected = GeographicCoordinate.fromDegrees(0, 85.0, 175.0);
+        assertTrue(rectified.distance(expected) < 0.0001);
+    }
+
+    /**
+     * Test method rectifyBounds with coordinate that falls outside boundary
+     * @throws Exception
+     */
+    @Test public void rectifyBoundsOut4() throws Exception
+    {
+        GeographicCoordinate gc = GeographicCoordinate.fromDegrees(0, 95, 175);
+        GeographicCoordinate rectified = new GeographicCoordinate(gc.rectifyBounds());
+        GeographicCoordinate expected = GeographicCoordinate.fromDegrees(0, 85.0, -5);
+        assertTrue(rectified.distance(expected) < 0.0001);
+    }
+
+    /**
+     * Test method rectifyBounds with coordinate that falls outside boundary
+     * @throws Exception
+     */
+    @Test public void rectifyBoundsOut5() throws Exception
+    {
+        GeographicCoordinate gc = GeographicCoordinate.fromDegrees(0, -95, 175);
+        GeographicCoordinate rectified = new GeographicCoordinate(gc.rectifyBounds());
+        GeographicCoordinate expected = GeographicCoordinate.fromDegrees(0, -85.0, -5);
+        assertTrue(rectified.distance(expected) < 0.0001);
+    }
+
+    /**
+     * Test method rectifyBounds with coordinate that falls outside boundary
+     * @throws Exception
+     */
+    @Test public void rectifyBoundsOut6() throws Exception
+    {
+        GeographicCoordinate gc = GeographicCoordinate.fromDegrees(0, -95, 185);
+        GeographicCoordinate rectified = new GeographicCoordinate(gc.rectifyBounds());
+        GeographicCoordinate expected = GeographicCoordinate.fromDegrees(0, -85.0, 5);
+        assertTrue(rectified.distance(expected) < 0.0001);
+    }
+
+    /**
+     * Test method rectifyBounds with coordinate that falls outside boundary
+     * @throws Exception
+     */
+    @Test public void rectifyBoundsOut7() throws Exception
+    {
+        GeographicCoordinate gc = GeographicCoordinate.fromDegrees(0, -95, -185);
+        GeographicCoordinate rectified = new GeographicCoordinate(gc.rectifyBounds());
+        GeographicCoordinate expected = GeographicCoordinate.fromDegrees(0, -85.0, -5);
+        assertTrue(rectified.distance(expected) < 0.0001);
+    }
+
+    /**
+     * Test method rectifyBounds with coordinate that falls outside boundary
+     * @throws Exception
+     */
+    @Test public void rectifyBoundsOut8() throws Exception
+    {
+        GeographicCoordinate gc = GeographicCoordinate.fromDegrees(0, 95, 185);
+        GeographicCoordinate rectified = new GeographicCoordinate(gc.rectifyBounds());
+        GeographicCoordinate expected = GeographicCoordinate.fromDegrees(0, 85.0, 5);
+        assertTrue(rectified.distance(expected) < 0.0001);
+    }
+
+    /**
+     * Test method rectifyBounds with coordinate that is inside boundary
+     * @throws Exception
+     */
+    @Test public void rectifyBoundsIn1() throws Exception
+    {
+        GeographicCoordinate gc = GeographicCoordinate.fromDegrees(0, -30, 5);
+        GeographicCoordinate rectified = new GeographicCoordinate(gc.rectifyBounds());
+        GeographicCoordinate expected = GeographicCoordinate.fromDegrees(0, -30, 5);
+        assertTrue(rectified.distance(expected) < 0.0001);
+    }
+
+
+
 
     /**
      * Tests returning the cartesian coordinates from the spherical coordinate.
