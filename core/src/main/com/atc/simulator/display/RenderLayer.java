@@ -1,7 +1,7 @@
 package com.atc.simulator.display;
 
-import com.atc.simulator.display.view.DisplayRenderable.DisplayRenderable;
-import com.atc.simulator.display.view.DisplayRenderable.GDXDisplayRenderable;
+import com.atc.simulator.display.view.display_renderable.DisplayRenderable;
+import com.atc.simulator.display.view.display_renderable.GDXDisplayRenderable;
 import com.atc.simulator.display.view.DisplayRenderableProvider;
 import com.atc.simulator.display.view.DisplayRenderableProviderListener;
 import com.atc.simulator.display.view.DisplayRenderableProviderMultiplexer;

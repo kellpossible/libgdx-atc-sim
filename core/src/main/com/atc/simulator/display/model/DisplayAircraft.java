@@ -2,7 +2,7 @@ package com.atc.simulator.display.model;
 
 import com.atc.simulator.display.LayerManager;
 import com.atc.simulator.display.RenderLayer;
-import com.atc.simulator.display.view.ModelInstanceProviders.*;
+import com.atc.simulator.display.view.model_instance_providers.*;
 import com.atc.simulator.flightdata.AircraftState;
 import com.atc.simulator.flightdata.Track;
 import com.badlogic.gdx.utils.Disposable;

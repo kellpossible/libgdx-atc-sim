@@ -2,7 +2,7 @@ package com.atc.simulator.display.model;
 
 import com.atc.simulator.config.ApplicationConfig;
 import com.atc.simulator.debug_data_feed.scenarios.Scenario;
-import com.atc.simulator.display.view.ModelInstanceProviders.TracksModel;
+import com.atc.simulator.display.view.model_instance_providers.TracksModel;
 import com.atc.simulator.flightdata.Track;
 import com.badlogic.gdx.utils.Disposable;
 

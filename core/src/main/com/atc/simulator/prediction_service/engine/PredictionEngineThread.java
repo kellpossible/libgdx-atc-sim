@@ -1,10 +1,10 @@
 package com.atc.simulator.prediction_service.engine;
 
 import com.atc.simulator.config.ApplicationConfig;
-import com.atc.simulator.prediction_service.engine.Algorithms.Java.JavaPredictionAlgorithm;
-import com.atc.simulator.prediction_service.engine.Algorithms.PredictionAlgorithmType;
-import com.atc.simulator.prediction_service.engine.Workers.JavaPredictionWorkerThread;
-import com.atc.simulator.prediction_service.engine.Workers.PredictionWorkerThread;
+import com.atc.simulator.prediction_service.engine.algorithms.java.JavaPredictionAlgorithm;
+import com.atc.simulator.prediction_service.engine.algorithms.PredictionAlgorithmType;
+import com.atc.simulator.prediction_service.engine.workers.JavaPredictionWorkerThread;
+import com.atc.simulator.prediction_service.engine.workers.PredictionWorkerThread;
 import com.atc.simulator.prediction_service.PredictionFeedServerThread;
 import com.atc.simulator.flightdata.system_state_database.SystemStateDatabase;
 import com.atc.simulator.flightdata.system_state_database.SystemStateDatabaseListener;

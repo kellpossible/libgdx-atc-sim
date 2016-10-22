@@ -1,7 +1,7 @@
 package com.atc.simulator.prediction_service.engine;
 
-import com.atc.simulator.prediction_service.engine.Algorithms.PredictionAlgorithmType;
-import com.atc.simulator.prediction_service.engine.Workers.PredictionWorkerThread;
+import com.atc.simulator.prediction_service.engine.algorithms.PredictionAlgorithmType;
+import com.atc.simulator.prediction_service.engine.workers.PredictionWorkerThread;
 import com.atc.simulator.flightdata.Prediction;
 import com.atc.simulator.flightdata.Track;
 

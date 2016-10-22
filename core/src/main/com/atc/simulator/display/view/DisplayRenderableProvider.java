@@ -1,6 +1,6 @@
 package com.atc.simulator.display.view;
 
-import com.atc.simulator.display.view.DisplayRenderable.DisplayRenderable;
+import com.atc.simulator.display.view.display_renderable.DisplayRenderable;
 import com.badlogic.gdx.utils.Disposable;
 
 /**

@@ -1,6 +1,6 @@
 package com.atc.simulator.prediction_service.engine;
-import com.atc.simulator.prediction_service.engine.Algorithms.Java.JavaPredictionAlgorithm;
-import com.atc.simulator.prediction_service.engine.Algorithms.PredictionAlgorithmType;
+import com.atc.simulator.prediction_service.engine.algorithms.java.JavaPredictionAlgorithm;
+import com.atc.simulator.prediction_service.engine.algorithms.PredictionAlgorithmType;
 import com.atc.simulator.flightdata.SimulatorTrackLoader;
 import com.atc.simulator.flightdata.Track;
 import com.atc.simulator.flightdata.TrackLoader;

@@ -1,6 +1,6 @@
 package com.atc.simulator.display.model;
 
-import com.atc.simulator.display.view.ModelInstanceProviders.HudModel;
+import com.atc.simulator.display.view.model_instance_providers.HudModel;
 
 /**
  * @author Luke Frisken
