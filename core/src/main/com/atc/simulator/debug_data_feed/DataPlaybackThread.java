@@ -1,7 +1,7 @@
 package com.atc.simulator.debug_data_feed;
 
 import com.atc.simulator.config.ApplicationConfig;
-import com.atc.simulator.debug_data_feed.Scenarios.Scenario;
+import com.atc.simulator.debug_data_feed.scenarios.Scenario;
 import com.atc.simulator.RunnableThread;
 import com.atc.simulator.flightdata.SystemState;
 import com.atc.simulator.flightdata.TimeSource;

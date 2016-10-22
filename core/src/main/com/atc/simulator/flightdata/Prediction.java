@@ -3,7 +3,7 @@ package com.atc.simulator.flightdata;
 import com.atc.simulator.vectors.GeographicCoordinate;
 
 /**
- * Prediction is a simple data type, storing a list of AircraftStates that form a future prediction made by the Prediction Engine
+ * Prediction is a simple data type, storing a list of AircraftStates that form a future prediction made by the Prediction engine
  *
  * @author    Chris Coleman, Luke Frisken
  */

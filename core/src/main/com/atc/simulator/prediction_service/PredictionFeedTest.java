@@ -1,8 +1,8 @@
 package com.atc.simulator.prediction_service;
 
 import com.atc.simulator.display.PredictionFeedClientThread;
-import com.atc.simulator.prediction_service.Engine.PredictionEngineSystemStateDatabase;
-import com.atc.simulator.prediction_service.Engine.PredictionEngineThread;
+import com.atc.simulator.prediction_service.engine.PredictionEngineSystemStateDatabase;
+import com.atc.simulator.prediction_service.engine.PredictionEngineThread;
 import com.atc.simulator.flightdata.AircraftState;
 import com.atc.simulator.flightdata.TimeSource;
 import com.atc.simulator.vectors.GeographicCoordinate;

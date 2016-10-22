@@ -1,8 +1,8 @@
 package com.atc.simulator.debug_data_feed;
 import com.atc.simulator.display.PredictionFeedClientThread;
 import com.atc.simulator.prediction_service.DebugDataFeedClientThread;
-import com.atc.simulator.prediction_service.Engine.PredictionEngineSystemStateDatabase;
-import com.atc.simulator.prediction_service.Engine.PredictionEngineThread;
+import com.atc.simulator.prediction_service.engine.PredictionEngineSystemStateDatabase;
+import com.atc.simulator.prediction_service.engine.PredictionEngineThread;
 import com.atc.simulator.prediction_service.PredictionFeedServerThread;
 import com.atc.simulator.flightdata.AircraftState;
 import com.atc.simulator.flightdata.SystemState;
@@ -60,7 +60,7 @@ public class DebugServerTest
 
         PredictionEngineThread testEngine = new PredictionEngineThread(
                 testPredictionServer, systemStateDatabase, 1); //Must be after PredictionFeedServer
-        DebugDataFeedClientThread testDataClient = new DebugDataFeedClientThread(systemStateDatabase); //Must be after Engine
+        DebugDataFeedClientThread testDataClient = new DebugDataFeedClientThread(systemStateDatabase); //Must be after engine
         systemStateDatabase.addListener(testEngine);
 
         //Start the threads

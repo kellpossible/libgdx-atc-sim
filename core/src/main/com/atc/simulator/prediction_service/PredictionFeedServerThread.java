@@ -159,7 +159,7 @@ public class PredictionFeedServerThread implements RunnableThread{
      * Creates a new AircraftPredictionMessage. Is given a Prediction, takes the ID and Time, and then loops through
      * all the positions and builds GeographicCoordinateMessages. Once finished, wraps it all up nicely and places the
      * new message in the buffer, ready to be sent
-     * @param newPrediction : The prediction datatype created by the Engine
+     * @param newPrediction : The prediction datatype created by the engine
      */
     public synchronized void sendPrediction(Prediction newPrediction)
     {

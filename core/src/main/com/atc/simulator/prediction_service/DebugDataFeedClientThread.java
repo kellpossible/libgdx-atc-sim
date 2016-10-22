@@ -8,7 +8,7 @@ import com.atc.simulator.flightdata.SystemState;
 import com.atc.simulator.protocol_buffers.DebugDataFeedServe.*;
 import com.atc.simulator.vectors.GeographicCoordinate;
 import com.atc.simulator.vectors.SphericalVelocity;
-import com.atc.simulator.flightdata.SystemStateDatabase.SystemStateDatabase;
+import com.atc.simulator.flightdata.system_state_database.SystemStateDatabase;
 import java.net.*;
 import java.util.*;
 import java.io.*;

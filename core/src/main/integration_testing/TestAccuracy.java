@@ -1,7 +1,7 @@
 package integration_testing;
 
 import com.atc.simulator.config.ApplicationConfig;
-import com.atc.simulator.debug_data_feed.Scenarios.Scenario;
+import com.atc.simulator.debug_data_feed.scenarios.Scenario;
 import com.atc.simulator.display.PredictionFeedClientThread;
 import com.atc.simulator.display.PredictionListener;
 import com.atc.simulator.RunnableThread;
