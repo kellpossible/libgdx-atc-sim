@@ -1,7 +1,7 @@
 package com.atc.simulator.vectors;
 
-import com.atc.simulator.DebugDataFeed.Scenarios.ADSBRecordingScenario;
-import com.atc.simulator.DebugDataFeed.Scenarios.Scenario;
+import com.atc.simulator.debug_data_feed.Scenarios.ADSBRecordingScenario;
+import com.atc.simulator.debug_data_feed.Scenarios.Scenario;
 import com.atc.simulator.flightdata.AircraftState;
 import com.atc.simulator.flightdata.Track;
 import org.knowm.xchart.*;

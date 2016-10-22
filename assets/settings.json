@@ -16,7 +16,7 @@
       }
     },
     "debug-data-feed": {
-      "enabled": false,
+      "enabled": true,
       "server": {
         "port-number": 6989
       },

@@ -1,8 +1,5 @@
 package com.atc.simulator.flightdata.DelayedWork;
 
-import com.atc.simulator.Display.DisplayCameraListener;
-import com.badlogic.gdx.graphics.Camera;
-
 /**
  * Created by luke on 9/09/16.
  *
