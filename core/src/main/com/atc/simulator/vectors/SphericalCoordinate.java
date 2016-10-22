@@ -10,9 +10,9 @@ import pythagoras.d.Vector3;
  *
  * The normal range for the variables is as follows:
  *
- * r (0 -> infinity)
- * theta (0 -> 2PI)
- * phi (0 -> PI)
+ * r (0 -&gt; infinity)
+ * theta (0 -&gt; 2PI)
+ * phi (0 -&gt; PI)
  *
  * @author Luke Frisken
  */
@@ -100,7 +100,6 @@ public class SphericalCoordinate extends Vector3 {
 
     /**
      * Set the Theta Component
-     * @return
      */
     public void setTheta(double theta) {
         this.y = theta;
@@ -108,7 +107,7 @@ public class SphericalCoordinate extends Vector3 {
 
     /**
      * Get Phi Component
-     * @return
+     * @return the phi component
      */
     public double getPhi() {
         return this.z;
@@ -116,7 +115,6 @@ public class SphericalCoordinate extends Vector3 {
 
     /**
      * Set the Phi Component
-     * @return
      */
     public void setPhi(double phi) {
         this.z = phi;
@@ -128,9 +126,9 @@ public class SphericalCoordinate extends Vector3 {
      * which has the equivalent value, but is within the
      * normal boundary conditions:
      *
-     * r (0 -> infinity)
-     * theta (0 -> 2PI)
-     * phi (0 -> PI)
+     * r (0 -&gt; infinity)
+     * theta (0 -&gt; 2PI)
+     * phi (0 -&gt; PI)
      * TODO: this looks kind of broken
      *
      * @return rectified SphericalCoordinate

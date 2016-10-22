@@ -14,7 +14,7 @@ public interface SystemStateDatabaseListener {
      * whenever the SystemStateDatabase receives updated information.
      *
      * @param stateDatabase database which triggered this event
-     * @param aircraftIDs   of type ArrayList<String>
+     * @param aircraftIDs   of type ArrayList&lt;String&gt;
      */
     void onSystemStateUpdate(SystemStateDatabase stateDatabase, ArrayList<String> aircraftIDs);
 

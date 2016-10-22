@@ -76,14 +76,14 @@ public abstract class Scenario {
 
     /**
      * Get the projection reference position of the scenario
-     * @return
+     * @return the projection reference of this scenario
      */
     public abstract GeographicCoordinate getProjectionReference();
 
 
     /**
      * Get the current scenario instance
-     * @return
+     * @return the current scenario
      */
     public static Scenario getCurrentScenario()
     {
@@ -92,8 +92,7 @@ public abstract class Scenario {
 
     /**
      * Set the current scenario instance
-     * @param currentScenario
-     * @return
+     * @param currentScenario a scenario to set as the current scenario
      */
     public static void setCurrentScenario(Scenario currentScenario)
     {

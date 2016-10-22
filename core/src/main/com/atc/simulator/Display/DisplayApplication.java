@@ -94,12 +94,11 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
      * May have been better to subclass SystemStateDatabase...
      *
      * @author Luke Frisken
-     * @modified Chris Coleman, 14/9/16 - Added pause functionality
-     * Created on 6/09/16
+     * @author Chris Coleman
      */
     private class AircraftDatabase extends HashMap<String, DisplayAircraft> implements SystemStateDatabaseListener
     {
-        /** @see SystemStateDatabaseListener#onSystemStateUpdate(SystemStateDatabase, ArrayList<String>) */
+        /** @see SystemStateDatabaseListener#onSystemStateUpdate */
         @Override
         public void onSystemStateUpdate(SystemStateDatabase stateDatabase, ArrayList<String> aircraftIDs) {
 

@@ -64,7 +64,7 @@ public class PredictionEngineSystemStateDatabase extends SystemStateDatabase imp
      * whenever the SystemStateDatabase receives updated information.
      *
      * @param stateDatabase database which triggered this event
-     * @param aircraftIDs   of type ArrayList<String>
+     * @param aircraftIDs   of type ArrayList&lt;String&gt;
      */
     @Override
     public void onSystemStateUpdate(SystemStateDatabase stateDatabase, ArrayList<String> aircraftIDs) {

@@ -16,8 +16,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * Created by luke on 24/05/16.
  *
  * @author Luke Frisken
- * @modified Chris Coleman, 14/9/16 - Added pause functionality
- * @modified Chris Coleman, 27/9/16 - Added filtering of Planes by their "mode_s_code"
+ * @author Chris Coleman
  *
  */
 public class DataPlaybackThread implements RunnableThread, TimeSource {

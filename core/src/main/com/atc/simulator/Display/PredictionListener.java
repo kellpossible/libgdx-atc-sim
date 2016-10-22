@@ -6,7 +6,6 @@ import com.atc.simulator.flightdata.Prediction;
  * PredictionListener, simple interface that defines the ability for PredictionFeedClients to notify and update
  * listeners when new data arrives
  *
- * @
  * PUBLIC FEATURES:
  * // Methods
  *    onPredictionUpdate(Prediction)

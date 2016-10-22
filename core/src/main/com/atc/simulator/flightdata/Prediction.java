@@ -47,9 +47,9 @@ public class Prediction {
      * @param aircraftID of type String
      * @param time of type long. The time (in milliseconds since epoch) for the first predicted position.
      * @param aircraftState current aircraft state when this prediction was created
-     * @param leftTrack of type ArrayList<AircraftState>
-     * @param centreTrack of type ArrayList<AircraftState>
-     * @param rightTrack of type ArrayList<AircraftState>
+     * @param leftTrack of type ArrayList&lt;AircraftState&gt;
+     * @param centreTrack of type ArrayList&lt;AircraftState&gt;
+     * @param rightTrack of type ArrayList&lt;AircraftState&gt;
      */
     public Prediction(String aircraftID,
                       long time,

@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 /**
- * Modified by Chris, 30/05/16 -> Added the whole data->prediction->display feed through
+ * Modified by Chris, 30/05/16 -&gt; Added the whole data-&gt;prediction-&gt;display feed through
  */
 public class DebugServerTest
 {
@@ -26,7 +26,7 @@ public class DebugServerTest
         /**
          * Get the current time in milliseconds since epoch
          *
-         * @return
+         * @return current time in milliseconds
          */
         @Override
         public long getCurrentTime() {

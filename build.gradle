@@ -3,9 +3,9 @@ def javaVersion = JavaVersion.VERSION_1_7;
 // solution from here: http://stackoverflow.com/questions/28065488/how-to-enforce-a-java-compiler-version-with-gradle
 task enforceVersion << {
     def foundVersion = JavaVersion.current();
-    if (foundVersion != javaVersion)
-        throw new IllegalStateException("Wrong Java version; required is "
-                + javaVersion + ", but found " + foundVersion);
+//    if (foundVersion != javaVersion)
+//        throw new IllegalStateException("Wrong Java version; required is "
+//                + javaVersion + ", but found " + foundVersion);
 }
 
 buildscript {
@@ -115,6 +115,25 @@ task compileProtocolBuffers(type:Exec) {
   } else {
       commandLine './compileProtocolBuffers.sh'
   }
+}
+
+def exportedProjects= [
+        ":core",
+        ":desktop"
+]
+
+//Be sure to be located ALWAYS below of subprojects{}
+task alljavadoc(type: Javadoc, group: "Documentation") {
+    description = 'Generates a global javadoc from all the modules'
+    source exportedProjects.collect { project(it).sourceSets.main.allJava }
+    classpath = files(exportedProjects.collect { project(it).sourceSets.main.compileClasspath })
+    options.memberLevel = JavadocMemberLevel.PRIVATE
+    options.links 'http://docs.oracle.com/javase/8/docs/api/'
+    options.links 'http://docs.spring.io/spring/docs/current/javadoc-api/'
+    options.links 'https://developers.google.com/protocol-buffers/docs/reference/java/'
+    options.links 'https://libgdx.badlogicgames.com/nightlies/docs/api/'
+    options.links 'http://samskivert.github.io/pythagoras/apidocs/'
+    destinationDir = file("${buildDir}/docs/javadoc")
 }
 
 

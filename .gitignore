@@ -65,3 +65,6 @@ gradle-wrapper.properties
 
 ## Python
 *.pyc
+
+
+buildlog.txt

@@ -18,7 +18,6 @@ import java.util.Arrays;
  * PredictionFeedClientThread connects to and receives messages from a PredictionFeedServerThread, feeding the received messages onto its display
  * These messages are passed as PredictionFeedServe Protocol Buffers
  *
- * @
  * PUBLIC FEATURES:
  * // Constructors
  *    PredictionFeedClientThread()

@@ -48,7 +48,7 @@ public class LayerManager {
     /**
      * Method getModelInstanceCameraBatches returns the renderInstances of this LayerManager object.
      *
-     * @return the renderInstances (type Collection<ModelInstance>) of this LayerManager object.
+     * @return the renderInstances (type Collection&lt;ModelInstance&gt;) of this LayerManager object.
      */
     public Collection<CameraBatch> getRenderInstances()
     {

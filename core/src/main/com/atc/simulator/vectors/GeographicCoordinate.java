@@ -7,7 +7,7 @@ import pythagoras.d.Vector3;
  * See https://en.wikipedia.org/wiki/Geographic_coordinate_system
  *
  * @author Luke Frisken
- * @modified Chris Coleman 10/9/16
+ * @author Chris Coleman
  */
 public class GeographicCoordinate extends SphericalCoordinate
 {

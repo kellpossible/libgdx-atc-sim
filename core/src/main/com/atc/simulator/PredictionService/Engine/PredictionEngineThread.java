@@ -235,7 +235,7 @@ public class PredictionEngineThread implements RunnableThread, SystemStateDataba
      * whenever the SystemStateDatabase receives updated information.
      *
      * @param stateDatabase
-     * @param aircraftIDs   of type ArrayList<String>
+     * @param aircraftIDs   of type ArrayList&lt;String&gt;
      */
     @Override
     public void onSystemStateUpdate(SystemStateDatabase stateDatabase, ArrayList<String> aircraftIDs) {
