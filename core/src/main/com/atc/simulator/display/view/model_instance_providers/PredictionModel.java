@@ -95,6 +95,7 @@ public class PredictionModel extends SimpleDisplayRenderableProvider {
     @Override
     public void update()
     {
+        //switch between the different display methods
         switch(display.getPredictionDisplayMethod())
         {
             case WIREFRAME:
@@ -115,14 +116,14 @@ public class PredictionModel extends SimpleDisplayRenderableProvider {
         }
     }
 
-    public void updateHidden()
+    private void updateHidden()
     {
         super.update();
         setDisplayRenderable(new HiddenDisplayRenderable());
         return;
     }
 
-    public void updateTwoLine()
+    private void updateTwoLine()
     {
         super.update();
 
@@ -174,7 +175,7 @@ public class PredictionModel extends SimpleDisplayRenderableProvider {
     /**
      * Render the wireframe version of the prediction
      */
-    public void updateGradient()
+    private void updateGradient()
     {
         super.update();
 
@@ -329,7 +330,7 @@ public class PredictionModel extends SimpleDisplayRenderableProvider {
     /**
      * Render the wireframe version of the prediction
      */
-    public void updateWireframes()
+    private void updateWireframes()
     {
         super.update();
 

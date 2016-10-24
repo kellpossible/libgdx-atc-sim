@@ -17,6 +17,9 @@ import java.util.ArrayList;
 /**
  * Created by luke on 18/08/16.
  *
+ * An early iteration of implementing Levenberg-Marquadt least squares
+ * circle fitting prediction algorithm.
+ *
  * @author Luke Frisken
  */
 public class JavaLMLeastSquaresAlgorithm extends JavaPredictionAlgorithm {
