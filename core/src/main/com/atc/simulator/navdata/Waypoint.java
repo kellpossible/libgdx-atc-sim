@@ -20,7 +20,7 @@ public class Waypoint {
 
     /**
      * Get the position
-     * @return
+     * @return returns GeographicCoordinate of Position
      */
     public GeographicCoordinate getPosition() {
         return position;

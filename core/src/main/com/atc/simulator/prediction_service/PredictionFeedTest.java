@@ -25,7 +25,6 @@ public class PredictionFeedTest {
         /**
          * Get the current time in milliseconds since epoch
          *
-         * @return
          */
         @Override
         public long getCurrentTime() {

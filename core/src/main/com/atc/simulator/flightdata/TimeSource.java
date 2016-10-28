@@ -6,7 +6,6 @@ package com.atc.simulator.flightdata;
 public interface TimeSource {
     /**
      * Get the current time in milliseconds since epoch
-     * @return
      */
     long getCurrentTime();
 }

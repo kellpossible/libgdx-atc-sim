@@ -87,7 +87,7 @@ public class PredictionFeedClientThread implements RunnableThread {
      * Build a {@link Track} from a {@link PredictionFeedServe.Track} message
      * @param messageTrack
      * @param aircraftID
-     * @return
+     * @return A new track of aircraft states, or null.
      */
     private Track buildTrack(PredictionFeedServe.Track messageTrack, String aircraftID)
     {

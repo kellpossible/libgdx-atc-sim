@@ -39,7 +39,7 @@ public class CameraBatch extends HashMap<DisplayRenderableProvider, RenderablePr
 
     /**
      * Whether or not this camera batch has a shader
-     * @return
+     * @return if the batch has a shader.
      */
     public boolean hasShader()
     {
@@ -48,7 +48,7 @@ public class CameraBatch extends HashMap<DisplayRenderableProvider, RenderablePr
 
     /**
      * Get the shader to be used on this camera batch
-     * @return
+     * @return Shader is returned for use with the camera batch
      */
     public Shader getShader()
     {
@@ -58,7 +58,7 @@ public class CameraBatch extends HashMap<DisplayRenderableProvider, RenderablePr
 
     /**
      * Get the camera that will be rendering the objects in the batch
-     * @return
+     * @return gets the Camera
      */
     public Camera getCamera()
     {
@@ -67,7 +67,7 @@ public class CameraBatch extends HashMap<DisplayRenderableProvider, RenderablePr
 
     /**
      * Get the values contained in this batch.
-     * @return
+     * @return gets values contained in batch, Collection of renderableProviders
      */
     public Collection<RenderableProvider> gdxRenderableProviders()
     {

@@ -129,7 +129,7 @@ public class Countries {
 
     /**
      * Get the libgdx model of the countries.
-     * @return
+     * @return Model of countrie(s) been used.
      */
     public Model getModel()
     {

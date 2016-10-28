@@ -23,7 +23,7 @@ public abstract class SortableOrderedQueue<T extends Comparator<T>> extends Arra
     /**
      * Insert at the tail of the Queue
      * @param o
-     * @return
+     * @return returns boolean true.
      */
     @Override
     public boolean add(T o) {
@@ -119,7 +119,7 @@ public abstract class SortableOrderedQueue<T extends Comparator<T>> extends Arra
     /**
      * Add all items in the collection to the tail of the queue
      * @param collection
-     * @return
+     * @return Returns true if item has been added, if itunlocks it return false
      */
     public boolean addAll(ArrayList<T> collection) {
         lock.lock();
@@ -140,7 +140,7 @@ public abstract class SortableOrderedQueue<T extends Comparator<T>> extends Arra
     /**
      * Add all items in the collection the position specified
      * @param collection
-     * @return
+     * @return returns true or false depending if adding item successful
      */
     public boolean addAll(int i, ArrayList<T> collection) {
         lock.lock();
@@ -165,7 +165,6 @@ public abstract class SortableOrderedQueue<T extends Comparator<T>> extends Arra
 
     /**
      * Retrieves and removes the head of this queue, waiting if necessary until an element becomes available.
-     * @return
      */
     public T take()
     {
@@ -191,7 +190,6 @@ public abstract class SortableOrderedQueue<T extends Comparator<T>> extends Arra
      * Retrieves and removes the head of this queue, waiting up to the specified wait time if necessary for an element to become available.
      *
      * @param timeout
-     * @return
      */
     public T poll(long timeout)
     {
@@ -216,7 +214,6 @@ public abstract class SortableOrderedQueue<T extends Comparator<T>> extends Arra
 
     /**
      * Retrieves and removes the head of this queue, or returns null if this queue is currently empty.
-     * @return
      */
     public T poll()
     {
@@ -240,7 +237,6 @@ public abstract class SortableOrderedQueue<T extends Comparator<T>> extends Arra
 
     /**
      * Retrieves, but does not remove, the head of this queue, or returns null if this queue is empty.
-     * @return
      */
     public T peek() {
         lock.lock();
@@ -267,7 +263,6 @@ public abstract class SortableOrderedQueue<T extends Comparator<T>> extends Arra
 
     /**
      * Get the number of elements in this queue
-     * @return
      */
     public int size()
     {

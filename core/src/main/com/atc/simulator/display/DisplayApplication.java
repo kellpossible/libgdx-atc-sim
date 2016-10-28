@@ -221,7 +221,7 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
         /**
          * zoom event handler
          * @param amount
-         * @return
+         * @return If camera can zoom or not, boolean is returned.
          */
 		@Override
 		public boolean zoom(float amount)

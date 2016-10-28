@@ -62,7 +62,7 @@ public class SystemState {
 
     /**
      * Check to see if there are duplicate states contained in this SystemState.
-     * @return
+     * @return duplicates if found
      */
     public Collection<AircraftState> getDuplicatesById()
     {

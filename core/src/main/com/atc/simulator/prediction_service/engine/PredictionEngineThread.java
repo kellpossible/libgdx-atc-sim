@@ -78,7 +78,7 @@ public class PredictionEngineThread implements RunnableThread, SystemStateDataba
      * marks it as started, and then returns it to the worker who
      * requested it.
      * @param worker worker who is requesting this work item
-     * @return
+     * @return returns workItem to worker who requested it
      */
     public PredictionWorkItem startWorkItem(PredictionWorkerThread worker)
     {

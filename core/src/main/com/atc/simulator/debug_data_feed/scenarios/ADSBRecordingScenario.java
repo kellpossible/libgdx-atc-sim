@@ -311,7 +311,7 @@ public class ADSBRecordingScenario extends Scenario {
     /**
      * Get the projection reference position of the scenario
      *
-     * @return
+     * @return GeographicCoordinate based on reference position
      */
     @Override
     public GeographicCoordinate getProjectionReference() {

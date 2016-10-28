@@ -77,7 +77,7 @@ public class ADSBRealtimeScenario extends Scenario {
     /**
      * Get the projection reference position of the scenario
      *
-     * @return
+     * @return Geographical Coordinate based on reference position
      */
     @Override
     public GeographicCoordinate getProjectionReference() {

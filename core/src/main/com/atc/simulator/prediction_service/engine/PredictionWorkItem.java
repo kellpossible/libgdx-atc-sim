@@ -60,7 +60,7 @@ public class PredictionWorkItem implements Comparator<PredictionWorkItem>{
      * TODO: implment this!! before sorting the priorities
      * @param i0
      * @param i1
-     * @return
+     * @return int based on priority
      */
     @Override
     public int compare(PredictionWorkItem i0, PredictionWorkItem i1) {
