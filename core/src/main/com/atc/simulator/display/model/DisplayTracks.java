@@ -1,4 +1,4 @@
-package com.atc.simulator.display.model;
+package com.atc.simulator.Display.model;
 
 import com.atc.simulator.config.ApplicationConfig;
 import com.atc.simulator.debug_data_feed.scenarios.Scenario;
@@ -22,7 +22,7 @@ public class DisplayTracks implements Disposable {
 
     /**
      * Constructor for {@link DisplayTracks}
-     * @param tracks
+     * @param tracks The tracks to be displayed
      */
     public DisplayTracks(Scenario tracks)
     {
@@ -53,6 +53,7 @@ public class DisplayTracks implements Disposable {
     }
     /**
      * Return the current visibility of the Track Model
+     * @return whether the tracks are currently visible or not
      */
     public boolean isVisible(){return visibleModel;}
 
