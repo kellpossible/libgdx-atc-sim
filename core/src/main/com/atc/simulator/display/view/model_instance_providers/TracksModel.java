@@ -26,7 +26,7 @@ public class TracksModel extends SimpleDisplayRenderableProvider {
     private DisplayTracks myModel;
 
     /**
-     * Cnstructor of TracksModel
+     * Constructor of TracksModel
      * @param model scenario to grab tracks from.
      */
     public TracksModel(Camera camera, DisplayTracks model)

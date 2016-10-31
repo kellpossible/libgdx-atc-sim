@@ -70,8 +70,8 @@ public class Sphere implements Spheroid {
     /**
      * Get the radius of the spheroid at the given position.
      *
-     * @param pos
-     * @return
+     * @param pos Position of the spheroid
+     * @return Return the radius
      */
     @Override
     public double getRadius(SphericalCoordinate pos) {
@@ -81,7 +81,7 @@ public class Sphere implements Spheroid {
     /**
      * Get the average radius of the spheroid.
      *
-     * @return
+     * @return Average Radius of the spheroid
      */
     @Override
     public double getAverageRadius() {
@@ -90,9 +90,9 @@ public class Sphere implements Spheroid {
 
     /**
      * Uses euler integration to find the arc distance between two points.
-     * @param p1
-     * @param p2
-     * @return
+     * @param p1 First SphericalCoordinate
+     * @param p2 Second SphericalCoordinate
+     * @return  The arcDistance between the two points
      */
     public double arcDistance(SphericalCoordinate p1, SphericalCoordinate p2) {
         return arcDistanceEulerIntegrate(p1, p2, 4);
@@ -100,8 +100,8 @@ public class Sphere implements Spheroid {
 
     /**
      * Uses euler integration to find the arc distance between two points.
-     * @param p1
-     * @param p2
+     * @param p1 First SphericalCoordinate
+     * @param p2 Second SphericalCoordinate
      * @param stepsPerDegree number of integration steps per degree of angle between the two points.
      * @return
      */

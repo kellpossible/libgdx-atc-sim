@@ -521,8 +521,8 @@ public class DisplayApplication extends ApplicationAdapter implements DataPlayba
     /**
      * Allow resizing of the display window.
      * Compensate the camera for the changed window dimensions.
-     * @param width
-     * @param height
+     * @param width Desired width (pxl)
+     * @param height Desired height (pxl)
      */
     @Override
     public void resize(int width, int height)
