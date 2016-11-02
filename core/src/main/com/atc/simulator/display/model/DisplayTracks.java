@@ -1,4 +1,4 @@
-package com.atc.simulator.Display.model;
+package com.atc.simulator.display.model;
 
 import com.atc.simulator.config.ApplicationConfig;
 import com.atc.simulator.debug_data_feed.scenarios.Scenario;
