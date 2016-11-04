@@ -17,7 +17,7 @@
     },
     "prediction-service": {
       "prediction-engine": {
-        "algorithm-type": "LMLEASTSQUARES",
+        "algorithm-type": "LMLEASTSQUARESV3",
         "interpolation-transition-time": 180.0,
         "java-worker-threads": 4
       },
@@ -42,9 +42,9 @@
       "speed": 10
     },
     "display": {
-      "use-msaa": false,
+      "use-msaa": true,
       "msaa-samples": 8,
-      "prediction-display-method": "WIREFRAME",
+      "prediction-display-method": "GRADIENT",
       "show-tracks-default": true,
       "prediction-feed-client": {
         "port-number": 6789,
@@ -54,7 +54,7 @@
       "bonus-feature": false
     },
     "testing": {
-      "run-accuracy-daemon": true,
+      "run-accuracy-test": false,
       "save-csv": false,
       "save-json": true
     }
