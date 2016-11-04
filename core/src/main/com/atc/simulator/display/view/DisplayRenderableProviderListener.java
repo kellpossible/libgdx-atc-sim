@@ -3,7 +3,7 @@ package com.atc.simulator.display.view;
 import com.atc.simulator.display.view.display_renderable.DisplayRenderable;
 
 /**
- * A listener interface to allow objects to listen to model_instance_providers.
+ * A listener interface to allow objects to listen to DisplayRenderableProviders.
  * @author Luke Frisken
  */
 public interface DisplayRenderableProviderListener {
