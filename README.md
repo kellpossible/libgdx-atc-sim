@@ -24,3 +24,12 @@ Simulator](https://kellpossible.github.io/libgdx-atc-sim/Libgdx_ATC_Simulator/Li
 This repository also contains the documentation for the entire final year
 project project, which can be found online at [Aircraft Trajectory Prediction’s
 documentation](https://kellpossible.github.io/libgdx-atc-sim/index.html)
+
+## Subprojects
+
+A number of subprojects which were created as part of this final year project
+have also been placed in Github repositories.
+
+ + [java-vector-math-performance-test](https://github.com/kellpossible/java-vector-math-performance-test)
+ + [xplane-adsb-output](https://github.com/kellpossible/xplane-adsb-output)
+ + [gitea-issues-extended](https://github.com/kellpossible/gitea-issues-extended)

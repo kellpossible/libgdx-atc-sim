@@ -9,11 +9,27 @@ flight simulator <http://x-plane.com/>`_ to be downlinked directly to
 :doc:`../Libgdx_ATC_Simulator/Libgdx_ATC_Simulator` in place of the
 DebugDataFeed.
 
-This plugin was created to facilitate easy testing of the algorithm during developement
-in specific scenarios, and for generating specific realistic data for use in
-regression testing and potential optimization applications.
+This plugin was created to facilitate easy testing of the algorithm
+during developement in specific scenarios, and for generating specific
+realistic data for use in regression testing and potential
+optimization applications.
 
 .. _`xplane-adsb-output`: https://github.com/kellpossible/xplane-adsb-output
+
+Videos
+-------
+
+Some of this tool being used are available on YouTube.
+
+.. youtube:: U8mXVNskZf8
+	:width: 100%
+
+Testing with an f-22 fighter jet
+
+.. youtube:: oC8Hk0qTTlk
+	:width: 100%
+
+Testing with a Boeing 747
 
 Installation
 -------------

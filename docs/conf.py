@@ -34,6 +34,7 @@ extensions = [
     'sphinx.ext.ifconfig',
     'sphinxcontrib.plantuml',
     'sphinxcontrib.bibtex',
+    'sphinxcontrib.youtube',
     'javasphinx',
     'nbsphinx'
 ]

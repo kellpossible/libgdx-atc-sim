@@ -14,3 +14,4 @@ git+https://github.com/kellpossible/javasphinx#egg=javasphinx
 requests
 webcolors
 sphinxcontrib-plantuml
+git+https://github.com/sphinx-contrib/youtube
