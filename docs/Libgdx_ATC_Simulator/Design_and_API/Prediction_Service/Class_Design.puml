@@ -1,0 +1,53 @@
+@startuml
+
+package "Prediction Service" as PredictionService <<Node>> {
+  class DataFeedDecoder
+  class DebugDataFeedClientThread
+  class Cat62Decoder
+  class ADSBDecoder
+
+
+
+
+  class SystemStateDatabase {
+    +update(AircraftState)
+    +update(AircraftState[])
+    +getTrack(string aircraftID)
+  }
+
+  interface SystemStateDatabaseListener {
+    +systemStateUpdated(aircraftID[])
+  }
+
+  package Engine {
+    note as EngineN
+    This package contains the core prediction functionality of
+    the prediction service package. See the Engine documentation
+    for a more detailed diagram.
+    end note
+    class PredictionEngine
+    class PredictionEngineListener
+  }
+
+   PredictionEngine ..|> SystemStateDatabaseListener
+   SystemStateDatabase o-- SystemStateDatabaseListener
+
+
+
+  class PredictionFeedServer
+
+  PredictionFeedServer ..|> PredictionEngineListener
+
+  DebugDataFeedClientThread o-down- SystemStateDatabase
+  Cat62Decoder -down-|> DataFeedDecoder
+  ADSBDecoder -down-|> DataFeedDecoder
+  SystemStateDatabase -left-o PredictionEngine
+
+
+  DataFeedDecoder <|-right- DebugDataFeedClientThread
+
+
+}
+
+
+@enduml

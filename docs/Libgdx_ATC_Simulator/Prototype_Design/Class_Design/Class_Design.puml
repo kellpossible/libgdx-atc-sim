@@ -1,0 +1,339 @@
+@startuml
+
+package "pythagoras.d" {
+  class Vector3 {
+    +double x
+    +double y
+    +double z
+  }
+}
+
+package "PredictionLibrary" {
+  note as N
+  This package is a collection
+  of common classes used in both
+  the ATCSimulator and the
+  PredictionAlgorithm
+  end note
+
+  package "Vectors" {
+    class GeographicCoordinate {
+      +double getRadius()
+      +double getLatitude()
+      +double getLongitude()
+    }
+
+    class SphericalCoordinate {
+      +double getR()
+      +double getTheta()
+      +double getPhi()
+    }
+
+    class SphericalVelocity {
+      +double getDR()
+      +double getDTheta()
+      +double getDPhi()
+    }
+
+    class Projection {
+      +Vector3 transformPositionTo(GeographicCoordinate)
+      +GeographicCoordinate transformPositionFrom(Vector3)
+      +Vector3 transformVelocityTo(SphericalVelocity,GeographicCoordinate,Vector3)
+      +SphericalVelocity transformVelocityFrom(Vector3,GeographicCoordinate,Vector3)
+    }
+
+    class GnomonicProjection {
+
+    }
+
+    class Sphere {
+      +Sphere(double radius, Vector3 position)
+      +double getRadius()
+      +Vector3 getPosition()
+      +Vector3 intersect(Ray3)
+    }
+
+    class CircleSolver {
+      +Circle FromThreePoints(Vector3,Vector3,Vector3)
+    }
+
+    GnomonicProjection --|> Projection
+
+    GeographicCoordinate --|> SphericalCoordinate
+    SphericalCoordinate --|> Vector3
+    SphericalVelocity --|> Vector3
+  }
+
+  package "FlightData" {
+    class ISO8601
+
+    class Track {
+      TrackEntry[] trackEntries
+      String aircraftID
+    }
+
+    class Prediction {
+      GeographicCoordinate[]
+      Calendar time
+      String aircraftID
+    }
+
+    abstract class TrackLoader {
+      +Track load()
+    }
+
+    class SimulatorTrackLoader {
+      +SimulatorTrackLoader(fileName)
+      +Track load()
+    }
+
+    class ADSBTrackLoader {
+      +SimulatorTrackLoader(fileName)
+      +Track load()
+    }
+
+    class AircraftState {
+      +AircraftState(String aircraftID, GeographicCoordinate position,
+        SphericalVelocity velocity, float heading)
+      +setPosition(GeographicCoordinate)
+      +setVelocity(SphericalVelocity)
+      +setHeading(float heading)
+      +GeographicCoordinate getPosition()
+      +SphericalCoordinate getVelocity()
+      +float getHeading()
+    }
+
+    class SystemState {
+      Calendar time
+      AircraftState[] aircraftStates
+    }
+
+    abstract class SortableOrderedQueue {
+      +append(T)
+      +add(T)
+      +boolean addAll(ArrayList<T> collection)
+      +T poll()
+      +T peek()
+      +abstract void sort()
+    }
+
+    Track *-- AircraftState
+    TrackLoader -- Track
+    TrackLoader <|-- ADSBTrackLoader
+    TrackLoader <|-- SimulatorTrackLoader
+
+
+  }
+
+  package "NavData" {
+    class Airport
+    class Beacon
+    class DirectionalBeacon
+    class Fix
+    class ILS
+    class VOR
+    class Waypoint
+
+    Airport --|> Waypoint
+    Beacon --|> Waypoint
+    DirectionalBeacon --|> Waypoint
+    Fix --|> Waypoint
+    ILS --|> DirectionalBeacon
+    VOR --|> DirectionalBeacon
+  }
+}
+
+
+class ExternalCat62Server
+class ExternalADSBServer
+
+package "Prediction Service" as PredictionService <<Node>> {
+  class DataFeedDecoder
+  class DebugDataFeedClientThread  
+  class Cat62Decoder
+  class ADSBDecoder
+
+  package "Engine" as PredictionPackage {
+    package "Algorithms" as AlgorithmsPackage {
+      package "Java" as JavaAlgorithmsPackage {
+        class JavaPredictionAlgorithm {
+          +static JavaPredictionAlgorithm getInstance(PredictionAlgorithmType)
+          +abstract Prediction makePrediction(Track)
+        }
+        class JavaPassthroughAlgorithm
+        class JavaLinear2dAlgorithm
+        class JavaCurvilinear2dAlgorithm
+        class JavaLinearAlgorithm
+
+        JavaPredictionAlgorithm <|-- JavaPassthroughAlgorithm
+        JavaPredictionAlgorithm <|-- JavaLinear2dAlgorithm
+        JavaPredictionAlgorithm <|-- JavaCurvilinear2dAlgorithm
+        JavaPredictionAlgorithm <|-- JavaLinearAlgorithm
+      }
+
+      package "OpenCL" as OpenCLAlgorithmsPackage {
+        class OpenCLPredictionAlgorithm
+        class OpenCLUtils
+      }
+
+      enum PredictionAlgorithmType {
+
+      }
+
+      JavaPredictionAlgorithm o-- PredictionAlgorithmType
+      OpenCLPredictionAlgorithm o-- PredictionAlgorithmType
+
+    }
+
+    package "Workers" as WorkersPackage {
+      class PredictionWorkerThread {
+        PredictionWorkerThread(workerID, predictionEngine)
+        void start()
+      }
+      class JavaPredictionWorkerThread
+      class OpenCLPredictionWorkerThread
+
+      PredictionWorkerThread <|-- JavaPredictionWorkerThread
+      PredictionWorkerThread <|-- OpenCLPredictionWorkerThread
+    }
+
+    class PredictionWorkItem {
+      String aircraftID
+      Track aircraftTrack
+      Prediction prediction
+      Calendar timeCreated
+      Calendar timeStarted
+      Calendar timeCompleted
+      boolean started
+      boolean completed
+      PredictionWorker worker
+      PredictionAlgorithmType algorithmType
+    }
+
+    class PredictionEngine {
+      Queue<PredictionWorkItem> todoQueue
+      ArrayList<PredictionWorkItem> doingList
+    }
+
+    interface PredictionEngineListener {
+      +workItemOverdue(PredictionWorkItem)
+      +predictionComplete(Prediction)
+    }
+
+    PredictionWorkerThread o-- PredictionWorkItem
+    PredictionWorkerThread o-- PredictionEngine
+    PredictionWorkItem o-- PredictionWorkerThread
+    PredictionEngine *-- PredictionWorkItem
+    PredictionEngine o-- PredictionEngineListener
+  }
+
+  class SystemStateDatabase {
+    +update(AircraftState)
+    +update(AircraftState[])
+    +getTrack(string aircraftID)
+  }
+
+  interface SystemStateDatabaseListener {
+    +systemStateUpdated(aircraftID[])
+  }
+
+   PredictionEngine ..|> SystemStateDatabaseListener
+   SystemStateDatabase o-- SystemStateDatabaseListener
+
+
+
+  class PredictionFeedServer
+
+  PredictionFeedServer ..|> PredictionEngineListener
+
+  DebugDataFeedClientThread o-down- SystemStateDatabase
+  Cat62Decoder -down-|> DataFeedDecoder
+  ADSBDecoder -down-|> DataFeedDecoder
+  SystemStateDatabase -left-o PredictionEngine
+
+
+  DataFeedDecoder <|-right- DebugDataFeedClientThread
+
+}
+
+
+package Display {
+  class PredictionFeedDecoder
+  class Display
+
+  PredictionFeedDecoder --o Display
+}
+
+package IntegrationTesting {
+  class TestAccuracy
+}
+
+
+package DebugDataFeed {
+
+  abstract class Scenario {
+    Calendar startTime
+    Calendar endTime
+    +SystemState getState(Calendar time)
+  }
+
+  class DataPlaybackThread {
+    -DataPlaybackListener[] listeners
+    +DataPlaybackThread(Scenario scenario, int rate)
+    +addListener(DataPlaybackListener)
+    +removeListener(DataPlaybackListener)
+    +public void run()
+    +public void start()
+  }
+
+  interface DataPlaybackListener {
+    +void onSystemUpdate(SystemState)
+  }
+
+  class DebugDataFeedServer
+
+  Scenario --o DataPlaybackThread
+  DataPlaybackThread o-- DataPlaybackListener
+  DebugDataFeedServer ..|> DataPlaybackListener
+}
+
+class "DebugDataFeed Request Protocol Buffer" as DebugDataFeedRequestProtocolBuffer {
+
+}
+
+class "DebugDataFeed Serve Protocol Buffer" as DebugDataFeedServeProtocolBuffer {
+  double aircraftPosition[3]
+  float aircraftSpeed
+
+
+}
+
+DebugDataFeedServer -down->DebugDataFeedClientThread
+DebugDataFeedServer <-up- DebugDataFeedClientThread
+(DebugDataFeedServer, DebugDataFeedClientThread) .. DebugDataFeedRequestProtocolBuffer
+(DebugDataFeedServer, DebugDataFeedClientThread) .. DebugDataFeedServeProtocolBuffer
+
+class "PredictionFeed Serve Protocol Buffer" as PredictionFeedServeProtocolBuffer {
+
+}
+
+class "PredictionFeed Request Protocol Buffer" as PredictionFeedRequestProtocolBuffer {
+
+}
+
+PredictionFeedServer -down-> PredictionFeedDecoder
+PredictionFeedServer <-up- PredictionFeedDecoder
+(PredictionFeedServer, PredictionFeedDecoder) .. PredictionFeedRequestProtocolBuffer
+(PredictionFeedServer, PredictionFeedDecoder) .. PredictionFeedServeProtocolBuffer
+
+
+PredictionFeedServer -down-> TestAccuracy
+
+ExternalCat62Server -down-> Cat62Decoder
+ExternalCat62Server <-down- Cat62Decoder
+
+ExternalADSBServer -down-> ADSBDecoder
+ExternalADSBServer <-down- ADSBDecoder
+
+
+@enduml

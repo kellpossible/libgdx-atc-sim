@@ -1,0 +1,471 @@
+@startuml
+abstract class com.atc.simulator.debug_data_feed.scenarios.Scenario
+abstract class com.atc.simulator.display.view.display_renderable.DisplayRenderable
+abstract class com.atc.simulator.display.view.model_instance_providers.SimpleDisplayRenderableProvider
+abstract class com.atc.simulator.flightdata.SortableOrderedQueue
+abstract class com.atc.simulator.flightdata.TrackLoader
+abstract class com.atc.simulator.flightdata.delayed_work.DelayedWorkQueueItemType
+abstract class com.atc.simulator.prediction_service.engine.algorithms.java.JavaPredictionAlgorithm
+abstract class com.atc.simulator.prediction_service.engine.workers.PredictionWorkerThread
+abstract class com.atc.simulator.vectors.Projection
+class com.atc.simulator.config.ApplicationConfig
+class com.atc.simulator.debug_data_feed.DataPlaybackThread
+class com.atc.simulator.debug_data_feed.DebugDataFeedServerThread
+class com.atc.simulator.debug_data_feed.DebugServerTest
+class com.atc.simulator.debug_data_feed.scenarios.ADSBRealtimeScenario
+class com.atc.simulator.debug_data_feed.scenarios.ADSBRecordingScenario
+class com.atc.simulator.debug_data_feed.scenarios.YMMLtoYSCBScenario
+class com.atc.simulator.desktop.DesktopLauncher
+class com.atc.simulator.display.ApplicationAdapter
+class com.atc.simulator.display.CameraBatch
+class com.atc.simulator.display.DisplayApplication
+class com.atc.simulator.display.LayerManager
+class com.atc.simulator.display.PredictionFeedClientThread
+class com.atc.simulator.display.RenderLayer
+class com.atc.simulator.display.model.Display
+class com.atc.simulator.display.model.DisplayAircraft
+class com.atc.simulator.display.model.DisplayHud
+class com.atc.simulator.display.model.DisplayPrediction
+class com.atc.simulator.display.model.DisplayTracks
+class com.atc.simulator.display.view.bitmap_text.BitmapText
+class com.atc.simulator.display.view.display_renderable.GDXDisplayRenderable
+class com.atc.simulator.display.view.display_renderable.HiddenDisplayRenderable
+class com.atc.simulator.display.view.model_instance_providers.AircraftDotModel
+class com.atc.simulator.display.view.model_instance_providers.AircraftInfoModel
+class com.atc.simulator.display.view.model_instance_providers.AircraftModel
+class com.atc.simulator.display.view.model_instance_providers.BreadCrumbModel
+class com.atc.simulator.display.view.model_instance_providers.HudModel
+class com.atc.simulator.display.view.model_instance_providers.PredictionModel
+class com.atc.simulator.display.view.model_instance_providers.TracksModel
+class com.atc.simulator.display.view.model_instance_providers.VelocityModel
+class com.atc.simulator.display.view.model_instance_providers.WorldMapModel
+class com.atc.simulator.display.view.shaders.BonusShader
+class com.atc.simulator.display.view.shaders.PredictionShader
+class com.atc.simulator.display.view.shapes.TrackLineMeshBuilder
+class com.atc.simulator.display.view.vector_text.FloatGlyph
+class com.atc.simulator.display.view.vector_text.Glyph
+class com.atc.simulator.display.view.vector_text.HersheyFont
+class com.atc.simulator.display.view.vector_text.HersheyFont.CharacterSet
+class com.atc.simulator.display.view.vector_text.HersheyText
+class com.atc.simulator.display.view.vector_text.TestGraphHersheyFont
+class com.atc.simulator.flightdata.AircraftState
+class com.atc.simulator.flightdata.AircraftStateTest
+class com.atc.simulator.flightdata.ArrayList
+class com.atc.simulator.flightdata.ISO8601
+class com.atc.simulator.flightdata.Prediction
+class com.atc.simulator.flightdata.RealTimeSource
+class com.atc.simulator.flightdata.SimulatorTrackLoader
+class com.atc.simulator.flightdata.SortableOrderedQueueTest
+class com.atc.simulator.flightdata.SystemState
+class com.atc.simulator.flightdata.Track
+class com.atc.simulator.flightdata.delayed_work.DelayedWorkBuffer
+class com.atc.simulator.flightdata.delayed_work.DelayedWorkQueue
+class com.atc.simulator.flightdata.delayed_work.DelayedWorkQueueItem
+class com.atc.simulator.flightdata.delayed_work.DelayedWorker
+class com.atc.simulator.flightdata.system_state_database.SystemStateDatabase
+class com.atc.simulator.flightdata.system_state_database.SystemStateDatabaseControllerThread
+class com.atc.simulator.navdata.Airport
+class com.atc.simulator.navdata.Beacon
+class com.atc.simulator.navdata.Countries
+class com.atc.simulator.navdata.DirectionalBeacon
+class com.atc.simulator.navdata.Fix
+class com.atc.simulator.navdata.ILS
+class com.atc.simulator.navdata.VOR
+class com.atc.simulator.navdata.Waypoint
+class com.atc.simulator.prediction_service.DebugDataFeedClientThread
+class com.atc.simulator.prediction_service.PredictionFeedServerThread
+class com.atc.simulator.prediction_service.PredictionFeedTest
+class com.atc.simulator.prediction_service.engine.AlgorithmPerformanceTest
+class com.atc.simulator.prediction_service.engine.PredictionEngineSystemStateDatabase
+class com.atc.simulator.prediction_service.engine.PredictionEngineThread
+class com.atc.simulator.prediction_service.engine.PredictionEngineTodoQueue
+class com.atc.simulator.prediction_service.engine.PredictionWorkItem
+class com.atc.simulator.prediction_service.engine.algorithms.TestOpenCL
+class com.atc.simulator.prediction_service.engine.algorithms.java.AlgorithmState
+class com.atc.simulator.prediction_service.engine.algorithms.java.JavaChrisAlgorithm1
+class com.atc.simulator.prediction_service.engine.algorithms.java.JavaCurvilinear2dAlgorithm
+class com.atc.simulator.prediction_service.engine.algorithms.java.JavaLMLeastSquaresAlgorithm
+class com.atc.simulator.prediction_service.engine.algorithms.java.JavaLMLeastSquaresAlgorithmV3
+class com.atc.simulator.prediction_service.engine.algorithms.java.JavaLinear2dAlgorithm
+class com.atc.simulator.prediction_service.engine.algorithms.java.JavaLinearAlgorithm
+class com.atc.simulator.prediction_service.engine.algorithms.java.JavaPassthroughAlgorithm
+class com.atc.simulator.prediction_service.engine.algorithms.opencl.OpenCLPredictionAlgorithm
+class com.atc.simulator.prediction_service.engine.algorithms.opencl.OpenCLUtils
+class com.atc.simulator.prediction_service.engine.workers.JavaPredictionWorkerThread
+class com.atc.simulator.prediction_service.engine.workers.OpenCLPredictionWorkerThread
+class com.atc.simulator.protocol_buffers.DebugDataFeedServe
+class com.atc.simulator.protocol_buffers.PredictionFeedServe
+class com.atc.simulator.vectors.CircleSolver
+class com.atc.simulator.vectors.GeographicCoordinate
+class com.atc.simulator.vectors.GnomonicProjection
+class com.atc.simulator.vectors.LineSolver
+class com.atc.simulator.vectors.PythagorasLibrary.AreaTest
+class com.atc.simulator.vectors.Sphere
+class com.atc.simulator.vectors.SphericalCoordinate
+class com.atc.simulator.vectors.SphericalVelocity
+class com.atc.simulator.vectors.TestCircleSolver
+class com.atc.simulator.vectors.TestGeographicCoordinate
+class com.atc.simulator.vectors.TestGnomonicProjection
+class com.atc.simulator.vectors.TestGraph3PointCircleSolver
+class com.atc.simulator.vectors.TestGraphGnomonicProjection
+class com.atc.simulator.vectors.TestGraphLeastSquaresCircleSolver
+class com.atc.simulator.vectors.TestGraphLineSolver
+class com.atc.simulator.vectors.TestLeastSquares
+class com.atc.simulator.vectors.TestSphere
+class com.atc.simulator.vectors.TestSphericalCoordinate
+class com.atc.simulator.vectors.TestSphericalVelocity
+enum com.atc.simulator.display.model.PredictionDisplayMethod
+enum com.atc.simulator.prediction_service.engine.algorithms.PredictionAlgorithmType
+interface com.atc.simulator.RunnableThread
+interface com.atc.simulator.debug_data_feed.DataPlaybackListener
+interface com.atc.simulator.display.DisplayCameraListener
+interface com.atc.simulator.display.PredictionListener
+interface com.atc.simulator.display.view.DisplayRenderableProvider
+interface com.atc.simulator.display.view.DisplayRenderableProviderListener
+interface com.atc.simulator.display.view.DisplayRenderableProviderMultiplexer
+interface com.atc.simulator.flightdata.TimeSource
+interface com.atc.simulator.flightdata.delayed_work.DelayedWorkBufferListener
+interface com.atc.simulator.flightdata.system_state_database.SystemStateDatabaseListener
+interface com.atc.simulator.prediction_service.engine.PredictionEngineListener
+interface com.atc.simulator.vectors.Spheroid
+com.atc.simulator.debug_data_feed.scenarios.Scenario ..> com.atc.simulator.flightdata.SystemState
+com.atc.simulator.debug_data_feed.scenarios.Scenario ..> com.atc.simulator.flightdata.Track
+com.atc.simulator.debug_data_feed.scenarios.Scenario ..> com.atc.simulator.vectors.GeographicCoordinate
+com.atc.simulator.display.view.model_instance_providers.SimpleDisplayRenderableProvider ..> com.atc.simulator.display.view.display_renderable.DisplayRenderable
+com.atc.simulator.display.view.model_instance_providers.SimpleDisplayRenderableProvider --|> com.atc.simulator.display.view.DisplayRenderableProvider
+com.atc.simulator.display.view.model_instance_providers.SimpleDisplayRenderableProvider ..> com.atc.simulator.display.view.DisplayRenderableProviderListener
+com.atc.simulator.flightdata.SortableOrderedQueue --|> com.atc.simulator.flightdata.ArrayList
+com.atc.simulator.prediction_service.engine.algorithms.java.JavaPredictionAlgorithm ..> com.atc.simulator.flightdata.Prediction
+com.atc.simulator.prediction_service.engine.algorithms.java.JavaPredictionAlgorithm ..> com.atc.simulator.flightdata.Track
+com.atc.simulator.prediction_service.engine.algorithms.java.JavaPredictionAlgorithm ..> com.atc.simulator.prediction_service.engine.algorithms.PredictionAlgorithmType
+com.atc.simulator.prediction_service.engine.workers.PredictionWorkerThread ..> com.atc.simulator.config.ApplicationConfig
+com.atc.simulator.prediction_service.engine.workers.PredictionWorkerThread ..> com.atc.simulator.prediction_service.engine.PredictionEngineThread
+com.atc.simulator.prediction_service.engine.workers.PredictionWorkerThread --|> com.atc.simulator.RunnableThread
+com.atc.simulator.config.ApplicationConfig ..> com.atc.simulator.vectors.GeographicCoordinate
+com.atc.simulator.debug_data_feed.DataPlaybackThread ..> com.atc.simulator.debug_data_feed.scenarios.Scenario
+com.atc.simulator.debug_data_feed.DataPlaybackThread ..> com.atc.simulator.config.ApplicationConfig
+com.atc.simulator.debug_data_feed.DataPlaybackThread ..> com.atc.simulator.flightdata.SystemState
+com.atc.simulator.debug_data_feed.DataPlaybackThread --|> com.atc.simulator.RunnableThread
+com.atc.simulator.debug_data_feed.DataPlaybackThread --|> com.atc.simulator.flightdata.TimeSource
+com.atc.simulator.debug_data_feed.DebugDataFeedServerThread ..> com.atc.simulator.config.ApplicationConfig
+com.atc.simulator.debug_data_feed.DebugDataFeedServerThread ..> com.atc.simulator.flightdata.AircraftState
+com.atc.simulator.debug_data_feed.DebugDataFeedServerThread ..> com.atc.simulator.flightdata.SystemState
+com.atc.simulator.debug_data_feed.DebugDataFeedServerThread ..> com.atc.simulator.vectors.GeographicCoordinate
+com.atc.simulator.debug_data_feed.DebugDataFeedServerThread ..> com.atc.simulator.vectors.SphericalVelocity
+com.atc.simulator.debug_data_feed.DebugDataFeedServerThread --|> com.atc.simulator.RunnableThread
+com.atc.simulator.debug_data_feed.DebugDataFeedServerThread --|> com.atc.simulator.debug_data_feed.DataPlaybackListener
+com.atc.simulator.debug_data_feed.DebugServerTest ..> com.atc.simulator.display.PredictionFeedClientThread
+com.atc.simulator.debug_data_feed.DebugServerTest ..> com.atc.simulator.flightdata.AircraftState
+com.atc.simulator.debug_data_feed.DebugServerTest ..> com.atc.simulator.flightdata.SystemState
+com.atc.simulator.debug_data_feed.DebugServerTest ..> com.atc.simulator.prediction_service.DebugDataFeedClientThread
+com.atc.simulator.debug_data_feed.DebugServerTest ..> com.atc.simulator.prediction_service.PredictionFeedServerThread
+com.atc.simulator.debug_data_feed.DebugServerTest ..> com.atc.simulator.prediction_service.engine.PredictionEngineSystemStateDatabase
+com.atc.simulator.debug_data_feed.DebugServerTest ..> com.atc.simulator.prediction_service.engine.PredictionEngineThread
+com.atc.simulator.debug_data_feed.DebugServerTest ..> com.atc.simulator.vectors.GeographicCoordinate
+com.atc.simulator.debug_data_feed.DebugServerTest ..> com.atc.simulator.vectors.SphericalVelocity
+com.atc.simulator.debug_data_feed.DebugServerTest ..> com.atc.simulator.flightdata.TimeSource
+com.atc.simulator.debug_data_feed.scenarios.ADSBRealtimeScenario --|> com.atc.simulator.debug_data_feed.scenarios.Scenario
+com.atc.simulator.debug_data_feed.scenarios.ADSBRealtimeScenario ..> com.atc.simulator.flightdata.AircraftState
+com.atc.simulator.debug_data_feed.scenarios.ADSBRealtimeScenario ..> com.atc.simulator.flightdata.SystemState
+com.atc.simulator.debug_data_feed.scenarios.ADSBRealtimeScenario ..> com.atc.simulator.flightdata.Track
+com.atc.simulator.debug_data_feed.scenarios.ADSBRealtimeScenario ..> com.atc.simulator.vectors.GeographicCoordinate
+com.atc.simulator.debug_data_feed.scenarios.ADSBRecordingScenario --|> com.atc.simulator.debug_data_feed.scenarios.Scenario
+com.atc.simulator.debug_data_feed.scenarios.ADSBRecordingScenario ..> com.atc.simulator.config.ApplicationConfig
+com.atc.simulator.debug_data_feed.scenarios.ADSBRecordingScenario ..> com.atc.simulator.flightdata.AircraftState
+com.atc.simulator.debug_data_feed.scenarios.ADSBRecordingScenario ..> com.atc.simulator.flightdata.ISO8601
+com.atc.simulator.debug_data_feed.scenarios.ADSBRecordingScenario ..> com.atc.simulator.flightdata.SystemState
+com.atc.simulator.debug_data_feed.scenarios.ADSBRecordingScenario ..> com.atc.simulator.flightdata.Track
+com.atc.simulator.debug_data_feed.scenarios.ADSBRecordingScenario ..> com.atc.simulator.vectors.GeographicCoordinate
+com.atc.simulator.debug_data_feed.scenarios.ADSBRecordingScenario ..> com.atc.simulator.vectors.SphericalCoordinate
+com.atc.simulator.debug_data_feed.scenarios.ADSBRecordingScenario ..> com.atc.simulator.vectors.SphericalVelocity
+com.atc.simulator.debug_data_feed.scenarios.YMMLtoYSCBScenario --|> com.atc.simulator.debug_data_feed.scenarios.Scenario
+com.atc.simulator.debug_data_feed.scenarios.YMMLtoYSCBScenario ..> com.atc.simulator.vectors.GeographicCoordinate
+com.atc.simulator.desktop.DesktopLauncher ..> com.atc.simulator.debug_data_feed.scenarios.Scenario
+com.atc.simulator.desktop.DesktopLauncher ..> com.atc.simulator.config.ApplicationConfig
+com.atc.simulator.desktop.DesktopLauncher ..> com.atc.simulator.debug_data_feed.DataPlaybackThread
+com.atc.simulator.desktop.DesktopLauncher ..> com.atc.simulator.debug_data_feed.DebugDataFeedServerThread
+com.atc.simulator.desktop.DesktopLauncher ..> com.atc.simulator.debug_data_feed.scenarios.ADSBRealtimeScenario
+com.atc.simulator.desktop.DesktopLauncher ..> com.atc.simulator.debug_data_feed.scenarios.ADSBRecordingScenario
+com.atc.simulator.desktop.DesktopLauncher ..> com.atc.simulator.display.DisplayApplication
+com.atc.simulator.desktop.DesktopLauncher ..> com.atc.simulator.display.PredictionFeedClientThread
+com.atc.simulator.desktop.DesktopLauncher ..> com.atc.simulator.flightdata.RealTimeSource
+com.atc.simulator.desktop.DesktopLauncher ..> com.atc.simulator.prediction_service.DebugDataFeedClientThread
+com.atc.simulator.desktop.DesktopLauncher ..> com.atc.simulator.prediction_service.PredictionFeedServerThread
+com.atc.simulator.desktop.DesktopLauncher ..> com.atc.simulator.prediction_service.engine.PredictionEngineSystemStateDatabase
+com.atc.simulator.desktop.DesktopLauncher ..> com.atc.simulator.prediction_service.engine.PredictionEngineThread
+com.atc.simulator.desktop.DesktopLauncher ..> com.atc.simulator.vectors.GeographicCoordinate
+com.atc.simulator.display.CameraBatch ..> com.atc.simulator.display.view.DisplayRenderableProvider
+com.atc.simulator.display.DisplayApplication ..> com.atc.simulator.debug_data_feed.scenarios.Scenario
+com.atc.simulator.display.DisplayApplication ..> com.atc.simulator.config.ApplicationConfig
+com.atc.simulator.display.DisplayApplication ..> com.atc.simulator.debug_data_feed.DataPlaybackThread
+com.atc.simulator.display.DisplayApplication --|> com.atc.simulator.display.ApplicationAdapter
+com.atc.simulator.display.DisplayApplication ..> com.atc.simulator.display.view.model_instance_providers.HudModel
+com.atc.simulator.display.DisplayApplication ..> com.atc.simulator.display.view.model_instance_providers.TracksModel
+com.atc.simulator.display.DisplayApplication ..> com.atc.simulator.display.view.model_instance_providers.WorldMapModel
+com.atc.simulator.display.DisplayApplication ..> com.atc.simulator.display.view.shaders.BonusShader
+com.atc.simulator.display.DisplayApplication ..> com.atc.simulator.display.view.shaders.PredictionShader
+com.atc.simulator.display.DisplayApplication ..> com.atc.simulator.flightdata.system_state_database.SystemStateDatabase
+com.atc.simulator.display.DisplayApplication --|> com.atc.simulator.debug_data_feed.DataPlaybackListener
+com.atc.simulator.display.DisplayApplication --|> com.atc.simulator.display.PredictionListener
+com.atc.simulator.display.DisplayApplication ..> com.atc.simulator.flightdata.system_state_database.SystemStateDatabaseListener
+com.atc.simulator.display.PredictionFeedClientThread ..> com.atc.simulator.config.ApplicationConfig
+com.atc.simulator.display.PredictionFeedClientThread ..> com.atc.simulator.flightdata.AircraftState
+com.atc.simulator.display.PredictionFeedClientThread ..> com.atc.simulator.flightdata.Prediction
+com.atc.simulator.display.PredictionFeedClientThread ..> com.atc.simulator.flightdata.Track
+com.atc.simulator.display.PredictionFeedClientThread ..> com.atc.simulator.protocol_buffers.PredictionFeedServe
+com.atc.simulator.display.PredictionFeedClientThread ..> com.atc.simulator.vectors.GeographicCoordinate
+com.atc.simulator.display.PredictionFeedClientThread ..> com.atc.simulator.vectors.SphericalVelocity
+com.atc.simulator.display.PredictionFeedClientThread --|> com.atc.simulator.RunnableThread
+com.atc.simulator.display.RenderLayer ..> com.atc.simulator.display.view.display_renderable.DisplayRenderable
+com.atc.simulator.display.RenderLayer ..> com.atc.simulator.display.view.display_renderable.GDXDisplayRenderable
+com.atc.simulator.display.RenderLayer ..> com.atc.simulator.display.view.DisplayRenderableProvider
+com.atc.simulator.display.RenderLayer ..> com.atc.simulator.display.view.DisplayRenderableProviderListener
+com.atc.simulator.display.RenderLayer ..> com.atc.simulator.display.view.DisplayRenderableProviderMultiplexer
+com.atc.simulator.display.model.Display ..> com.atc.simulator.flightdata.delayed_work.DelayedWorkQueueItemType
+com.atc.simulator.display.model.Display ..> com.atc.simulator.config.ApplicationConfig
+com.atc.simulator.display.model.Display ..> com.atc.simulator.display.LayerManager
+com.atc.simulator.display.model.Display ..> com.atc.simulator.flightdata.delayed_work.DelayedWorkQueueItem
+com.atc.simulator.display.model.Display ..> com.atc.simulator.flightdata.delayed_work.DelayedWorker
+com.atc.simulator.display.model.Display ..> com.atc.simulator.display.DisplayCameraListener
+com.atc.simulator.display.model.Display ..> com.atc.simulator.flightdata.TimeSource
+com.atc.simulator.display.model.DisplayAircraft ..> com.atc.simulator.display.LayerManager
+com.atc.simulator.display.model.DisplayAircraft ..> com.atc.simulator.display.RenderLayer
+com.atc.simulator.display.model.DisplayAircraft --|> com.atc.simulator.flightdata.AircraftState
+com.atc.simulator.display.model.DisplayAircraft ..> com.atc.simulator.flightdata.Track
+com.atc.simulator.display.model.DisplayHud ..> com.atc.simulator.display.view.model_instance_providers.HudModel
+com.atc.simulator.display.model.DisplayPrediction --|> com.atc.simulator.flightdata.Prediction
+com.atc.simulator.display.model.DisplayTracks ..> com.atc.simulator.debug_data_feed.scenarios.Scenario
+com.atc.simulator.display.model.DisplayTracks ..> com.atc.simulator.config.ApplicationConfig
+com.atc.simulator.display.model.DisplayTracks ..> com.atc.simulator.display.view.model_instance_providers.TracksModel
+com.atc.simulator.display.model.DisplayTracks ..> com.atc.simulator.flightdata.Track
+com.atc.simulator.display.view.display_renderable.GDXDisplayRenderable --|> com.atc.simulator.display.view.display_renderable.DisplayRenderable
+com.atc.simulator.display.view.display_renderable.HiddenDisplayRenderable --|> com.atc.simulator.display.view.display_renderable.DisplayRenderable
+com.atc.simulator.display.view.model_instance_providers.AircraftDotModel --|> com.atc.simulator.display.view.model_instance_providers.SimpleDisplayRenderableProvider
+com.atc.simulator.display.view.model_instance_providers.AircraftDotModel ..> com.atc.simulator.display.model.DisplayAircraft
+com.atc.simulator.display.view.model_instance_providers.AircraftDotModel ..> com.atc.simulator.display.view.display_renderable.GDXDisplayRenderable
+com.atc.simulator.display.view.model_instance_providers.AircraftDotModel ..> com.atc.simulator.vectors.GeographicCoordinate
+com.atc.simulator.display.view.model_instance_providers.AircraftDotModel --|> com.atc.simulator.display.DisplayCameraListener
+com.atc.simulator.display.view.model_instance_providers.AircraftInfoModel --|> com.atc.simulator.display.view.model_instance_providers.SimpleDisplayRenderableProvider
+com.atc.simulator.display.view.model_instance_providers.AircraftInfoModel ..> com.atc.simulator.display.model.Display
+com.atc.simulator.display.view.model_instance_providers.AircraftInfoModel ..> com.atc.simulator.display.model.DisplayAircraft
+com.atc.simulator.display.view.model_instance_providers.AircraftInfoModel ..> com.atc.simulator.display.view.display_renderable.GDXDisplayRenderable
+com.atc.simulator.display.view.model_instance_providers.AircraftInfoModel ..> com.atc.simulator.vectors.GeographicCoordinate
+com.atc.simulator.display.view.model_instance_providers.AircraftInfoModel --|> com.atc.simulator.display.DisplayCameraListener
+com.atc.simulator.display.view.model_instance_providers.AircraftModel ..> com.atc.simulator.display.model.Display
+com.atc.simulator.display.view.model_instance_providers.AircraftModel ..> com.atc.simulator.display.model.DisplayAircraft
+com.atc.simulator.display.view.model_instance_providers.AircraftModel ..> com.atc.simulator.display.view.DisplayRenderableProvider
+com.atc.simulator.display.view.model_instance_providers.AircraftModel --|> com.atc.simulator.display.view.DisplayRenderableProviderMultiplexer
+com.atc.simulator.display.view.model_instance_providers.BreadCrumbModel --|> com.atc.simulator.display.view.model_instance_providers.SimpleDisplayRenderableProvider
+com.atc.simulator.display.view.model_instance_providers.BreadCrumbModel ..> com.atc.simulator.display.model.DisplayAircraft
+com.atc.simulator.display.view.model_instance_providers.BreadCrumbModel ..> com.atc.simulator.display.view.display_renderable.GDXDisplayRenderable
+com.atc.simulator.display.view.model_instance_providers.BreadCrumbModel ..> com.atc.simulator.display.view.display_renderable.HiddenDisplayRenderable
+com.atc.simulator.display.view.model_instance_providers.BreadCrumbModel ..> com.atc.simulator.flightdata.Track
+com.atc.simulator.display.view.model_instance_providers.BreadCrumbModel ..> com.atc.simulator.vectors.GeographicCoordinate
+com.atc.simulator.display.view.model_instance_providers.BreadCrumbModel --|> com.atc.simulator.display.DisplayCameraListener
+com.atc.simulator.display.view.model_instance_providers.HudModel --|> com.atc.simulator.display.view.model_instance_providers.SimpleDisplayRenderableProvider
+com.atc.simulator.display.view.model_instance_providers.HudModel ..> com.atc.simulator.config.ApplicationConfig
+com.atc.simulator.display.view.model_instance_providers.HudModel ..> com.atc.simulator.display.model.Display
+com.atc.simulator.display.view.model_instance_providers.HudModel ..> com.atc.simulator.display.model.DisplayHud
+com.atc.simulator.display.view.model_instance_providers.HudModel ..> com.atc.simulator.display.view.display_renderable.GDXDisplayRenderable
+com.atc.simulator.display.view.model_instance_providers.HudModel ..> com.atc.simulator.display.view.vector_text.HersheyFont
+com.atc.simulator.display.view.model_instance_providers.HudModel ..> com.atc.simulator.display.view.vector_text.HersheyText
+com.atc.simulator.display.view.model_instance_providers.HudModel --|> com.atc.simulator.display.DisplayCameraListener
+com.atc.simulator.display.view.model_instance_providers.HudModel ..> com.atc.simulator.flightdata.TimeSource
+com.atc.simulator.display.view.model_instance_providers.PredictionModel --|> com.atc.simulator.display.view.model_instance_providers.SimpleDisplayRenderableProvider
+com.atc.simulator.display.view.model_instance_providers.PredictionModel ..> com.atc.simulator.config.ApplicationConfig
+com.atc.simulator.display.view.model_instance_providers.PredictionModel ..> com.atc.simulator.display.model.Display
+com.atc.simulator.display.view.model_instance_providers.PredictionModel ..> com.atc.simulator.display.model.DisplayAircraft
+com.atc.simulator.display.view.model_instance_providers.PredictionModel ..> com.atc.simulator.display.model.DisplayPrediction
+com.atc.simulator.display.view.model_instance_providers.PredictionModel ..> com.atc.simulator.display.view.display_renderable.GDXDisplayRenderable
+com.atc.simulator.display.view.model_instance_providers.PredictionModel ..> com.atc.simulator.display.view.display_renderable.HiddenDisplayRenderable
+com.atc.simulator.display.view.model_instance_providers.PredictionModel ..> com.atc.simulator.display.view.shapes.TrackLineMeshBuilder
+com.atc.simulator.display.view.model_instance_providers.PredictionModel ..> com.atc.simulator.flightdata.AircraftState
+com.atc.simulator.display.view.model_instance_providers.PredictionModel ..> com.atc.simulator.flightdata.Prediction
+com.atc.simulator.display.view.model_instance_providers.PredictionModel ..> com.atc.simulator.flightdata.Track
+com.atc.simulator.display.view.model_instance_providers.TracksModel --|> com.atc.simulator.display.view.model_instance_providers.SimpleDisplayRenderableProvider
+com.atc.simulator.display.view.model_instance_providers.TracksModel ..> com.atc.simulator.display.model.DisplayTracks
+com.atc.simulator.display.view.model_instance_providers.TracksModel ..> com.atc.simulator.display.view.display_renderable.GDXDisplayRenderable
+com.atc.simulator.display.view.model_instance_providers.TracksModel ..> com.atc.simulator.display.view.display_renderable.HiddenDisplayRenderable
+com.atc.simulator.display.view.model_instance_providers.TracksModel ..> com.atc.simulator.flightdata.AircraftState
+com.atc.simulator.display.view.model_instance_providers.TracksModel ..> com.atc.simulator.flightdata.Track
+com.atc.simulator.display.view.model_instance_providers.VelocityModel --|> com.atc.simulator.display.view.model_instance_providers.SimpleDisplayRenderableProvider
+com.atc.simulator.display.view.model_instance_providers.VelocityModel ..> com.atc.simulator.config.ApplicationConfig
+com.atc.simulator.display.view.model_instance_providers.VelocityModel ..> com.atc.simulator.display.model.DisplayAircraft
+com.atc.simulator.display.view.model_instance_providers.VelocityModel ..> com.atc.simulator.display.view.display_renderable.GDXDisplayRenderable
+com.atc.simulator.display.view.model_instance_providers.VelocityModel ..> com.atc.simulator.display.view.shapes.TrackLineMeshBuilder
+com.atc.simulator.display.view.model_instance_providers.VelocityModel ..> com.atc.simulator.flightdata.AircraftState
+com.atc.simulator.display.view.model_instance_providers.VelocityModel ..> com.atc.simulator.flightdata.Prediction
+com.atc.simulator.display.view.model_instance_providers.VelocityModel ..> com.atc.simulator.prediction_service.engine.algorithms.java.JavaLinearAlgorithm
+com.atc.simulator.display.view.model_instance_providers.VelocityModel ..> com.atc.simulator.vectors.GeographicCoordinate
+com.atc.simulator.display.view.model_instance_providers.WorldMapModel --|> com.atc.simulator.display.view.model_instance_providers.SimpleDisplayRenderableProvider
+com.atc.simulator.display.view.model_instance_providers.WorldMapModel ..> com.atc.simulator.display.view.display_renderable.GDXDisplayRenderable
+com.atc.simulator.display.view.model_instance_providers.WorldMapModel ..> com.atc.simulator.navdata.Countries
+com.atc.simulator.display.view.shapes.TrackLineMeshBuilder ..> com.atc.simulator.display.model.DisplayAircraft
+com.atc.simulator.display.view.shapes.TrackLineMeshBuilder ..> com.atc.simulator.flightdata.AircraftState
+com.atc.simulator.display.view.vector_text.HersheyFont ..> com.atc.simulator.display.view.vector_text.HersheyFont.CharacterSet
+com.atc.simulator.flightdata.AircraftState ..> com.atc.simulator.vectors.GeographicCoordinate
+com.atc.simulator.flightdata.AircraftState ..> com.atc.simulator.vectors.SphericalVelocity
+com.atc.simulator.flightdata.AircraftStateTest ..> com.atc.simulator.vectors.GeographicCoordinate
+com.atc.simulator.flightdata.Prediction ..> com.atc.simulator.vectors.GeographicCoordinate
+com.atc.simulator.flightdata.RealTimeSource --|> com.atc.simulator.flightdata.TimeSource
+com.atc.simulator.flightdata.SimulatorTrackLoader --|> com.atc.simulator.flightdata.TrackLoader
+com.atc.simulator.flightdata.SimulatorTrackLoader ..> com.atc.simulator.vectors.GeographicCoordinate
+com.atc.simulator.flightdata.SimulatorTrackLoader ..> com.atc.simulator.vectors.SphericalVelocity
+com.atc.simulator.flightdata.delayed_work.DelayedWorkQueue --|> com.atc.simulator.flightdata.SortableOrderedQueue
+com.atc.simulator.flightdata.delayed_work.DelayedWorkQueue --|> com.atc.simulator.flightdata.delayed_work.DelayedWorkBufferListener
+com.atc.simulator.flightdata.system_state_database.SystemStateDatabase ..> com.atc.simulator.flightdata.AircraftState
+com.atc.simulator.flightdata.system_state_database.SystemStateDatabase ..> com.atc.simulator.flightdata.SystemState
+com.atc.simulator.flightdata.system_state_database.SystemStateDatabase ..> com.atc.simulator.flightdata.Track
+com.atc.simulator.flightdata.system_state_database.SystemStateDatabase ..> com.atc.simulator.flightdata.TimeSource
+com.atc.simulator.navdata.Airport --|> com.atc.simulator.navdata.Waypoint
+com.atc.simulator.navdata.Airport ..> com.atc.simulator.vectors.GeographicCoordinate
+com.atc.simulator.navdata.Beacon --|> com.atc.simulator.navdata.Waypoint
+com.atc.simulator.navdata.Beacon ..> com.atc.simulator.vectors.GeographicCoordinate
+com.atc.simulator.navdata.Countries ..> com.atc.simulator.vectors.GeographicCoordinate
+com.atc.simulator.navdata.DirectionalBeacon --|> com.atc.simulator.navdata.Waypoint
+com.atc.simulator.navdata.DirectionalBeacon ..> com.atc.simulator.vectors.GeographicCoordinate
+com.atc.simulator.navdata.Fix --|> com.atc.simulator.navdata.Waypoint
+com.atc.simulator.navdata.Fix ..> com.atc.simulator.vectors.GeographicCoordinate
+com.atc.simulator.navdata.ILS --|> com.atc.simulator.navdata.DirectionalBeacon
+com.atc.simulator.navdata.ILS ..> com.atc.simulator.vectors.GeographicCoordinate
+com.atc.simulator.navdata.VOR --|> com.atc.simulator.navdata.DirectionalBeacon
+com.atc.simulator.navdata.VOR ..> com.atc.simulator.vectors.GeographicCoordinate
+com.atc.simulator.navdata.Waypoint ..> com.atc.simulator.vectors.GeographicCoordinate
+com.atc.simulator.prediction_service.DebugDataFeedClientThread ..> com.atc.simulator.config.ApplicationConfig
+com.atc.simulator.prediction_service.DebugDataFeedClientThread ..> com.atc.simulator.flightdata.AircraftState
+com.atc.simulator.prediction_service.DebugDataFeedClientThread ..> com.atc.simulator.flightdata.SystemState
+com.atc.simulator.prediction_service.DebugDataFeedClientThread ..> com.atc.simulator.flightdata.system_state_database.SystemStateDatabase
+com.atc.simulator.prediction_service.DebugDataFeedClientThread ..> com.atc.simulator.protocol_buffers.DebugDataFeedServe
+com.atc.simulator.prediction_service.DebugDataFeedClientThread ..> com.atc.simulator.vectors.GeographicCoordinate
+com.atc.simulator.prediction_service.DebugDataFeedClientThread ..> com.atc.simulator.vectors.SphericalVelocity
+com.atc.simulator.prediction_service.DebugDataFeedClientThread --|> com.atc.simulator.RunnableThread
+com.atc.simulator.prediction_service.DebugDataFeedClientThread ..> com.atc.simulator.debug_data_feed.DataPlaybackListener
+com.atc.simulator.prediction_service.PredictionFeedServerThread ..> com.atc.simulator.config.ApplicationConfig
+com.atc.simulator.prediction_service.PredictionFeedServerThread ..> com.atc.simulator.flightdata.AircraftState
+com.atc.simulator.prediction_service.PredictionFeedServerThread ..> com.atc.simulator.flightdata.Prediction
+com.atc.simulator.prediction_service.PredictionFeedServerThread ..> com.atc.simulator.flightdata.Track
+com.atc.simulator.prediction_service.PredictionFeedServerThread ..> com.atc.simulator.protocol_buffers.PredictionFeedServe
+com.atc.simulator.prediction_service.PredictionFeedServerThread ..> com.atc.simulator.vectors.GeographicCoordinate
+com.atc.simulator.prediction_service.PredictionFeedServerThread ..> com.atc.simulator.vectors.SphericalVelocity
+com.atc.simulator.prediction_service.PredictionFeedServerThread --|> com.atc.simulator.RunnableThread
+com.atc.simulator.prediction_service.PredictionFeedTest ..> com.atc.simulator.display.PredictionFeedClientThread
+com.atc.simulator.prediction_service.PredictionFeedTest ..> com.atc.simulator.flightdata.AircraftState
+com.atc.simulator.prediction_service.PredictionFeedTest ..> com.atc.simulator.prediction_service.engine.PredictionEngineSystemStateDatabase
+com.atc.simulator.prediction_service.PredictionFeedTest ..> com.atc.simulator.prediction_service.engine.PredictionEngineThread
+com.atc.simulator.prediction_service.PredictionFeedTest ..> com.atc.simulator.vectors.GeographicCoordinate
+com.atc.simulator.prediction_service.PredictionFeedTest ..> com.atc.simulator.vectors.SphericalVelocity
+com.atc.simulator.prediction_service.PredictionFeedTest ..> com.atc.simulator.flightdata.TimeSource
+com.atc.simulator.prediction_service.engine.AlgorithmPerformanceTest ..> com.atc.simulator.flightdata.TrackLoader
+com.atc.simulator.prediction_service.engine.AlgorithmPerformanceTest ..> com.atc.simulator.prediction_service.engine.algorithms.java.JavaPredictionAlgorithm
+com.atc.simulator.prediction_service.engine.AlgorithmPerformanceTest ..> com.atc.simulator.flightdata.SimulatorTrackLoader
+com.atc.simulator.prediction_service.engine.AlgorithmPerformanceTest ..> com.atc.simulator.flightdata.Track
+com.atc.simulator.prediction_service.engine.AlgorithmPerformanceTest ..> com.atc.simulator.prediction_service.engine.algorithms.PredictionAlgorithmType
+com.atc.simulator.prediction_service.engine.PredictionEngineSystemStateDatabase --|> com.atc.simulator.flightdata.system_state_database.SystemStateDatabase
+com.atc.simulator.prediction_service.engine.PredictionEngineSystemStateDatabase ..> com.atc.simulator.flightdata.TimeSource
+com.atc.simulator.prediction_service.engine.PredictionEngineSystemStateDatabase --|> com.atc.simulator.flightdata.system_state_database.SystemStateDatabaseListener
+com.atc.simulator.prediction_service.engine.PredictionEngineThread ..> com.atc.simulator.prediction_service.engine.algorithms.java.JavaPredictionAlgorithm
+com.atc.simulator.prediction_service.engine.PredictionEngineThread ..> com.atc.simulator.prediction_service.engine.workers.PredictionWorkerThread
+com.atc.simulator.prediction_service.engine.PredictionEngineThread ..> com.atc.simulator.config.ApplicationConfig
+com.atc.simulator.prediction_service.engine.PredictionEngineThread ..> com.atc.simulator.flightdata.Prediction
+com.atc.simulator.prediction_service.engine.PredictionEngineThread ..> com.atc.simulator.flightdata.Track
+com.atc.simulator.prediction_service.engine.PredictionEngineThread ..> com.atc.simulator.flightdata.system_state_database.SystemStateDatabase
+com.atc.simulator.prediction_service.engine.PredictionEngineThread ..> com.atc.simulator.prediction_service.PredictionFeedServerThread
+com.atc.simulator.prediction_service.engine.PredictionEngineThread ..> com.atc.simulator.prediction_service.engine.workers.JavaPredictionWorkerThread
+com.atc.simulator.prediction_service.engine.PredictionEngineThread ..> com.atc.simulator.prediction_service.engine.algorithms.PredictionAlgorithmType
+com.atc.simulator.prediction_service.engine.PredictionEngineThread --|> com.atc.simulator.RunnableThread
+com.atc.simulator.prediction_service.engine.PredictionEngineThread --|> com.atc.simulator.flightdata.system_state_database.SystemStateDatabaseListener
+com.atc.simulator.prediction_service.engine.PredictionEngineTodoQueue --|> com.atc.simulator.flightdata.SortableOrderedQueue
+com.atc.simulator.prediction_service.engine.PredictionWorkItem ..> com.atc.simulator.prediction_service.engine.workers.PredictionWorkerThread
+com.atc.simulator.prediction_service.engine.PredictionWorkItem ..> com.atc.simulator.flightdata.Prediction
+com.atc.simulator.prediction_service.engine.PredictionWorkItem ..> com.atc.simulator.flightdata.Track
+com.atc.simulator.prediction_service.engine.PredictionWorkItem ..> com.atc.simulator.prediction_service.engine.algorithms.PredictionAlgorithmType
+com.atc.simulator.prediction_service.engine.algorithms.TestOpenCL ..> com.atc.simulator.flightdata.AircraftState
+com.atc.simulator.prediction_service.engine.algorithms.TestOpenCL ..> com.atc.simulator.flightdata.Track
+com.atc.simulator.prediction_service.engine.algorithms.TestOpenCL ..> com.atc.simulator.prediction_service.engine.PredictionWorkItem
+com.atc.simulator.prediction_service.engine.algorithms.TestOpenCL ..> com.atc.simulator.prediction_service.engine.algorithms.opencl.OpenCLPredictionAlgorithm
+com.atc.simulator.prediction_service.engine.algorithms.TestOpenCL ..> com.atc.simulator.prediction_service.engine.algorithms.opencl.OpenCLUtils
+com.atc.simulator.prediction_service.engine.algorithms.TestOpenCL ..> com.atc.simulator.vectors.GeographicCoordinate
+com.atc.simulator.prediction_service.engine.algorithms.TestOpenCL ..> com.atc.simulator.vectors.SphericalVelocity
+com.atc.simulator.prediction_service.engine.algorithms.java.AlgorithmState ..> com.atc.simulator.flightdata.Prediction
+com.atc.simulator.prediction_service.engine.algorithms.java.JavaChrisAlgorithm1 ..> com.atc.simulator.debug_data_feed.scenarios.Scenario
+com.atc.simulator.prediction_service.engine.algorithms.java.JavaChrisAlgorithm1 --|> com.atc.simulator.prediction_service.engine.algorithms.java.JavaPredictionAlgorithm
+com.atc.simulator.prediction_service.engine.algorithms.java.JavaChrisAlgorithm1 ..> com.atc.simulator.flightdata.AircraftState
+com.atc.simulator.prediction_service.engine.algorithms.java.JavaChrisAlgorithm1 ..> com.atc.simulator.flightdata.Prediction
+com.atc.simulator.prediction_service.engine.algorithms.java.JavaChrisAlgorithm1 ..> com.atc.simulator.flightdata.Track
+com.atc.simulator.prediction_service.engine.algorithms.java.JavaChrisAlgorithm1 ..> com.atc.simulator.vectors.GeographicCoordinate
+com.atc.simulator.prediction_service.engine.algorithms.java.JavaChrisAlgorithm1 ..> com.atc.simulator.vectors.GnomonicProjection
+com.atc.simulator.prediction_service.engine.algorithms.java.JavaChrisAlgorithm1 ..> com.atc.simulator.vectors.SphericalVelocity
+com.atc.simulator.prediction_service.engine.algorithms.java.JavaCurvilinear2dAlgorithm ..> com.atc.simulator.debug_data_feed.scenarios.Scenario
+com.atc.simulator.prediction_service.engine.algorithms.java.JavaCurvilinear2dAlgorithm --|> com.atc.simulator.prediction_service.engine.algorithms.java.JavaPredictionAlgorithm
+com.atc.simulator.prediction_service.engine.algorithms.java.JavaCurvilinear2dAlgorithm ..> com.atc.simulator.flightdata.AircraftState
+com.atc.simulator.prediction_service.engine.algorithms.java.JavaCurvilinear2dAlgorithm ..> com.atc.simulator.flightdata.Prediction
+com.atc.simulator.prediction_service.engine.algorithms.java.JavaCurvilinear2dAlgorithm ..> com.atc.simulator.flightdata.Track
+com.atc.simulator.prediction_service.engine.algorithms.java.JavaCurvilinear2dAlgorithm ..> com.atc.simulator.vectors.CircleSolver
+com.atc.simulator.prediction_service.engine.algorithms.java.JavaCurvilinear2dAlgorithm ..> com.atc.simulator.vectors.GeographicCoordinate
+com.atc.simulator.prediction_service.engine.algorithms.java.JavaCurvilinear2dAlgorithm ..> com.atc.simulator.vectors.GnomonicProjection
+com.atc.simulator.prediction_service.engine.algorithms.java.JavaCurvilinear2dAlgorithm ..> com.atc.simulator.vectors.SphericalVelocity
+com.atc.simulator.prediction_service.engine.algorithms.java.JavaLMLeastSquaresAlgorithm ..> com.atc.simulator.debug_data_feed.scenarios.Scenario
+com.atc.simulator.prediction_service.engine.algorithms.java.JavaLMLeastSquaresAlgorithm --|> com.atc.simulator.prediction_service.engine.algorithms.java.JavaPredictionAlgorithm
+com.atc.simulator.prediction_service.engine.algorithms.java.JavaLMLeastSquaresAlgorithm ..> com.atc.simulator.flightdata.AircraftState
+com.atc.simulator.prediction_service.engine.algorithms.java.JavaLMLeastSquaresAlgorithm ..> com.atc.simulator.flightdata.Prediction
+com.atc.simulator.prediction_service.engine.algorithms.java.JavaLMLeastSquaresAlgorithm ..> com.atc.simulator.flightdata.Track
+com.atc.simulator.prediction_service.engine.algorithms.java.JavaLMLeastSquaresAlgorithm ..> com.atc.simulator.vectors.CircleSolver
+com.atc.simulator.prediction_service.engine.algorithms.java.JavaLMLeastSquaresAlgorithm ..> com.atc.simulator.vectors.GeographicCoordinate
+com.atc.simulator.prediction_service.engine.algorithms.java.JavaLMLeastSquaresAlgorithm ..> com.atc.simulator.vectors.GnomonicProjection
+com.atc.simulator.prediction_service.engine.algorithms.java.JavaLMLeastSquaresAlgorithm ..> com.atc.simulator.vectors.SphericalVelocity
+com.atc.simulator.prediction_service.engine.algorithms.java.JavaLMLeastSquaresAlgorithmV3 ..> com.atc.simulator.debug_data_feed.scenarios.Scenario
+com.atc.simulator.prediction_service.engine.algorithms.java.JavaLMLeastSquaresAlgorithmV3 --|> com.atc.simulator.prediction_service.engine.algorithms.java.JavaPredictionAlgorithm
+com.atc.simulator.prediction_service.engine.algorithms.java.JavaLMLeastSquaresAlgorithmV3 ..> com.atc.simulator.config.ApplicationConfig
+com.atc.simulator.prediction_service.engine.algorithms.java.JavaLMLeastSquaresAlgorithmV3 ..> com.atc.simulator.flightdata.AircraftState
+com.atc.simulator.prediction_service.engine.algorithms.java.JavaLMLeastSquaresAlgorithmV3 ..> com.atc.simulator.flightdata.Prediction
+com.atc.simulator.prediction_service.engine.algorithms.java.JavaLMLeastSquaresAlgorithmV3 ..> com.atc.simulator.flightdata.Track
+com.atc.simulator.prediction_service.engine.algorithms.java.JavaLMLeastSquaresAlgorithmV3 ..> com.atc.simulator.vectors.CircleSolver
+com.atc.simulator.prediction_service.engine.algorithms.java.JavaLMLeastSquaresAlgorithmV3 ..> com.atc.simulator.vectors.GeographicCoordinate
+com.atc.simulator.prediction_service.engine.algorithms.java.JavaLMLeastSquaresAlgorithmV3 ..> com.atc.simulator.vectors.GnomonicProjection
+com.atc.simulator.prediction_service.engine.algorithms.java.JavaLMLeastSquaresAlgorithmV3 ..> com.atc.simulator.vectors.SphericalVelocity
+com.atc.simulator.prediction_service.engine.algorithms.java.JavaLinear2dAlgorithm ..> com.atc.simulator.debug_data_feed.scenarios.Scenario
+com.atc.simulator.prediction_service.engine.algorithms.java.JavaLinear2dAlgorithm --|> com.atc.simulator.prediction_service.engine.algorithms.java.JavaPredictionAlgorithm
+com.atc.simulator.prediction_service.engine.algorithms.java.JavaLinear2dAlgorithm ..> com.atc.simulator.flightdata.AircraftState
+com.atc.simulator.prediction_service.engine.algorithms.java.JavaLinear2dAlgorithm ..> com.atc.simulator.flightdata.Prediction
+com.atc.simulator.prediction_service.engine.algorithms.java.JavaLinear2dAlgorithm ..> com.atc.simulator.flightdata.Track
+com.atc.simulator.prediction_service.engine.algorithms.java.JavaLinear2dAlgorithm ..> com.atc.simulator.vectors.GeographicCoordinate
+com.atc.simulator.prediction_service.engine.algorithms.java.JavaLinear2dAlgorithm ..> com.atc.simulator.vectors.GnomonicProjection
+com.atc.simulator.prediction_service.engine.algorithms.java.JavaLinear2dAlgorithm ..> com.atc.simulator.vectors.SphericalVelocity
+com.atc.simulator.prediction_service.engine.algorithms.java.JavaLinearAlgorithm --|> com.atc.simulator.prediction_service.engine.algorithms.java.JavaPredictionAlgorithm
+com.atc.simulator.prediction_service.engine.algorithms.java.JavaLinearAlgorithm ..> com.atc.simulator.flightdata.AircraftState
+com.atc.simulator.prediction_service.engine.algorithms.java.JavaLinearAlgorithm ..> com.atc.simulator.flightdata.Prediction
+com.atc.simulator.prediction_service.engine.algorithms.java.JavaLinearAlgorithm ..> com.atc.simulator.flightdata.Track
+com.atc.simulator.prediction_service.engine.algorithms.java.JavaLinearAlgorithm ..> com.atc.simulator.vectors.GeographicCoordinate
+com.atc.simulator.prediction_service.engine.algorithms.java.JavaLinearAlgorithm ..> com.atc.simulator.vectors.SphericalVelocity
+com.atc.simulator.prediction_service.engine.algorithms.java.JavaPassthroughAlgorithm --|> com.atc.simulator.prediction_service.engine.algorithms.java.JavaPredictionAlgorithm
+com.atc.simulator.prediction_service.engine.algorithms.java.JavaPassthroughAlgorithm ..> com.atc.simulator.config.ApplicationConfig
+com.atc.simulator.prediction_service.engine.algorithms.java.JavaPassthroughAlgorithm ..> com.atc.simulator.flightdata.AircraftState
+com.atc.simulator.prediction_service.engine.algorithms.java.JavaPassthroughAlgorithm ..> com.atc.simulator.flightdata.Prediction
+com.atc.simulator.prediction_service.engine.algorithms.java.JavaPassthroughAlgorithm ..> com.atc.simulator.flightdata.Track
+com.atc.simulator.prediction_service.engine.algorithms.java.JavaPassthroughAlgorithm ..> com.atc.simulator.vectors.GeographicCoordinate
+com.atc.simulator.prediction_service.engine.algorithms.opencl.OpenCLPredictionAlgorithm ..> com.atc.simulator.config.ApplicationConfig
+com.atc.simulator.prediction_service.engine.algorithms.opencl.OpenCLPredictionAlgorithm ..> com.atc.simulator.flightdata.AircraftState
+com.atc.simulator.prediction_service.engine.algorithms.opencl.OpenCLPredictionAlgorithm ..> com.atc.simulator.flightdata.Track
+com.atc.simulator.prediction_service.engine.algorithms.opencl.OpenCLPredictionAlgorithm ..> com.atc.simulator.prediction_service.engine.PredictionWorkItem
+com.atc.simulator.prediction_service.engine.workers.JavaPredictionWorkerThread ..> com.atc.simulator.prediction_service.engine.algorithms.java.JavaPredictionAlgorithm
+com.atc.simulator.prediction_service.engine.workers.JavaPredictionWorkerThread --|> com.atc.simulator.prediction_service.engine.workers.PredictionWorkerThread
+com.atc.simulator.prediction_service.engine.workers.JavaPredictionWorkerThread ..> com.atc.simulator.flightdata.Prediction
+com.atc.simulator.prediction_service.engine.workers.JavaPredictionWorkerThread ..> com.atc.simulator.flightdata.Track
+com.atc.simulator.prediction_service.engine.workers.JavaPredictionWorkerThread ..> com.atc.simulator.prediction_service.engine.PredictionEngineThread
+com.atc.simulator.prediction_service.engine.workers.JavaPredictionWorkerThread ..> com.atc.simulator.prediction_service.engine.PredictionWorkItem
+com.atc.simulator.prediction_service.engine.workers.OpenCLPredictionWorkerThread --|> com.atc.simulator.prediction_service.engine.workers.PredictionWorkerThread
+com.atc.simulator.prediction_service.engine.workers.OpenCLPredictionWorkerThread ..> com.atc.simulator.prediction_service.engine.PredictionEngineThread
+com.atc.simulator.prediction_service.engine.workers.OpenCLPredictionWorkerThread ..> com.atc.simulator.prediction_service.engine.PredictionWorkItem
+com.atc.simulator.vectors.GeographicCoordinate --|> com.atc.simulator.vectors.SphericalCoordinate
+com.atc.simulator.vectors.GnomonicProjection --|> com.atc.simulator.vectors.Projection
+com.atc.simulator.vectors.Sphere --|> com.atc.simulator.vectors.Spheroid
+com.atc.simulator.vectors.TestGraphGnomonicProjection ..> com.atc.simulator.debug_data_feed.scenarios.Scenario
+com.atc.simulator.vectors.TestGraphGnomonicProjection ..> com.atc.simulator.debug_data_feed.scenarios.ADSBRecordingScenario
+com.atc.simulator.vectors.TestGraphGnomonicProjection ..> com.atc.simulator.flightdata.AircraftState
+com.atc.simulator.vectors.TestGraphGnomonicProjection ..> com.atc.simulator.flightdata.Track
+com.atc.simulator.debug_data_feed.DataPlaybackListener ..> com.atc.simulator.flightdata.SystemState
+com.atc.simulator.display.PredictionListener ..> com.atc.simulator.flightdata.Prediction
+com.atc.simulator.display.view.DisplayRenderableProvider ..> com.atc.simulator.display.view.display_renderable.DisplayRenderable
+com.atc.simulator.display.view.DisplayRenderableProviderListener ..> com.atc.simulator.display.view.display_renderable.DisplayRenderable
+com.atc.simulator.prediction_service.engine.PredictionEngineListener ..> com.atc.simulator.flightdata.Prediction
+@enduml

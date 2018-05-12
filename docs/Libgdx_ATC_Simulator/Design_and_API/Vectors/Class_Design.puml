@@ -1,0 +1,51 @@
+@startuml
+
+package "Vectors" {
+  class GeographicCoordinate {
+    +double getRadius()
+    +double getLatitude()
+    +double getLongitude()
+  }
+
+  class SphericalCoordinate {
+    +double getR()
+    +double getTheta()
+    +double getPhi()
+  }
+
+  class SphericalVelocity {
+    +double getDR()
+    +double getDTheta()
+    +double getDPhi()
+  }
+
+  class Projection {
+    +Vector3 transformPositionTo(GeographicCoordinate)
+    +GeographicCoordinate transformPositionFrom(Vector3)
+    +Vector3 transformVelocityTo(SphericalVelocity,GeographicCoordinate,Vector3)
+    +SphericalVelocity transformVelocityFrom(Vector3,GeographicCoordinate,Vector3)
+  }
+
+  class GnomonicProjection {
+
+  }
+
+  class Sphere {
+    +Sphere(double radius, Vector3 position)
+    +double getRadius()
+    +Vector3 getPosition()
+    +Vector3 intersect(Ray3)
+  }
+
+  class CircleSolver {
+    +Circle FromThreePoints(Vector3,Vector3,Vector3)
+  }
+
+  GnomonicProjection --|> Projection
+
+  GeographicCoordinate --|> SphericalCoordinate
+  SphericalCoordinate --|> Vector3
+  SphericalVelocity --|> Vector3
+}
+
+@enduml

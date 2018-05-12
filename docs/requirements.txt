@@ -1,0 +1,16 @@
+sphinx
+sphinx_rtd_theme
+recommonmark
+sphinxcontrib-plantuml
+pygments-markdown-lexer
+flask
+flask-login
+flask-restful
+sphinxcontrib-bibtex
+nbsphinx
+ipython
+jupyter
+git+https://github.com/kellpossible/javasphinx#egg=javasphinx
+requests
+webcolors
+sphinxcontrib-plantuml

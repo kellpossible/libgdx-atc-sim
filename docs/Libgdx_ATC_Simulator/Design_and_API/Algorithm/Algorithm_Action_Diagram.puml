@@ -1,0 +1,85 @@
+@startuml
+start
+:Project coordinates into Gnomonic/Stereographic
+coordinate system;
+:Calculate centre circle offset amount using
+time since last state transition;
+
+partition TurnDetection {
+  if (Number of track points) then (n==3)
+    partition 3PointsDetection {
+      :Circle from 3 points
+      (perpendicular bisectors);
+    }
+  else (n!=3)
+    if (Number of track points) then (n>3)
+      partition MovingWindowDetection {
+        :Create Beta (guess circle) from start,
+        middle and end points of the moving window;
+        :Fit circle using Levenberg-Marquardt least squares
+        optimization onto the moving window of positions,
+        using the beta circle as starting values;
+      }
+    else (n<=3)
+      stop
+    endif
+  endif
+}
+partition TurnPrediction {
+  if (Circle radius within threshold?) then (yes)
+    partition CirclePrection {
+      :Calculate the offset centre circle;
+      :Calculate the angular velocities of the aircraft
+      as if it were travelling on these circles;
+      :Calculate turn direction (left or right);
+      if (Turn direction?) then (left)
+        :Set algorithm state = LEFT_TURN;
+      else (right)
+        :Set algorithm state = RIGHT_TURN;
+      endif
+
+      :For each prediction point in the number
+      of predictions to be made:;
+
+      fork
+      :Increment a time counter;
+      :Calculate angular distance around circle given the
+      angular velocity multiplied by the time counter;
+
+      if (angular distance is too great?) then (yes)
+        :Calculate predicted positions for centre and outside
+        circles using a linear prediction based off the
+        previous predicted position, and the change in time;
+      else (no)
+        :Calculate predicted positions on centre and outside circles
+        using the angular distance;
+      endif
+
+      :Check to see that the predictions are
+      physically plausible;
+
+      :Add predicted positions to the prediction tracks;
+
+      end fork
+
+    }
+  else (no)
+    partition LinearPrediction {
+      :Set algorithm state = STRAIGHT;
+
+      :For each prediction point in the number
+      of predictions to be made:;
+
+      fork
+      :Calculate predicted position using a linear prediction;
+      :Check prediction is physically plausible;
+      :Add predicted position to prediction tracks;
+      end fork
+    }
+  endif
+}
+
+:Create prediction using tracks, and return;
+
+stop
+@enduml

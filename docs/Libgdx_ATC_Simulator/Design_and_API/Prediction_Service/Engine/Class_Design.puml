@@ -1,0 +1,77 @@
+@startuml
+
+package "Engine" as PredictionPackage {
+  package "Algorithms" as AlgorithmsPackage {
+    package "Java" as JavaAlgorithmsPackage {
+      class JavaPredictionAlgorithm {
+        +static JavaPredictionAlgorithm getInstance(PredictionAlgorithmType)
+        +abstract Prediction makePrediction(Track)
+      }
+      class JavaPassthroughAlgorithm
+      class JavaLinear2dAlgorithm
+      class JavaCurvilinear2dAlgorithm
+      class JavaLinearAlgorithm
+
+      JavaPredictionAlgorithm <|-- JavaPassthroughAlgorithm
+      JavaPredictionAlgorithm <|-- JavaLinear2dAlgorithm
+      JavaPredictionAlgorithm <|-- JavaCurvilinear2dAlgorithm
+      JavaPredictionAlgorithm <|-- JavaLinearAlgorithm
+    }
+
+    package "OpenCL" as OpenCLAlgorithmsPackage {
+      class OpenCLPredictionAlgorithm
+      class OpenCLUtils
+    }
+
+    enum PredictionAlgorithmType {
+
+    }
+
+    JavaPredictionAlgorithm o-- PredictionAlgorithmType
+    OpenCLPredictionAlgorithm o-- PredictionAlgorithmType
+
+  }
+
+  package "Workers" as WorkersPackage {
+    class PredictionWorkerThread {
+      PredictionWorkerThread(workerID, predictionEngine)
+      void start()
+    }
+    class JavaPredictionWorkerThread
+    class OpenCLPredictionWorkerThread
+
+    PredictionWorkerThread <|-- JavaPredictionWorkerThread
+    PredictionWorkerThread <|-- OpenCLPredictionWorkerThread
+  }
+
+  class PredictionWorkItem {
+    String aircraftID
+    Track aircraftTrack
+    Prediction prediction
+    Calendar timeCreated
+    Calendar timeStarted
+    Calendar timeCompleted
+    boolean started
+    boolean completed
+    PredictionWorker worker
+    PredictionAlgorithmType algorithmType
+  }
+
+  class PredictionEngine {
+    Queue<PredictionWorkItem> todoQueue
+    ArrayList<PredictionWorkItem> doingList
+  }
+
+  interface PredictionEngineListener {
+    +workItemOverdue(PredictionWorkItem)
+    +predictionComplete(Prediction)
+  }
+
+  PredictionWorkerThread o-- PredictionWorkItem
+  PredictionWorkerThread o-- PredictionEngine
+  PredictionWorkItem o-- PredictionWorkerThread
+  PredictionEngine *-- PredictionWorkItem
+  PredictionEngine o-- PredictionEngineListener
+}
+
+@enduml

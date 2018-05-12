@@ -1,0 +1,62 @@
+@startuml
+class LoginUser {
+
+}
+
+class DatabaseItem {
+
+}
+
+DatabaseItem <|-- User
+class User {
+
+}
+
+DatabaseItem <|-- Label
+class Label {
+
+}
+
+DatabaseItem <|-- Milestone
+class Milestone {
+
+}
+
+DatabaseItem <|-- Issue
+class Issue {
+
+}
+
+IssuesDatabase *-- Issue
+IssuesDatabase *-- Milestone
+IssuesDatabase *-- User
+IssuesDatabase *-- Label
+IssuesDatabase o-- GogsAPI
+class IssuesDatabase {
+
+}
+
+class GogsAPI {
+
+}
+
+class Resource {
+
+}
+
+Resource <|-- GanttData
+class GanttData {
+
+}
+
+Resource <|-- GanttLinks
+class GanttLinks {
+
+}
+
+Resource <|-- GanttTask
+class GanttTask {
+
+}
+
+@enduml

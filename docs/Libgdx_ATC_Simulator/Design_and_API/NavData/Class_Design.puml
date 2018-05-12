@@ -1,0 +1,20 @@
+@startuml
+
+package "NavData" {
+  class Airport
+  class Beacon
+  class DirectionalBeacon
+  class Fix
+  class ILS
+  class VOR
+  class Waypoint
+
+  Airport --|> Waypoint
+  Beacon --|> Waypoint
+  DirectionalBeacon --|> Waypoint
+  Fix --|> Waypoint
+  ILS --|> DirectionalBeacon
+  VOR --|> DirectionalBeacon
+}
+
+@enduml

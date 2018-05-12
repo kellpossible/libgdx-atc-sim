@@ -1,0 +1,6 @@
+_build/*
+com/*
+generated/*
+*.pyc
+*.ipynb_checkpoints
+*.sublime-workspace

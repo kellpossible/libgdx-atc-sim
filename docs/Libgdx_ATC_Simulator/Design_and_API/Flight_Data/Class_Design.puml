@@ -1,0 +1,72 @@
+@startuml
+
+package "FlightData" {
+  class ISO8601
+
+  class Track {
+    TrackEntry[] trackEntries
+    String aircraftID
+  }
+
+  class Prediction {
+    GeographicCoordinate[]
+    Calendar time
+    String aircraftID
+  }
+
+  abstract class TrackLoader {
+    +Track load()
+  }
+
+  class SimulatorTrackLoader {
+    +SimulatorTrackLoader(fileName)
+    +Track load()
+  }
+
+  class ADSBTrackLoader {
+    +SimulatorTrackLoader(fileName)
+    +Track load()
+  }
+
+  class AircraftState {
+    +AircraftState(String aircraftID, GeographicCoordinate position,
+      SphericalVelocity velocity, float heading)
+    +setPosition(GeographicCoordinate)
+    +setVelocity(SphericalVelocity)
+    +setHeading(float heading)
+    +GeographicCoordinate getPosition()
+    +SphericalCoordinate getVelocity()
+    +float getHeading()
+  }
+
+  class SystemState {
+    Calendar time
+    AircraftState[] aircraftStates
+  }
+
+  abstract class SortableOrderedQueue {
+    +append(T)
+    +add(T)
+    +boolean addAll(ArrayList<T> collection)
+    +T poll()
+    +T peek()
+    +abstract void sort()
+  }
+
+  Track *-- AircraftState
+  TrackLoader -- Track
+  TrackLoader <|-- ADSBTrackLoader
+  TrackLoader <|-- SimulatorTrackLoader
+
+
+}
+
+package "pythagoras.d" {
+  class Vector3 {
+    +double x
+    +double y
+    +double z
+  }
+}
+
+@enduml

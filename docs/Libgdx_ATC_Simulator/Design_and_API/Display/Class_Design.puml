@@ -1,0 +1,112 @@
+@startuml
+
+package display <<Node>> {
+  package model {
+    note as DisplayModelNote
+    This package  all the Model (of MVC) data
+    for the display application.
+    end note
+    class Display
+    class DisplayAircraft
+    class DisplayHud
+    class DisplayPrediction
+    class DisplayTracks
+    class PredictionDisplayMethod
+
+    DisplayTracks --* Display
+    DisplayHud --* Display
+    DisplayPrediction --* DisplayAircraft
+  }
+
+  package view {
+    note as DisplayViewNote
+    This package  all views (of MVC) for
+    the display application.
+    end note
+    package vector_text {
+      note as VectorTextNote
+      This package contains the implementation for rendering
+      Hershey fonts as vectors. A bit of a fun side project
+      really, as a better result could probably be obtained
+      with bitmap fonts.
+      end note
+    }
+
+    package model_instance_providers {
+      note as ModelInstanceProvidersNote
+      This package contains all the renderable providers which render
+      items to the display.
+      end note
+      class AircraftDotModel
+      class AircraftInfoModel
+      class BreadCrumbModel
+      class HudModel
+      class PredictionModel
+      abstract class SimpleDisplayRenderableProvider
+      class TracksModel
+      class VelocityModel
+      class WorldMapModel
+
+      SimpleDisplayRenderableProvider ..|> DisplayRenderableProvider
+
+      WorldMapModel --|> SimpleDisplayRenderableProvider
+      AircraftInfoModel --|> SimpleDisplayRenderableProvider
+      BreadCrumbModel --|> SimpleDisplayRenderableProvider
+      HudModel --|> SimpleDisplayRenderableProvider
+      PredictionModel --|> SimpleDisplayRenderableProvider
+      TracksModel --|> SimpleDisplayRenderableProvider
+      VelocityModel --|> SimpleDisplayRenderableProvider
+      AircraftDotModel --|> SimpleDisplayRenderableProvider
+
+      WorldMapModel ..|> DisplayCameraListener
+      AircraftInfoModel ..|> DisplayCameraListener
+      BreadCrumbModel ..|> DisplayCameraListener
+      HudModel ..|> DisplayCameraListener
+      PredictionModel ..|> DisplayCameraListener
+      TracksModel ..|> DisplayCameraListener
+      VelocityModel ..|> DisplayCameraListener
+      AircraftDotModel ..|> DisplayCameraListener
+    }
+
+    package shaders {
+      note as ShadersNote
+      This package contains all the Display's OpenGL shaders.
+      end note
+    }
+
+    package shapes {
+      class TrackLineMeshBuilder
+    }
+
+    class DisplayRenderableProvider
+    class DisplayRenderableProviderListener
+    class DisplayRenderableProviderMultiplexer
+
+    SimpleDisplayRenderableProvider o-- DisplayRenderableProviderListener
+  }
+
+  class CameraBatch
+  class DisplayApplication
+  interface DisplayCameraListener
+  class LayerManager
+  class PredictionFeedClientThread
+  interface PredictionListener
+  class RenderLayer
+
+  DisplayAircraft --* DisplayApplication
+  LayerManager --* DisplayApplication
+  LayerManager --o Display
+  Display --* DisplayApplication
+  RenderLayer --* DisplayApplication
+  RenderLayer --o LayerManager
+  CameraBatch --* RenderLayer
+
+  DisplayRenderableProvider --o RenderLayer
+  DisplayRenderableProviderMultiplexer --o RenderLayer
+  RenderLayer ..|> DisplayRenderableProviderListener
+
+  DisplayApplication ..|> DataPlaybackListener
+  DisplayApplication ..|> PredictionListener
+}
+
+@enduml

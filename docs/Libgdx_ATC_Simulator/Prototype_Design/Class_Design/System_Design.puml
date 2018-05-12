@@ -1,0 +1,85 @@
+@startuml
+
+package "External Servers" as ExternalServers <<Node>> {
+  object ExternalCat62Server
+  object ExternalADSBServer
+}
+
+package "External ATC Display" as ExternalATCDisplayPackage <<Node>> {
+  object ExternalATCDisplay
+  object "PredictionFeedDecoder" as ExternalPredictionFeedDecoder
+
+  ExternalATCDisplay o-left- ExternalPredictionFeedDecoder
+}
+
+package "Prediction Service" as PredictionService <<Node>> {
+  note as N2
+  The prediction service contains
+  all the prototype algorithms.
+  It takes data feeds as inputs,
+  and prediction feeds to displays
+  are its outputs.
+  end note
+
+  object DebugDataFeedClientThread
+  object PredictionFeedServer
+  object Cat62Decoder
+  object ADSBDecoder
+}
+
+package "ATC Simulator" as ATCSimulator <<Node>> {
+  note as N1
+  The ATC Simulator serves as a test-bed for
+  the prediction service, providing all the
+  necessary inputs and outputs required
+  to perform integration testing on the
+  prediction service.
+  end note
+
+  package "Display" as DisplayPackage {
+    object PredictionFeedDecoder
+    object Display
+    note left of Display
+    The Display reads data from
+    a predection server, and displays
+    it. It also is capable of displaying
+    debug information directly from the
+    DebugDataFeed
+    end note
+
+    PredictionFeedDecoder --o Display
+  }
+
+  package "Debug Data Feed" as DebugDataFeedPackage {
+    object DebugDataFeed
+    object DebugDataFeedServer
+
+    DebugDataFeed o-- DebugDataFeedServer
+
+    note left of DebugDataFeedServer
+    The DataServer reads data
+    in from files and then
+    provides data in a stream
+    format
+    end note
+  }
+
+  Display --> DebugDataFeed
+  Display <-- DebugDataFeed
+
+}
+
+DebugDataFeedServer --> DebugDataFeedClientThread
+DebugDataFeedServer <-- DebugDataFeedClientThread
+
+PredictionFeedServer --> PredictionFeedDecoder
+PredictionFeedServer <-- PredictionFeedDecoder
+PredictionFeedServer --> ExternalPredictionFeedDecoder
+PredictionFeedServer <-- ExternalPredictionFeedDecoder
+ExternalCat62Server --> Cat62Decoder
+ExternalCat62Server <-- Cat62Decoder
+
+ExternalADSBServer --> ADSBDecoder
+ExternalADSBServer <-- ADSBDecoder
+
+@enduml

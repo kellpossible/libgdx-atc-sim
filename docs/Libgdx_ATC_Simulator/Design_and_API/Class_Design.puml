@@ -1,0 +1,119 @@
+@startuml
+
+package "PredictionLibrary" {
+  note as N
+  This package is a collection
+  of common classes used in both
+  the ATCSimulator and the
+  PredictionAlgorithm
+  end note
+
+  package Vectors {
+    note as N2
+    This package is related to vector math functionality
+    required for the software. See the Vectors package
+    documentation for a more detailed diagram.
+    end note
+
+  }
+
+  package NavData {
+    note as N3
+    This package contains the classes needed to represent
+    a navigation database. See the NavData package
+    documentation for a more detailed diagram.
+    end note
+  }
+}
+
+package "External Systems" as ExternalSystems <<Node>> {
+  class ExternalCat62Server
+  class ExternalADSBServer
+}
+
+
+!include Prediction_Service/Class_Design.puml
+
+package Display <<Node>> {
+  note as DisplayN
+  This package contains all the elements of the display.
+  See the Display documentation for a more detailed
+  diagram.
+  end note
+
+  class PredictionFeedClientThread
+}
+
+package IntegrationTesting {
+  class TestAccuracy
+}
+
+
+package DebugDataFeed <<Node>> {
+
+  abstract class Scenario {
+    Calendar startTime
+    Calendar endTime
+    +SystemState getState(Calendar time)
+  }
+
+  class DataPlaybackThread {
+    -DataPlaybackListener[] listeners
+    +DataPlaybackThread(Scenario scenario, int rate)
+    +addListener(DataPlaybackListener)
+    +removeListener(DataPlaybackListener)
+    +public void run()
+    +public void start()
+  }
+
+  interface DataPlaybackListener {
+    +void onSystemUpdate(SystemState)
+  }
+
+  class DebugDataFeedServer
+
+  Scenario --o DataPlaybackThread
+  DataPlaybackThread o-- DataPlaybackListener
+  DebugDataFeedServer ..|> DataPlaybackListener
+}
+
+class "DebugDataFeed Request Protocol Buffer" as DebugDataFeedRequestProtocolBuffer {
+
+}
+
+class "DebugDataFeed Serve Protocol Buffer" as DebugDataFeedServeProtocolBuffer {
+  double aircraftPosition[3]
+  float aircraftSpeed
+
+
+}
+
+DebugDataFeedServer -down->DebugDataFeedClientThread
+DebugDataFeedServer <-up- DebugDataFeedClientThread
+(DebugDataFeedServer, DebugDataFeedClientThread) .. DebugDataFeedRequestProtocolBuffer
+(DebugDataFeedServer, DebugDataFeedClientThread) .. DebugDataFeedServeProtocolBuffer
+
+class "PredictionFeed Serve Protocol Buffer" as PredictionFeedServeProtocolBuffer {
+
+}
+
+class "PredictionFeed Request Protocol Buffer" as PredictionFeedRequestProtocolBuffer {
+
+}
+
+PredictionFeedServer -down-> PredictionFeedClientThread
+PredictionFeedServer <-up- PredictionFeedClientThread
+(PredictionFeedServer, PredictionFeedClientThread) .. PredictionFeedRequestProtocolBuffer
+(PredictionFeedServer, PredictionFeedClientThread) .. PredictionFeedServeProtocolBuffer
+
+
+PredictionFeedServer -down-> TestAccuracy
+
+ExternalCat62Server -down-> Cat62Decoder
+ExternalCat62Server <-down- Cat62Decoder
+
+ExternalADSBServer -down-> ADSBDecoder
+ExternalADSBServer <-down- ADSBDecoder
+
+
+@enduml
