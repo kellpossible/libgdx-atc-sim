@@ -1,0 +1,385 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Design &amp; API &mdash; Aircraft Trajectory Prediction 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Java API (All Packages)" href="javadoc/index.html" />
+    <link rel="prev" title="Libgdx ATC Simulator" href="../Libgdx_ATC_Simulator.html" /> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Aircraft Trajectory Prediction
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Repository Layout</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../Repository_Layout.html">Project Layout</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Projects</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../Libgdx_ATC_Simulator.html">Libgdx ATC Simulator</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Design &amp; API</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="javadoc/index.html">Java API (All Packages)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Flight_Data/Flight_Data.html">Flight Data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Prediction_Service/Prediction_Service.html">Prediction Service</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Algorithm/Algorithm.html">Algorithm</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Display/Display.html">Display</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Vectors/Vectors_Package.html">Vectors Package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Protocol_Buffers.html">Protocol Buffers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Protocol_Buffer_Definitions.html">Protocol Buffer Definitions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#design-diagrams">Design Diagrams</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../User_Manual/User_Manual.html">User Manual</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Prototype_Design/Prototype_Design.html">Prototype Design</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Research/Research.html">Research</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Dependencies.html">Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Known_Issues.html">Known Issues</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../Compare_Results/Compare_Results.html">Compare Results Script</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../GogsIssuesExtended/GogsIssuesExtended.html">GogsIssuesExtended</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../VectorLibraryPerformanceTest/VectorLibraryPerformanceTest.html">Vector Library Performance Test</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../xplane_ADSB_Output/xplane_ADSB_Output.html">X-Plane ADSB Output Plugin</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Building &amp; Editing this Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../Building_Editing_Documentation.html">Building and Editing the Documentation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Other</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../Bloopers/Bloopers.html">Bloopers</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Aircraft Trajectory Prediction</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../Libgdx_ATC_Simulator.html">Libgdx ATC Simulator</a> &raquo;</li>
+        
+      <li>Design &amp; API</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/Libgdx_ATC_Simulator/Design_and_API/Design_and_API.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+</style>
+<div class="section" id="design-api">
+<h1>Design &amp; API<a class="headerlink" href="#design-api" title="Permalink to this headline">¶</a></h1>
+<p><em>Section author: Luke Frisken &lt;<a class="reference external" href="mailto:l&#46;frisken&#37;&#52;&#48;gmail&#46;com">l<span>&#46;</span>frisken<span>&#64;</span>gmail<span>&#46;</span>com</a>&gt;</em></p>
+<div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">Java API (All Packages)</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="javadoc/index.html">Java API (All Packages)</a></li>
+</ul>
+</div>
+<p>This contains the javadoc generated api documentation.</p>
+<div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">Flight Data</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Flight_Data/Flight_Data.html">Flight Data</a></li>
+</ul>
+</div>
+<p>The :java:extdoc`com.atc.simulator.flightdata` package provides classes for
+dealing with flight information data.</p>
+<div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">Prediction Service</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Prediction_Service/Prediction_Service.html">Prediction Service</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Prediction_Service/Input.html">Input</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Prediction_Service/Output.html">Output</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Prediction_Service/System_State_Database.html">System State Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Prediction_Service/Engine/Prediction_Engine.html">Prediction Engine</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<p>The
+<a class="reference external" href="javadoc/com/atc/simulator/prediction_service/package-summary.html" title="com.atc.simulator.prediction_service.package-summary"><code class="xref java java-extdoc docutils literal notranslate"><span class="pre">com.atc.simulator.prediction_service</span></code></a>
+is the core component of this project. It functions as a standalone unit capable
+of taking input in the form of radar or ADSB tracks, then processing and
+creating predictions in order to output predictions to a display. It is designed
+such that the prediction service could run on a seperate machine on the network,
+with its inputs and outputs being network sockets/streams.</p>
+<div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">Algorithm</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Algorithm/Algorithm.html">Algorithm</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Algorithm/Algorithm.html#lmleastsquaresv3-algorithm">LMLeastSquaresV3 Algorithm</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<p>The <a class="reference external" href="javadoc/com/atc/simulator/prediction_service/engine/algorithms/java/package-summary.html" title="com.atc.simulator.prediction_service.engine.algorithms.java.package-summary"><code class="xref java java-extdoc docutils literal notranslate"><span class="pre">com.atc.simulator.prediction_service.engine.algorithms.java</span></code></a>
+package contains all of the java implementations for the different algorithm
+types.</p>
+<div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">Display</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Display/Display.html">Display</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Display/Display.html#overall-design">Overall Design</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Display/Display.html#display-methods">Display Methods</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<p>The display is designed to be a high performance opengl application.
+It achieves this aim by using libgdx’s models api to create instances
+of the draw geometry to get stored in the gpu vertex buffers.</p>
+<p>The <a class="reference external" href="javadoc/com/atc/simulator/display/package-summary.html" title="com.atc.simulator.display.package-summary"><code class="xref java java-extdoc docutils literal notranslate"><span class="pre">com.atc.simulator.display</span></code></a> package contains all the display
+functionality for this application.</p>
+<div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">Vectors Package</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Vectors/Vectors_Package.html">Vectors Package</a></li>
+</ul>
+</div>
+<p>The <a class="reference external" href="javadoc/com/atc/simulator/vectors/package-summary.html" title="com.atc.simulator.vectors.package-summary"><code class="xref java java-extdoc docutils literal notranslate"><span class="pre">com.atc.simulator.vectors</span></code></a>
+package consists of various important base types used to represent and
+manipulate the vector data in this project which are not already supplied
+by the libraries it depends on.</p>
+<div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">Protocol Buffers</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Protocol_Buffers.html">Protocol Buffers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Protocol_Buffer_Definitions.html">Protocol Buffer Definitions</a></li>
+</ul>
+</div>
+<p>This project uses <a class="reference external" href="https://developers.google.com/protocol-buffers/">Google’s Protocol Buffers</a>
+to serialize data for inter-thread/inter-process/network communication between
+its modules.</p>
+<div class="section" id="design-diagrams">
+<h2>Design Diagrams<a class="headerlink" href="#design-diagrams" title="Permalink to this headline">¶</a></h2>
+<div class="figure align-center" id="id1">
+<a class="reference internal image-reference" href="../../_images/Class_Design.svg"><img alt="../../_images/Class_Design.svg" src="../../_images/Class_Design.svg" width="100%" /></a>
+<p class="caption"><span class="caption-text">Class Design</span></p>
+</div>
+<p>The class diagram is a simplified overview, take a look at the specific
+package documentation (all listed on this page) for detailed diagrams of each
+package.</p>
+<div class="figure align-center" id="id2">
+<a class="reference internal image-reference" href="../../_images/System_Design.svg"><img alt="../../_images/System_Design.svg" src="../../_images/System_Design.svg" width="100%" /></a>
+<p class="caption"><span class="caption-text">System Design</span></p>
+</div>
+<p>The system design diagram shows the thread/process/logic seperation of
+the project. The ATC Simulator process actually also contains the
+<a class="reference internal" href="Prediction_Service/Prediction_Service.html"><span class="doc">Prediction Service</span></a> at this point, but for a
+real implementation (as shown on the diagram), this would be placed in
+its own own process, able to operate independently of the simulator
+(and headlessly) using external commercial grade Servers and Display
+for the data input and output pipes via network communication.</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="javadoc/index.html" class="btn btn-neutral float-right" title="Java API (All Packages)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../Libgdx_ATC_Simulator.html" class="btn btn-neutral" title="Libgdx ATC Simulator" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Luke Frisken, Chris Coleman, Uros Vukanovic, Adam Miritis.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'1.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,487 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Building and Editing the Documentation &mdash; Aircraft Trajectory Prediction 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Bloopers" href="Bloopers/Bloopers.html" />
+    <link rel="prev" title="X-Plane ADSB Output Plugin" href="xplane_ADSB_Output/xplane_ADSB_Output.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Aircraft Trajectory Prediction
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Repository Layout</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Repository_Layout.html">Project Layout</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Projects</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Libgdx_ATC_Simulator/Libgdx_ATC_Simulator.html">Libgdx ATC Simulator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Compare_Results/Compare_Results.html">Compare Results Script</a></li>
+<li class="toctree-l1"><a class="reference internal" href="GogsIssuesExtended/GogsIssuesExtended.html">GogsIssuesExtended</a></li>
+<li class="toctree-l1"><a class="reference internal" href="VectorLibraryPerformanceTest/VectorLibraryPerformanceTest.html">Vector Library Performance Test</a></li>
+<li class="toctree-l1"><a class="reference internal" href="xplane_ADSB_Output/xplane_ADSB_Output.html">X-Plane ADSB Output Plugin</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Building &amp; Editing this Documentation</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Building and Editing the Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#building-the-documentation">Building the Documentation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pre-requisites">Pre-Requisites</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#linux">Linux</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#windows">Windows</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#all">All</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#build">Build</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#autobuild">Autobuild</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#clean">Clean</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#restructuredtext-support">RestructuredText Support</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#external-links">External Links</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#markdown-support">Markdown Support</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#markdown-syntax">Markdown Syntax</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#markdown-tools">Markdown Tools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#extra-markdown-features">Extra Markdown Features</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#uml">UML</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#dependency-diagram-generation">Dependency Diagram Generation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Other</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Bloopers/Bloopers.html">Bloopers</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Aircraft Trajectory Prediction</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Building and Editing the Documentation</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/Building_Editing_Documentation.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+</style>
+<div class="section" id="building-and-editing-the-documentation">
+<span id="building-and-editing-the-documentation"></span><h1>Building and Editing the Documentation<a class="headerlink" href="#building-and-editing-the-documentation" title="Permalink to this headline">¶</a></h1>
+<p><em>Section author: Luke Frisken &lt;<a class="reference external" href="mailto:l&#46;frisken&#37;&#52;&#48;gmail&#46;com">l<span>&#46;</span>frisken<span>&#64;</span>gmail<span>&#46;</span>com</a>&gt;</em></p>
+<p><strong>Table of Contents</strong></p>
+<!-- TOC depthFrom:1 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 --><ul class="simple">
+<li><a class="reference external" href="#project-documentation">Project Documentation</a></li>
+<li><a class="reference external" href="#introduction">Introduction</a></li>
+<li><a class="reference external" href="#building-the-documentation">Building the Documentation</a><ul>
+<li><a class="reference external" href="#pre-requisites">Pre-Requisites</a><ul>
+<li><a class="reference external" href="#linux">Linux</a></li>
+<li><a class="reference external" href="#windows">Windows</a></li>
+<li><a class="reference external" href="#all">All</a></li>
+</ul>
+</li>
+<li><a class="reference external" href="#server-autobuild">Server Autobuild</a></li>
+<li><a class="reference external" href="#clean">Clean</a></li>
+</ul>
+</li>
+<li><a class="reference external" href="#restructuredtext-support">RestructuredText Support</a></li>
+<li><a class="reference external" href="#markdown-support">Markdown Support</a><ul>
+<li><a class="reference external" href="#markdown-syntax">Markdown Syntax</a></li>
+<li><a class="reference external" href="#markdown-tools">Markdown Tools</a></li>
+<li><a class="reference external" href="#extra-markdown-features">Extra Markdown Features</a></li>
+</ul>
+</li>
+<li><a class="reference external" href="#uml">UML</a><ul>
+<li><a class="reference external" href="#dependency-diagram-generation">Dependency Diagram Generation</a></li>
+</ul>
+</li>
+</ul>
+<!-- /TOC --><div class="section" id="introduction">
+<span id="introduction"></span><h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>This project uses <a class="reference external" href="http://www.sphinx-doc.org/en/stable/">Sphinx</a> with the <a class="reference external" href="http://readthedocs.org">Read The Docs Theme</a> for building this set of documentation. A number of other tools are also used to automatically generate API documentation and UML Diagrams.</p>
+<p>Another good overview of the technologies used here is available at
+<a class="reference external" href="http://build-me-the-docs-please.readthedocs.io/en/latest/index.html">Wiser Readthedocs</a></p>
+</div>
+<div class="section" id="building-the-documentation">
+<span id="building-the-documentation"></span><h2>Building the Documentation<a class="headerlink" href="#building-the-documentation" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="pre-requisites">
+<span id="pre-requisites"></span><h3>Pre-Requisites<a class="headerlink" href="#pre-requisites" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="linux">
+<span id="linux"></span><h4>Linux<a class="headerlink" href="#linux" title="Permalink to this headline">¶</a></h4>
+<p>following packages need to be installed:</p>
+<ul class="simple">
+<li>lxml2-dev</li>
+<li>graphviz</li>
+<li>java</li>
+<li>pandoc</li>
+</ul>
+</div>
+<div class="section" id="windows">
+<span id="windows"></span><h4>Windows<a class="headerlink" href="#windows" title="Permalink to this headline">¶</a></h4>
+<p><strong>WARNING!</strong></p>
+<blockquote>
+<div>Windows build is currently unsupported/experimental as of the latest changes,
+it was not working on the team member’s computer who had windows, and I do
+not have time to install a windows VM to fix it myself. - Luke Frisken</div></blockquote>
+<p>Following the installation section labelled “All” found below is the general guideline for the Windows installation, however there are a few considerations that need to be made.</p>
+<ul class="simple">
+<li>Install Pandoc. <a class="reference external" href="http://pandoc.org/installing.html">Link</a></li>
+<li>The lxml package must be installed manually before installing javasphinx, find the corresponding lxml version by matching the python3 version you have installed. <a class="reference external" href="http://www.lfd.uci.edu/~gohlke/pythonlibs/#lxml">Link</a></li>
+</ul>
+</div>
+<div class="section" id="all">
+<span id="all"></span><h4>All<a class="headerlink" href="#all" title="Permalink to this headline">¶</a></h4>
+<p>A number of things need to be installed on your computer before attempting to build the documentation.</p>
+<p>Firstly <a class="reference external" href="https://www.python.org/">Python</a>, preferably <strong>Python 3</strong> needs to be installed. Python can be obtained from: <a class="reference external" href="https://www.python.org/downloads/">https://www.python.org/downloads/</a></p>
+<p>The following Python modules also need to be installed:</p>
+<ul class="simple">
+<li><a class="reference external" href="https://pypi.python.org/pypi/sphinx_rtd_theme">sphinx_rtd_theme</a> - A theme for sphinx</li>
+<li><a class="reference external" href="https://recommonmark.readthedocs.org/en/latest/">recommonmark</a> - A module required for parsing markdown files</li>
+<li><a class="reference external" href="http://bronto.github.io/javasphinx/">javasphinx</a> - A module required for generating java documentation from java files</li>
+<li><a class="reference external" href="https://pypi.python.org/pypi/sphinxcontrib-plantuml">sphinxcontrib-plantuml</a> - A module required for displaying <a class="reference external" href="http://plantuml.com/">PlantUML</a> diagrams in documetation</li>
+<li><a class="reference external" href="https://github.com/jhermann/pygments-markdown-lexer">pygments-markdown-lexer</a> - A module required for using Pygments to give syntax highlighting to markdown documents</li>
+<li><a class="reference external" href="https://nbsphinx.readthedocs.io/">nbsphinx</a> -  A module required to render jupyter notebooks</li>
+</ul>
+<p>The required python modules can all be installed with the following command run in the documentation folder:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ pip install -r requirements.txt
+</pre></div>
+</div>
+<p>Included in the git repo for your convenience, but also by definition, required are:</p>
+<ul class="simple">
+<li><a class="reference external" href="http://plantuml.com/">PlantUML</a> (plantuml.jar) - For rendering UML diagrams</li>
+<li><a class="reference external" href="http://plantuml-depend.sourceforge.net/">PlantUML Dependency</a> - For generating PlantUML class dependency diagrams from java source code</li>
+</ul>
+</div>
+</div>
+<div class="section" id="build">
+<span id="build"></span><h3>Build<a class="headerlink" href="#build" title="Permalink to this headline">¶</a></h3>
+<p>To build the documentation, run this command from the documentation folder:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ make html
+</pre></div>
+</div>
+<p>The documentation can then be found in the <em>_build/html</em> folder.</p>
+</div>
+<div class="section" id="autobuild">
+<span id="autobuild"></span><h3>Autobuild<a class="headerlink" href="#autobuild" title="Permalink to this headline">¶</a></h3>
+<p>If you’d like documentation to automatically build upon changes to its source files, and to show in the browser, there is a fantastic python module called <a class="reference external" href="https://pypi.python.org/pypi/sphinx-autobuild">sphinx-autobuild</a>. It can be installed using:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ pip install sphinx-autobuild
+</pre></div>
+</div>
+<p>You can then run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ make livehtml
+</pre></div>
+</div>
+<p>which will open up the documentation in a live browser view.</p>
+<p>See the <a class="reference external" href="https://pypi.python.org/pypi/sphinx-autobuild">python package index page</a> for more information on how to use.</p>
+</div>
+<div class="section" id="clean">
+<span id="clean"></span><h3>Clean<a class="headerlink" href="#clean" title="Permalink to this headline">¶</a></h3>
+<p>Occasionally the cache gets a little messed up and items can go missing from the index or toolbar. In this case you can clean the build to allow the documenation to be rebuilt from scratch with this command:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ make clean
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="restructuredtext-support">
+<span id="restructuredtext-support"></span><h2>RestructuredText Support<a class="headerlink" href="#restructuredtext-support" title="Permalink to this headline">¶</a></h2>
+<p>Sphinx’s default documenation markup is called reStructuredText. A good overview
+of the syntax is available <a class="reference external" href="http://build-me-the-docs-please.readthedocs.io/en/latest/Using_Sphinx/OnReStructuredText.html">here</a> and <a class="reference external" href="http://rest-sphinx-memo.readthedocs.io/en/latest/ReST.html">here</a>.
+A more formal specification of the syntax is available <a class="reference external" href="http://docutils.sourceforge.net/docs/user/rst/quickref.html">here</a></p>
+<div class="section" id="external-links">
+<span id="external-links"></span><h3>External Links<a class="headerlink" href="#external-links" title="Permalink to this headline">¶</a></h3>
+<p>Currently using <a class="reference external" href="http://www.sphinx-doc.org/en/stable/ext/extlinks.html">extlinks</a> we
+have several external link shortcuts set up:</p>
+<p><strong>Issues:</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>:issue:`24`
+</pre></div>
+</div>
+<p><strong>Commits:</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>:commit:`7862861e42fd628ee701447164137ef3f9bc6ca5`
+</pre></div>
+</div>
+<p><strong>Source Files in the Git Repo:</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>:sourcefile:`sourcefile/`
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="markdown-support">
+<span id="markdown-support"></span><h2>Markdown Support<a class="headerlink" href="#markdown-support" title="Permalink to this headline">¶</a></h2>
+<p>This project’s documentation supports the Sphinx default markup language of <a class="reference external" href="#restructuredtext-support">reStructuredText</a> with .rst files, but it also supports Markdown with .md files. The preferred language for use in this documentation is Markdown, although reStructuredText statements can be inserted into the Markdown using a special method when neccessary.</p>
+<p>Taken from John Gruber’s <a class="reference external" href="http://daringfireball.net/projects/markdown/syntax#philosophy">website</a>:</p>
+<blockquote>
+<div><p><em>Markdown is intended to be as easy-to-read and easy-to-write as is feasible.</em></p>
+<p><em>Readability, however, is emphasized above all else. A Markdown-formatted document should be publishable as-is, as plain text, without looking like it’s been marked up with tags or formatting instructions. While Markdown’s syntax has been influenced by several existing text-to-HTML filters — including Setext, atx, Textile, reStructuredText, Grutatext, and EtText — the single biggest source of inspiration for Markdown’s syntax is the format of plain text email.</em></p>
+<p><em>To this end, Markdown’s syntax is comprised entirely of punctuation characters, which punctuation characters have been carefully chosen so as to look like what they mean. E.g., asterisks around a word actually look like <em>emphasis</em>. Markdown lists look like, well, lists. Even blockquotes look like quoted passages of text, assuming you’ve ever used email.</em></p>
+</div></blockquote>
+<div class="section" id="markdown-syntax">
+<span id="markdown-syntax"></span><h3>Markdown Syntax<a class="headerlink" href="#markdown-syntax" title="Permalink to this headline">¶</a></h3>
+<p>A good overview of the syntax of markdown is available <a class="reference external" href="http://daringfireball.net/projects/markdown/syntax">here</a>, and more succinctly <a class="reference external" href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet">here</a></p>
+<p>A more formal specification of its syntax has now been provided called CommonMark, which can be found <a class="reference external" href="http://spec.commonmark.org/">here</a></p>
+</div>
+<div class="section" id="markdown-tools">
+<span id="markdown-tools"></span><h3>Markdown Tools<a class="headerlink" href="#markdown-tools" title="Permalink to this headline">¶</a></h3>
+<p>Markdown has fairly widespread support among the popular text editors. If you’re using sublime a couple of tools can make your life easier:</p>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/jonschlinkert/sublime-markdown-extended">Markdown Extended Support for Sublime</a> - better syntax highlighting</li>
+<li><a class="reference external" href="https://github.com/jonschlinkert/sublime-monokai-extended">Monakai Extended Theme</a> - needed for above to take effect</li>
+<li><a class="reference external" href="https://github.com/timonwong/OmniMarkupPreviewer">Omni Markup Previewer</a> - live markdown preview in browser</li>
+</ul>
+</div>
+<div class="section" id="extra-markdown-features">
+<span id="extra-markdown-features"></span><h3>Extra Markdown Features<a class="headerlink" href="#extra-markdown-features" title="Permalink to this headline">¶</a></h3>
+<p>The <a class="reference external" href="https://recommonmark.readthedocs.org/en/latest/auto_structify.html">AutoStructify</a> module for <a class="reference external" href="https://recommonmark.readthedocs.org">ReCommonMark</a> is in use for this documentation to allow extra features in markdown for use in Sphinx documentation. These features include:</p>
+<ul class="simple">
+<li><a class="reference external" href="https://recommonmark.readthedocs.org/en/latest/auto_structify.html#auto-toc-tree">toctree support</a></li>
+<li><a class="reference external" href="https://recommonmark.readthedocs.org/en/latest/auto_structify.html#auto-doc-ref">References to other documents</a></li>
+<li><a class="reference external" href="https://recommonmark.readthedocs.org/en/latest/auto_structify.html#url-resolver">Url resolving for references to files in the git repository</a> - <a class="reference external" href="../Libgdx_ATC_Simulator/core/src/com/atc/simulator/ATCSimulator.java">example here</a></li>
+<li><a class="reference external" href="https://recommonmark.readthedocs.org/en/latest/auto_structify.html#codeblock-extensions">Code blocks with syntax highlighting</a> - see <a class="reference external" href="https://help.github.com/articles/creating-and-highlighting-code-blocks/#syntax-highlighting">here</a> for more details on the syntax and supported languages. List of languages and their names <a class="reference external" href="http://pygments.org/docs/lexers/">here</a></li>
+<li><a class="reference external" href="https://recommonmark.readthedocs.org/en/latest/auto_structify.html#math-formula">Latex math formulas</a></li>
+<li><a class="reference external" href="https://recommonmark.readthedocs.org/en/latest/auto_structify.html#embed-restructuredtext">Embedded reStructuredText</a> - very useful for sphinx rst commands</li>
+</ul>
+</div>
+</div>
+<div class="section" id="uml">
+<span id="uml"></span><h2>UML<a class="headerlink" href="#uml" title="Permalink to this headline">¶</a></h2>
+<p>We are using <a class="reference external" href="http://plantuml.com/">PlantUML</a> for our UML diagramming. Diagrams are defined using a simple language (<a class="reference external" href="http://plantuml.com/PlantUML_Language_Reference_Guide.pdf">see PlantUML Language Reference Guide</a>). Diagrams are inserted into rst/markdown files in Sphinx as svg images.</p>
+<p>The command to generate an svg image is:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ plantuml -tsvg diagram.puml
+</pre></div>
+</div>
+<p>The reStructuredText syntax for inserting this image as a figure is:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">..</span> <span class="n">figure</span><span class="p">::</span> <span class="n">diagram</span><span class="o">.</span><span class="n">svg</span>
+    <span class="p">:</span><span class="n">width</span><span class="p">:</span> <span class="mi">100</span> <span class="o">%</span>
+    <span class="p">:</span><span class="n">align</span><span class="p">:</span> <span class="n">center</span>
+
+    <span class="n">Caption</span> <span class="k">for</span> <span class="n">diagram</span>
+</pre></div>
+</div>
+<div class="section" id="dependency-diagram-generation">
+<span id="dependency-diagram-generation"></span><h3>Dependency Diagram Generation<a class="headerlink" href="#dependency-diagram-generation" title="Permalink to this headline">¶</a></h3>
+<p>You can use <a class="reference external" href="http://plantuml-depend.sourceforge.net/">PlantUML Dependency</a> like this to generate a dependency diagram for source code. The contents can then be copied into a markdown file:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>java -jar ./tools/plantuml-dependency-cli-1.4.0-jar-with-dependencies.jar -b . -i **/*.java -o atc_simulator.puml -dp ^.*com[.]atc[.]simulator.*$
+</pre></div>
+</div>
+<p>An example of the diagram generated with this command can be found in <a class="reference external" href="Libgdx_ATC_Simulator.md">Libgdx ATC Simulator</a> section of the documentation.</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="Bloopers/Bloopers.html" class="btn btn-neutral float-right" title="Bloopers" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="xplane_ADSB_Output/xplane_ADSB_Output.html" class="btn btn-neutral" title="X-Plane ADSB Output Plugin" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Luke Frisken, Chris Coleman, Uros Vukanovic, Adam Miritis.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'1.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

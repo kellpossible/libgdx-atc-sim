@@ -1,0 +1,382 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Testing and Analysis &mdash; Aircraft Trajectory Prediction 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Research" href="../../Research/Research.html" />
+    <link rel="prev" title="Performance" href="../Performance.html" /> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> Aircraft Trajectory Prediction
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Repository Layout</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../Repository_Layout.html">Project Layout</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Projects</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../Libgdx_ATC_Simulator.html">Libgdx ATC Simulator</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../Design_and_API/Design_and_API.html">Design &amp; API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../User_Manual/User_Manual.html">User Manual</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../Prototype_Design.html">Prototype Design</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../Display_Design/Display_Design.html">Display Design</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Class_Design/Class_Design.html">Class Design</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Class_Design/DebugDataFeed_Design.html">DebugDataFeed design document</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Performance.html">Performance</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Testing and Analysis</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#accuracy-testing">Accuracy Testing</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Research/Research.html">Research</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Dependencies.html">Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Known_Issues.html">Known Issues</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Compare_Results/Compare_Results.html">Compare Results Script</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../GogsIssuesExtended/GogsIssuesExtended.html">GogsIssuesExtended</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../VectorLibraryPerformanceTest/VectorLibraryPerformanceTest.html">Vector Library Performance Test</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../xplane_ADSB_Output/xplane_ADSB_Output.html">X-Plane ADSB Output Plugin</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Building &amp; Editing this Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../Building_Editing_Documentation.html">Building and Editing the Documentation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Other</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../Bloopers/Bloopers.html">Bloopers</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Aircraft Trajectory Prediction</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../Libgdx_ATC_Simulator.html">Libgdx ATC Simulator</a> &raquo;</li>
+        
+          <li><a href="../Prototype_Design.html">Prototype Design</a> &raquo;</li>
+        
+      <li>Testing and Analysis</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../../_sources/Libgdx_ATC_Simulator/Prototype_Design/Testing/Testing.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+</style>
+<div class="section" id="testing-and-analysis">
+<h1>Testing and Analysis<a class="headerlink" href="#testing-and-analysis" title="Permalink to this headline">¶</a></h1>
+<p><em>Section author: Chris Coleman &lt;<a class="reference external" href="mailto:7191375&#37;&#52;&#48;student&#46;swin&#46;edu&#46;au">7191375<span>&#64;</span>student<span>&#46;</span>swin<span>&#46;</span>edu<span>&#46;</span>au</a>&gt;</em></p>
+<div class="section" id="accuracy-testing">
+<h2>Accuracy Testing<a class="headerlink" href="#accuracy-testing" title="Permalink to this headline">¶</a></h2>
+<p>Part of the aim of this project is to determine whether making and displaying predictions
+if of any benefit to Air Traffic Control Operators. As the prediction system will be cramming
+the display with more information, we need to be sure that the additional information is
+accurate, and as close to true aircraft behavior as possible.</p>
+<p>Therefore, we have developed a testing framework that uses testing scenarios to compares the
+predicted positional points with their actual data value and, from this information, we can
+compare and analyse the effectiveness of each algorithm that we have created.</p>
+<p><strong>Planning</strong>
+Before we could start development of the testing features, we needed to decide on a few points:
+- In what situations do we intend to test our algorithms,
+- How do we measure the error between our predicted and actual positions,
+- and how can we compare these errors between algorithms and scenarios.</p>
+<p><em>Scenarios</em>
+We have decided on a few ‘basic’ scenarios with which we can test algorithm accuracy:
+- Straight and Level - no variations in flight heading, checking distance over time
+- Constant Curve - a constant turn rate, checking the most basic of curvilinear ability
+- Combination of - mixing straight and level with turning, slightly more realistic behavior</p>
+<p>Other possible scenarios that could be considered when greater functionality is added:
+* Holding patterns - with known flight paths, can we make predictions more accurately?
+* Random flight w/ sharp turns - how algorithms handle rapid changes in trajectory
+* Noisy input data - can the system filter out noise/error from the data being input?
+* Multiple data sources - testing the ability for the system to combine and use multiple data types</p>
+<p>For now, our testing will only involve the three basic scenarios listed above, these will be
+generated through extracting data from flight simulation programs.</p>
+<p><em>Calculating Error</em>
+The simplest, and probably most logical, way to calculate error for our system is the distance
+between our predicted and actual positions.
+To achieve this, we will be calculating the arc distance between the two points (called
+Great-Circle Distance on a sphere). By calculating the arc distance for each point we can begin to see how algorithms handle certain
+scenarios and situations.</p>
+<p><strong>Design</strong>
+<em>Final Design</em>
+The final flowplan revolved around having the testing feature act as a listener to the Prediction
+Engine and, in a similar fashion to the Display, be notified and sent predictions as they came to be.
+By pre-feeding the scenario into the tester, we could calculate and store, in real time, the
+errors.</p>
+<p><em>Final Solution</em>
+Our solution’s design involved:
+- Receiving, at startup, the scenario being run
+- Make a new entry in a HashMap for each plane involved
+- Store every time and position combination for each plane
+- Create a .json/.txt file named using combined the Prediction Method and Date/Time</p>
+<p>and when a prediction was received:
+- Take the predictions PlaneID and get the related time/position list
+- For each predicted state, find the matching (or boundary) timestamp (or timestamps)
+- Get the resulting ‘actual’ position
+- Calculate the arc distance between the predicted and ‘actual’ positions
+- Once the prediction has been fully iterated through, store results in the .json/.txt file</p>
+<p>at shutdown:
+- Save and close the results file</p>
+<p>The solution gave us the freedom to save, copy and edit multiple results documents. If saved as a .txt file, it is quite simple to convert to .csv and analyse results in Excel, using a number of different weighted averages, comparison tools or filtering techniques. This means that people are free to conduct their own analyse as they see fit.
+The .json files can be used by a Python script that is able to display two different results documents, showing the full predictions, and allowing us to compare the errors and characteristics of prediction methods. Most of our analysis will be using this tool.</p>
+<p><em>Hurdles</em>
+Originally, we intended to simply compare the like timestamps. However, although our predictions
+can be made exactly 5 seconds into the future, the input data isn’t so perfect and we had
+very few matching timestamps between our predicted and actual data streams.
+Therefore, we had to revise the design to iterate through the actual data and look for either
+matching times - where we could just compare the two positions - or the two bordering times and
+attempt to interpolate an ‘actual’ position from the two points given.</p>
+<p>Although not a difficult task to complete, it did throw the design a little and involved a rethink
+of how we were going to store scenario data.</p>
+<p><strong>Results Analysis</strong>
+As explained above, we planned on using scenarios that involved linear and curved flight to better understand the strengths and weaknesses of our curvilinear predictions, and how they compared to the linear predictions of current ATC Systems. One scenario we obtained was the flight path of QFA696 from the 18th August, 2016. This data contains a large linear section merging into into a curved turned, before straightening back out again.
+Plotting its errors with a standard linear prediction showed a few key moments that displayed the strengths of curvilinear prediction(Blue), as well as some drawbacks in relation to linear prediction(Green):</p>
+<div class="figure align-center" id="id1">
+<img alt="../../../_images/QFA696_0.png" src="../../../_images/QFA696_0.png" />
+<p class="caption"><span class="caption-text">Fig1. - QFA696 Flight Scenario</span></p>
+</div>
+<p><em>Strengths</em>
+An obvious strength of curvilinear predictions is that they are able to understand, and better predict, when the aircraft is undergoing curved flight. Figure 2 shows the moment when QFA696 is beginning to turn, and the reaction by LMLeastSquares algorithm, while Figure 3 shows the aircraft mid-turn and the differences in errors.</p>
+<div class="figure align-center" id="id2">
+<img alt="../../../_images/QFA696_21.png" src="../../../_images/QFA696_21.png" />
+<p class="caption"><span class="caption-text">Fig2. - Beginning of a Turn</span></p>
+</div>
+<p>The curvilinear prediction is able to quickly determine, and react to, the beginnings of a turn, resulting in a quick decline in error. More importantly, it is able to better represent the future trajectory of the aircraft, and show users that the aircraft will be entering a turn.</p>
+<div class="figure align-center" id="id3">
+<img alt="../../../_images/QFA696_3.png" src="../../../_images/QFA696_3.png" />
+<p class="caption"><span class="caption-text">Fig3. - Mid-turn Prediction</span></p>
+</div>
+<p>Similarly, during the actual turn, a curved prediction shows a closer representation of the actual path compared to the linear display.</p>
+<p><em>Weaknesses</em>
+The intelligence of curvilinear predictions also act as a draw back. There is a strong chance of over-predictions, where the algorithm extends curved flight further than what would be normally expected, or reacting to minor path changes.</p>
+<p>Figure 4 shows how our curvilinear system overreacts to what is a minor change in flight path, running from one linear section to another, the quick adjustment to heading results in a curved prediction.
+This situation would also be prevelant in full ATC systems. When combining information from a number of sources, there is a high likelyhood that the calculated data points would have a slight zig-zag meaning a curvilinear prediction would constantly be trying to adjust for curved paths and reducing its overall effectiveness.</p>
+<div class="figure align-center" id="id4">
+<img alt="../../../_images/QFA696_1.png" src="../../../_images/QFA696_1.png" />
+<p class="caption"><span class="caption-text">Fig4. - Minor heading change</span></p>
+</div>
+<p>Another situation that works against curvilinear predictions is when an aircraft is leaving a turn. Algorithms will expect the curved path to continue, which can mean situations like Figure 5 will occur:</p>
+<div class="figure align-center" id="id5">
+<img alt="../../../_images/QFA696_4.png" src="../../../_images/QFA696_4.png" />
+<p class="caption"><span class="caption-text">Fig5. - Exiting a Turn</span></p>
+</div>
+<p>As the previous points all lead to a curved trajectory, our algorithm continues that same path. Whereas the linear algorithm, being less intelligent, is lucky to correctly assume that the aircraft will just fly straight from its current heading.
+This spike of error will occur every time an aircraft leaves a turn.</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../../Research/Research.html" class="btn btn-neutral float-right" title="Research" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../Performance.html" class="btn btn-neutral" title="Performance" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Luke Frisken, Chris Coleman, Uros Vukanovic, Adam Miritis.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'1.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

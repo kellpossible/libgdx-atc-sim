@@ -1,0 +1,298 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>X-Plane ADSB Output Plugin &mdash; Aircraft Trajectory Prediction 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Building and Editing the Documentation" href="../Building_Editing_Documentation.html" />
+    <link rel="prev" title="Vector Library Performance Test" href="../VectorLibraryPerformanceTest/VectorLibraryPerformanceTest.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Aircraft Trajectory Prediction
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Repository Layout</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../Repository_Layout.html">Project Layout</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Projects</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../Libgdx_ATC_Simulator/Libgdx_ATC_Simulator.html">Libgdx ATC Simulator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Compare_Results/Compare_Results.html">Compare Results Script</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../GogsIssuesExtended/GogsIssuesExtended.html">GogsIssuesExtended</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../VectorLibraryPerformanceTest/VectorLibraryPerformanceTest.html">Vector Library Performance Test</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">X-Plane ADSB Output Plugin</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#running">Running</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Building &amp; Editing this Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../Building_Editing_Documentation.html">Building and Editing the Documentation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Other</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../Bloopers/Bloopers.html">Bloopers</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Aircraft Trajectory Prediction</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>X-Plane ADSB Output Plugin</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/xplane_ADSB_Output/xplane_ADSB_Output.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+</style>
+<div class="section" id="x-plane-adsb-output-plugin">
+<h1>X-Plane ADSB Output Plugin<a class="headerlink" href="#x-plane-adsb-output-plugin" title="Permalink to this headline">¶</a></h1>
+<p><em>Section author: Luke Frisken &lt;<a class="reference external" href="mailto:l&#46;frisken&#37;&#52;&#48;gmail&#46;com">l<span>&#46;</span>frisken<span>&#64;</span>gmail<span>&#46;</span>com</a>&gt;</em></p>
+<p>In the <a class="reference external" href="https://github.com/kellpossible/xplane-adsb-output">xplane-adsb-output</a> repository is a python plugin created
+during for project for x-plane which allows data from the <a class="reference external" href="http://x-plane.com/">X-Plane 10
+flight simulator</a> to be downlinked directly to
+<a class="reference internal" href="../Libgdx_ATC_Simulator/Libgdx_ATC_Simulator.html"><span class="doc">Libgdx ATC Simulator</span></a> in place of the
+DebugDataFeed.</p>
+<p>This plugin was created to facilitate easy testing of the algorithm during developement
+in specific scenarios, and for generating specific realistic data for use in
+regression testing and potential optimization applications.</p>
+<div class="section" id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<p>To begin with you’ll first need a copy of x-plane 10 (probably 11 will work too
+but no guarantees). Installing the demo should be fine.</p>
+<p>Next you’ll need to follow the rather archaeic instructions to install
+the x-plane python interface which can be found <a class="reference external" href="http://www.xpluginsdk.org/python_interface.htm">here</a>.</p>
+<p>Then, copy the contents of the <em>src/xplane_ADSB_output</em> folder into the
+x-plane <em>/Resources/plugins/PythonScripts/</em> folder in order to install
+the plugin.</p>
+</div>
+<div class="section" id="running">
+<h2>Running<a class="headerlink" href="#running" title="Permalink to this headline">¶</a></h2>
+<p>Start x-plane, and the plugin should be running in the background.
+Then you’ll need to set the <strong>settings.debug-data-feed.enabled</strong> value to <strong>false</strong>
+in the settings.json file before running Libgdx_ATC_Simulator. The x-plane plugin
+is by default set to listen to port 6989, the same one as the debug data feed.
+Now all you need to do is run, and it should automatically connect.</p>
+<p>If you need to change the port or the listen address you will need to edit the plugin
+script called <em>PI_ADSBOutput.py</em>.</p>
+<div class="figure align-center" id="id1">
+<img alt="../_images/output.png" src="../_images/output.png" />
+<p class="caption"><span class="caption-text">Running x-plane and Libgdx_ATC_Simulator connected with each other</span></p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../Building_Editing_Documentation.html" class="btn btn-neutral float-right" title="Building and Editing the Documentation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../VectorLibraryPerformanceTest/VectorLibraryPerformanceTest.html" class="btn btn-neutral" title="Vector Library Performance Test" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Luke Frisken, Chris Coleman, Uros Vukanovic, Adam Miritis.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'1.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

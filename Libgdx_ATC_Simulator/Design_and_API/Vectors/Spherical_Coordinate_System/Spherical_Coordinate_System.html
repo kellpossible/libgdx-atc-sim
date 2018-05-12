@@ -1,0 +1,408 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Spherical Coordinate System &mdash; Aircraft Trajectory Prediction 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+    <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+    <link rel="next" title="Protocol Buffers" href="../../Protocol_Buffers.html" />
+    <link rel="prev" title="Projections" href="../Projection/Projections.html" /> 
+
+  
+  <script src="../../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home"> Aircraft Trajectory Prediction
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Repository Layout</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../Repository_Layout.html">Project Layout</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Projects</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../../Libgdx_ATC_Simulator.html">Libgdx ATC Simulator</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../../Design_and_API.html">Design &amp; API</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../../javadoc/index.html">Java API (All Packages)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Flight_Data/Flight_Data.html">Flight Data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Prediction_Service/Prediction_Service.html">Prediction Service</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Algorithm/Algorithm.html">Algorithm</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Display/Display.html">Display</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../Vectors_Package.html">Vectors Package</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../Projection/Projections.html">Projections</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Spherical Coordinate System</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../Protocol_Buffers.html">Protocol Buffers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Protocol_Buffer_Definitions.html">Protocol Buffer Definitions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../Design_and_API.html#design-diagrams">Design Diagrams</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../User_Manual/User_Manual.html">User Manual</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Prototype_Design/Prototype_Design.html">Prototype Design</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Research/Research.html">Research</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Dependencies.html">Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Known_Issues.html">Known Issues</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../Compare_Results/Compare_Results.html">Compare Results Script</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../GogsIssuesExtended/GogsIssuesExtended.html">GogsIssuesExtended</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../VectorLibraryPerformanceTest/VectorLibraryPerformanceTest.html">Vector Library Performance Test</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../xplane_ADSB_Output/xplane_ADSB_Output.html">X-Plane ADSB Output Plugin</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Building &amp; Editing this Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../Building_Editing_Documentation.html">Building and Editing the Documentation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Other</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../Bloopers/Bloopers.html">Bloopers</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">Aircraft Trajectory Prediction</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../../Libgdx_ATC_Simulator.html">Libgdx ATC Simulator</a> &raquo;</li>
+        
+          <li><a href="../../Design_and_API.html">Design &amp; API</a> &raquo;</li>
+        
+          <li><a href="../Vectors_Package.html">Vectors Package</a> &raquo;</li>
+        
+      <li>Spherical Coordinate System</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../../../_sources/Libgdx_ATC_Simulator/Design_and_API/Vectors/Spherical_Coordinate_System/Spherical_Coordinate_System.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+</style>
+<div class="section" id="spherical-coordinate-system">
+<h1>Spherical Coordinate System<a class="headerlink" href="#spherical-coordinate-system" title="Permalink to this headline">¶</a></h1>
+<p><em>Section author: Luke Frisken &lt;<a class="reference external" href="mailto:l&#46;frisken&#37;&#52;&#48;gmail&#46;com">l<span>&#46;</span>frisken<span>&#64;</span>gmail<span>&#46;</span>com</a>&gt;</em></p>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>Spherical and Spheroid based coordinate systems make up the backbone of this
+project and are used throughout to represent positions and velocities.</p>
+<p>All angles are in radians unless otherwise specified.</p>
+</div>
+<div class="section" id="sphericalcoordinate">
+<h2>SphericalCoordinate<a class="headerlink" href="#sphericalcoordinate" title="Permalink to this headline">¶</a></h2>
+<p>The <a class="reference external" href="../../javadoc/com/atc/simulator/vectors/SphericalCoordinate.html" title="com.atc.simulator.vectors.SphericalCoordinate"><code class="xref java java-type docutils literal notranslate"><span class="pre">SphericalCoordinate</span></code></a> class represents a coordinate in
+the spherical coordinate system. The notation used for spherical coordinates
+can vary. The notation used in this project is more popular in mathematics,
+and is the same as outlined in
+<a class="reference external" href="http://mathworld.wolfram.com/SphericalCoordinates.html">Wolfram Alpha - Spherical Coordinates</a>.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="57%" />
+<col width="43%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>order</td>
+<td>notation</td>
+</tr>
+<tr class="row-even"><td><span class="math notranslate nohighlight">\((radial, azimuthal, polar)\)</span></td>
+<td><span class="math notranslate nohighlight">\((r, \theta, \phi)\)</span></td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="30%" />
+<col width="53%" />
+<col width="17%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>ordinate</td>
+<td>range</td>
+<td>unit</td>
+</tr>
+<tr class="row-even"><td><span class="math notranslate nohighlight">\(r\)</span></td>
+<td><span class="math notranslate nohighlight">\(0 &lt;= r &lt; \infty\)</span></td>
+<td>meters</td>
+</tr>
+<tr class="row-odd"><td><span class="math notranslate nohighlight">\(\theta\)</span></td>
+<td><span class="math notranslate nohighlight">\(0 &lt;= \theta &lt; 2\pi\)</span></td>
+<td>radians</td>
+</tr>
+<tr class="row-even"><td><span class="math notranslate nohighlight">\(\phi\)</span></td>
+<td><span class="math notranslate nohighlight">\(-\pi &lt;= \phi &lt; \pi\)</span></td>
+<td>radians</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="geographiccoordinate">
+<h2>GeographicCoordinate<a class="headerlink" href="#geographiccoordinate" title="Permalink to this headline">¶</a></h2>
+<p>The <a class="reference external" href="../../javadoc/com/atc/simulator/vectors/GeographicCoordinate.html" title="com.atc.simulator.vectors.GeographicCoordinate"><code class="xref java java-type docutils literal notranslate"><span class="pre">GeographicCoordinate</span></code></a> class represents a coordinate in the
+geographic coordinate system. It inherits from <a class="reference external" href="../../javadoc/com/atc/simulator/vectors/SphericalCoordinate.html" title="com.atc.simulator.vectors.SphericalCoordinate"><code class="xref java java-type docutils literal notranslate"><span class="pre">SphericalCoordinate</span></code></a>
+and uses it to store the data, and provide common methods. This works because
+both are based a pure sphere. Future types of geographic coordinates may be
+based on alternative, more accurate representations of the shape of the earth.</p>
+<p><em>Altitude</em> currently is represented as distance above a mean sea level radius
+of 6371000.0m</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>order</td>
+</tr>
+<tr class="row-even"><td><span class="math notranslate nohighlight">\((altitude, latitude, longitude)\)</span></td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="25%" />
+<col width="63%" />
+<col width="12%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>ordinate</td>
+<td>range</td>
+<td>unit</td>
+</tr>
+<tr class="row-even"><td><span class="math notranslate nohighlight">\(altitude\)</span></td>
+<td><span class="math notranslate nohighlight">\(0 &lt;= r &lt; \infty\)</span></td>
+<td>meters</td>
+</tr>
+<tr class="row-odd"><td><span class="math notranslate nohighlight">\(latitude\)</span></td>
+<td><span class="math notranslate nohighlight">\(\frac{-\pi}{2} &lt; \phi &lt; \frac{\pi}{2}\)</span></td>
+<td>radians</td>
+</tr>
+<tr class="row-even"><td><span class="math notranslate nohighlight">\(longitude\)</span></td>
+<td><span class="math notranslate nohighlight">\(-\pi &lt;= \theta &lt; \pi\)</span></td>
+<td>radians</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="sphericalvelocity">
+<h2>SphericalVelocity<a class="headerlink" href="#sphericalvelocity" title="Permalink to this headline">¶</a></h2>
+<p>The <a class="reference external" href="../../javadoc/com/atc/simulator/vectors/SphericalVelocity.html" title="com.atc.simulator.vectors.SphericalVelocity"><code class="xref java java-type docutils literal notranslate"><span class="pre">SphericalVelocity</span></code></a> class represents the rate of change of
+spherical position in the spherical coordinate system. This velocity is valid
+only for a given location/instant in time.</p>
+<div class="section" id="integration">
+<h3>Integration<a class="headerlink" href="#integration" title="Permalink to this headline">¶</a></h3>
+<p>For simple integration it will need to be converted into an equivalent velocity
+in a different coordinate system which is more Euclidian.</p>
+<p>This could either be by using a map projection from
+<a class="reference internal" href="../Projection/Projections.html"><span class="doc">Projections</span></a> to flatten the coordinate system, or by
+converting it into cartesian space, or by converting it into angular velocity in
+cartesian space.</p>
+<p>Correct integration of spherical velocity over the spherical or geographical
+coordinate systems is quite a bit more involved, and the math for that has not
+yet been explored or deemed useful.</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../../Protocol_Buffers.html" class="btn btn-neutral float-right" title="Protocol Buffers" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../Projection/Projections.html" class="btn btn-neutral" title="Projections" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Luke Frisken, Chris Coleman, Uros Vukanovic, Adam Miritis.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../../',
+            VERSION:'1.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

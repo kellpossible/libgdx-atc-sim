@@ -1,0 +1,361 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Coordinate Systems &mdash; Aircraft Trajectory Prediction 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Flight Data Sources" href="../Flight_Data_Sources.html" />
+    <link rel="prev" title="Research" href="../Research.html" /> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> Aircraft Trajectory Prediction
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Repository Layout</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../Repository_Layout.html">Project Layout</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Projects</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../Libgdx_ATC_Simulator.html">Libgdx ATC Simulator</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../Design_and_API/Design_and_API.html">Design &amp; API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../User_Manual/User_Manual.html">User Manual</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Prototype_Design/Prototype_Design.html">Prototype Design</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../Research.html">Research</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Coordinate Systems</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#conversion-between-polar-and-cartesian">Conversion between polar and cartesian</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#projections">Projections</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cartesian-vs-polar">Cartesian vs Polar</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#bibliography">Bibliography</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../Flight_Data_Sources.html">Flight Data Sources</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Prediction_Transport_Protocol.html">Prediction Transport Protocol</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Product_Research/Product_Research.html">Product Research</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Flight_Path_Characteristics/Flight_Path_Characteristics.html">Flight Path Characteristics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Circle_Fitting/Circle_Fitting.html">Circle Fitting Info</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Circle_Fitting/Circle_Fitting_Notebook.html">Circle Fitting Research</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Libraries.html">Libraries</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Dependencies.html">Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Known_Issues.html">Known Issues</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Compare_Results/Compare_Results.html">Compare Results Script</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../GogsIssuesExtended/GogsIssuesExtended.html">GogsIssuesExtended</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../VectorLibraryPerformanceTest/VectorLibraryPerformanceTest.html">Vector Library Performance Test</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../xplane_ADSB_Output/xplane_ADSB_Output.html">X-Plane ADSB Output Plugin</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Building &amp; Editing this Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../Building_Editing_Documentation.html">Building and Editing the Documentation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Other</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../Bloopers/Bloopers.html">Bloopers</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Aircraft Trajectory Prediction</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../Libgdx_ATC_Simulator.html">Libgdx ATC Simulator</a> &raquo;</li>
+        
+          <li><a href="../Research.html">Research</a> &raquo;</li>
+        
+      <li>Coordinate Systems</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../../_sources/Libgdx_ATC_Simulator/Research/Coordinate_Systems/Coordinate_Systems.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+</style>
+<div class="section" id="coordinate-systems">
+<h1>Coordinate Systems<a class="headerlink" href="#coordinate-systems" title="Permalink to this headline">¶</a></h1>
+<p><em>Section author: Luke Frisken &lt;<a class="reference external" href="mailto:l&#46;frisken&#37;&#52;&#48;gmail&#46;com">l<span>&#46;</span>frisken<span>&#64;</span>gmail<span>&#46;</span>com</a>&gt;</em></p>
+<p>We are getting data for velocity in a cartesian format, and data for position in a polar format, this is a problem if we want to combine the data to do extrapolation. It would be nice to have a way to convert the cartesian velocity into polar velocity.</p>
+<div class="section" id="conversion-between-polar-and-cartesian">
+<h2>Conversion between polar and cartesian<a class="headerlink" href="#conversion-between-polar-and-cartesian" title="Permalink to this headline">¶</a></h2>
+<p>how to convert between wgs84 lat/lon polar and cartesian coordinate systems
+<a class="reference external" href="http://www.movable-type.co.uk/scripts/latlong.html">http://www.movable-type.co.uk/scripts/latlong.html</a></p>
+<p><a class="reference external" href="https://en.wikipedia.org/wiki/Geographic_coordinate_conversion">Geographic Coordinate Conversion</a></p>
+</div>
+<div class="section" id="projections">
+<h2>Projections<a class="headerlink" href="#projections" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="gnomonic">
+<h3>Gnomonic<a class="headerlink" href="#gnomonic" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference external" href="https://en.wikipedia.org/wiki/Gnomonic_projection">Gnomonic Projection</a> <a class="reference internal" href="#wikignomonic" id="id1">[Wik]</a></p>
+<p><a class="reference external" href="http://www.progonos.com/furuti/MapProj/Normal/ProjAz/projAz.html">http://www.progonos.com/furuti/MapProj/Normal/ProjAz/projAz.html</a></p>
+<p>Dad used this on a radar project</p>
+</div>
+<div class="section" id="mercator">
+<h3>Mercator<a class="headerlink" href="#mercator" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference external" href="https://en.wikipedia.org/wiki/Transverse_Mercator_projection">Transverse Mercator Projection</a></p>
+<p><a class="reference external" href="https://en.wikipedia.org/wiki/Web_Mercator">Web Mercator Projection</a></p>
+</div>
+</div>
+<div class="section" id="cartesian-vs-polar">
+<h2>Cartesian vs Polar<a class="headerlink" href="#cartesian-vs-polar" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="velocity">
+<h3>Velocity<a class="headerlink" href="#velocity" title="Permalink to this headline">¶</a></h3>
+<p>One of the main differentiating factors between using cartesian and polar
+coordinate systems in our calculations will be the way that we want to treat
+velocity. A constant spherical velocity, is definitely not the same as a
+constant line cartesian velocity vector, while the difference is initially
+small, eventually the cartesian velocity (in the case of an aircraft flying)
+will move away from the surface of the planet.</p>
+<p>TODO: insert illustration here.</p>
+<p>In the case of a constant cartesian velocity, if there were not autopilot and no
+gravity, and no aerodynamic effects this would certainly be an accurate
+prediction of the trajectory of the aircraft.</p>
+<p>As it happens, aircraft, while on autopilot, or while trimmed at a constant
+engine power, wind velocity, temperature and pressure, tend to maintain a
+constant altitude above mean sea level. Pilots, while following a flight plan,
+always intend to hold a certain altitude. The exception to this is during
+climb or descent. Sometimes a constant rate descent is employed, or as is often
+the case with aircraft with more complicated computers, a variable
+ascent/descent rate is used to optimise fuel economy.</p>
+<p>Working in polar coordinates for velocity provides a simple means to represent
+the inherent desire for pilots to maintain a constant altitude and follow great
+circle tracks during straight and level flight, especially over longer periods
+or at faster speeds where the curvature of the earth becomes apparent. A single
+constant spherical velocity vector can accurately predict the motion of a
+cruising aircraft for a long period of time. One does however need to recognise that
+vehicles such as military aircraft or rockets flying at higher speeds can defy
+these expectations.</p>
+<p>For this reason I’d like to propose that we use Spherical Velocity vectors as
+our default representation of velocity. For the usual constant state flying
+scenarios it should do the best job. We can of course convert these vectors
+into cartesian vectors for the motion prediction algorithm, but in this case,
+these effects of curvature need to be taken into account by a changing velocity
+along the length of the trajectory prediction, even for straight lines.</p>
+<p>Work that still needs to get done in the library is:
+- find out how to transform a SphericalCoordinate + heading + distance into
+another spherical coordinate at that distance.</p>
+</div>
+</div>
+<div class="section" id="bibliography">
+<h2>Bibliography<a class="headerlink" href="#bibliography" title="Permalink to this headline">¶</a></h2>
+<p id="bibtex-bibliography-Libgdx_ATC_Simulator/Research/Coordinate_Systems/Coordinate_Systems-0"><table class="docutils citation" frame="void" id="wikignomonic" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[Wik]</a></td><td>Wikipedia. Gnomonic Projection Wikipedia. URL: <a class="reference external" href="https://en.wikipedia.org/wiki/Gnomonic{\_}projection">https://en.wikipedia.org/wiki/Gnomonic{\_}projection</a>.</td></tr>
+</tbody>
+</table>
+</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../Flight_Data_Sources.html" class="btn btn-neutral float-right" title="Flight Data Sources" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../Research.html" class="btn btn-neutral" title="Research" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Luke Frisken, Chris Coleman, Uros Vukanovic, Adam Miritis.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'1.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

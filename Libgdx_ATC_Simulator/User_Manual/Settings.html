@@ -1,0 +1,363 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Settings &mdash; Aircraft Trajectory Prediction 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Running the Software" href="Running_the_Software.html" />
+    <link rel="prev" title="User Manual" href="User_Manual.html" /> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Aircraft Trajectory Prediction
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Repository Layout</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../Repository_Layout.html">Project Layout</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Projects</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../Libgdx_ATC_Simulator.html">Libgdx ATC Simulator</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../Design_and_API/Design_and_API.html">Design &amp; API</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="User_Manual.html">User Manual</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Settings</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#prediction-service">Prediction-service</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#debug-data-feed">Debug-data-feed</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#display">Display</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#testing">Testing</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="Running_the_Software.html">Running the Software</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Integration_Testing.html">Integration Testing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Project_Setup_IntelliJ/Project_Setup_IntelliJ.html">IntelliJ Project Setup</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../Prototype_Design/Prototype_Design.html">Prototype Design</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Research/Research.html">Research</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Dependencies.html">Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Known_Issues.html">Known Issues</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../Compare_Results/Compare_Results.html">Compare Results Script</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../GogsIssuesExtended/GogsIssuesExtended.html">GogsIssuesExtended</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../VectorLibraryPerformanceTest/VectorLibraryPerformanceTest.html">Vector Library Performance Test</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../xplane_ADSB_Output/xplane_ADSB_Output.html">X-Plane ADSB Output Plugin</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Building &amp; Editing this Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../Building_Editing_Documentation.html">Building and Editing the Documentation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Other</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../Bloopers/Bloopers.html">Bloopers</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Aircraft Trajectory Prediction</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../Libgdx_ATC_Simulator.html">Libgdx ATC Simulator</a> &raquo;</li>
+        
+          <li><a href="User_Manual.html">User Manual</a> &raquo;</li>
+        
+      <li>Settings</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/Libgdx_ATC_Simulator/User_Manual/Settings.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+</style>
+<div class="section" id="settings">
+<span id="settings"></span><h1>Settings<a class="headerlink" href="#settings" title="Permalink to this headline">¶</a></h1>
+<p><em>Section author: Luke Frisken &lt;<a class="reference external" href="mailto:l&#46;frisken&#37;&#52;&#48;gmail&#46;com">l<span>&#46;</span>frisken<span>&#64;</span>gmail<span>&#46;</span>com</a>&gt;</em></p>
+<p>Configuration for the Libgdx ATC Simulator project is handled in the <code class="docutils literal notranslate"><span class="pre">ApplicationConfig</span></code> class.</p>
+<p>This class makes use of the <a class="reference external" href="https://github.com/typesafehub/config"><em>typesafe/config</em></a> library from github.
+We are storing the default configuration in <a class="reference external" href="../../assets/default_settings.json">default_settings.json</a>.
+These values can be overridden using the <a class="reference external" href="../../assets/settings.json">settings.json</a> file.</p>
+<p>A breakdown of the settings.json file can be found below with descriptions of options, along with default options.</p>
+<p><em>Section author: Uros</em></p>
+<ul class="simple">
+<li>Projection-reference”: [0.0, -37.668905,144.8307145],
+Selects the geographical co-ordinate for the projection reference point.</li>
+</ul>
+<div class="section" id="prediction-service">
+<span id="prediction-service"></span><h2>Prediction-service<a class="headerlink" href="#prediction-service" title="Permalink to this headline">¶</a></h2>
+<p><em>Section author: Uros</em></p>
+<div class="section" id="prediction-engine">
+<span id="prediction-engine"></span><h3>Prediction-engine<a class="headerlink" href="#prediction-engine" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><strong>Algorithm-type: “LMLEASTSQUARESV3”</strong>
+Selects the type of algorithm to use in the prediction engine.</li>
+<li><strong>Interpolation-transition-time: 180.0</strong></li>
+<li><strong>Java-worker-threads: 4</strong>Selects the number of java worker threads that will run concurrently.</li>
+</ul>
+</div>
+<div class="section" id="debug-data-feed-client">
+<span id="debug-data-feed-client"></span><h3>Debug-data-feed-client<a class="headerlink" href="#debug-data-feed-client" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><strong>Port-number: 6989 (Acceptible Port Range).</strong> Selects the port number that Debug Data Feed Client connects on. This is set arbitarily to 6989 for testing purposes. This will connect to the Debug Data Feed Server.</li>
+<li><strong>Server-ip: “localhost”</strong>Selects the Server’s IP address, in this case Local host. This is the Debug Data Feed Server by default.</li>
+</ul>
+</div>
+<div class="section" id="server">
+<span id="server"></span><h3>Server<a class="headerlink" href="#server" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><strong>Port-number: 6789 (Acceptible Port Range).</strong> Selects the port number that Prediction Feed Server runs on.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="debug-data-feed">
+<span id="debug-data-feed"></span><h2>Debug-data-feed<a class="headerlink" href="#debug-data-feed" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><strong>Enabled: true (True/False).</strong> Can be set to True or False, This will enable or disable the Debug Data Feed, This can be disabled when running a direct feed from other sources.</li>
+<li><strong>Port-number”: 6989 (Acceptible Port Range).</strong> Selects the Port Number the Debug-Data Feed Server runs on</li>
+</ul>
+<div class="section" id="adsb-recording-scenario">
+<span id="adsb-recording-scenario"></span><h3>Adsb-recording-scenario<a class="headerlink" href="#adsb-recording-scenario" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>“file”: “assets/flight_data/YMML_26_05_2016/database.json”
+Selects ADSB scenario that gets pushed through prediction service.</li>
+<li><strong>“filter-for-planeID”:[]</strong>
+This will filter for plane ID’s and only show the planes filtered.</li>
+<li><strong>“heading-velocity”: false  (True/False).</strong></li>
+<li><strong>speed”: 10</strong>
+Sets the speed that the program runs at.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="display">
+<span id="display"></span><h2>Display<a class="headerlink" href="#display" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><strong>use-msaa”: true (True/False).</strong> Enables Multisample anti-aliasing.</li>
+<li><strong>msaa-samples”: 8 (Integer Value)</strong>. Selects number of Multisample anti-aliasing samples.</li>
+<li><strong>prediction-display-method”: “GRADIENT”</strong></li>
+<li><strong>show-tracks-default”: true (True/False).</strong> This will either show or hide Aircraft Tracks. When disabled the tracks will dissapear.</li>
+<li><strong>Prediction-feed-client port-number”: 6789  (Acceptible Port Range).</strong> Selects the port number the prediction feed client connects on.</li>
+<li><strong>Prediction-feed-client server-ip”: “localhost”</strong>
+Sets the Server IP the prediction feed client connects to.</li>
+<li><strong>stippled-predictions”: false (True/False).</strong> This will show stippled vector lines on the visualization display if enabled.</li>
+<li><strong>bonus-feature”: false (True/False).</strong> Enables a bonus feature that was discovered accidentally by Luke. This will show some flashy graphics, NOTE: Could be dangerous to ATC controller.</li>
+</ul>
+</div>
+<div class="section" id="testing">
+<span id="testing"></span><h2>Testing<a class="headerlink" href="#testing" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><strong>“run-accuracy-test”: false (True/False).</strong> Will run the accuracy tests if selected true.</li>
+<li><strong>“save-csv”: false (True/False).</strong> Will save a CSV file of accuracy tests.</li>
+<li><strong>“save-json”: true (True/False).</strong> Saves a JSON file for accuracy tests.</li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="Running_the_Software.html" class="btn btn-neutral float-right" title="Running the Software" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="User_Manual.html" class="btn btn-neutral" title="User Manual" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Luke Frisken, Chris Coleman, Uros Vukanovic, Adam Miritis.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'1.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

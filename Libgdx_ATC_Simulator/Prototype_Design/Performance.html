@@ -1,0 +1,666 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Performance &mdash; Aircraft Trajectory Prediction 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Testing and Analysis" href="Testing/Testing.html" />
+    <link rel="prev" title="DebugDataFeed design document" href="Class_Design/DebugDataFeed_Design.html" /> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Aircraft Trajectory Prediction
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Repository Layout</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../Repository_Layout.html">Project Layout</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Projects</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../Libgdx_ATC_Simulator.html">Libgdx ATC Simulator</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../Design_and_API/Design_and_API.html">Design &amp; API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../User_Manual/User_Manual.html">User Manual</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="Prototype_Design.html">Prototype Design</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="Display_Design/Display_Design.html">Display Design</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Class_Design/Class_Design.html">Class Design</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Class_Design/DebugDataFeed_Design.html">DebugDataFeed design document</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Performance</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#the-problem">The Problem</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#strategy">Strategy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#solutions">Solutions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#conclusion">Conclusion</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="Testing/Testing.html">Testing and Analysis</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../Research/Research.html">Research</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Dependencies.html">Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Known_Issues.html">Known Issues</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../Compare_Results/Compare_Results.html">Compare Results Script</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../GogsIssuesExtended/GogsIssuesExtended.html">GogsIssuesExtended</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../VectorLibraryPerformanceTest/VectorLibraryPerformanceTest.html">Vector Library Performance Test</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../xplane_ADSB_Output/xplane_ADSB_Output.html">X-Plane ADSB Output Plugin</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Building &amp; Editing this Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../Building_Editing_Documentation.html">Building and Editing the Documentation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Other</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../Bloopers/Bloopers.html">Bloopers</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Aircraft Trajectory Prediction</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../Libgdx_ATC_Simulator.html">Libgdx ATC Simulator</a> &raquo;</li>
+        
+          <li><a href="Prototype_Design.html">Prototype Design</a> &raquo;</li>
+        
+      <li>Performance</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/Libgdx_ATC_Simulator/Prototype_Design/Performance.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+</style>
+<div class="section" id="performance">
+<h1>Performance<a class="headerlink" href="#performance" title="Permalink to this headline">¶</a></h1>
+<p><em>Section author: Luke Frisken &lt;<a class="reference external" href="mailto:l&#46;frisken&#37;&#52;&#48;gmail&#46;com">l<span>&#46;</span>frisken<span>&#64;</span>gmail<span>&#46;</span>com</a>&gt;</em></p>
+<div class="section" id="the-problem">
+<h2>The Problem<a class="headerlink" href="#the-problem" title="Permalink to this headline">¶</a></h2>
+<p>What we really have to work with: * Assuming efficiency of 80% per
+worker thread * 4 worker threads * Requirement of 400ms latency per
+work item * worst case maximum 200 work items at once. (we need to ask
+client about that, will they be all at once, or one at a time?)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">max</span> <span class="n">work</span> <span class="n">items</span> <span class="n">per</span> <span class="n">worker</span> <span class="o">=</span> <span class="mi">200</span><span class="o">/</span><span class="p">(</span><span class="mi">4</span><span class="o">*</span><span class="mf">0.8</span><span class="p">)</span>
+<span class="nb">max</span> <span class="n">time</span> <span class="n">per</span> <span class="n">work</span> <span class="n">item</span> <span class="o">=</span> <span class="mi">400</span><span class="o">/</span><span class="p">(</span><span class="mi">200</span><span class="o">/</span><span class="p">(</span><span class="mi">4</span><span class="o">*</span><span class="mf">0.8</span><span class="p">)</span> <span class="o">=</span> <span class="mf">6.4</span><span class="n">ms</span>
+<span class="ow">or</span> <span class="nb">max</span> <span class="n">time</span> <span class="n">per</span> <span class="n">work</span> <span class="n">item</span> <span class="o">=</span> <span class="mf">1.6</span><span class="o">*</span><span class="n">number</span> <span class="n">of</span> <span class="n">workers</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="strategy">
+<h2>Strategy<a class="headerlink" href="#strategy" title="Permalink to this headline">¶</a></h2>
+<p>We want to remove as much overhead as possible from either side of the
+PredictionEngine sandwich.</p>
+<p>The biggest gains and losses will probably be made in the algorithm
+itself. First need to measure how long each slice of the sandwhich is
+taking to justify which parts to spend more time optimising, remembering
+that the algorithm effects need to be multiplied by the number of
+workers/threads.</p>
+</div>
+<div class="section" id="solutions">
+<h2>Solutions<a class="headerlink" href="#solutions" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="easy-optimizations">
+<h3>Easy Optimizations<a class="headerlink" href="#easy-optimizations" title="Permalink to this headline">¶</a></h3>
+<p>This <a class="reference external" href="http://java-performance.com/">website</a> has some great notes
+about what we can pay attention to in our code to ensure we get good
+performance.</p>
+<p>Some things I’ve noticed:</p>
+<ul class="simple">
+<li>remove Calendar</li>
+<li>remove calls to System.getTime and other slow system calls</li>
+<li>profiling</li>
+<li>Java HotspotJIT (flags and things we can do to help)</li>
+<li>try and minimize garbage collection</li>
+</ul>
+</div>
+<div class="section" id="networking">
+<h3>Networking<a class="headerlink" href="#networking" title="Permalink to this headline">¶</a></h3>
+<p>If it turns out that the networking is a major performance bottleneck
+there is the option of switching to UDP communications. We already
+timestamp all of our predictions, so it’s only a matter of providing a
+checksum for each UDP Datagram and we can have a reliable UDP
+implementation, with low latency.</p>
+<p>A small change in the server and client will be required to switch to
+UDP, and implement the checksum creation and checking. The client will
+also need to keep a record of Datagrams it receives in order to know
+whether it is getting the latest prediction, or if they are coming in
+out of order. (Just select if it is newer than what it already has).</p>
+</div>
+<div class="section" id="jni-to-native-c-c-code">
+<h3>JNI to native C/C++ code<a class="headerlink" href="#jni-to-native-c-c-code" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference external" href="http://stackoverflow.com/questions/13973035/what-is-the-quantitative-overhead-of-making-a-jni-call">Stack Overflow Overhead of JNI
+Call</a></p>
+<p>That description puts a single JNI call at 0.019ms</p>
+<p>So an average overhead of 0.04ms (in and out) possibly a little more to
+convert data types. Bunches of work items could be sent using this to
+reduce the overhead per item.</p>
+<p><a class="reference external" href="http://normanmaurer.me/blog/2014/01/07/JNI-Performance-Welcome-to-the-dark-side/">JNI Performance Blog
+Post</a></p>
+<p><a class="reference external" href="https://www.researchgate.net/publication/269935434_Performance_comparison_between_Java_and_JNI_for_optimal_implementation_of_computational_micro-kernels">JNI Java Performance
+Comparison</a></p>
+<p>goes over some of the finer details and points of using JNI for
+performance.</p>
+<p><a class="reference external" href="http://benchmarksgame.alioth.debian.org/u64q/java.html">Java Language
+Performance</a></p>
+<p>This page puts our best chance of improvement an average of around a
+factor of 2, which is pretty good if the overhead of a jni call is so
+small. This would allow us to almost double the performance of the
+PredictionEngine section of the system.</p>
+</div>
+<div class="section" id="jni-to-opencl-or-cuda">
+<h3>JNI to OpenCL or CUDA<a class="headerlink" href="#jni-to-opencl-or-cuda" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference external" href="http://ieeexplore.ieee.org/xpl/login.jsp?tp=&amp;arnumber=6604011&amp;url=http%3A%2F%2Fieeexplore.ieee.org%2Fiel7%2F6588636%2F6603992%2F06604011.pdf%3Farnumber%3D6604011">article
+1</a></p>
+<p>This paper says it can take up to around 10-20ms transfer from host
+memory to GPU using CUDA. Is this a fixed function, or a function of the
+amount of memory being transfered?</p>
+<p><a class="reference external" href="http://www.utdallas.edu/~cxl137330/courses/spring14/AdvRTS/protected/slides/20.pdf">article
+2</a></p>
+<p>IO R/W method seems to have the best latency performance for our
+application (data in is smaller than 4mb) better than DMA anyway.</p>
+<p>This paper demonstrates that the data size in host to device using
+Memory-mapped Read and Write, starts to affect the latency when it
+exceeds 16kb, and equals 1ms at 4mb. If we super were lazy, we could
+probably send all info at 3ms and 16mb. If we were super efficient, we
+could probably get all info into a 16kb chunk, and the latency would be
+down to 0.01ms</p>
+<p>so, host (cpu) to device (gpu) latency using IO read/write</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="44%" />
+<col width="56%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">data</th>
+<th class="head">latency</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>16kb</td>
+<td>0.01ms</td>
+</tr>
+<tr class="row-odd"><td>256kb</td>
+<td>0.03ms</td>
+</tr>
+<tr class="row-even"><td>4mb</td>
+<td>1ms</td>
+</tr>
+<tr class="row-odd"><td>16mb</td>
+<td>3ms</td>
+</tr>
+</tbody>
+</table>
+<p>Going the other direction is not so great, but thankfully we only need
+to return a single position prediction per aircraft, so the data will be
+absolutely tiny. Not sure if you can swap to using DMA for the transfer
+back but will assume not.</p>
+<p>so, host (cpu) to device (gpu) latency using DMA</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="44%" />
+<col width="56%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">data</th>
+<th class="head">latency</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>16kb</td>
+<td>0.3ms</td>
+</tr>
+<tr class="row-odd"><td>256kb</td>
+<td>0.3ms</td>
+</tr>
+<tr class="row-even"><td>4mb</td>
+<td>1ms</td>
+</tr>
+<tr class="row-odd"><td>16mb</td>
+<td>3ms</td>
+</tr>
+</tbody>
+</table>
+<p>device (gpu) to host (cpu) using IO read/write</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="44%" />
+<col width="56%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">data</th>
+<th class="head">latency</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>1kb</td>
+<td>0.1ms</td>
+</tr>
+<tr class="row-odd"><td>4kb</td>
+<td>0.2ms</td>
+</tr>
+<tr class="row-even"><td>16kb</td>
+<td>1ms</td>
+</tr>
+<tr class="row-odd"><td>64kb</td>
+<td>3ms</td>
+</tr>
+<tr class="row-even"><td>256kb</td>
+<td>15ms</td>
+</tr>
+<tr class="row-odd"><td>1mb</td>
+<td>100ms</td>
+</tr>
+<tr class="row-even"><td>4mb</td>
+<td>300ms</td>
+</tr>
+</tbody>
+</table>
+<p>anything over around 16kb of data out, makes DMA more worthwhile.</p>
+<p>device (gpu) to host (cpu) using DMA</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="44%" />
+<col width="56%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">data</th>
+<th class="head">latency</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>1kb</td>
+<td>0.03ms</td>
+</tr>
+<tr class="row-odd"><td>4kb</td>
+<td>0.03ms</td>
+</tr>
+<tr class="row-even"><td>16kb</td>
+<td>0.03ms</td>
+</tr>
+<tr class="row-odd"><td>64kb</td>
+<td>0.08ms</td>
+</tr>
+<tr class="row-even"><td>256kb</td>
+<td>0.1ms</td>
+</tr>
+<tr class="row-odd"><td>1mb</td>
+<td>0.3ms</td>
+</tr>
+<tr class="row-even"><td>4mb</td>
+<td>1ms</td>
+</tr>
+</tbody>
+</table>
+<p>8bytes for a 64 bit double for position vector element. 24bytes per
+position vector.</p>
+<p>if using a long for time, 8 bytes, otherwise 4 bytes for time as
+integer.</p>
+<p>let’s go with 4 bytes for aircraft ID as integer, so that’s 36 bytes per
+prediction position.</p>
+<p>A resolution of say, 5 seconds per predicted position, 2 minutes into
+the future gives us 24 positions per prediction.</p>
+<p>so:our total data in prediction sending back would be:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">200</span> <span class="o">*</span> <span class="mi">24</span> <span class="o">*</span> <span class="mi">36</span> <span class="o">=</span> <span class="mi">172</span><span class="n">kb</span>
+</pre></div>
+</div>
+<p>This means that when using DMA our latency due to transfer would be:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">3</span><span class="n">ms</span> <span class="o">+</span> <span class="mf">0.1</span><span class="n">ms</span> <span class="o">=</span> <span class="mf">3.1</span><span class="n">ms</span>
+</pre></div>
+</div>
+<p>In ray tracing benchmarks such as <a class="reference external" href="http://www.luxmark.info/">http://www.luxmark.info/</a> and
+<a class="reference external" href="https://docs.google.com/spreadsheets/d/1rybGWiISHtgaUI-E_DIOM0wf6DW5UG1-p1ooizHimUI/edit?ts=56d095bd#gid=0">https://docs.google.com/spreadsheets/d/1rybGWiISHtgaUI-E_DIOM0wf6DW5UG1-p1ooizHimUI/edit?ts=56d095bd#gid=0</a></p>
+<p>The gain ratio is anywhere between a factor 2 and a factor of 5 over
+using C++ on equivalent level devices. So compare this with Java, and we
+have a gain factor between 4 and 10.</p>
+<p>Taking worst case result of improvement with a factor of 4, and sticking
+this in with a mid range transfer time of 15ms each way which equals
+30ms total, I come to the conclusion that we will be able to process</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">improvement</span> <span class="n">factor</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="n">time</span> <span class="k">for</span> <span class="n">same</span> <span class="n">amount</span> <span class="n">of</span> <span class="n">work</span> <span class="k">as</span> <span class="n">cpu</span> <span class="n">threads</span> <span class="o">=</span> <span class="mi">3</span> <span class="o">+</span> <span class="mi">400</span><span class="o">/</span><span class="mi">4</span>
+<span class="o">=</span> <span class="mi">103</span><span class="n">ms</span>
+</pre></div>
+</div>
+<p>Roughly 4 times the latency performance with 200 aircraft in the worst
+case.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">improvement</span> <span class="n">factor</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">time</span> <span class="k">for</span> <span class="n">same</span> <span class="n">amount</span> <span class="n">of</span> <span class="n">work</span> <span class="k">as</span> <span class="n">cpu</span> <span class="n">threads</span> <span class="o">=</span> <span class="mi">3</span> <span class="o">+</span> <span class="mi">400</span><span class="o">/</span><span class="mi">10</span>
+<span class="o">=</span> <span class="mi">43</span><span class="n">ms</span>
+</pre></div>
+</div>
+<p>in the best case, roughly 10 times the latency performance</p>
+<p>There Also exists the possiblity of adding multiple GPUS, take the best
+case scenario, with 2 gpus:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">improvement</span> <span class="n">factor</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="mi">10</span> <span class="o">=</span> <span class="mi">20</span>
+<span class="n">time</span> <span class="k">for</span> <span class="n">same</span> <span class="n">amount</span> <span class="n">of</span> <span class="n">work</span> <span class="k">as</span> <span class="n">cpu</span> <span class="n">threads</span> <span class="o">=</span> <span class="mi">3</span><span class="o">*</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">400</span><span class="o">/</span><span class="mi">20</span>
+<span class="o">=</span> <span class="mi">26</span><span class="n">ms</span>
+</pre></div>
+</div>
+<p>roughly 15 times the latency performance.</p>
+<p>Adding extra GPUs on top of this means that the transfer latency could
+well increase above the benefits of having an extra GPU.</p>
+</div>
+<div class="section" id="opencl-design">
+<h3>OpenCL Design<a class="headerlink" href="#opencl-design" title="Permalink to this headline">¶</a></h3>
+<p>Vector type in OpenCL:</p>
+<p><a class="reference external" href="http://stackoverflow.com/questions/20200203/using-own-vector-type-in-opencl-seems-to-be-faster">using-own-vector-type-in-opencl</a></p>
+<p>Creating queues</p>
+<p><a class="reference external" href="http://sa09.idav.ucdavis.edu/docs/SA09-opencl-dg-events-stream.pdf">opencl-dg-events-stream.</a></p>
+<p>constant memory structs</p>
+<p><a class="reference external" href="http://enja.org/2011/03/30/adventures-in-opencl-part-3-constant-memory-structs/">constant-memory-structs</a></p>
+<p>constant memory performance</p>
+<p><a class="reference external" href="http://stackoverflow.com/questions/12153443/is-the-access-performance-of-constant-memory-as-same-as-global-memory-on-ope">link</a></p>
+<p>“We have a small, read-only dataset, and we are broadcasting the same
+coefficient value to each thread in our warp. Constant memory should be
+very efficient in this situation.”</p>
+<p><a class="reference external" href="http://www.acceleware.com/blog/constant-cache-vs-read-only-cache">constant vs read only
+cache</a></p>
+<p>Nvidia caches constant memory. Not sure about AMD.</p>
+<p>using local memory</p>
+<p><a class="reference external" href="http://stackoverflow.com/questions/2541929/how-do-i-use-local-memory-in-opencl">how-do-i-use-local-memory-in-opencl</a></p>
+<p>Applying_Shared_Local_Memory</p>
+<p><a class="reference external" href="http://stackoverflow.com/questions/21872810/whats-the-advantage-of-the-local-memory-in-opencl">whats-the-advantage-of-the-local-memory-in-opencl</a></p>
+<p>There appears to be two ways to declare local memory, either make it one
+of the input buffers to the kernal a local type, or declare an array or
+variable as local type in the body of the kernel.</p>
+<p>Work Group = each aircraft/prediction</p>
+<p>this can come later, but there is the fantastic possibility of having
+multiple local work items (more than 1) in a group operating on a single
+aircraft track/prediction.</p>
+<p>With my GTX570 there are 15 Streaming Multiprocessors available running
+at 1500mhz each. Tthis is roughly half my i5 cpu frequency. With 1 work
+item (cuda core) per work group (Streaming Multiprocessor) I have 4
+times the effective number of threads on the gpu. So, we can assume if
+we compare this to native multithreaded C++ code, I’ll get roughly
+double the performance using a single cuda core (work item) per group.
+Keep in mind the the GTX570 does have up to 32 cuda cores per SMP and
+most of these would not be getting used in this scenario. 480 cuda
+cores.</p>
+<p>My GTX670 on the other hand, clocks in at 1000mhz with 6 Streaming
+Multiprocessors, so, making the same assumptions, it would run at
+roughly half the speed of the cpu when we are using 1 work item per work
+group. However, the 670 has a whapping total of 192 work items per work
+group available. 1152 cuda cores.</p>
+<p>Both of these cards have 48kb of local memory per work group, and 64kb
+of constant memory. Local memory is the fastest, followed closely by
+constant memory, and finally global memory being the biggest but also
+the slowest. They also have 63 32bit registers per thread. Use any more
+than that, and they begin to spill over into local memory space.</p>
+<p>A note on Global Memory access, if you organise it so each thread will
+be accessing similar locations in global memory (coalesced) at a similar
+time during their execution, then global memory can be a lot faster,
+than say in the case of ray tracing where, each ray could potentially
+end up needing to query any possible element in the global scene at any
+given time. Random access is a lot faster within local memory. If your
+local memory begins to spill however, this will be slower than had you
+used global memory.</p>
+<p>If you can anticipate the spill this
+<a class="reference external" href="http://stackoverflow.com/questions/12726527/opencl-and-cuda-registers-usage-optimization">answer</a>
+is perhaps a good one. Limiting the scope of variables with {} brackets
+allows you to force them to be removed from the registers when they go
+out of scope.</p>
+<p>A roundup of other available OpenCL hardware: GTX1080, possibly best
+consumer card on the market. Clock speed 1600mhz, 2560 cuda cores, 20
+streaming multiprocessors, making that 128 cores per work group. 96kb of
+local memory.</p>
+<p>AMD Radeon R9 Fury x Clock speed 1000mhz, 4096 stream processing units,
+64 compute units (work groups) making that 64 work items per work group.
+32kb of local memory.</p>
+<p>As you can probably tell, nvidia architecture is better value,
+especially with the larger local memory size this allows you to do more
+with those cores, and do it more efficiently with less access to global
+memory.</p>
+<p>Ideally you want to keep all memory access local to the workgroup,
+because this is a lot lot faster. With the 48kb of local memory on my
+GPUs, I’ve calculated what kind of data I could fit.</p>
+<p>Let’s say we go with floats for vector positions for now, well:</p>
+<ul class="simple">
+<li>4 bytes * 3 = position</li>
+<li>8 bytes long integer for time (this could be shortened to an int if
+necessary)</li>
+<li>4 bytes for speed (velocity vector can be calculated)</li>
+</ul>
+<p>And that’s it for now, so this adds up to a grand total of:</p>
+<p>36bytes per aircraft state, which gives us capacity to store 1333
+aircraft states in local memory. We certainly don’t need all this, maybe
+only 50 states tops for input and output This would leave 46.2kb left
+for other purposes. This could could include: flight plan information,
+wind speed/direction. Also neglected here is the</p>
+<p>One could decide to divide this work group up and assign 26 aircraft per
+work group. If the aircraft were in the surrounding area, you could also
+compute intersections between them and give warnings, but this would be
+outside the scope of this project.</p>
+<p>The choice of whether to divide the group up or not would depend on the
+algorithm being employed, how much local memory it requires, and how
+difficult it is to subdivide the algorithm itself (does it have
+iterative loops which can allow you to subdivide the algorithm itself?)</p>
+<p>After a bit more reading, I discovered that before you use local memory,
+you need to read the values from global memory. So if it only gets used
+once there is no advantage. Will the algorithm use positions multiple
+times? Certainly a simple one might not, but a more complicated
+algorithm, might be trying to fit a curve to the points, or run multiple
+iterations for optimising the result.</p>
+</div>
+</div>
+<div class="section" id="conclusion">
+<h2>Conclusion<a class="headerlink" href="#conclusion" title="Permalink to this headline">¶</a></h2>
+<p>If it’s a toss up between 15 pcs with high power cps, or 1 pc with 2
+gpus to get the required performance out of the system, the latter seems
+like a good option. Another way to think of it, is we could potentially
+have up to 15 times higher quality predictions given the same number of
+computers.</p>
+<p>The tradeoff is of course increased system complexity, potentially
+reduced reliability, and increased software maintenance overhead, as GPU
+software is often tuned to a specific peice/type of hardware, and when
+this is superceded, more work needs to go into maintaining the software
+on new hardware.</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="Testing/Testing.html" class="btn btn-neutral float-right" title="Testing and Analysis" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="Class_Design/DebugDataFeed_Design.html" class="btn btn-neutral" title="DebugDataFeed design document" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Luke Frisken, Chris Coleman, Uros Vukanovic, Adam Miritis.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'1.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

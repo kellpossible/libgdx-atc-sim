@@ -1,0 +1,340 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Display &mdash; Aircraft Trajectory Prediction 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Vectors Package" href="../Vectors/Vectors_Package.html" />
+    <link rel="prev" title="Algorithm" href="../Algorithm/Algorithm.html" /> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> Aircraft Trajectory Prediction
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Repository Layout</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../Repository_Layout.html">Project Layout</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Projects</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../Libgdx_ATC_Simulator.html">Libgdx ATC Simulator</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../Design_and_API.html">Design &amp; API</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../javadoc/index.html">Java API (All Packages)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Flight_Data/Flight_Data.html">Flight Data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Prediction_Service/Prediction_Service.html">Prediction Service</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Algorithm/Algorithm.html">Algorithm</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Display</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#overall-design">Overall Design</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#display-methods">Display Methods</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../Vectors/Vectors_Package.html">Vectors Package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Protocol_Buffers.html">Protocol Buffers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Protocol_Buffer_Definitions.html">Protocol Buffer Definitions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Design_and_API.html#design-diagrams">Design Diagrams</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../User_Manual/User_Manual.html">User Manual</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Prototype_Design/Prototype_Design.html">Prototype Design</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Research/Research.html">Research</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Dependencies.html">Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Known_Issues.html">Known Issues</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Compare_Results/Compare_Results.html">Compare Results Script</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../GogsIssuesExtended/GogsIssuesExtended.html">GogsIssuesExtended</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../VectorLibraryPerformanceTest/VectorLibraryPerformanceTest.html">Vector Library Performance Test</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../xplane_ADSB_Output/xplane_ADSB_Output.html">X-Plane ADSB Output Plugin</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Building &amp; Editing this Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../Building_Editing_Documentation.html">Building and Editing the Documentation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Other</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../Bloopers/Bloopers.html">Bloopers</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Aircraft Trajectory Prediction</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../Libgdx_ATC_Simulator.html">Libgdx ATC Simulator</a> &raquo;</li>
+        
+          <li><a href="../Design_and_API.html">Design &amp; API</a> &raquo;</li>
+        
+      <li>Display</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../../_sources/Libgdx_ATC_Simulator/Design_and_API/Display/Display.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+</style>
+<div class="section" id="display">
+<h1>Display<a class="headerlink" href="#display" title="Permalink to this headline">¶</a></h1>
+<p><em>Section author: Luke Frisken &lt;<a class="reference external" href="mailto:l&#46;frisken&#37;&#52;&#48;gmail&#46;com">l<span>&#46;</span>frisken<span>&#64;</span>gmail<span>&#46;</span>com</a>&gt;</em></p>
+<p>The <a class="reference external" href="../javadoc/com/atc/simulator/display/package-summary.html" title="com.atc.simulator.display.package-summary"><code class="xref java java-extdoc docutils literal notranslate"><span class="pre">com.atc.simulator.display</span></code></a> package contains all the display
+functionality for this application.</p>
+<p class="rubric">Diagrams</p>
+<div class="figure align-center" id="id1">
+<a class="reference internal image-reference" href="../../../_images/Class_Design1.svg"><img alt="../../../_images/Class_Design1.svg" src="../../../_images/Class_Design1.svg" width="100%" /></a>
+<p class="caption"><span class="caption-text">Class Design</span></p>
+</div>
+<div class="section" id="overall-design">
+<h2>Overall Design<a class="headerlink" href="#overall-design" title="Permalink to this headline">¶</a></h2>
+<p>The display is designed to be a high performance opengl application.
+It achieves this aim by using libgdx’s models api to create instances
+of the draw geometry to get stored in the gpu vertex buffers. The main problem
+of this method is that managing, and updating the resources can be expensive
+and a bit complicated. Currently <a class="reference external" href="../javadoc/com/atc/simulator/display/view/DisplayRenderableProvider.html" title="com.atc.simulator.display.view.DisplayRenderableProvider"><code class="xref java java-extdoc docutils literal notranslate"><span class="pre">view.DisplayRenderableProvider</span></code></a> objects
+are used to store the state of geometric object, to update it, and to render it.</p>
+</div>
+<div class="section" id="display-methods">
+<h2>Display Methods<a class="headerlink" href="#display-methods" title="Permalink to this headline">¶</a></h2>
+<p>Of primary interest is the <a class="reference external" href="../javadoc/com/atc/simulator/display/view/model_instance_providers/PredictionModel.html" title="com.atc.simulator.display.view.model_instance_providers.PredictionModel"><code class="xref java java-extdoc docutils literal notranslate"><span class="pre">view.model_instance_providers.PredictionModel</span></code></a>
+class which contains the code for displaying the predictions. The different
+types of available display methods are enumerated in <a class="reference external" href="../javadoc/com/atc/simulator/display/model/PredictionDisplayMethod.html" title="com.atc.simulator.display.model.PredictionDisplayMethod"><code class="xref java java-extdoc docutils literal notranslate"><span class="pre">model.PredictionDisplayMethod</span></code></a></p>
+<div class="section" id="gradient">
+<h3>GRADIENT<a class="headerlink" href="#gradient" title="Permalink to this headline">¶</a></h3>
+<p>The current most advanced display method is the <em>GRADIENT</em> method. This method
+creates a mesh between the Right, Centre and Left tracks, and UV maps the
+vertices to a generated gradient texture.</p>
+<div class="figure align-center" id="id2">
+<img alt="../../../_images/gradient.png" src="../../../_images/gradient.png" />
+<p class="caption"><span class="caption-text">GRADIENT display method</span></p>
+</div>
+<p>Unfortunately there is a problem with the texture interpolation being incorrect
+for trapezoid shapes. This will probably require adding an extra dimension to the
+UV map coordinates in order to do perspective correct texture projection.
+Unfortunately this also probably means changing the underlying libgdx framework
+which is not a small task, so this problem has been sidelined.</p>
+</div>
+<div class="section" id="two-line">
+<h3>TWO_LINE<a class="headerlink" href="#two-line" title="Permalink to this headline">¶</a></h3>
+<div class="figure align-center" id="id3">
+<img alt="../../../_images/two_line.png" src="../../../_images/two_line.png" />
+<p class="caption"><span class="caption-text">TWO_LINE display method</span></p>
+</div>
+</div>
+<div class="section" id="wireframe">
+<h3>WIREFRAME<a class="headerlink" href="#wireframe" title="Permalink to this headline">¶</a></h3>
+<div class="figure align-center" id="id4">
+<img alt="../../../_images/wireframe.png" src="../../../_images/wireframe.png" />
+<p class="caption"><span class="caption-text">WIREFRAME display method</span></p>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../Vectors/Vectors_Package.html" class="btn btn-neutral float-right" title="Vectors Package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../Algorithm/Algorithm.html" class="btn btn-neutral" title="Algorithm" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Luke Frisken, Chris Coleman, Uros Vukanovic, Adam Miritis.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'1.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

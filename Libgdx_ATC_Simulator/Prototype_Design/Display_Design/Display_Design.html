@@ -1,0 +1,353 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Display Design &mdash; Aircraft Trajectory Prediction 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Class Design" href="../Class_Design/Class_Design.html" />
+    <link rel="prev" title="Prototype Design" href="../Prototype_Design.html" /> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> Aircraft Trajectory Prediction
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Repository Layout</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../Repository_Layout.html">Project Layout</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Projects</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../Libgdx_ATC_Simulator.html">Libgdx ATC Simulator</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../Design_and_API/Design_and_API.html">Design &amp; API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../User_Manual/User_Manual.html">User Manual</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../Prototype_Design.html">Prototype Design</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Display Design</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#initial-ideas-about-visualizations">Initial Ideas about Visualizations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#design-considerations">Design Considerations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#design-prototypes">Design prototypes</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../Class_Design/Class_Design.html">Class Design</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Class_Design/DebugDataFeed_Design.html">DebugDataFeed design document</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Performance.html">Performance</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Testing/Testing.html">Testing and Analysis</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Research/Research.html">Research</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Dependencies.html">Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Known_Issues.html">Known Issues</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Compare_Results/Compare_Results.html">Compare Results Script</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../GogsIssuesExtended/GogsIssuesExtended.html">GogsIssuesExtended</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../VectorLibraryPerformanceTest/VectorLibraryPerformanceTest.html">Vector Library Performance Test</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../xplane_ADSB_Output/xplane_ADSB_Output.html">X-Plane ADSB Output Plugin</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Building &amp; Editing this Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../Building_Editing_Documentation.html">Building and Editing the Documentation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Other</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../Bloopers/Bloopers.html">Bloopers</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Aircraft Trajectory Prediction</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../Libgdx_ATC_Simulator.html">Libgdx ATC Simulator</a> &raquo;</li>
+        
+          <li><a href="../Prototype_Design.html">Prototype Design</a> &raquo;</li>
+        
+      <li>Display Design</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../../_sources/Libgdx_ATC_Simulator/Prototype_Design/Display_Design/Display_Design.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+</style>
+<div class="section" id="display-design">
+<h1>Display Design<a class="headerlink" href="#display-design" title="Permalink to this headline">¶</a></h1>
+<p><em>Section author: Uros Vukanovic &lt;<a class="reference external" href="mailto:7671725&#37;&#52;&#48;student&#46;swin&#46;edu&#46;au">7671725<span>&#64;</span>student<span>&#46;</span>swin<span>&#46;</span>edu<span>&#46;</span>au</a>&gt;</em></p>
+<div class="section" id="initial-ideas-about-visualizations">
+<h2>Initial Ideas about Visualizations<a class="headerlink" href="#initial-ideas-about-visualizations" title="Permalink to this headline">¶</a></h2>
+<p>After the Initial discussion with client about the problem, some basic
+visualization ideas on how to present the prediction data to the traffic
+controllers was composed.</p>
+<div class="figure" id="id1">
+<a class="reference external image-reference" href="../../../_images/design1.jpg"><img alt="../../../_images/design1.jpg" src="../../../_images/design1.jpg" /></a>
+<p class="caption"><span class="caption-text">Fig1. - Preliminary ideas about how to visualize the solution.</span></p>
+</div>
+<div class="figure" id="id2">
+<a class="reference external image-reference" href="../../../_images/design2.jpg"><img alt="../../../_images/design2.jpg" src="../../../_images/design2.jpg" /></a>
+<p class="caption"><span class="caption-text">Fig2. - In Depth Sketches on how to visualize the prediction paths</span></p>
+</div>
+</div>
+<div class="section" id="design-considerations">
+<h2>Design Considerations<a class="headerlink" href="#design-considerations" title="Permalink to this headline">¶</a></h2>
+<p>Feedback at a later date showed us the importance and delicacy of
+presenting the prediction data visually. Being an ATC controller you
+don’t want your screen to be overly cluttered. This adds to the problem
+of presenting something useful, while also providing something that
+won’t distract the controllers from their job. Currently ATC screens are
+quite simple and only show what is absolutely required.</p>
+<p>Another point client stressed is that the visualization has to be
+presented in a way that doesn’t affirm to the controller that this is
+the definitive path the plane will be headed on, simply a prediction of
+possible future positions. This can be demonstrated in the figure below.
+Having arrows coming out of the predicted paths was something client
+suggested might confuse ATC controllers.</p>
+<div class="figure" id="id3">
+<a class="reference external image-reference" href="../../../_images/ATCscreen1.jpg"><img alt="../../../_images/ATCscreen1.jpg" src="../../../_images/ATCscreen1.jpg" /></a>
+<p class="caption"><span class="caption-text">Fig4. - Predictions shown in Red</span></p>
+</div>
+</div>
+<div class="section" id="design-prototypes">
+<h2>Design prototypes<a class="headerlink" href="#design-prototypes" title="Permalink to this headline">¶</a></h2>
+<p>After taking into account the design considerations several ideas were
+sketched out on how to possibly display the prediction.</p>
+<div class="figure" id="id4">
+<img alt="../../../_images/display_methods.jpg" src="../../../_images/display_methods.jpg" />
+<p class="caption"><span class="caption-text">Fig5. - Possible display solutions presented to client</span></p>
+</div>
+<div class="figure" id="id5">
+<img alt="../../../_images/display_methods2.jpg" src="../../../_images/display_methods2.jpg" />
+<p class="caption"><span class="caption-text">Fig6. - More Designs</span></p>
+</div>
+<p>After some discussion with client, they suggested that displaying the
+prediction as a shaded area might be the best design approach. This
+would re-affirm to the ATC controllers that this was only a possible
+location, not a definitive location or direction of the aircraft.</p>
+<p>Displaying a shaded area will also provide information on where the
+plane will most likely be, while also providing other possible
+locations. This, combined with the ATC controller’s cognitive abilities
+should be able to assist them make informed decisions about future
+positions.</p>
+<div class="figure" id="id6">
+<a class="reference external image-reference" href="../../../_images/display_methods3.png"><img alt="../../../_images/display_methods3.png" src="../../../_images/display_methods3.png" /></a>
+<p class="caption"><span class="caption-text">Fig7. - Possible solution for visualization display.</span></p>
+</div>
+<div class="figure" id="id7">
+<img alt="../../../_images/ourdisplay.png" src="../../../_images/ourdisplay.png" />
+<p class="caption"><span class="caption-text">Fig8. - Our Current Implementation of the display for the prediction algorithms.</span></p>
+</div>
+<p>Figure 8, Shows a tweaked model of figure 7, it uses a shaded area
+along with a gradient to try show where the plane will be most likely
+depending on the opacity of the shaded area. This is our current and
+final implementation of the display visualization.</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../Class_Design/Class_Design.html" class="btn btn-neutral float-right" title="Class Design" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../Prototype_Design.html" class="btn btn-neutral" title="Prototype Design" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Luke Frisken, Chris Coleman, Uros Vukanovic, Adam Miritis.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'1.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

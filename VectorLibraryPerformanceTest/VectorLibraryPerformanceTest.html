@@ -1,0 +1,385 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Vector Library Performance Test &mdash; Aircraft Trajectory Prediction 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="X-Plane ADSB Output Plugin" href="../xplane_ADSB_Output/xplane_ADSB_Output.html" />
+    <link rel="prev" title="GogsIssuesExtended" href="../GogsIssuesExtended/GogsIssuesExtended.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Aircraft Trajectory Prediction
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Repository Layout</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../Repository_Layout.html">Project Layout</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Projects</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../Libgdx_ATC_Simulator/Libgdx_ATC_Simulator.html">Libgdx ATC Simulator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Compare_Results/Compare_Results.html">Compare Results Script</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../GogsIssuesExtended/GogsIssuesExtended.html">GogsIssuesExtended</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Vector Library Performance Test</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#performance-test-results">Performance Test Results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#review-of-libraries">Review of Libraries</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#apache-commons-math">Apache commons-math</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pythagoras">Pythagoras</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#yeppp">Yeppp!</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../xplane_ADSB_Output/xplane_ADSB_Output.html">X-Plane ADSB Output Plugin</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Building &amp; Editing this Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../Building_Editing_Documentation.html">Building and Editing the Documentation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Other</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../Bloopers/Bloopers.html">Bloopers</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Aircraft Trajectory Prediction</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>Vector Library Performance Test</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/VectorLibraryPerformanceTest/VectorLibraryPerformanceTest.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+</style>
+<div class="section" id="vector-library-performance-test">
+<h1>Vector Library Performance Test<a class="headerlink" href="#vector-library-performance-test" title="Permalink to this headline">¶</a></h1>
+<p><em>Section author: Luke Frisken &lt;l.frisken&#64;gmail.com&gt;</em></p>
+<p>The purpose of this performance test was to review several
+methods/libraries available for vector/matrix math operations.</p>
+<p>The source code for the project can be found at <a class="reference external" href="https://github.com/kellpossible/java-vector-math-performance-test">https://github.com/kellpossible/java-vector-math-performance-test</a></p>
+<ul class="simple">
+<li><a class="reference external" href="https://commons.apache.org/proper/commons-math/apidocs/org/apache/commons/math3/geometry/euclidean/threed/Vector3D.html">Apache
+commons-math</a></li>
+<li><a class="reference external" href="https://github.com/samskivert/pythagoras">Pythagoras Library</a></li>
+<li><a class="reference external" href="http://www.yeppp.info/">Yeppp! Library</a></li>
+<li>LWJGL OpenCL (TODO)</li>
+</ul>
+<p>Vector classes using double precision floating point numbers were used.
+Where classes were missing, a plain java alternative was implemented.</p>
+<div class="section" id="performance-test-results">
+<h2>Performance Test Results<a class="headerlink" href="#performance-test-results" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="37%" />
+<col width="18%" />
+<col width="14%" />
+<col width="18%" />
+<col width="14%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Benchmark</th>
+<th class="head">Samples</th>
+<th class="head">Score</th>
+<th class="head">Error</th>
+<th class="head">units</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>testApacheCommons</td>
+<td>20</td>
+<td>1.916</td>
+<td>± 0.428</td>
+<td>ops/s</td>
+</tr>
+<tr class="row-odd"><td>testPythagoras</td>
+<td>20</td>
+<td>7.572</td>
+<td>± 0.355</td>
+<td>ops/s</td>
+</tr>
+<tr class="row-even"><td>testYepp</td>
+<td>20</td>
+<td>0.205</td>
+<td>± 0.001</td>
+<td>ops/s</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="review-of-libraries">
+<h2>Review of Libraries<a class="headerlink" href="#review-of-libraries" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="apache-commons-math">
+<h3>Apache commons-math<a class="headerlink" href="#apache-commons-math" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><ul class="first">
+<li>lots of other classes we may want to use</li>
+</ul>
+</li>
+<li><ul class="first">
+<li>bloated</li>
+</ul>
+</li>
+<li>~ performance is okay but not the best.</li>
+</ul>
+</div>
+<div class="section" id="pythagoras">
+<h3>Pythagoras<a class="headerlink" href="#pythagoras" title="Permalink to this headline">¶</a></h3>
+<p>The Pythagoras has the best performance. It is also small</p>
+<ul class="simple">
+<li><ul class="first">
+<li>very small</li>
+</ul>
+</li>
+<li><ul class="first">
+<li>performance</li>
+</ul>
+</li>
+<li><ul class="first">
+<li>no unit tests for double class</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="yeppp">
+<h3>Yeppp!<a class="headerlink" href="#yeppp" title="Permalink to this headline">¶</a></h3>
+<p>Yeppp doesn’t have the best performance for our application, and we’d
+have alter the design to cater for performance to get any kind of
+benefit.</p>
+<ul class="simple">
+<li><ul class="first">
+<li>small</li>
+</ul>
+</li>
+<li><ul class="first">
+<li>popular</li>
+</ul>
+</li>
+<li><ul class="first">
+<li>poor performance in java and for our application</li>
+</ul>
+</li>
+</ul>
+<p><a class="reference external" href="http://stackoverflow.com/questions/26504111/performance-with-yeppp-is-slower-than-native-implementation">c++ - Performance with Yeppp! is slower than native implementation -
+Stack
+Overflow</a>
+&gt; Yeppp! is optimized for processing arrays of 100+ elements. &gt; It is
+not efficient on small arrays (like length-3 array in your example) &gt;
+due to limited ability to use SIMD and overheads of function call,
+dynamic &gt; dispatching, and parameter checks.</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../xplane_ADSB_Output/xplane_ADSB_Output.html" class="btn btn-neutral float-right" title="X-Plane ADSB Output Plugin" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../GogsIssuesExtended/GogsIssuesExtended.html" class="btn btn-neutral" title="GogsIssuesExtended" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Luke Frisken, Chris Coleman, Uros Vukanovic, Adam Miritis.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'1.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
