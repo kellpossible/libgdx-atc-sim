@@ -3,8 +3,13 @@ Bloopers
 
 .. sectionauthor:: Luke Frisken <l.frisken@gmail.com>
 
-A collection of rather amusing screenshots taken throughout the course
-of the developement of this project.
+A collection of rather amusing screenshots and videos taken throughout
+the course of the developement of this project.
+
+.. youtube:: 7uFB5vDtsOw
+	:width: 100%
+
+A video showing an interesting rendering experiment!
 
 .. figure:: 1.png
 	:align: center

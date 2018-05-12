@@ -1,9 +1,10 @@
 Libgdx ATC Simulator
 ====================
 
-Libgdx_ATC_Simulator is the main java project for our final year project.
-It includes the algorithms, the simulation code, the display code,
-and the integration testing code.
+`Libgdx ATC Simulator <https://github.com/kellpossible/libgdx-atc-sim>`_
+is the main java project for our final year project. It includes the
+algorithms, the simulation code, the display code, and the integration
+testing code.
 
 .. toctree::
   :caption: Table of Contents

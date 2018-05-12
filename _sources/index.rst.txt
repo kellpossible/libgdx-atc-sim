@@ -1,6 +1,9 @@
 Welcome to Aircraft Trajectory Prediction's documentation!
 ==========================================================
 
+Introduction
+------------
+
 This is the project documentation for the Aircraft Trajectory
 Prediction final year software engineering and computer science
 project, undertaken by 4 students from Swinburne University.
@@ -33,6 +36,23 @@ scraping ADSB data from the internet, or project management.
 .. _`7671725@student.swin.edu.au`: mailto:7671725@student.swin.edu.au
 .. _`amiritis@swin.edu.au`: mailto:amiritis@swin.edu.au
 .. _`7191375@student.swin.edu.au`: mailto:7191375@student.swin.edu.au
+
+Videos
+-------
+
+Some of this project being used are available on YouTube.
+
+.. youtube:: U8mXVNskZf8
+	:width: 100%
+
+Testing using :doc:`Libgdx_ATC_Simulator/Libgdx_ATC_Simulator` and :doc:`xplane_ADSB_Output/xplane_ADSB_Output` with
+an f-22 fighter jet
+
+.. youtube:: oC8Hk0qTTlk
+	:width: 100%
+
+Testing using :doc:`Libgdx_ATC_Simulator/Libgdx_ATC_Simulator` and :doc:`xplane_ADSB_Output/xplane_ADSB_Output` with a
+Boeing 747
 
 Contents:
 =============
