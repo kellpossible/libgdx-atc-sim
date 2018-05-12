@@ -1,6 +1,8 @@
 Bloopers
 ===========
 
+.. sectionauthor:: Luke Frisken <l.frisken@gmail.com>
+
 A collection of rather amusing screenshots taken throughout the course
 of the developement of this project.
 

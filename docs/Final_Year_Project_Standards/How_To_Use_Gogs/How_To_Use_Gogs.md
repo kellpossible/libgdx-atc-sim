@@ -8,9 +8,8 @@ _Section author: Luke Frisken <[l.frisken@gmail.com](mailto:l.frisken@gmail.com)
 
 Gogs issue tracker can be used as a project managment tool.
 
-```eval_rst
-.. important:: First, it is recommended that you "watch" the project to receive updates via email.
-```
+**IMPORTANT!**
+> First, it is recommended that you "watch" the project to receive updates via email.
 
 To access the list of issues associated with a project, click on the issues tab.
 

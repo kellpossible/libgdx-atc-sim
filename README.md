@@ -2,7 +2,7 @@
     <a href="https://github.com/kellpossible/libgdx-atc-sim/blob/master/LICENSE.txt">
          <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="LICENSE">
     </a>
-    <strong>| <a href="http://docs">Project Documentation</a></strong>
+    <strong>| <a href="https://kellpossible.github.io/libgdx-atc-sim/index.html">Project Documentation</a></strong>
 </p>
 
 # Libgdx ATC Simulator
@@ -19,4 +19,4 @@ science project, undertaken by 4 students from Swinburne University.
 | Chris Coleman  | [7191375@student.swin.edu.au](mailto:7191375@student.swin.edu.au) |                                                 |                          |
 
 This repository also contains the documentation for the project, which can be
-found online at []()
+found online at [Aircraft Trajectory Prediction’s documentation](https://kellpossible.github.io/libgdx-atc-sim/index.html)

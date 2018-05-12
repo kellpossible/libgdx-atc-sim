@@ -91,9 +91,6 @@ language = None
 # directories to ignore when looking for source files.
 exclude_patterns = ['_build', 'README.md', '**.ipynb_checkpoints']
 
-if not tags.has("university"):
-    exclude_patterns += ['Final_Year_Project_Standards/**', 'worklogs/**']
-
 # The reST default role (used for this markup: `text`) to use for all
 # documents.
 #default_role = None
