@@ -2,16 +2,14 @@
 
 _Section author: Luke Frisken <[l.frisken@gmail.com](mailto:l.frisken@gmail.com)>_
 
-```eval_rst
-Configuration for the Libgdx ATC Simulator project is handled in the :java:type:`ApplicationConfig` class.
-```
+Configuration for the Libgdx ATC Simulator project is handled in the `ApplicationConfig` class.
+
 
 This class makes use of the [_typesafe/config_](https://github.com/typesafehub/config) library from github.
-We are storing the default configuration in [default_settings.json](../../src/Libgdx_ATC_Simulator/assets/default_settings.json).
-These values can be overridden using the [settings.json](../../src/Libgdx_ATC_Simulator/assets/settings.json) file.
+We are storing the default configuration in [default_settings.json](../../assets/default_settings.json).
+These values can be overridden using the [settings.json](../../assets/settings.json) file.
 
 A breakdown of the settings.json file can be found below with descriptions of options, along with default options.
-
 
 _Section author: Uros_
 

@@ -40,11 +40,8 @@ to submit in the prediction. Then a blending of the two prediction lines occurs
 to produce the centre line which is then passed with the other two lines for
 rendering in the :doc:`../Display/Display`
 
-.. uml::
-	:caption: Action Diagram fo LMLeastSquaresV3 Algorithm
-	:width: 99 %
+.. figure:: Algorithm_Action_Diagram.svg
+	:width: 100 %
 	:align: center
 
-	@startuml
-	!include Libgdx_ATC_Simulator/Design_and_API/Algorithm/Algorithm_Action_Diagram.puml
-	@enduml
+	Action Diagram fo LMLeastSquaresV3 Algorithm
