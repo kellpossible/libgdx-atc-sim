@@ -18,5 +18,9 @@ science project, undertaken by 4 students from Swinburne University.
 | Adam Miritis   | [amiritis@swin.edu.au](mailto:amiritis@swin.edu.au)               | [Foxh0und](https://github.com/Foxh0und)         |                          |
 | Chris Coleman  | [7191375@student.swin.edu.au](mailto:7191375@student.swin.edu.au) |                                                 |                          |
 
-This repository also contains the documentation for the project, which can be
-found online at [Aircraft Trajectory Prediction’s documentation](https://kellpossible.github.io/libgdx-atc-sim/index.html)
+The documentation for the code in this repository can be found at [Libgdx ATC
+Simulator](https://kellpossible.github.io/libgdx-atc-sim/Libgdx_ATC_Simulator/Libgdx_ATC_Simulator.html)
+
+This repository also contains the documentation for the entire final year
+project project, which can be found online at [Aircraft Trajectory Prediction’s
+documentation](https://kellpossible.github.io/libgdx-atc-sim/index.html)
