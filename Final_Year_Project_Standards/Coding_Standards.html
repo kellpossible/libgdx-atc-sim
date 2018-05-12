@@ -1,0 +1,861 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Coding Standards &mdash; Aircraft Trajectory Prediction 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Project Management Tools" href="Project_Management_Tools.html" />
+    <link rel="prev" title="Worklog" href="Worklog.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Aircraft Trajectory Prediction
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Repository Layout</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../Repository_Layout.html">Project Layout</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Projects</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../Libgdx_ATC_Simulator/Libgdx_ATC_Simulator.html">Libgdx ATC Simulator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Compare_Results/Compare_Results.html">Compare Results Script</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../GogsIssuesExtended/GogsIssuesExtended.html">GogsIssuesExtended</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../VectorLibraryPerformanceTest/VectorLibraryPerformanceTest.html">Vector Library Performance Test</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../xplane_ADSB_Output/xplane_ADSB_Output.html">X-Plane ADSB Output Plugin</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Building &amp; Editing this Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../Building_Editing_Documentation.html">Building and Editing the Documentation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Swinburne Project Standards</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="Final_Year_Project_Standards.html">Final Year Project Standards</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="How_To_Use_Gogs/How_To_Use_Gogs.html">How to use Gogs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Meeting_Minutes.html">Meeting Minutes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Meeting_Agendas.html">Meeting Agendas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="New_Minutes_Script.html">New Minutes Script</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Worklog.html">Worklog</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Coding Standards</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#naming-conventions">Naming conventions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#general">General</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#redundant-prefixes-and-suffixes">Redundant Prefixes and Suffixes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#classes">Classes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#objects">Objects</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#instance-variables">Instance Variables</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#local-variables">Local Variables</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#final-static-instance-variables">Final Static Instance Variables</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#methods">Methods</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#get-methods">‘Get’ methods</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#set-methods">‘Set’ methods</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#other-methods">Other methods</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#comments">Comments</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#general">General</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#header-comments">Header Comments</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#class-headers">Class headers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#method-headers">Method headers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#single-line-comments">Single line comments</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#trailing-comments">Trailing comments:</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#declarations">Declarations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#variables">Variables</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#methods">Methods</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#empty-method-bodies">Empty Method Bodies</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#control-structures">Control Structures</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#general">General</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#statement-layout">Statement Layout</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#operators">Operators</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#forbidden">Forbidden</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#visibility">Visibility</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Project_Management_Tools.html">Project Management Tools</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Other</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../Bloopers/Bloopers.html">Bloopers</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Aircraft Trajectory Prediction</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="Final_Year_Project_Standards.html">Final Year Project Standards</a> &raquo;</li>
+        
+      <li>Coding Standards</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/Final_Year_Project_Standards/Coding_Standards.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+</style>
+<div class="section" id="coding-standards">
+<span id="coding-standards"></span><h1>Coding Standards<a class="headerlink" href="#coding-standards" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="naming-conventions">
+<span id="naming-conventions"></span><h2>Naming conventions<a class="headerlink" href="#naming-conventions" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="general">
+<span id="general"></span><h3>General<a class="headerlink" href="#general" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>No Magic numbers. All variable names must be meaningful. A possible exception is for mathematical equations, where magic numbers can’t be avoided. THe use of magic numbers during Unit Testing is permitted, but expressive comments are required to explain use.</li>
+<li>Only abbreviate if the name is getting too long (more than 15 characters).</li>
+<li>Use mixed case <a class="reference external" href="https://en.wikipedia.org/wiki/CamelCase">(Camel Case)</a> to make names more readable.</li>
+<li>Avoid underscores (except with static final) and $.</li>
+<li>Don’t redefine standard identifiers.</li>
+<li>Don’t use magic numbers where it can be avoided. (Maths equations)</li>
+</ul>
+</div>
+<div class="section" id="redundant-prefixes-and-suffixes">
+<span id="redundant-prefixes-and-suffixes"></span><h3>Redundant Prefixes and Suffixes<a class="headerlink" href="#redundant-prefixes-and-suffixes" title="Permalink to this headline">¶</a></h3>
+<p>Avoid wherever possible redundant prefixes and suffixes. No <a class="reference external" href="https://en.wikipedia.org/wiki/Hungarian_notation">hungarian notation</a>.  This project uses
+intellij which provides most of this information just by holding CTRL and
+hovering your mouse over it.</p>
+<p>For example a method with redundant prefixes on variable names which
+make the api and internal code less consistent, and names harder to read:</p>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">SomeClass</span>
+<span class="o">{</span>
+  <span class="kd">private</span> <span class="kt">int</span> <span class="n">variable</span><span class="o">;</span>
+  <span class="kd">private</span> <span class="kt">int</span> <span class="n">someOtherVariable</span><span class="o">;</span>
+
+  <span class="cm">/**</span>
+<span class="cm">  * Constructor for SomeClass</span>
+<span class="cm">  * @param aVariable1 some variable</span>
+<span class="cm">  * @param aSomeOtherVariable2 some other variable</span>
+<span class="cm">  */</span>
+  <span class="kd">public</span> <span class="nf">SomeClass</span><span class="o">(</span><span class="kt">int</span> <span class="n">aVariable1</span><span class="o">,</span> <span class="kt">int</span> <span class="n">aSomeOtherVariable2</span><span class="o">)</span>
+  <span class="o">{</span>
+    <span class="n">variable</span> <span class="o">=</span> <span class="n">aVariable1</span><span class="o">;</span>
+    <span class="n">someOtherVariable</span> <span class="o">=</span> <span class="n">aSomeOtherVariable2</span><span class="o">;</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>A better way to do it, which makes use of scoping:</p>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">SomeClass</span>
+<span class="o">{</span>
+  <span class="kd">private</span> <span class="kt">int</span> <span class="n">variable</span><span class="o">;</span>
+  <span class="kd">private</span> <span class="kt">int</span> <span class="n">someOtherVariable</span><span class="o">;</span>
+
+  <span class="cm">/**</span>
+<span class="cm">  * Constructor for SomeClass</span>
+<span class="cm">  * @param variable some variable</span>
+<span class="cm">  * @param someOtherVariable some other variable</span>
+<span class="cm">  */</span>
+  <span class="kd">public</span> <span class="nf">SomeClass</span><span class="o">(</span><span class="kt">int</span> <span class="n">variable</span><span class="o">,</span> <span class="kt">int</span> <span class="n">someOtherVariable</span><span class="o">)</span>
+  <span class="o">{</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">variable</span> <span class="o">=</span> <span class="n">variable</span><span class="o">;</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">someOtherVariable</span> <span class="o">=</span> <span class="n">someOtherVariable</span><span class="o">;</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="classes">
+<span id="classes"></span><h3>Classes<a class="headerlink" href="#classes" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Use a descriptive name with the first letter of each word including the first word in upper case e.g. HomeGroup.</li>
+</ul>
+</div>
+<div class="section" id="objects">
+<span id="objects"></span><h3>Objects<a class="headerlink" href="#objects" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Use a descriptive name; do not capitalize the first letter of the name (which is reserved for naming classes as described in 1.2)</li>
+</ul>
+</div>
+<div class="section" id="instance-variables">
+<span id="instance-variables"></span><h3>Instance Variables<a class="headerlink" href="#instance-variables" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Use a descriptive name for the instance variable with the first letter in lower case but with the first letter of any subsequent words in upper case e.g. theYearGroup, tv.</li>
+</ul>
+</div>
+<div class="section" id="local-variables">
+<span id="local-variables"></span><h3>Local Variables<a class="headerlink" href="#local-variables" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Use a description of the variable with the first letter in lower case but with the first letter of any subsequent words in upper case. Do not use the same name as any existing instance variables.</li>
+</ul>
+</div>
+<div class="section" id="final-static-instance-variables">
+<span id="final-static-instance-variables"></span><h3>Final Static Instance Variables<a class="headerlink" href="#final-static-instance-variables" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>For primitive constants such as int, use all upper case letters with underscores separating the words e.g. MAX_CLASS_SIZE.</li>
+<li>For object constants, use the normal instance variable rules e.g. Color.white</li>
+</ul>
+</div>
+</div>
+<div class="section" id="methods">
+<span id="methods"></span><h2>Methods<a class="headerlink" href="#methods" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="get-methods">
+<span id="get-methods"></span><h3>‘Get’ methods<a class="headerlink" href="#get-methods" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Prefix the name of the instance variable being accessed, with ‘get’ unless the method is a boolean, in which case prefix the name with ‘is’ e.g. getDetails() or isFull()</li>
+</ul>
+</div>
+<div class="section" id="set-methods">
+<span id="set-methods"></span><h3>‘Set’ methods<a class="headerlink" href="#set-methods" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Prefix the name of the instance variable being accessed, with ‘set’ e.g. setName()</li>
+</ul>
+</div>
+<div class="section" id="other-methods">
+<span id="other-methods"></span><h3>Other methods<a class="headerlink" href="#other-methods" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Use a description of what the method does. Start with a verb if possible, with the first letter in lower case e.g. readMark() or addStudent().</li>
+</ul>
+</div>
+</div>
+<div class="section" id="comments">
+<span id="comments"></span><h2>Comments<a class="headerlink" href="#comments" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="general">
+<span id="id1"></span><h3>General<a class="headerlink" href="#general" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Keep comments precise and concise. Comments should add to the clarity of your code. Do not state the obvious.</li>
+<li>See Oracle’s javadoc style guide for a more detailed guide on using javadoc
+code comments <a class="reference external" href="http://www.oracle.com/technetwork/java/javase/documentation/index-137868.html">here</a>.</li>
+</ul>
+</div>
+<div class="section" id="header-comments">
+<span id="header-comments"></span><h3>Header Comments<a class="headerlink" href="#header-comments" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>The first line of any header comment starts with a javadoc /** and each
+subsequent line has an (optional) asterisk in the second column. The comment
+block is terminated with */</li>
+</ul>
+</div>
+<div class="section" id="class-headers">
+<span id="class-headers"></span><h3>Class headers<a class="headerlink" href="#class-headers" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Each class starts with a comment that documents concisely the basic information
+a user will need to write code that uses the class.</li>
+</ul>
+<p>Example:</p>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="cm">/**    </span>
+<span class="cm">* A concise description of the class, and key concepts related to the use</span>
+<span class="cm">* of the class which are not immediately obvious when reading the rest of</span>
+<span class="cm">* the javadoc associated with the class&#39;s variable and methods.</span>
+<span class="cm">*</span>
+<span class="cm">* @author author1</span>
+<span class="cm">* @author author2</span>
+<span class="cm">*/</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="method-headers">
+<span id="method-headers"></span><h3>Method headers<a class="headerlink" href="#method-headers" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Unless obvious, methods must have a comment at their heads.</li>
+<li>The method comments should provide most of the contract e.g. the pre-condition and the post-condition plus what is returned (preceded by an &#64;return) and parameter descriptions (preceded by an &#64;param) if needed. There should be one&#64;param per method parameter. Since methods can only have a single return value, there should only ever be a single &#64;return statement, if required.</li>
+</ul>
+<p>Example (with leading asterisks on each line):</p>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="cm">/**</span>
+<span class="cm">* Print name and average mark of every student in the group</span>
+<span class="cm">* Precondition: students have valid names and marks</span>
+<span class="cm">* @param wantDetails true: show all marks</span>
+<span class="cm">*/</span>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">printReport</span><span class="o">(</span><span class="kt">boolean</span> <span class="n">wantDetails</span><span class="o">)</span>
+<span class="o">{</span>
+<span class="c1">//…</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>Example (without leading asterisks on each line):</p>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="cm">/**</span>
+<span class="cm">    Print name and average mark of every student in the group</span>
+<span class="cm">    Precondition: students have valid names and marks</span>
+<span class="cm">    @param wantDetails true: show all marks</span>
+<span class="cm">*/</span>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">printReport</span><span class="o">(</span><span class="kt">boolean</span> <span class="n">wantDetails</span><span class="o">)</span>
+<span class="o">{</span>
+<span class="c1">//…</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>Example of method with no return and two parameters:</p>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="cm">/**</span>
+<span class="cm">   Print the sum of the two parameters.</span>
+<span class="cm">   @param valueOne</span>
+<span class="cm">   @param valueTwo</span>
+<span class="cm"> */</span>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">printSum</span><span class="o">(</span><span class="kt">int</span> <span class="n">valueOne</span><span class="o">,</span> <span class="kt">int</span> <span class="n">valueTwo</span><span class="o">)</span>
+<span class="o">{</span>
+    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">valueOne</span> <span class="o">+</span> <span class="n">valueTwo</span><span class="o">);</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>Example of a method with one parameter and a return:</p>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="cm">/**</span>
+<span class="cm">   Returns half the value of the parameter.</span>
+<span class="cm">   @param value</span>
+<span class="cm">   @return half of the parameter.</span>
+<span class="cm"> */</span>
+<span class="kd">public</span> <span class="kt">double</span> <span class="nf">getHalf</span><span class="o">(</span><span class="kt">double</span> <span class="n">value</span><span class="o">)</span>
+<span class="o">{</span>
+    <span class="k">return</span> <span class="n">value</span><span class="o">/</span><span class="mi">2</span><span class="o">;</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="single-line-comments">
+<span id="single-line-comments"></span><h3>Single line comments<a class="headerlink" href="#single-line-comments" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Short comments can appear on a single line indented to the level of the code using the “//” documentation symbol rather than the “/*”.</li>
+</ul>
+<p>Example:</p>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="c1">// Now simulate 10 minutes</span>
+<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Now we run the timer for 10 minutes…&quot;</span><span class="o">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="trailing-comments">
+<span id="trailing-comments"></span><h3>Trailing comments:<a class="headerlink" href="#trailing-comments" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Very short comments can appear on the same line as the code that they describe.</li>
+</ul>
+<p>Example:</p>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="n">theTimer</span><span class="o">.</span><span class="na">setVisible</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>    <span class="c1">// make its value visible</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="declarations">
+<span id="declarations"></span><h2>Declarations<a class="headerlink" href="#declarations" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="variables">
+<span id="variables"></span><h3>Variables<a class="headerlink" href="#variables" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>There should be only one declaration per line with trailing comments only if necessary.
+Instance Variables</li>
+<li>should be declared at the start of the class definition.
+Local Variables</li>
+<li>can be declared either as required or at the start of a block.</li>
+<li>When declaring arrays, the declaration form is type [] arrayname; not the C format.</li>
+</ul>
+</div>
+<div class="section" id="methods">
+<span id="id2"></span><h3>Methods<a class="headerlink" href="#methods" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Constructors and/or the init() method are declared first, followed by the ‘get’, ‘set’ and other methods in alphabetical order.</li>
+</ul>
+</div>
+<div class="section" id="empty-method-bodies">
+<span id="empty-method-bodies"></span><h3>Empty Method Bodies<a class="headerlink" href="#empty-method-bodies" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>These so-called “null” bodies are written with both braces on the same line.</li>
+</ul>
+<p>Example:</p>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kt">void</span> <span class="nf">mouseClicked</span><span class="o">(</span><span class="n">MouseEvent</span> <span class="n">e</span><span class="o">)</span>
+<span class="o">{}</span>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">mouseEntered</span><span class="o">(</span><span class="n">MouseEvent</span> <span class="n">e</span><span class="o">)</span>
+<span class="o">{}</span>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">mouseExited</span><span class="o">(</span><span class="n">MouseEvent</span> <span class="n">e</span><span class="o">)</span>
+<span class="o">{}</span>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">mouseMoved</span><span class="o">(</span><span class="n">MouseEvent</span> <span class="n">e</span><span class="o">)</span>
+<span class="o">{}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="control-structures">
+<span id="control-structures"></span><h2>Control Structures<a class="headerlink" href="#control-structures" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="general">
+<span id="id3"></span><h3>General<a class="headerlink" href="#general" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>The use of braces is required for almost all control structures. The exception is a single statement in an ‘if’ statement. The braces always appear on a line by themselves and are always aligned with the beginning of the keyword.</li>
+<li>The code within the braces is always indented. The indentation quantum should be the same throughout the set of software, preferably 4 spaces, no less than 2.</li>
+<li>Avoid using ‘continue’ and ‘break’ in loops.</li>
+<li>Always use a default in switch statements. Use a break to end all cases in a switch statement.</li>
+</ul>
+<p>while:</p>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="k">while</span> <span class="o">(</span><span class="n">condition</span><span class="o">)</span>
+<span class="o">{</span>
+    <span class="n">statements</span><span class="o">;</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>for:</p>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">initial</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">max</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span>
+<span class="o">{</span>
+    <span class="n">statements</span><span class="o">;</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>do:</p>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="k">do</span>
+<span class="o">{</span>
+    <span class="n">statements</span><span class="o">;</span>
+<span class="o">}</span>
+<span class="k">while</span> <span class="o">(</span><span class="n">condition</span><span class="o">);</span>
+</pre></div>
+</div>
+<p>if:</p>
+<ul class="simple">
+<li>The if statement does not require braces where there is a single statement.</li>
+</ul>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="o">(</span><span class="n">condition</span><span class="o">)</span>
+    <span class="n">statement</span><span class="o">;</span>
+
+<span class="c1">//or</span>
+
+<span class="k">if</span> <span class="o">(</span><span class="n">condition</span><span class="o">)</span>
+<span class="o">{</span>
+    <span class="n">statements</span><span class="o">;</span>
+<span class="o">}</span>
+<span class="k">if</span> <span class="o">(</span><span class="n">condition</span><span class="o">)</span>
+    <span class="n">statement</span><span class="o">;</span>
+<span class="k">else</span>
+    <span class="n">statement</span><span class="o">;</span>
+
+<span class="c1">//or</span>
+
+<span class="k">if</span> <span class="o">(</span><span class="n">condition</span><span class="o">)</span>
+<span class="o">{</span>
+    <span class="n">statements</span><span class="o">;</span>
+<span class="o">}</span>
+<span class="k">else</span>
+<span class="o">{</span>
+    <span class="n">statements</span><span class="o">;</span>
+<span class="o">}</span>
+
+<span class="k">if</span><span class="o">(</span><span class="n">condition</span><span class="o">)</span>
+    <span class="n">statement</span><span class="o">;</span>
+<span class="k">else</span> <span class="k">if</span><span class="o">(</span><span class="n">condition</span><span class="o">)</span>
+    <span class="n">statement</span><span class="o">;</span>
+<span class="k">else</span>
+    <span class="n">statement</span><span class="o">;</span>
+
+<span class="c1">//or</span>
+
+<span class="k">if</span> <span class="o">(</span><span class="n">condition</span><span class="o">)</span>
+<span class="o">{</span>
+    <span class="n">statements</span><span class="o">;</span>
+<span class="o">}</span>
+<span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">condition</span><span class="o">)</span>
+<span class="o">{</span>
+    <span class="n">statements</span><span class="o">;</span>
+<span class="o">}</span>
+<span class="k">else</span>
+<span class="o">{</span>
+    <span class="n">statements</span><span class="o">;</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>switch:</p>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="k">switch</span> <span class="o">(</span><span class="n">int_expression</span><span class="o">)</span>
+<span class="o">{</span>
+    <span class="k">case</span> <span class="n">int_value_1</span><span class="o">:</span>
+         <span class="n">statement_1</span><span class="o">;</span>
+         <span class="n">statement_2</span><span class="o">;</span>
+       <span class="k">break</span><span class="o">;</span>
+    <span class="k">case</span> <span class="n">int_value_2</span><span class="o">:</span>
+        <span class="n">statements</span><span class="o">;</span>
+       <span class="k">break</span><span class="o">;</span>
+    <span class="c1">//...</span>
+    <span class="k">default</span><span class="o">:</span>
+       <span class="n">statements</span><span class="o">;</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>exception handling:</p>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="k">try</span>
+<span class="o">{</span>
+    <span class="n">statements</span><span class="o">;</span>
+<span class="o">}</span>
+<span class="k">catch</span> <span class="o">(</span><span class="n">exception_type</span> <span class="n">name</span><span class="o">)</span>
+<span class="o">{</span>
+    <span class="n">statements</span><span class="o">;</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>If the catch does nothing, treat it like an empty method body, i.e. {}</li>
+</ul>
+</div>
+</div>
+<div class="section" id="statement-layout">
+<span id="statement-layout"></span><h2>Statement Layout<a class="headerlink" href="#statement-layout" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="operators">
+<span id="operators"></span><h3>Operators<a class="headerlink" href="#operators" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>The operators (+ - =) and the relational operators (== != etc) require a space on either side. The multiplicative operators (* / %) usually have a space on either side. There are circumstances when, to improve readability, some of these spaces are omitted.
+Continuation</li>
+<li>When a statement that is already indented exceeds 80 characters, the statement should be split over more than one line and the continuation lines should be indented by more than the indentation quantum.</li>
+<li>The split should be before or after an operator. Preferably align similar parts of expressions under one another.</li>
+</ul>
+<p>Examples:</p>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="n">aName</span> <span class="o">=</span> <span class="n">Keyboard</span><span class="o">.</span><span class="na">readString</span><span class="o">(</span><span class="s">&quot;Enter the name for student &quot;</span> <span class="o">+</span>
+    <span class="o">(</span><span class="n">numberOfStudents</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span> <span class="o">+</span> <span class="s">&quot;: &quot;</span><span class="o">);</span>      <span class="c1">// counts from 1</span>
+
+<span class="n">aName</span> <span class="o">=</span> <span class="n">Keyboard</span><span class="o">.</span><span class="na">readString</span><span class="o">(</span><span class="s">&quot;Enter the name for student &quot;</span>
+     <span class="o">+</span> <span class="o">(</span><span class="n">numberOfStudents</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span> <span class="o">+</span> <span class="s">&quot;: &quot;</span><span class="o">);</span>      <span class="c1">// counts from 1</span>
+
+<span class="k">return</span> <span class="n">groupName</span> <span class="o">+</span> <span class="s">&quot;, &quot;</span> <span class="o">+</span> <span class="n">roomNumber</span> <span class="o">+</span> <span class="s">&quot;, &quot;</span> <span class="o">+</span> <span class="n">teacherName</span> <span class="o">+</span>
+            <span class="s">&quot;, &quot;</span> <span class="o">+</span> <span class="n">numberOfStudents</span> <span class="o">+</span> <span class="s">&quot; students&quot;</span><span class="o">;</span>
+
+<span class="k">return</span> <span class="n">groupName</span> <span class="o">+</span> <span class="s">&quot;, &quot;</span> <span class="o">+</span> <span class="n">roomNumber</span> <span class="o">+</span> <span class="s">&quot;, &quot;</span> <span class="o">+</span> <span class="n">teacherName</span>
+          <span class="o">+</span> <span class="s">&quot;, &quot;</span> <span class="o">+</span> <span class="n">numberOfStudents</span> <span class="o">+</span> <span class="s">&quot; students&quot;</span><span class="o">;</span>
+
+<span class="n">theGroup</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HomeGroup</span><span class="o">(</span><span class="s">&quot;12K&quot;</span><span class="o">,</span> <span class="s">&quot;ES304&quot;</span><span class="o">,</span> <span class="s">&quot;K Gilgamesh&quot;</span><span class="o">,</span>
+          <span class="n">numberOfStudents</span><span class="o">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="forbidden">
+<span id="forbidden"></span><h2>Forbidden<a class="headerlink" href="#forbidden" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>The following are forbidden.</li>
+<li>++, – and = within expressions, and goto</li>
+</ul>
+<p>Example:</p>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">10</span><span class="o">;</span>
+
+<span class="k">if</span><span class="o">(</span><span class="n">x</span><span class="o">++</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="o">)</span><span class="c1">//incorrect</span>
+<span class="o">{</span>
+    <span class="c1">//statments</span>
+<span class="o">}</span>
+
+<span class="k">if</span><span class="o">(</span><span class="n">x</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="o">)</span><span class="c1">//correct</span>
+<span class="o">{</span>
+    <span class="c1">//statments</span>
+<span class="o">}</span>
+<span class="n">x</span><span class="o">++;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="visibility">
+<span id="visibility"></span><h2>Visibility<a class="headerlink" href="#visibility" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Features of classes should have specified visibility (public/private/protected) as appropriate. Instance variables should be private (or sometimes protected).</li>
+<li>A class is marked as public only when necessary i.e. 1) applet 2) a visible class of a package (meant to be used from outside the package)</li>
+</ul>
+<p>Examples:</p>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="cm">/**</span>
+<span class="cm"> *  Branch is a finite collection of accounts.  Accounts may be retrieved by</span>
+<span class="cm"> *  position (index in array).  Also supports query of the account with</span>
+<span class="cm"> *  maximum or minimum balance.</span>
+<span class="cm"> *</span>
+<span class="cm"> * @author Annette Oppenheim</span>
+<span class="cm"> * @author Rob Allen</span>
+<span class="cm"> * @author Mike Creek, Swinburne University of Technology</span>
+<span class="cm"> */</span>
+
+<span class="kd">class</span> <span class="nc">Branch</span>
+<span class="o">{</span>
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">maxItems</span><span class="o">;</span> <span class="c1">//maximum number of items in the branch</span>
+    <span class="kd">private</span> <span class="n">Account</span> <span class="o">[]</span> <span class="n">branchAccount</span><span class="o">;</span> <span class="c1">//account of the branch</span>
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">branchItems</span><span class="o">;</span> <span class="c1">//number of items in the branch</span>
+    <span class="kd">private</span> <span class="n">String</span> <span class="n">name</span><span class="o">;</span> <span class="c1">//name of the branch</span>
+
+    <span class="cm">/**</span>
+<span class="cm">    * Constructor for Branch class.</span>
+<span class="cm">    * @param name the name of the branch</span>
+<span class="cm">    * @param maxItems the maximum number of items in the branch</span>
+<span class="cm">    */</span>
+    <span class="kd">public</span> <span class="nf">Branch</span><span class="o">(</span><span class="n">String</span> <span class="n">name</span><span class="o">,</span> <span class="kt">int</span> <span class="n">maxItems</span><span class="o">)</span>
+    <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">maxItems</span> <span class="o">=</span> <span class="n">maxAccounts</span><span class="o">;</span>
+        <span class="n">branchAccount</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Account</span><span class="o">[</span><span class="n">maxItems</span><span class="o">];</span>
+        <span class="n">branchItems</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**</span>
+<span class="cm">     * If room, creates an account and adds it to the collection, else</span>
+<span class="cm">     * prints an error.</span>
+<span class="cm">     * @param customerName the customers name as a string</span>
+<span class="cm">     * @param initDeposit the initial deposit as a double</span>
+<span class="cm">     */</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">addAccount</span><span class="o">(</span><span class="n">String</span> <span class="n">customerName</span><span class="o">,</span> <span class="kt">double</span> <span class="n">initDeposit</span><span class="o">)</span>
+    <span class="o">{</span>
+        <span class="k">if</span><span class="o">(</span><span class="n">branchItems</span> <span class="o">&lt;</span> <span class="n">maxItems</span><span class="o">)</span>
+        <span class="o">{</span>
+            <span class="n">branchAccount</span><span class="o">[</span><span class="n">branchItems</span><span class="o">]</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Account</span><span class="o">(</span><span class="n">customerName</span><span class="o">);</span>
+            <span class="n">branchAccount</span><span class="o">[</span><span class="n">branchItems</span><span class="o">].</span><span class="na">deposit</span><span class="o">(</span><span class="n">initDeposit</span><span class="o">);</span>
+            <span class="o">++</span><span class="n">branchItems</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="k">else</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Sorry &quot;</span> <span class="o">+</span> <span class="n">name</span> <span class="o">+</span> <span class="s">&quot; cannot accept any more accounts!&quot;</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**</span>
+<span class="cm">     * Return the Account by position in the collection.  Assumes at least one.</span>
+<span class="cm">     * @param index assumed 0 .. (getNumberOfAccounts() - 1)</span>
+<span class="cm">     */</span>
+    <span class="kd">public</span> <span class="n">Account</span> <span class="nf">getAccount</span><span class="o">(</span><span class="kt">int</span> <span class="n">index</span><span class="o">)</span>
+    <span class="o">{</span>
+        <span class="k">return</span> <span class="n">branchAccount</span><span class="o">[</span><span class="n">index</span><span class="o">];</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="n">String</span> <span class="nf">getName</span><span class="o">()</span>
+    <span class="o">{</span>
+        <span class="k">return</span> <span class="n">name</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">getNumberOfAccounts</span><span class="o">()</span>
+    <span class="o">{</span>
+        <span class="k">return</span> <span class="n">branchItems</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**</span>
+<span class="cm">     * Find the Account with Maximum Balance.  Assumes at least one.</span>
+<span class="cm">     * @return that account.</span>
+<span class="cm">     */</span>
+    <span class="kd">public</span> <span class="n">Account</span> <span class="nf">searchMaximum</span><span class="o">()</span>
+    <span class="o">{</span>
+        <span class="n">Account</span> <span class="n">maxAcc</span> <span class="o">=</span> <span class="n">branchAccount</span><span class="o">[</span><span class="mi">0</span><span class="o">];</span>
+
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">branchItems</span><span class="o">;</span> <span class="o">++</span><span class="n">i</span><span class="o">)</span>
+        <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">branchAccount</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">getBalance</span><span class="o">()</span> <span class="o">&gt;</span> <span class="n">maxAcc</span><span class="o">.</span><span class="na">getBalance</span><span class="o">())</span>
+            <span class="o">{</span>
+                <span class="n">maxAcc</span> <span class="o">=</span> <span class="n">branchAccount</span><span class="o">[</span><span class="n">i</span><span class="o">];</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">maxAcc</span><span class="o">;</span>
+    <span class="o">}</span>
+
+
+    <span class="cm">/**</span>
+<span class="cm">     * Find the Account with Minimum Balance.  Assumes at least one.</span>
+<span class="cm">     * @return that account.</span>
+<span class="cm">     */</span>
+    <span class="kd">public</span> <span class="n">Account</span> <span class="nf">searchMinimum</span><span class="o">()</span>
+    <span class="o">{</span>
+        <span class="n">Account</span> <span class="n">minAcc</span> <span class="o">=</span> <span class="n">branchAccount</span><span class="o">[</span><span class="mi">0</span><span class="o">];</span>
+
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">branchItems</span><span class="o">;</span> <span class="o">++</span><span class="n">i</span><span class="o">)</span>
+        <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">branchAccount</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">getBalance</span><span class="o">()</span> <span class="o">&lt;</span> <span class="n">minAcc</span><span class="o">.</span><span class="na">getBalance</span><span class="o">())</span>
+            <span class="o">{</span>
+                <span class="n">minAcc</span> <span class="o">=</span> <span class="n">branchAccount</span><span class="o">[</span><span class="n">i</span><span class="o">];</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">minAcc</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="Project_Management_Tools.html" class="btn btn-neutral float-right" title="Project Management Tools" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="Worklog.html" class="btn btn-neutral" title="Worklog" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Luke Frisken, Chris Coleman, Uros Vukanovic, Adam Miritis.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'1.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
