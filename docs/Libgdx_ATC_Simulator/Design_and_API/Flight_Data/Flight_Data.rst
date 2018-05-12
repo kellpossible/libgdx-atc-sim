@@ -7,5 +7,5 @@ Flight Data
 
 	Class Design
 
-The :java:extdoc`com.atc.simulator.flightdata` package provides classes for
+The :java:extdoc:`com.atc.simulator.flightdata` package provides classes for
 dealing with flight information data.
