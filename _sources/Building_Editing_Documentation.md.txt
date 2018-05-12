@@ -16,6 +16,7 @@ _Section author: Luke Frisken <[l.frisken@gmail.com](mailto:l.frisken@gmail.com)
     - [All](#all)
   - [Server Autobuild](#server-autobuild)
   - [Clean](#clean)
+  - [Deploy](#deploy)
 - [RestructuredText Support](#restructuredtext-support)
 - [Markdown Support](#markdown-support)
   - [Markdown Syntax](#markdown-syntax)
@@ -109,6 +110,10 @@ See the [python package index page](https://pypi.python.org/pypi/sphinx-autobuil
 Occasionally the cache gets a little messed up and items can go missing from the index or toolbar. In this case you can clean the build to allow the documenation to be rebuilt from scratch with this command:
 
 	$ make clean
+
+### Deploy
+
+To deploy the documentation, I'm using this method to publish docs to a gh-pages branch on github: https://gist.github.com/ramnathv/2227408
 
 ## RestructuredText Support
 
