@@ -2,11 +2,11 @@
 
 _Section author: Luke Frisken <[l.frisken@gmail.com](mailto:l.frisken@gmail.com)>_
 
-## Issue tracking for project managment
+## Issue tracking for project management
 
 ### Introduction
 
-Gogs issue tracker can be used as a project managment tool.
+Gogs issue tracker can be used as a project management tool.
 
 **IMPORTANT!**
 > First, it is recommended that you "watch" the project to receive updates via email.

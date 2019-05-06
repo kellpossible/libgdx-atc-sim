@@ -70,7 +70,7 @@ The following Python modules also need to be installed:
  + [sphinx_rtd_theme](https://pypi.python.org/pypi/sphinx_rtd_theme) - A theme for sphinx
  + [recommonmark](https://recommonmark.readthedocs.org/en/latest/) - A module required for parsing markdown files
  + [javasphinx](http://bronto.github.io/javasphinx/) - A module required for generating java documentation from java files
- + [sphinxcontrib-plantuml](https://pypi.python.org/pypi/sphinxcontrib-plantuml) - A module required for displaying [PlantUML](http://plantuml.com/) diagrams in documetation
+ + [sphinxcontrib-plantuml](https://pypi.python.org/pypi/sphinxcontrib-plantuml) - A module required for displaying [PlantUML](http://plantuml.com/) diagrams in documentation
  + [pygments-markdown-lexer](https://github.com/jhermann/pygments-markdown-lexer) - A module required for using Pygments to give syntax highlighting to markdown documents
  + [nbsphinx](https://nbsphinx.readthedocs.io/) -  A module required to render jupyter notebooks
 
@@ -107,7 +107,7 @@ See the [python package index page](https://pypi.python.org/pypi/sphinx-autobuil
 
 ### Clean
 
-Occasionally the cache gets a little messed up and items can go missing from the index or toolbar. In this case you can clean the build to allow the documenation to be rebuilt from scratch with this command:
+Occasionally the cache gets a little messed up and items can go missing from the index or toolbar. In this case you can clean the build to allow the documentation to be rebuilt from scratch with this command:
 
 	$ make clean
 
@@ -117,7 +117,7 @@ To deploy the documentation, I'm using this method to publish docs to a gh-pages
 
 ## RestructuredText Support
 
-Sphinx's default documenation markup is called reStructuredText. A good overview
+Sphinx's default documentation markup is called reStructuredText. A good overview
 of the syntax is available [here](http://build-me-the-docs-please.readthedocs.io/en/latest/Using_Sphinx/OnReStructuredText.html) and [here](http://rest-sphinx-memo.readthedocs.io/en/latest/ReST.html).
 A more formal specification of the syntax is available [here](http://docutils.sourceforge.net/docs/user/rst/quickref.html)
 
@@ -139,7 +139,7 @@ have several external link shortcuts set up:
 
 ## Markdown Support
 
-This project's documentation supports the Sphinx default markup language of [reStructuredText](#restructuredtext-support) with .rst files, but it also supports Markdown with .md files. The preferred language for use in this documentation is Markdown, although reStructuredText statements can be inserted into the Markdown using a special method when neccessary.
+This project's documentation supports the Sphinx default markup language of [reStructuredText](#restructuredtext-support) with .rst files, but it also supports Markdown with .md files. The preferred language for use in this documentation is Markdown, although reStructuredText statements can be inserted into the Markdown using a special method when necessary.
 
 Taken from John Gruber’s [website](http://daringfireball.net/projects/markdown/syntax#philosophy):
 
