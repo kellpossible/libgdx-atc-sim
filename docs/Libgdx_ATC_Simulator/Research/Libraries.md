@@ -12,14 +12,14 @@ Comparisons:
 + <https://java-matrix.org/>
 + <http://ojalgo.org/performance_ejml.html>
 
-Ended up chosing [EJML](http://ejml.org/wiki/index.php?title=Main_Page).
+Ended up choosing [EJML](http://ejml.org/wiki/index.php?title=Main_Page).
 It has decent performance, great documentation, it's pure java, and it has an Apache 2 license.
 
 
 ## OpenCL Matrix Libraries
 
 One issue with the OpenCL matrix libraries is that they
-seem to be all inclusive affairs, generating their own seperate kernels. I'm really just looking for something that I can include in my own kernel.
+seem to be all inclusive affairs, generating their own separate kernels. I'm really just looking for something that I can include in my own kernel.
 
 Might be better rolling my own solution in OpenCL...
 

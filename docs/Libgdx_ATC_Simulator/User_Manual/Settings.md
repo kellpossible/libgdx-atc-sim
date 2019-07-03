@@ -29,20 +29,20 @@ Selects the type of algorithm to use in the prediction engine.
 Selects the number of java worker threads that will run concurrently.
 
 ### Debug-data-feed-client
-+ **Port-number: 6989 (Acceptible Port Range).** Selects the port number that Debug Data Feed Client connects on. This is set arbitarily to 6989 for testing purposes. This will connect to the Debug Data Feed Server.
++ **Port-number: 6989 (Acceptable Port Range).** Selects the port number that Debug Data Feed Client connects on. This is set arbitrarily to 6989 for testing purposes. This will connect to the Debug Data Feed Server.
 
 + **Server-ip: "localhost"**  
 Selects the Server's IP address, in this case Local host. This is the Debug Data Feed Server by default.
 
 ### Server
-+ **Port-number: 6789 (Acceptible Port Range).** Selects the port number that Prediction Feed Server runs on.
++ **Port-number: 6789 (Acceptable Port Range).** Selects the port number that Prediction Feed Server runs on.
 
 
 
 ## Debug-data-feed
 + **Enabled: true (True/False).** Can be set to True or False, This will enable or disable the Debug Data Feed, This can be disabled when running a direct feed from other sources.
 
-+ **Port-number": 6989 (Acceptible Port Range).** Selects the Port Number the Debug-Data Feed Server runs on
++ **Port-number": 6989 (Acceptable Port Range).** Selects the Port Number the Debug-Data Feed Server runs on
 
 ### Adsb-recording-scenario
 + "file": "assets/flight_data/YMML_26_05_2016/database.json"
@@ -63,9 +63,9 @@ Sets the speed that the program runs at.
 
 + **prediction-display-method": "GRADIENT"**
 
-+ **show-tracks-default": true (True/False).** This will either show or hide Aircraft Tracks. When disabled the tracks will dissapear.
++ **show-tracks-default": true (True/False).** This will either show or hide Aircraft Tracks. When disabled the tracks will disappear.
 
-+ **Prediction-feed-client port-number": 6789  (Acceptible Port Range).** Selects the port number the prediction feed client connects on.
++ **Prediction-feed-client port-number": 6789  (Acceptable Port Range).** Selects the port number the prediction feed client connects on.
 
 + **Prediction-feed-client server-ip": "localhost"**
 Sets the Server IP the prediction feed client connects to.

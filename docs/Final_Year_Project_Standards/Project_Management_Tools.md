@@ -2,7 +2,7 @@
 
 _Section author: Luke Frisken <[l.frisken@gmail.com](mailto:l.frisken@gmail.com)>_
 
-Some recommended project managment tools
+Some recommended project management tools
 
 ## Git Repository Statistics
 

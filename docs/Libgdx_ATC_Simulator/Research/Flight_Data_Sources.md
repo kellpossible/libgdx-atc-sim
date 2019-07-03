@@ -11,7 +11,7 @@ Tracking Data
 
 
 ### Flight Radar 24 and any other ADS-B service
-I can't find any ads-b service which provides their data for free. Flightradar 24 would require reverese engineering their website javascript/html to figure out how to obtain live flight data, but I've tried for at least an hour but it's a bit crazy.
+I can't find any ads-b service which provides their data for free. Flightradar 24 would require reverse engineering their website javascript/html to figure out how to obtain live flight data, but I've tried for at least an hour but it's a bit crazy.
 
 ### Flight simulator
 I can record my own flights, and also record flight plan, and intentions such as vectoring to simulate pretty closely what we would be getting out of the system.

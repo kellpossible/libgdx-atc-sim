@@ -18,7 +18,7 @@ A couple of reasons why we may want to choose protocol buffers over XML or JSON 
  - Fast processing
  - A formal definition of the protocol is inherent in its use.
  (We have to formally specify the protocol in the process of using protobuf,
- so no extra documention really required)
+ so no extra document ion really required)
  - Builtin support for forwards/backwards compatibility
 
 A couple of reasons why we may not want to choose protocol buffers:
@@ -45,7 +45,7 @@ https://en.wikipedia.org/wiki/Message_queue
 
 ### AMQP
 
-AMQP has large scale industry support, and it's a fairly recent and well supported endevour.
+AMQP has large scale industry support, and it's a fairly recent and well supported en devour.
 
 [Advanced Message Queuing Protocol](https://en.wikipedia.org/wiki/Advanced_Message_Queuing_Protocol)
 
@@ -69,7 +69,7 @@ I've been thinking about how we can most efficiently transport the predictions. 
 2000 aircraft, and we are required to do that, then a data reduction solution might be in order.
 
 If the output of the prediction algorithm is a simple curvilinear curve, then, instead of reducing this to points, the curve specifications could be sent instead,
-for long curves this would certainly result in a smaller transmition and an infinitely better resolution, but this does require more code on the client
+for long curves this would certainly result in a smaller transmission and an infinitely better resolution, but this does require more code on the client
 to be written to generate points from the curve.
 
 If the output of the prediction algorithm is a more complicated curve, or a series of points, then we could use something like taylor series (https://en.wikipedia.org/wiki/Taylor_series)
